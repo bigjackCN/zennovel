@@ -2,11 +2,32 @@ import type { Command, Condition, Effect, Project, Scene } from './types';
 
 export type IssueLevel = 'error' | 'warning';
 
+/**
+ * Issues are reported as codes + params, never as display text, so the
+ * editor can show them in the writer's language.
+ */
+export type IssueCode =
+  | 'noStartScene'
+  | 'missingVariable'
+  | 'missingConditionVariable'
+  | 'missingBackground'
+  | 'missingShowCharacter'
+  | 'missingExpression'
+  | 'missingHideCharacter'
+  | 'missingSpeaker'
+  | 'emptyLine'
+  | 'emptyChoice'
+  | 'missingOptionTarget'
+  | 'missingJumpTarget'
+  | 'noEnding'
+  | 'unreachable';
+
 export interface StoryIssue {
   level: IssueLevel;
   sceneId: string;
   commandId?: string;
-  message: string;
+  code: IssueCode;
+  params?: Record<string, string>;
 }
 
 /** Visit every command in a list, including those nested inside `if`. */
@@ -57,22 +78,22 @@ export function checkProject(project: Project): StoryIssue[] {
   const variableIds = new Set(project.variables.map((v) => v.id));
 
   if (!sceneIds.has(project.startSceneId)) {
-    issues.push({ level: 'error', sceneId: project.startSceneId, message: 'No start scene is set' });
+    issues.push({ level: 'error', sceneId: project.startSceneId, code: 'noStartScene' });
   }
 
   for (const scene of project.scenes) {
-    const add = (level: IssueLevel, message: string, commandId?: string) =>
-      issues.push({ level, sceneId: scene.id, commandId, message });
+    const add = (level: IssueLevel, code: IssueCode, commandId?: string, params?: Record<string, string>) =>
+      issues.push({ level, sceneId: scene.id, commandId, code, ...(params && { params }) });
 
     const checkEffects = (effects: Effect[] | undefined, commandId: string) => {
       for (const e of effects ?? []) {
-        if (!variableIds.has(e.variableId)) add('error', 'Uses a variable that does not exist', commandId);
+        if (!variableIds.has(e.variableId)) add('error', 'missingVariable', commandId);
       }
     };
     const checkCondition = (c: Condition | undefined, commandId: string) => {
       if (!c) return;
       for (const id of conditionVariables(c)) {
-        if (!variableIds.has(id)) add('error', 'A condition uses a variable that does not exist', commandId);
+        if (!variableIds.has(id)) add('error', 'missingConditionVariable', commandId);
       }
     };
 
@@ -80,34 +101,34 @@ export function checkProject(project: Project): StoryIssue[] {
       switch (cmd.type) {
         case 'bg':
           if (cmd.background.kind === 'image' && !assetIds.has(cmd.background.assetId)) {
-            add('error', 'The background image is missing', cmd.id);
+            add('error', 'missingBackground', cmd.id);
           }
           break;
         case 'show': {
           const ch = characters.get(cmd.characterId);
-          if (!ch) add('error', 'The character to show does not exist', cmd.id);
-          else if (!ch.sprites[cmd.expression]) add('warning', `${ch.name} has no "${cmd.expression}" expression`, cmd.id);
+          if (!ch) add('error', 'missingShowCharacter', cmd.id);
+          else if (!ch.sprites[cmd.expression]) add('warning', 'missingExpression', cmd.id, { character: ch.name, expression: cmd.expression });
           break;
         }
         case 'hide':
-          if (!characters.has(cmd.characterId)) add('error', 'The character to hide does not exist', cmd.id);
+          if (!characters.has(cmd.characterId)) add('error', 'missingHideCharacter', cmd.id);
           break;
         case 'say':
-          if (cmd.characterId && !characters.has(cmd.characterId)) add('error', 'The speaking character does not exist', cmd.id);
-          if (!cmd.text.trim()) add('warning', 'A line is empty', cmd.id);
+          if (cmd.characterId && !characters.has(cmd.characterId)) add('error', 'missingSpeaker', cmd.id);
+          if (!cmd.text.trim()) add('warning', 'emptyLine', cmd.id);
           break;
         case 'choice':
-          if (cmd.options.length === 0) add('error', 'A choice has no options', cmd.id);
+          if (cmd.options.length === 0) add('error', 'emptyChoice', cmd.id);
           for (const opt of cmd.options) {
             if (opt.targetSceneId && !sceneIds.has(opt.targetSceneId)) {
-              add('error', `Option "${opt.text}" points to a scene that does not exist`, cmd.id);
+              add('error', 'missingOptionTarget', cmd.id, { option: opt.text });
             }
             checkCondition(opt.condition, cmd.id);
             checkEffects(opt.effects, cmd.id);
           }
           break;
         case 'jump':
-          if (!sceneIds.has(cmd.targetSceneId)) add('error', 'Jump target scene does not exist', cmd.id);
+          if (!sceneIds.has(cmd.targetSceneId)) add('error', 'missingJumpTarget', cmd.id);
           break;
         case 'setVar':
           checkEffects([cmd.effect], cmd.id);
@@ -119,7 +140,7 @@ export function checkProject(project: Project): StoryIssue[] {
     });
 
     if (!endsExplicitly(scene.commands)) {
-      add('warning', 'Scene has no jump or End at the end, so the story will stop here');
+      add('warning', 'noEnding');
     }
   }
 
@@ -136,7 +157,7 @@ export function checkProject(project: Project): StoryIssue[] {
     queue.push(...sceneTargets(scene));
   }
   for (const scene of project.scenes) {
-    if (!reachable.has(scene.id)) issues.push({ level: 'warning', sceneId: scene.id, message: 'No path leads to this scene' });
+    if (!reachable.has(scene.id)) issues.push({ level: 'warning', sceneId: scene.id, code: 'unreachable' });
   }
 
   return issues;

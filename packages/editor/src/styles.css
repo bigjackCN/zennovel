@@ -178,3 +178,8 @@ h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: 
   .editor { grid-template-columns: 1fr; grid-template-rows: auto auto auto auto; height: auto; }
   .panel.left, .panel.right { border: none; }
 }
+
+/* ---------------- Language switcher ---------------- */
+.home-actions { display: flex; align-items: center; gap: 16px; }
+.lang-switch { border-radius: 999px; padding: 4px 10px; background: #fff; font-size: 13px; }
+.theme-panel select { justify-self: start; }

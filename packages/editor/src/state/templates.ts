@@ -1,27 +1,31 @@
-import { createEmptyProject, createId, type Project } from '@zennovel/core';
+import { createEmptyProject, createId, type Locale, type Project } from '@zennovel/core';
+import type { Messages } from '../i18n';
 
-export interface Template {
-  id: string;
-  name: string;
-  description: string;
-}
-
-export const templates: Template[] = [
-  { id: 'demo', name: 'Cherry Blossom Hill (sample)', description: 'A short story with backgrounds, characters, choices and two endings' },
-  { id: 'blank', name: 'Blank project', description: 'Start from a blank page' },
-];
+/** Template ids; display names come from the i18n messages (t.templates[id]). */
+export const templateIds = ['demo', 'blank'] as const;
+export type TemplateId = (typeof templateIds)[number];
 
 function freshMeta(project: Project, name: string): Project {
   const now = new Date().toISOString();
   return { ...project, meta: { ...project.meta, id: createId('proj'), name, createdAt: now, updatedAt: now } };
 }
 
-export async function createFromTemplate(templateId: string, name: string): Promise<Project> {
-  if (templateId === 'blank') return createEmptyProject(name);
+/**
+ * Sample templates ship one project file per language (project.en.json,
+ * project.zh.json) and share one assets folder.
+ */
+export async function createFromTemplate(templateId: TemplateId, name: string, locale: Locale, t: Messages): Promise<Project> {
+  if (templateId === 'blank') {
+    return createEmptyProject(name, {
+      locale,
+      firstSceneName: t.newProject.firstSceneName,
+      firstLine: t.newProject.firstLine,
+    });
+  }
 
-  const url = new URL(`${import.meta.env.BASE_URL}templates/${templateId}/project.json`, window.location.href);
+  const url = new URL(`${import.meta.env.BASE_URL}templates/${templateId}/project.${locale}.json`, window.location.href);
   const res = await fetch(url);
-  if (!res.ok) throw new Error(`Could not load template (HTTP ${res.status})`);
+  if (!res.ok) throw new Error(t.templates.loadFailed(res.status));
   const project = (await res.json()) as Project;
   // Template assets use paths relative to the template folder; pin them to absolute URLs.
   project.assets = project.assets.map((a) => ({ ...a, src: new URL(a.src, url).href }));
@@ -37,8 +41,13 @@ export function downloadProject(project: Project) {
   URL.revokeObjectURL(a.href);
 }
 
-export async function readProjectFile(file: File): Promise<Project> {
-  const project = JSON.parse(await file.text()) as Project;
-  if (!project?.meta || !Array.isArray(project.scenes)) throw new Error("This isn't a ZenNovel project file");
+export async function readProjectFile(file: File, t: Messages): Promise<Project> {
+  let project: Project;
+  try {
+    project = JSON.parse(await file.text()) as Project;
+  } catch {
+    throw new Error(t.templates.notAProject);
+  }
+  if (!project?.meta || !Array.isArray(project.scenes)) throw new Error(t.templates.notAProject);
   return freshMeta(project, project.meta.name);
 }

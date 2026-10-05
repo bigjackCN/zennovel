@@ -52,8 +52,11 @@ export interface EngineState {
   pendingChoiceId: string | null;
   backlog: DialogueState[];
   ended: boolean;
-  error: string | null;
+  error: EngineError | null;
 }
+
+/** Runtime problems, as codes so the player can show them in any language. */
+export type EngineError = { code: 'sceneNotFound'; sceneId: string } | { code: 'infiniteLoop' };
 
 export type EngineListener = (state: Readonly<EngineState>) => void;
 
@@ -185,7 +188,7 @@ export class Engine {
 
   private enterScene(sceneId: string) {
     if (!this.scenes.has(sceneId)) {
-      this.state.error = `Scene not found: ${sceneId}`;
+      this.state.error = { code: 'sceneNotFound', sceneId };
       this.state.stack = [];
       return;
     }
@@ -223,7 +226,7 @@ export class Engine {
         return;
       }
     }
-    this.state.error = 'The story seems stuck in a loop (jumps with no lines in between)';
+    this.state.error = { code: 'infiniteLoop' };
     this.emit();
   }
 

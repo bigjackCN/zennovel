@@ -2,13 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { navigate } from '../router';
 import { storage } from '../storage/LocalProjectStorage';
 import type { ProjectSummary } from '../storage/ProjectStorage';
-import { createFromTemplate, downloadProject, readProjectFile, templates } from '../state/templates';
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
-}
+import { createFromTemplate, downloadProject, readProjectFile, templateIds, type TemplateId } from '../state/templates';
+import { LanguageSwitcher, useI18n } from '../i18n';
 
 export function ProjectList() {
+  const { t, locale, formatDate } = useI18n();
   const [projects, setProjects] = useState<ProjectSummary[] | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -19,13 +17,14 @@ export function ProjectList() {
     void refresh();
   }, []);
 
-  async function create(templateId: string, defaultName: string) {
-    const name = window.prompt('Name your new story:', defaultName);
+  async function create(templateId: TemplateId) {
+    const defaultName = templateId === 'blank' ? t.home.defaultName : t.templates[templateId].name;
+    const name = window.prompt(t.home.namePrompt, defaultName);
     if (!name) return;
     setBusy(true);
     setError(null);
     try {
-      const project = await createFromTemplate(templateId, name);
+      const project = await createFromTemplate(templateId, name, locale, t);
       await storage.saveProject(project);
       navigate(`/p/${project.meta.id}`);
     } catch (e) {
@@ -36,7 +35,7 @@ export function ProjectList() {
   }
 
   async function remove(p: ProjectSummary) {
-    if (!window.confirm(`Delete "${p.name}"? This can't be undone.`)) return;
+    if (!window.confirm(t.home.deleteConfirm(p.name))) return;
     await storage.deleteProject(p.id);
     await refresh();
   }
@@ -49,7 +48,7 @@ export function ProjectList() {
   async function importFile(file: File | undefined) {
     if (!file) return;
     try {
-      const project = await readProjectFile(file);
+      const project = await readProjectFile(file, t);
       await storage.saveProject(project);
       await refresh();
     } catch (e) {
@@ -64,26 +63,29 @@ export function ProjectList() {
           <span className="brand-mark">Z</span>
           <div>
             <h1>ZenNovel</h1>
-            <p>Write stories, not code. A visual novel maker for writers.</p>
+            <p>{t.app.tagline}</p>
           </div>
         </div>
-        <a className="link" href="https://github.com/bigjackCN/zennovel" target="_blank" rel="noreferrer">
-          GitHub
-        </a>
+        <div className="home-actions">
+          <LanguageSwitcher />
+          <a className="link" href="https://github.com/bigjackCN/zennovel" target="_blank" rel="noreferrer">
+            GitHub
+          </a>
+        </div>
       </header>
 
       <section>
-        <h2>New story</h2>
+        <h2>{t.home.newStory}</h2>
         <div className="template-grid">
-          {templates.map((t) => (
-            <button key={t.id} className="template-card" disabled={busy} onClick={() => create(t.id, t.id === 'blank' ? 'My Story' : t.name)}>
-              <strong>{t.name}</strong>
-              <span>{t.description}</span>
+          {templateIds.map((id) => (
+            <button key={id} className="template-card" disabled={busy} onClick={() => create(id)}>
+              <strong>{t.templates[id].name}</strong>
+              <span>{t.templates[id].description}</span>
             </button>
           ))}
           <button className="template-card ghost" onClick={() => fileInput.current?.click()}>
-            <strong>Import project</strong>
-            <span>Open a previously exported .json project file</span>
+            <strong>{t.home.importProject}</strong>
+            <span>{t.home.importHint}</span>
           </button>
           <input
             ref={fileInput}
@@ -100,24 +102,22 @@ export function ProjectList() {
       </section>
 
       <section>
-        <h2>My stories</h2>
+        <h2>{t.home.myStories}</h2>
         {projects === null ? null : projects.length === 0 ? (
-          <p className="muted">No projects yet. Try starting from the sample above.</p>
+          <p className="muted">{t.home.empty}</p>
         ) : (
           <ul className="project-list">
             {projects.map((p) => (
               <li key={p.id} className="project-row">
                 <button className="project-open" onClick={() => navigate(`/p/${p.id}`)}>
                   <strong>{p.name}</strong>
-                  <span className="muted">
-                    {p.sceneCount} {p.sceneCount === 1 ? 'scene' : 'scenes'} · edited {formatDate(p.updatedAt)}
-                  </span>
+                  <span className="muted">{t.home.summary(p.sceneCount, formatDate(p.updatedAt))}</span>
                 </button>
                 <button className="btn" onClick={() => exportOne(p.id)}>
-                  Export
+                  {t.home.export}
                 </button>
                 <button className="btn danger" onClick={() => remove(p)}>
-                  Delete
+                  {t.home.delete}
                 </button>
               </li>
             ))}

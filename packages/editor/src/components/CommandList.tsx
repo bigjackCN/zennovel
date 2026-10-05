@@ -1,18 +1,7 @@
 import type { Command, CommandType, Project, Scene } from '@zennovel/core';
 import { actions, newCommand } from '../state/projectActions';
 import { CommandCard } from './CommandCard';
-
-export const COMMAND_LABELS: Record<CommandType, string> = {
-  say: 'Line',
-  bg: 'Background',
-  show: 'Show character',
-  hide: 'Hide character',
-  choice: 'Choice',
-  jump: 'Jump',
-  setVar: 'Variable',
-  if: 'If / else',
-  end: 'End',
-};
+import { useI18n } from '../i18n';
 
 const ADD_ORDER: CommandType[] = ['say', 'bg', 'show', 'hide', 'choice', 'jump', 'setVar', 'if', 'end'];
 
@@ -26,8 +15,9 @@ interface Props {
 }
 
 export function CommandList({ project, scene, commands, parent, onEdit }: Props) {
+  const { t } = useI18n();
   function append(type: CommandType) {
-    const cmd = newCommand(type, project, scene.id);
+    const cmd = newCommand(type, project, scene.id, t.card.optionN);
     onEdit((p) =>
       actions.insertCommand(p, scene.id, cmd, { parentIfId: parent?.ifId ?? null, branch: parent?.branch }),
     );
@@ -36,7 +26,7 @@ export function CommandList({ project, scene, commands, parent, onEdit }: Props)
 
   return (
     <div className={parent ? 'command-list nested' : 'command-list'}>
-      {commands.length === 0 && <p className="muted empty">{parent ? '(empty)' : 'This scene is empty. Add the first step below.'}</p>}
+      {commands.length === 0 && <p className="muted empty">{parent ? t.commands.emptyBranch : t.commands.emptyScene}</p>}
       {commands.map((cmd, i) => (
         <CommandCard
           key={cmd.id}
@@ -49,10 +39,10 @@ export function CommandList({ project, scene, commands, parent, onEdit }: Props)
         />
       ))}
       <div className="add-bar">
-        <span className="muted">Add:</span>
-        {ADD_ORDER.filter((t) => !(parent && t === 'if')).map((t) => (
-          <button key={t} className={`chip chip-${t}`} onClick={() => append(t)}>
-            {COMMAND_LABELS[t]}
+        <span className="muted">{t.commands.add}</span>
+        {ADD_ORDER.filter((type) => !(parent && type === 'if')).map((type) => (
+          <button key={type} className={`chip chip-${type}`} onClick={() => append(type)}>
+            {t.commands.labels[type]}
           </button>
         ))}
       </div>

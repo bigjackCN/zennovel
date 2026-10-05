@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { checkProject, createEmptyProject, type Project } from '@zennovel/core';
 import { Engine } from './engine';
-import demo from '../../editor/public/templates/demo/project.json';
+import demoEn from '../../editor/public/templates/demo/project.en.json';
+import demoZh from '../../editor/public/templates/demo/project.zh.json';
 
-const project = demo as Project;
+const project = demoEn as Project;
+const projectZh = demoZh as Project;
 
 function lines(engine: Engine, max = 50): string[] {
   const seen: string[] = [];
@@ -77,7 +79,29 @@ describe('Engine', () => {
     p.scenes[0]!.commands = [{ id: 'j', type: 'jump', targetSceneId: id }];
     const engine = new Engine(p);
     engine.start();
-    expect(engine.getState().error).toMatch(/loop/);
+    expect(engine.getState().error).toEqual({ code: 'infiniteLoop' });
+  });
+});
+
+describe('sample template translations', () => {
+  /** Everything except display text, so en/zh must have identical structure. */
+  const skeleton = (p: Project) =>
+    JSON.stringify(p, (key, value) =>
+      ['name', 'text', 'prompt', 'description', 'locale', 'fontFamily'].includes(key) ? undefined : value,
+    );
+
+  it('zh sample has the same structure as en', () => {
+    expect(skeleton(projectZh)).toBe(skeleton(project));
+  });
+
+  it('zh sample plays through to an ending with no errors', () => {
+    expect(checkProject(projectZh).filter((i) => i.level === 'error')).toEqual([]);
+    const engine = new Engine(projectZh);
+    engine.start();
+    lines(engine);
+    engine.choose('opt_library');
+    expect(lines(engine)).toContain('【好结局】樱花还会再开很多次。');
+    expect(engine.getState().ended).toBe(true);
   });
 });
 
@@ -90,8 +114,8 @@ describe('checkProject', () => {
     const p = createEmptyProject('broken');
     p.scenes[0]!.commands.push({ id: 'j', type: 'jump', targetSceneId: 'nowhere' });
     p.scenes.push({ id: 'island', name: 'Island', commands: [{ id: 'e', type: 'end' }] });
-    const messages = checkProject(p).map((i) => i.message);
-    expect(messages).toContain('Jump target scene does not exist');
-    expect(messages).toContain('No path leads to this scene');
+    const codes = checkProject(p).map((i) => i.code);
+    expect(codes).toContain('missingJumpTarget');
+    expect(codes).toContain('unreachable');
   });
 });

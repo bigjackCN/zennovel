@@ -18,9 +18,14 @@ export interface Project {
   startSceneId: string;
 }
 
+/** Languages the editor and the built-in player UI support. */
+export type Locale = 'en' | 'zh';
+
 export interface ProjectMeta {
   id: string;
   name: string;
+  /** Language of the player's built-in UI (end screen, buttons). Defaults to 'en'. */
+  locale?: Locale;
   author?: string;
   description?: string;
   /** Logical stage size; the player scales it to fit the window. */

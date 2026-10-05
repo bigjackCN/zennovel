@@ -1,4 +1,4 @@
-import { FORMAT_VERSION, type Project, type Theme } from './types';
+import { FORMAT_VERSION, type Locale, type Project, type Theme } from './types';
 
 /** Short random id with a readable prefix, e.g. "scene_k3f9a2". */
 export function createId(prefix: string): string {
@@ -30,7 +30,15 @@ export const defaultTheme: Theme = {
   },
 };
 
-export function createEmptyProject(name: string): Project {
+export interface EmptyProjectOptions {
+  locale?: Locale;
+  /** Name of the first scene, e.g. "Start". */
+  firstSceneName?: string;
+  /** Placeholder first line. */
+  firstLine?: string;
+}
+
+export function createEmptyProject(name: string, options: EmptyProjectOptions = {}): Project {
   const now = new Date().toISOString();
   const startId = createId('scene');
   return {
@@ -38,6 +46,7 @@ export function createEmptyProject(name: string): Project {
     meta: {
       id: createId('proj'),
       name,
+      locale: options.locale ?? 'en',
       resolution: { width: 1280, height: 720 },
       createdAt: now,
       updatedAt: now,
@@ -49,11 +58,11 @@ export function createEmptyProject(name: string): Project {
     scenes: [
       {
         id: startId,
-        name: 'Start',
+        name: options.firstSceneName ?? 'Start',
         position: { x: 0, y: 0 },
         commands: [
           { id: createId('cmd'), type: 'bg', background: { kind: 'color', value: '#2b2d42' } },
-          { id: createId('cmd'), type: 'say', text: 'The story begins here…' },
+          { id: createId('cmd'), type: 'say', text: options.firstLine ?? 'The story begins here…' },
         ],
       },
     ],

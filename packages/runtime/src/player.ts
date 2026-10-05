@@ -1,12 +1,15 @@
-import type { Background, Project, Theme } from '@zennovel/core';
+import type { Background, Locale, Project, Theme } from '@zennovel/core';
 import { Engine, type EngineState } from './engine';
 import { PLAYER_CSS } from './styles';
+import { playerStrings } from './strings';
 
 export interface PlayerOptions {
   /** Base URL for relative asset paths. Defaults to document.baseURI. */
   assetBase?: string;
   /** Scene to start from (editor preview). Defaults to the project's start scene. */
   startSceneId?: string;
+  /** UI language of the player. Defaults to the project's meta.locale, then English. */
+  locale?: Locale;
   /** Called whenever engine state changes. */
   onStateChange?: (state: Readonly<EngineState>) => void;
 }
@@ -259,11 +262,12 @@ export class Player {
     this.overlay.replaceChildren();
     this.overlay.style.display = s.ended || s.error ? '' : 'none';
     if (s.ended || s.error) {
+      const strings = playerStrings[this.options.locale ?? this.project.meta.locale ?? 'en'] ?? playerStrings.en;
       const msg = el('div', s.error ? 'zn-overlay-error' : 'zn-overlay-title', this.overlay);
-      msg.textContent = s.error ?? '— The End —';
+      msg.textContent = s.error ? strings.error(s.error) : strings.theEnd;
       const again = el('button', '', this.overlay);
       again.type = 'button';
-      again.textContent = 'Play again';
+      again.textContent = strings.playAgain;
       again.addEventListener('click', () => this.restart());
     }
   }

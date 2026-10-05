@@ -9,8 +9,10 @@ import { CommandList } from './CommandList';
 import { Preview } from './Preview';
 import { IssuesPanel } from './IssuesPanel';
 import { ThemePanel } from './ThemePanel';
+import { LanguageSwitcher, useI18n } from '../i18n';
 
 export function Editor({ projectId }: { projectId: string }) {
+  const { t } = useI18n();
   const [project, setProject] = useState<Project | null | undefined>(undefined);
   const [sceneId, setSceneId] = useState<string>('');
   const [rightTab, setRightTab] = useState<'preview' | 'theme'>('preview');
@@ -40,13 +42,13 @@ export function Editor({ projectId }: { projectId: string }) {
 
   const issues = useMemo(() => (project ? checkProject(project) : []), [project]);
 
-  if (project === undefined) return <div className="loading">Loading…</div>;
+  if (project === undefined) return <div className="loading">{t.editor.loading}</div>;
   if (project === null) {
     return (
       <div className="loading">
-        <p>This project couldn't be found.</p>
+        <p>{t.editor.notFound}</p>
         <button className="btn" onClick={() => navigate('/')}>
-          Back to projects
+          {t.editor.backToProjects}
         </button>
       </div>
     );
@@ -58,19 +60,20 @@ export function Editor({ projectId }: { projectId: string }) {
   return (
     <div className="editor">
       <header className="editor-header">
-        <button className="btn ghost" onClick={() => navigate('/')} title="Back to projects">
-          ← Projects
+        <button className="btn ghost" onClick={() => navigate('/')} title={t.editor.backToProjects}>
+          {t.editor.projects}
         </button>
         <input
           className="title-input"
           value={project.meta.name}
           onChange={(e) => edit((p) => actions.renameProject(p, e.target.value))}
-          aria-label="Project name"
+          aria-label={t.editor.projectName}
         />
-        <span className="save-state">{saved ? 'Saved' : 'Saving…'}</span>
+        <span className="save-state">{saved ? t.editor.saved : t.editor.saving}</span>
         <div className="spacer" />
+        <LanguageSwitcher />
         <button className="btn" onClick={() => downloadProject(project)}>
-          Export project file
+          {t.editor.exportProject}
         </button>
       </header>
 
@@ -90,9 +93,9 @@ export function Editor({ projectId }: { projectId: string }) {
           <input
             value={scene.name}
             onChange={(e) => edit((p) => actions.renameScene(p, scene.id, e.target.value))}
-            aria-label="Scene name"
+            aria-label={t.editor.sceneName}
           />
-          {project.startSceneId === scene.id && <span className="badge">Start scene</span>}
+          {project.startSceneId === scene.id && <span className="badge">{t.editor.startScene}</span>}
         </div>
         <CommandList project={project} scene={scene} commands={scene.commands} parent={null} onEdit={edit} />
       </main>
@@ -100,18 +103,23 @@ export function Editor({ projectId }: { projectId: string }) {
       <aside className="panel right">
         <div className="tabs">
           <button className={rightTab === 'preview' ? 'active' : ''} onClick={() => setRightTab('preview')}>
-            Preview
+            {t.editor.preview}
           </button>
           <button className={rightTab === 'theme' ? 'active' : ''} onClick={() => setRightTab('theme')}>
-            Appearance
+            {t.editor.appearance}
           </button>
         </div>
         <Preview project={project} sceneId={scene.id} />
         {rightTab === 'theme' && (
-          <ThemePanel theme={project.theme} onChange={(theme) => edit((p) => actions.updateTheme(p, theme))} />
+          <ThemePanel
+            theme={project.theme}
+            onChange={(theme) => edit((p) => actions.updateTheme(p, theme))}
+            gameLocale={project.meta.locale ?? 'en'}
+            onGameLocaleChange={(locale) => edit((p) => actions.setGameLocale(p, locale))}
+          />
         )}
         {rightTab === 'preview' && (
-          <p className="hint">Click or press Space to continue; press ← or scroll up to go back. The preview refreshes as you edit.</p>
+          <p className="hint">{t.editor.previewHint}</p>
         )}
       </aside>
     </div>

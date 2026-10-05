@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Project } from '@zennovel/core';
 import { Player } from '@zennovel/runtime';
+import { useI18n } from '../i18n';
 
 /** Live preview using the exact same Player that exported games use. */
 export function Preview({ project, sceneId }: { project: Project; sceneId: string }) {
+  const { t } = useI18n();
   const host = useRef<HTMLDivElement>(null);
   const player = useRef<Player | null>(null);
   const [fromStart, setFromStart] = useState(false);
@@ -37,7 +39,7 @@ export function Preview({ project, sceneId }: { project: Project; sceneId: strin
             player.current?.restart(sceneId);
           }}
         >
-          ▶ Play this scene
+          {t.preview.playScene}
         </button>
         <button
           className={`btn small ${fromStart ? 'active' : ''}`}
@@ -46,7 +48,7 @@ export function Preview({ project, sceneId }: { project: Project; sceneId: strin
             player.current?.restart(project.startSceneId);
           }}
         >
-          ⟲ Play from start
+          {t.preview.playFromStart}
         </button>
       </div>
     </div>

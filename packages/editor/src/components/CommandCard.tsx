@@ -13,7 +13,8 @@ import type {
 } from '@zennovel/core';
 import { createId } from '@zennovel/core';
 import { actions } from '../state/projectActions';
-import { COMMAND_LABELS, CommandList, focusLater } from './CommandList';
+import { CommandList, focusLater } from './CommandList';
+import { useI18n } from '../i18n';
 
 interface Props {
   project: Project;
@@ -24,9 +25,7 @@ interface Props {
   onEdit: (fn: (p: Project) => Project) => void;
 }
 
-const POSITIONS: Record<StagePosition, string> = { left: 'left', center: 'center', right: 'right' };
 const COMPARE_OPS: Record<CompareOp, string> = { '>=': '≥', '>': '>', '==': '=', '!=': '≠', '<': '<', '<=': '≤' };
-const EFFECT_OPS: Record<EffectOp, string> = { add: 'add', subtract: 'subtract', set: 'set to', toggle: 'toggle' };
 
 function parseValue(raw: string): VariableValue {
   if (raw === 'true') return true;
@@ -36,6 +35,7 @@ function parseValue(raw: string): VariableValue {
 }
 
 export function CommandCard({ project, scene, command, isFirst, isLast, onEdit }: Props) {
+  const { t } = useI18n();
   const update = (next: Command) => onEdit((p) => actions.updateCommand(p, scene.id, next));
   const otherScenes = project.scenes;
 
@@ -51,7 +51,7 @@ export function CommandCard({ project, scene, command, isFirst, isLast, onEdit }
             style={character ? { color: character.color } : undefined}
             onChange={(e) => update({ ...command, characterId: e.target.value || undefined })}
           >
-            <option value="">Narrator</option>
+            <option value="">{t.card.narrator}</option>
             {project.characters.map((c) => (
               <option key={c.id} value={c.id}>
                 {c.name}
@@ -61,7 +61,7 @@ export function CommandCard({ project, scene, command, isFirst, isLast, onEdit }
           <textarea
             rows={Math.max(1, Math.ceil(command.text.length / 36))}
             value={command.text}
-            placeholder="Type a line. Enter for the next line, Shift+Enter for a line break."
+            placeholder={t.card.linePlaceholder}
             onChange={(e) => update({ ...command, text: e.target.value })}
             onKeyDown={(e) => {
               if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) {
@@ -99,7 +99,7 @@ export function CommandCard({ project, scene, command, isFirst, isLast, onEdit }
                 {a.name}
               </option>
             ))}
-            <option value="__color">Solid color</option>
+            <option value="__color">{t.card.solidColor}</option>
           </select>
           {isColor && command.background.kind === 'color' && (
             <input
@@ -114,7 +114,7 @@ export function CommandCard({ project, scene, command, isFirst, isLast, onEdit }
               checked={command.transition === 'fade'}
               onChange={(e) => update({ ...command, transition: e.target.checked ? 'fade' : 'none' })}
             />
-            Fade in
+            {t.card.fadeIn}
           </label>
         </div>
       );
@@ -133,9 +133,9 @@ export function CommandCard({ project, scene, command, isFirst, isLast, onEdit }
               </option>
             ))}
           </select>
-          <span className="muted">at</span>
+          <span className="muted">{t.card.at}</span>
           <select value={command.position} onChange={(e) => update({ ...command, position: e.target.value as StagePosition })}>
-            {Object.entries(POSITIONS).map(([k, v]) => (
+            {Object.entries(t.card.positions).map(([k, v]) => (
               <option key={k} value={k}>
                 {v}
               </option>
@@ -150,7 +150,7 @@ export function CommandCard({ project, scene, command, isFirst, isLast, onEdit }
       body = (
         <div className="row">
           <CharacterSelect project={project} value={command.characterId} onChange={(characterId) => update({ ...command, characterId })} />
-          <span className="muted">leaves the stage</span>
+          <span className="muted">{t.card.leavesStage}</span>
         </div>
       );
       break;
@@ -162,7 +162,7 @@ export function CommandCard({ project, scene, command, isFirst, isLast, onEdit }
     case 'jump':
       body = (
         <div className="row">
-          <span className="muted">Go to</span>
+          <span className="muted">{t.card.goTo}</span>
           <SceneSelect scenes={otherScenes} value={command.targetSceneId} onChange={(targetSceneId) => update({ ...command, targetSceneId })} />
         </div>
       );
@@ -176,34 +176,34 @@ export function CommandCard({ project, scene, command, isFirst, isLast, onEdit }
       body = (
         <div className="if-block">
           <div className="row">
-            <span className="muted">If</span>
+            <span className="muted">{t.card.if}</span>
             <ConditionEditor project={project} condition={command.condition} onChange={(condition) => update({ ...command, condition })} />
           </div>
-          <div className="branch-label">Then:</div>
+          <div className="branch-label">{t.card.then}</div>
           <CommandList project={project} scene={scene} commands={command.then} parent={{ ifId: command.id, branch: 'then' }} onEdit={onEdit} />
-          <div className="branch-label">Otherwise:</div>
+          <div className="branch-label">{t.card.otherwise}</div>
           <CommandList project={project} scene={scene} commands={command.else} parent={{ ifId: command.id, branch: 'else' }} onEdit={onEdit} />
         </div>
       );
       break;
 
     case 'end':
-      body = <div className="muted">The story ends here</div>;
+      body = <div className="muted">{t.card.storyEnds}</div>;
       break;
   }
 
   return (
     <div className={`card card-${command.type}`} data-command-id={command.id}>
       <div className="card-head">
-        <span className={`chip chip-${command.type}`}>{COMMAND_LABELS[command.type]}</span>
+        <span className={`chip chip-${command.type}`}>{t.commands.labels[command.type]}</span>
         <div className="card-tools">
-          <button title="Move up" disabled={isFirst} onClick={() => onEdit((p) => actions.moveCommand(p, scene.id, command.id, -1))}>
+          <button title={t.commands.moveUp} disabled={isFirst} onClick={() => onEdit((p) => actions.moveCommand(p, scene.id, command.id, -1))}>
             ↑
           </button>
-          <button title="Move down" disabled={isLast} onClick={() => onEdit((p) => actions.moveCommand(p, scene.id, command.id, 1))}>
+          <button title={t.commands.moveDown} disabled={isLast} onClick={() => onEdit((p) => actions.moveCommand(p, scene.id, command.id, 1))}>
             ↓
           </button>
-          <button title="Delete" className="danger" onClick={() => onEdit((p) => actions.removeCommand(p, scene.id, command.id))}>
+          <button title={t.commands.delete} className="danger" onClick={() => onEdit((p) => actions.removeCommand(p, scene.id, command.id))}>
             ✕
           </button>
         </div>
@@ -216,9 +216,10 @@ export function CommandCard({ project, scene, command, isFirst, isLast, onEdit }
 // ---------------------------------------------------------------------------
 
 function CharacterSelect({ project, value, onChange }: { project: Project; value: string; onChange: (id: string) => void }) {
+  const { t } = useI18n();
   return (
     <select value={value} onChange={(e) => onChange(e.target.value)}>
-      {!project.characters.some((c) => c.id === value) && <option value={value}>(choose a character)</option>}
+      {!project.characters.some((c) => c.id === value) && <option value={value}>{t.card.chooseCharacter}</option>}
       {project.characters.map((c) => (
         <option key={c.id} value={c.id}>
           {c.name}
@@ -239,10 +240,11 @@ function SceneSelect({
   onChange: (id: string) => void;
   allowContinue?: boolean;
 }) {
+  const { t } = useI18n();
   return (
     <select value={value ?? ''} onChange={(e) => onChange(e.target.value)}>
-      {allowContinue && <option value="">Continue below</option>}
-      {!allowContinue && !scenes.some((s) => s.id === value) && <option value={value}>(choose a scene)</option>}
+      {allowContinue && <option value="">{t.card.continueBelow}</option>}
+      {!allowContinue && !scenes.some((s) => s.id === value) && <option value={value}>{t.card.chooseScene}</option>}
       {scenes.map((s) => (
         <option key={s.id} value={s.id}>
           → {s.name}
@@ -253,10 +255,11 @@ function SceneSelect({
 }
 
 function VariableSelect({ project, value, onChange }: { project: Project; value: string; onChange: (id: string) => void }) {
-  if (project.variables.length === 0) return <span className="muted">(this project has no variables yet)</span>;
+  const { t } = useI18n();
+  if (project.variables.length === 0) return <span className="muted">{t.card.noVariables}</span>;
   return (
     <select value={value} onChange={(e) => onChange(e.target.value)}>
-      {!project.variables.some((v) => v.id === value) && <option value={value}>(choose a variable)</option>}
+      {!project.variables.some((v) => v.id === value) && <option value={value}>{t.card.chooseVariable}</option>}
       {project.variables.map((v) => (
         <option key={v.id} value={v.id}>
           {v.name}
@@ -267,11 +270,12 @@ function VariableSelect({ project, value, onChange }: { project: Project; value:
 }
 
 function EffectEditor({ project, effect, onChange }: { project: Project; effect: Effect; onChange: (e: Effect) => void }) {
+  const { t } = useI18n();
   return (
     <div className="row">
       <VariableSelect project={project} value={effect.variableId} onChange={(variableId) => onChange({ ...effect, variableId })} />
       <select value={effect.op} onChange={(e) => onChange({ ...effect, op: e.target.value as EffectOp })}>
-        {Object.entries(EFFECT_OPS).map(([k, v]) => (
+        {Object.entries(t.card.effectOps).map(([k, v]) => (
           <option key={k} value={k}>
             {v}
           </option>
@@ -285,7 +289,8 @@ function EffectEditor({ project, effect, onChange }: { project: Project; effect:
 }
 
 function ConditionEditor({ project, condition, onChange }: { project: Project; condition: Condition; onChange: (c: Condition) => void }) {
-  if (condition.kind !== 'compare') return <span className="muted">(combined condition: not editable here yet)</span>;
+  const { t } = useI18n();
+  if (condition.kind !== 'compare') return <span className="muted">{t.card.compoundCondition}</span>;
   return (
     <>
       <VariableSelect project={project} value={condition.variableId} onChange={(variableId) => onChange({ ...condition, variableId })} />
@@ -302,6 +307,7 @@ function ConditionEditor({ project, condition, onChange }: { project: Project; c
 }
 
 function ChoiceEditor({ project, command, onChange }: { project: Project; command: ChoiceCommand; onChange: (c: ChoiceCommand) => void }) {
+  const { t } = useI18n();
   const setOption = (id: string, patch: Partial<ChoiceCommand['options'][number]>) =>
     onChange({ ...command, options: command.options.map((o) => (o.id === id ? { ...o, ...patch } : o)) });
 
@@ -310,7 +316,7 @@ function ChoiceEditor({ project, command, onChange }: { project: Project; comman
       <input
         className="wide"
         value={command.prompt ?? ''}
-        placeholder="Question text (optional), e.g. Where should we go?"
+        placeholder={t.card.choicePrompt}
         onChange={(e) => onChange({ ...command, prompt: e.target.value || undefined })}
       />
       {command.options.map((o, i) => (
@@ -320,7 +326,7 @@ function ChoiceEditor({ project, command, onChange }: { project: Project; comman
           <SceneSelect scenes={project.scenes} value={o.targetSceneId} allowContinue onChange={(v) => setOption(o.id, { targetSceneId: v || undefined })} />
           <button
             className="icon danger"
-            title="Remove this option"
+            title={t.card.removeOption}
             onClick={() => onChange({ ...command, options: command.options.filter((x) => x.id !== o.id) })}
           >
             ✕
@@ -328,22 +334,22 @@ function ChoiceEditor({ project, command, onChange }: { project: Project; comman
           <div className="option-extra">
             {(o.effects ?? []).map((eff, j) => (
               <div key={j} className="row">
-                <span className="muted">When picked:</span>
+                <span className="muted">{t.card.whenPicked}</span>
                 <EffectEditor
                   project={project}
                   effect={eff}
                   onChange={(next) => setOption(o.id, { effects: o.effects!.map((x, k) => (k === j ? next : x)) })}
                 />
-                <button className="icon" title="Remove" onClick={() => setOption(o.id, { effects: o.effects!.filter((_, k) => k !== j) })}>
+                <button className="icon" title={t.card.remove} onClick={() => setOption(o.id, { effects: o.effects!.filter((_, k) => k !== j) })}>
                   ✕
                 </button>
               </div>
             ))}
             {o.condition && (
               <div className="row">
-                <span className="muted">Only show if:</span>
+                <span className="muted">{t.card.onlyShowIf}</span>
                 <ConditionEditor project={project} condition={o.condition} onChange={(condition) => setOption(o.id, { condition })} />
-                <button className="icon" title="Remove" onClick={() => setOption(o.id, { condition: undefined })}>
+                <button className="icon" title={t.card.remove} onClick={() => setOption(o.id, { condition: undefined })}>
                   ✕
                 </button>
               </div>
@@ -358,7 +364,7 @@ function ChoiceEditor({ project, command, onChange }: { project: Project; comman
                     })
                   }
                 >
-                  + Change a variable
+                  {t.card.changeVariable}
                 </button>
                 {!o.condition && (
                   <button
@@ -367,7 +373,7 @@ function ChoiceEditor({ project, command, onChange }: { project: Project; comman
                       setOption(o.id, { condition: { kind: 'compare', variableId: project.variables[0]!.id, op: '>=', value: 1 } })
                     }
                   >
-                    + Show condition
+                    {t.card.showCondition}
                   </button>
                 )}
               </div>
@@ -375,8 +381,8 @@ function ChoiceEditor({ project, command, onChange }: { project: Project; comman
           </div>
         </div>
       ))}
-      <button className="link" onClick={() => onChange({ ...command, options: [...command.options, { id: createId('opt'), text: 'New option' }] })}>
-        + Add option
+      <button className="link" onClick={() => onChange({ ...command, options: [...command.options, { id: createId('opt'), text: t.card.newOption }] })}>
+        {t.card.addOption}
       </button>
     </div>
   );

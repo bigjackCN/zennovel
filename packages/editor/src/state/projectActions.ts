@@ -1,4 +1,4 @@
-import { createId, type Command, type CommandType, type Project, type Scene, type Theme } from '@zennovel/core';
+import { createId, type Command, type CommandType, type Locale, type Project, type Scene, type Theme } from '@zennovel/core';
 
 /**
  * All edits go through these pure functions (old project in, new project out).
@@ -28,7 +28,13 @@ function mapListContaining(
   );
 }
 
-export function newCommand(type: CommandType, project: Project, sceneId: string): Command {
+/** `optionLabel` names the default options of a new choice, e.g. n => `Option ${n}`. */
+export function newCommand(
+  type: CommandType,
+  project: Project,
+  sceneId: string,
+  optionLabel: (n: number) => string,
+): Command {
   const id = createId('cmd');
   const firstCharacter = project.characters[0]?.id;
   const firstVariable = project.variables[0]?.id ?? '';
@@ -62,8 +68,8 @@ export function newCommand(type: CommandType, project: Project, sceneId: string)
         id,
         type,
         options: [
-          { id: createId('opt'), text: 'Option 1' },
-          { id: createId('opt'), text: 'Option 2' },
+          { id: createId('opt'), text: optionLabel(1) },
+          { id: createId('opt'), text: optionLabel(2) },
         ],
       };
     case 'jump':
@@ -165,6 +171,10 @@ export const actions = {
 
   updateTheme(p: Project, theme: Theme): Project {
     return touch({ ...p, theme });
+  },
+
+  setGameLocale(p: Project, locale: Locale): Project {
+    return touch({ ...p, meta: { ...p.meta, locale } });
   },
 
   renameProject(p: Project, name: string): Project {
