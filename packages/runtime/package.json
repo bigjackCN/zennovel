@@ -1,0 +1,16 @@
+{
+  "name": "@zennovel/runtime",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ZenNovel story engine and DOM player, shared by the editor preview and exported games.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p ."
+  },
+  "dependencies": {
+    "@zennovel/core": "workspace:*"
+  }
+}

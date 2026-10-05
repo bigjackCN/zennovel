@@ -1,0 +1,27 @@
+{
+  "name": "zennovel",
+  "private": true,
+  "version": "0.1.0",
+  "description": "A web-based, low-code visual novel maker for writers.",
+  "license": "MIT",
+  "type": "module",
+  "packageManager": "pnpm@10.28.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @zennovel/editor dev",
+    "build": "pnpm --filter @zennovel/editor build",
+    "preview": "pnpm --filter @zennovel/editor preview",
+    "typecheck": "pnpm -r typecheck",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild"]
+  }
+}

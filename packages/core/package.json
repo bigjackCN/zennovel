@@ -1,0 +1,13 @@
+{
+  "name": "@zennovel/core",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ZenNovel project format: types, defaults, story checker.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p ."
+  }
+}

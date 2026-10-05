@@ -1,0 +1,349 @@
+{
+  "formatVersion": 1,
+  "meta": {
+    "id": "proj_demo",
+    "name": "Cherry Blossom Hill (sample)",
+    "author": "ZenNovel",
+    "description": "A three-minute story showing backgrounds, characters, choices, variables and multiple endings.",
+    "resolution": {
+      "width": 1280,
+      "height": 720
+    },
+    "createdAt": "2026-10-05T00:00:00.000Z",
+    "updatedAt": "2026-10-05T00:00:00.000Z"
+  },
+  "assets": [
+    {
+      "id": "img_park",
+      "kind": "image",
+      "name": "Park",
+      "src": "assets/bg_park.svg"
+    },
+    {
+      "id": "img_library",
+      "kind": "image",
+      "name": "Library",
+      "src": "assets/bg_library.svg"
+    },
+    {
+      "id": "img_rooftop",
+      "kind": "image",
+      "name": "Rooftop",
+      "src": "assets/bg_rooftop.svg"
+    },
+    {
+      "id": "img_mei",
+      "kind": "image",
+      "name": "Mei",
+      "src": "assets/mei.svg"
+    },
+    {
+      "id": "img_theo",
+      "kind": "image",
+      "name": "Theo",
+      "src": "assets/theo.svg"
+    }
+  ],
+  "characters": [
+    {
+      "id": "chr_mei",
+      "name": "Mei",
+      "color": "#c8553d",
+      "sprites": {
+        "normal": "img_mei"
+      }
+    },
+    {
+      "id": "chr_theo",
+      "name": "Theo",
+      "color": "#3f6e8c",
+      "sprites": {
+        "normal": "img_theo"
+      }
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_courage",
+      "name": "Courage",
+      "initial": 0
+    }
+  ],
+  "theme": {
+    "fontFamily": "system-ui, \"Segoe UI\", Roboto, \"Noto Sans\", \"PingFang SC\", \"Microsoft YaHei\", sans-serif",
+    "textSpeed": 40,
+    "dialogue": {
+      "background": "rgba(20, 22, 35, 0.82)",
+      "textColor": "#f4f1ea",
+      "fontSize": 26,
+      "borderRadius": 14,
+      "padding": 28,
+      "height": 0.28,
+      "margin": 24
+    },
+    "nameplate": {
+      "background": "#c8553d",
+      "textColor": "#ffffff",
+      "fontSize": 22
+    },
+    "choice": {
+      "background": "rgba(20, 22, 35, 0.85)",
+      "hoverBackground": "rgba(200, 85, 61, 0.95)",
+      "textColor": "#f4f1ea",
+      "borderRadius": 10
+    }
+  },
+  "startSceneId": "scene_start",
+  "scenes": [
+    {
+      "id": "scene_start",
+      "name": "The hill after school",
+      "position": {
+        "x": 0,
+        "y": 120
+      },
+      "commands": [
+        {
+          "id": "cmd_001",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "img_park"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "cmd_002",
+          "type": "say",
+          "text": "April. Cherry petals cover the hill on the way home."
+        },
+        {
+          "id": "cmd_003",
+          "type": "show",
+          "characterId": "chr_mei",
+          "expression": "normal",
+          "position": "center"
+        },
+        {
+          "id": "cmd_004",
+          "type": "say",
+          "characterId": "chr_mei",
+          "text": "Walking home alone again today?"
+        },
+        {
+          "id": "cmd_005",
+          "type": "say",
+          "characterId": "chr_mei",
+          "text": "Do you… want to go somewhere together?"
+        },
+        {
+          "id": "cmd_006",
+          "type": "choice",
+          "prompt": "Where should we go?",
+          "options": [
+            {
+              "id": "opt_library",
+              "text": "Return books at the library",
+              "effects": [
+                {
+                  "variableId": "var_courage",
+                  "op": "add",
+                  "value": 1
+                }
+              ],
+              "targetSceneId": "scene_library"
+            },
+            {
+              "id": "opt_rooftop",
+              "text": "Watch the sunset from the rooftop",
+              "targetSceneId": "scene_rooftop"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "scene_library",
+      "name": "Library",
+      "position": {
+        "x": 320,
+        "y": 0
+      },
+      "commands": [
+        {
+          "id": "cmd_007",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "img_library"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "cmd_008",
+          "type": "show",
+          "characterId": "chr_mei",
+          "expression": "normal",
+          "position": "left"
+        },
+        {
+          "id": "cmd_009",
+          "type": "say",
+          "text": "The library is quiet. Only the sound of turning pages."
+        },
+        {
+          "id": "cmd_010",
+          "type": "say",
+          "characterId": "chr_mei",
+          "text": "Actually… I've always wanted to say thank you."
+        },
+        {
+          "id": "cmd_011",
+          "type": "jump",
+          "targetSceneId": "scene_ending"
+        }
+      ]
+    },
+    {
+      "id": "scene_rooftop",
+      "name": "Rooftop",
+      "position": {
+        "x": 320,
+        "y": 240
+      },
+      "commands": [
+        {
+          "id": "cmd_012",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "img_rooftop"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "cmd_013",
+          "type": "show",
+          "characterId": "chr_mei",
+          "expression": "normal",
+          "position": "left"
+        },
+        {
+          "id": "cmd_014",
+          "type": "show",
+          "characterId": "chr_theo",
+          "expression": "normal",
+          "position": "right"
+        },
+        {
+          "id": "cmd_015",
+          "type": "say",
+          "characterId": "chr_theo",
+          "text": "Oh, you came to watch the sunset too?"
+        },
+        {
+          "id": "cmd_016",
+          "type": "choice",
+          "options": [
+            {
+              "id": "opt_stay",
+              "text": "\"Let's watch it together.\"",
+              "effects": [
+                {
+                  "variableId": "var_courage",
+                  "op": "add",
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "id": "opt_quiet",
+              "text": "(Say nothing)"
+            }
+          ]
+        },
+        {
+          "id": "cmd_017",
+          "type": "say",
+          "text": "The three of you stand side by side. Nobody says another word."
+        },
+        {
+          "id": "cmd_018",
+          "type": "hide",
+          "characterId": "chr_theo"
+        },
+        {
+          "id": "cmd_019",
+          "type": "jump",
+          "targetSceneId": "scene_ending"
+        }
+      ]
+    },
+    {
+      "id": "scene_ending",
+      "name": "Ending",
+      "position": {
+        "x": 640,
+        "y": 120
+      },
+      "commands": [
+        {
+          "id": "cmd_020",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "img_park"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "cmd_021",
+          "type": "show",
+          "characterId": "chr_mei",
+          "expression": "normal",
+          "position": "center"
+        },
+        {
+          "id": "cmd_026",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "var_courage",
+            "op": ">=",
+            "value": 1
+          },
+          "then": [
+            {
+              "id": "cmd_022",
+              "type": "say",
+              "characterId": "chr_mei",
+              "text": "Tomorrow… shall we walk home together again?"
+            },
+            {
+              "id": "cmd_023",
+              "type": "say",
+              "text": "[Good Ending] The cherry blossoms will bloom many more times."
+            }
+          ],
+          "else": [
+            {
+              "id": "cmd_024",
+              "type": "say",
+              "characterId": "chr_mei",
+              "text": "Well then, see you tomorrow."
+            },
+            {
+              "id": "cmd_025",
+              "type": "say",
+              "text": "[Normal Ending] Only the wind is left on the hill."
+            }
+          ]
+        },
+        {
+          "id": "cmd_027",
+          "type": "end"
+        }
+      ]
+    }
+  ]
+}
