@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import { navigate } from '../router';
-import { storage } from '../storage/LocalProjectStorage';
-import type { ProjectSummary } from '../storage/ProjectStorage';
+import { normalizeProject } from '@zennovel/core';
+import { storage, type ProjectSummary } from '../storage';
+import { onSavedElsewhere } from '../storage/sync';
 import { createFromTemplate, downloadProject, readProjectFile, templateIds, type TemplateId } from '../state/templates';
+import { useDialogs } from './Dialogs';
 import { LanguageSwitcher, useI18n } from '../i18n';
 
 export function ProjectList() {
   const { t, locale, formatDate } = useI18n();
+  const dialogs = useDialogs();
   const [projects, setProjects] = useState<ProjectSummary[] | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -15,11 +18,13 @@ export function ProjectList() {
   const refresh = () => storage.listProjects().then(setProjects);
   useEffect(() => {
     void refresh();
+    // Keep the list current when another tab creates, edits or deletes a project.
+    return onSavedElsewhere(() => void refresh());
   }, []);
 
   async function create(templateId: TemplateId) {
     const defaultName = templateId === 'blank' ? t.home.defaultName : t.templates[templateId].name;
-    const name = window.prompt(t.home.namePrompt, defaultName);
+    const name = await dialogs.prompt(t.home.namePrompt, defaultName);
     if (!name) return;
     setBusy(true);
     setError(null);
@@ -35,14 +40,15 @@ export function ProjectList() {
   }
 
   async function remove(p: ProjectSummary) {
-    if (!window.confirm(t.home.deleteConfirm(p.name))) return;
+    if (!(await dialogs.confirm(t.home.deleteConfirm(p.name), { okLabel: t.home.delete, danger: true }))) return;
     await storage.deleteProject(p.id);
     await refresh();
   }
 
   async function exportOne(id: string) {
-    const project = await storage.loadProject(id);
-    if (project) downloadProject(project);
+    const raw = await storage.loadProject(id);
+    const result = raw && normalizeProject(raw);
+    if (result?.ok) downloadProject(result.project);
   }
 
   async function importFile(file: File | undefined) {
@@ -78,7 +84,7 @@ export function ProjectList() {
         <h2>{t.home.newStory}</h2>
         <div className="template-grid">
           {templateIds.map((id) => (
-            <button key={id} className="template-card" disabled={busy} onClick={() => create(id)}>
+            <button key={id} className="template-card" disabled={busy} onClick={() => void create(id)}>
               <strong>{t.templates[id].name}</strong>
               <span>{t.templates[id].description}</span>
             </button>
@@ -113,10 +119,10 @@ export function ProjectList() {
                   <strong>{p.name}</strong>
                   <span className="muted">{t.home.summary(p.sceneCount, formatDate(p.updatedAt))}</span>
                 </button>
-                <button className="btn" onClick={() => exportOne(p.id)}>
+                <button className="btn" onClick={() => void exportOne(p.id)}>
                   {t.home.export}
                 </button>
-                <button className="btn danger" onClick={() => remove(p)}>
+                <button className="btn danger" onClick={() => void remove(p)}>
                   {t.home.delete}
                 </button>
               </li>

@@ -8,13 +8,15 @@ ZenNovel is a visual novel maker that runs in the browser. It is inspired by Ren
 
 ## Features (v0.1)
 
-- 📚 **Multiple projects**: create, open, delete, import and export projects (autosaved in the browser)
+- 📚 **Multiple projects**: create, open, delete, import and export projects (autosaved in the browser's IndexedDB; a project file contains its images, so it opens anywhere)
 - ✍️ **Write like you're writing prose**: press Enter for the next line, Shift+Enter for a line break
+- 👥 **Characters, variables and images**: manage them in their own panels; upload backgrounds and character expressions, see where each one is used before deleting it
 - 🔀 **Choices**: each option can jump to a scene, change variables, or only appear under a condition
-- 🧮 **Variables and if/else**: pick from dropdowns like "If [Courage] ≥ 1" instead of typing expressions
+- 🧮 **Variables and if/else**: pick from dropdowns like "If [Courage] ≥ 1"; combine conditions with "all of / any of", nest if/else blocks
+- ↶ **Undo / redo** for every edit (Ctrl+Z / Ctrl+Y, ⌘Z / ⌘⇧Z)
 - 🎨 **Custom look**: dialogue box color, opacity, font size, corner radius, typing speed
-- ▶️ **Live preview**: the editor preview uses the same player as exported games, with rollback
-- 🩺 **Story check**: finds broken jumps, unreachable scenes and scenes with no ending
+- ▶️ **Live preview**: the editor preview uses the same player as exported games, with rollback; start from the line you're editing, the scene, or the beginning
+- 🩺 **Story check**: finds broken jumps, unreachable scenes, scenes with no ending and variables used the wrong way; click an issue to jump to it
 - 🌐 **English / 中文**: switch the editor language any time; the sample story and the player's built-in buttons come in both languages
 
 ## Getting started
@@ -42,7 +44,7 @@ packages/
 
 ### Design principles
 
-1. **Data-driven**: a project is a single JSON document. The editor only edits data; the runtime only plays it.
+1. **Data-driven**: a project is a single JSON document. The editor only edits data; the runtime only plays it. Anything loaded from outside (an imported file, an older project) goes through `normalizeProject` in core, which repairs or rejects it, so the rest of the code can trust the shape.
 2. **Framework-free runtime**: an exported game needs only `runtime` + `project.json` + assets.
 3. **Swappable storage**: the editor depends only on the `ProjectStorage` interface. The web build uses browser storage; a future desktop build (Tauri / Electron) just provides another implementation.
 4. **Human-friendly errors**: writers should see "Option points to a scene that does not exist", never a stack trace.
@@ -57,14 +59,14 @@ packages/
 
 ## Roadmap
 
-- [ ] Panels for managing characters, assets and variables (upload your own images)
+- [x] Panels for managing characters, assets and variables (upload your own images)
 - [ ] Story map: view and edit scene connections as a flowchart
-- [ ] Undo / redo
-- [ ] Save / load screens and dialogue history
+- [x] Undo / redo
+- [ ] Save / load screens and dialogue history (the engine's save data already survives story edits)
 - [ ] Export as a standalone web game (zip, ready for itch.io)
 - [ ] Music and sound effects
 - [ ] 9-slice frame images for the dialogue box
-- [ ] IndexedDB storage (for large assets)
+- [x] IndexedDB storage (for large assets)
 - [x] Localization (English / Chinese)
 - [ ] Desktop app (Tauri)
 

@@ -1,4 +1,4 @@
-import type { Command, Condition, Effect, Project, Scene } from './types';
+import type { Command, Condition, Effect, Project, Scene, VariableValue } from './types';
 
 export type IssueLevel = 'error' | 'warning';
 
@@ -10,6 +10,7 @@ export type IssueCode =
   | 'noStartScene'
   | 'missingVariable'
   | 'missingConditionVariable'
+  | 'variableTypeMismatch'
   | 'missingBackground'
   | 'missingShowCharacter'
   | 'missingExpression'
@@ -61,7 +62,11 @@ function endsExplicitly(commands: Command[]): boolean {
   const last = commands[commands.length - 1];
   if (!last) return false;
   if (last.type === 'jump' || last.type === 'end') return true;
-  if (last.type === 'choice') return last.options.length > 0 && last.options.every((o) => o.targetSceneId);
+  if (last.type === 'choice') {
+    // If every option is conditional, all of them can be hidden; the player
+    // then skips the choice and falls off the end of the scene.
+    return last.options.every((o) => o.targetSceneId) && last.options.some((o) => !o.condition);
+  }
   if (last.type === 'if') return endsExplicitly(last.then) && endsExplicitly(last.else);
   return false;
 }
@@ -76,6 +81,8 @@ export function checkProject(project: Project): StoryIssue[] {
   const characters = new Map(project.characters.map((c) => [c.id, c]));
   const assetIds = new Set(project.assets.map((a) => a.id));
   const variableIds = new Set(project.variables.map((v) => v.id));
+  const variables = new Map(project.variables.map((v) => [v.id, v]));
+  const kind = (v: VariableValue) => typeof v;
 
   if (!sceneIds.has(project.startSceneId)) {
     issues.push({ level: 'error', sceneId: project.startSceneId, code: 'noStartScene' });
@@ -85,16 +92,40 @@ export function checkProject(project: Project): StoryIssue[] {
     const add = (level: IssueLevel, code: IssueCode, commandId?: string, params?: Record<string, string>) =>
       issues.push({ level, sceneId: scene.id, commandId, code, ...(params && { params }) });
 
+    // e.g. "add 1" to a yes/no variable, or "is greater than" on text —
+    // usually left over after the writer changed the variable's kind.
+    const mismatch = (variableId: string, commandId: string) =>
+      add('warning', 'variableTypeMismatch', commandId, { variable: variables.get(variableId)?.name ?? '' });
+
     const checkEffects = (effects: Effect[] | undefined, commandId: string) => {
       for (const e of effects ?? []) {
-        if (!variableIds.has(e.variableId)) add('error', 'missingVariable', commandId);
+        const v = variables.get(e.variableId);
+        if (!v) {
+          add('error', 'missingVariable', commandId);
+          continue;
+        }
+        const type = kind(v.initial);
+        const bad =
+          ((e.op === 'add' || e.op === 'subtract') && type !== 'number') ||
+          (e.op === 'toggle' && type !== 'boolean') ||
+          (e.op === 'set' && e.value !== undefined && kind(e.value) !== type);
+        if (bad) mismatch(v.id, commandId);
       }
+    };
+    const checkComparisons = (c: Condition, commandId: string) => {
+      if (c.kind !== 'compare') return c.conditions.forEach((sub) => checkComparisons(sub, commandId));
+      const v = variables.get(c.variableId);
+      if (!v) return;
+      const type = kind(v.initial);
+      const ordering = c.op !== '==' && c.op !== '!=';
+      if ((ordering && type !== 'number') || kind(c.value) !== type) mismatch(v.id, commandId);
     };
     const checkCondition = (c: Condition | undefined, commandId: string) => {
       if (!c) return;
       for (const id of conditionVariables(c)) {
         if (!variableIds.has(id)) add('error', 'missingConditionVariable', commandId);
       }
+      checkComparisons(c, commandId);
     };
 
     walkCommands(scene.commands, (cmd) => {

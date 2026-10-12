@@ -1,8 +1,9 @@
 import { FORMAT_VERSION, type Locale, type Project, type Theme } from './types';
 
-/** Short random id with a readable prefix, e.g. "scene_k3f9a2". */
+/** Random id with a readable prefix, e.g. "scene_k3f9a2x7" (36^8 ≈ 2.8 trillion values). */
 export function createId(prefix: string): string {
-  return `${prefix}_${Math.random().toString(36).slice(2, 8)}`;
+  const bytes = globalThis.crypto.getRandomValues(new Uint8Array(8));
+  return `${prefix}_${Array.from(bytes, (b) => (b % 36).toString(36)).join('')}`;
 }
 
 export const defaultTheme: Theme = {

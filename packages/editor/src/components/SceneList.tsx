@@ -1,5 +1,7 @@
 import { createId, type Project, type StoryIssue } from '@zennovel/core';
 import { actions } from '../state/projectActions';
+import { useDialogs } from './Dialogs';
+import { useEditorApi, type EditFn } from './EditorApi';
 import { useI18n } from '../i18n';
 
 interface Props {
@@ -7,24 +9,35 @@ interface Props {
   selectedId: string;
   issues: StoryIssue[];
   onSelect: (id: string) => void;
-  onEdit: (fn: (p: Project) => Project) => void;
+  onEdit: EditFn;
 }
 
 export function SceneList({ project, selectedId, issues, onSelect, onEdit }: Props) {
   const { t } = useI18n();
-  function addScene() {
-    const name = window.prompt(t.scenes.newScenePrompt, t.scenes.defaultName(project.scenes.length + 1));
+  const dialogs = useDialogs();
+  const api = useEditorApi();
+
+  async function addScene() {
+    const name = await dialogs.prompt(t.scenes.newScenePrompt, t.scenes.defaultName(project.scenes.length + 1));
     if (!name) return;
     const id = createId('scene');
     onEdit((p) => actions.addScene(p, id, name));
     onSelect(id);
   }
 
+  async function deleteScene(id: string, name: string) {
+    const ok = await dialogs.confirm(t.scenes.deleteConfirm(name), { okLabel: t.scenes.delete, danger: true });
+    if (!ok) return;
+    onSelect(project.scenes.find((x) => x.id !== id)!.id);
+    onEdit((p) => actions.deleteScene(p, id));
+    api.notifyDeleted();
+  }
+
   return (
     <section className="scene-list">
       <div className="section-head">
         <h3>{t.scenes.title}</h3>
-        <button className="btn small" onClick={addScene}>
+        <button className="btn small" onClick={() => void addScene()}>
           {t.scenes.newScene}
         </button>
       </div>
@@ -48,14 +61,7 @@ export function SceneList({ project, selectedId, issues, onSelect, onEdit }: Pro
                     </button>
                   )}
                   {project.scenes.length > 1 && (
-                    <button
-                      className="link danger"
-                      onClick={() => {
-                        if (!window.confirm(t.scenes.deleteConfirm(s.name))) return;
-                        onEdit((p) => actions.deleteScene(p, s.id));
-                        onSelect(project.scenes.find((x) => x.id !== s.id)!.id);
-                      }}
-                    >
+                    <button className="link danger" onClick={() => void deleteScene(s.id, s.name)}>
                       {t.scenes.delete}
                     </button>
                   )}

@@ -73,6 +73,41 @@ describe('Engine', () => {
     expect(other.getState().dialogue).toEqual(engine.getState().dialogue);
   });
 
+  it('loads a save made before the writer inserted a line above it', () => {
+    const engine = new Engine(project);
+    engine.start();
+    engine.advance(); // -> "Walking home alone again today?"
+    expect(engine.getState().dialogue?.text).toBe('Walking home alone again today?');
+    const saved = JSON.parse(JSON.stringify(engine.save()));
+
+    const edited = structuredClone(project);
+    const start = edited.scenes.find((s) => s.id === 'scene_start')!;
+    start.commands.splice(0, 0, { id: 'new_line', type: 'say', text: 'A new opening line.' });
+    edited.variables.push({ id: 'var_new', name: 'New', initial: 5 });
+
+    const other = new Engine(edited);
+    other.load(saved);
+    other.advance();
+    expect(other.getState().dialogue?.text).toBe('Do you… want to go somewhere together?');
+    expect(other.getState().variables.var_new).toBe(5);
+  });
+
+  it('starts from a line in the middle of a scene with the stage already set up', () => {
+    const engine = new Engine(project);
+    engine.start('scene_rooftop', 'cmd_015');
+    const s = engine.getState();
+    expect(s.background).toEqual({ kind: 'image', assetId: 'img_rooftop' });
+    expect(s.sprites.map((sp) => `${sp.characterId}@${sp.position}`)).toEqual(['chr_mei@left', 'chr_theo@right']);
+    expect(s.dialogue?.text).toBe('Oh, you came to watch the sunset too?');
+  });
+
+  it('starts from a line inside an if branch', () => {
+    const engine = new Engine(project);
+    engine.start('scene_ending', 'cmd_022');
+    expect(engine.getState().dialogue?.text).toMatch(/^Tomorrow/);
+    expect(engine.getState().sprites.map((sp) => sp.characterId)).toEqual(['chr_mei']);
+  });
+
   it('reports an infinite jump loop instead of hanging', () => {
     const p = createEmptyProject('loop');
     const id = p.startSceneId;
@@ -117,5 +152,37 @@ describe('checkProject', () => {
     const codes = checkProject(p).map((i) => i.code);
     expect(codes).toContain('missingJumpTarget');
     expect(codes).toContain('unreachable');
+  });
+
+  it('warns when a variable is used in a way that does not fit its kind', () => {
+    const p = createEmptyProject('types');
+    p.variables.push({ id: 'flag', name: 'Flag', initial: false }, { id: 'n', name: 'N', initial: 0 });
+    const cmds = p.scenes[0]!.commands;
+    cmds.push({ id: 'ok1', type: 'setVar', effect: { variableId: 'flag', op: 'toggle' } });
+    cmds.push({ id: 'ok2', type: 'setVar', effect: { variableId: 'n', op: 'add', value: 2 } });
+    cmds.push({ id: 'ok3', type: 'if', condition: { kind: 'compare', variableId: 'flag', op: '==', value: true }, then: [], else: [] });
+    cmds.push({ id: 'bad1', type: 'setVar', effect: { variableId: 'flag', op: 'add', value: 1 } });
+    cmds.push({ id: 'bad2', type: 'if', condition: { kind: 'compare', variableId: 'flag', op: '>=', value: 1 }, then: [], else: [] });
+    cmds.push({ id: 'end', type: 'end' });
+    const flagged = checkProject(p).filter((i) => i.code === 'variableTypeMismatch').map((i) => i.commandId);
+    expect(flagged).toEqual(['bad1', 'bad2']);
+  });
+
+  it('warns when a final choice can be skipped because every option is conditional', () => {
+    const p = createEmptyProject('conditional');
+    p.variables.push({ id: 'v', name: 'V', initial: 0 });
+    const target = p.startSceneId;
+    const option = (id: string) => ({
+      id,
+      text: id,
+      targetSceneId: target,
+      condition: { kind: 'compare' as const, variableId: 'v', op: '>=' as const, value: 1 },
+    });
+    p.scenes[0]!.commands = [{ id: 'c', type: 'choice', options: [option('a'), option('b')] }];
+    expect(checkProject(p).map((i) => i.code)).toContain('noEnding');
+
+    // One unconditional option means the choice always shows, so the scene does end.
+    p.scenes[0]!.commands = [{ id: 'c', type: 'choice', options: [option('a'), { id: 'b', text: 'b', targetSceneId: target }] }];
+    expect(checkProject(p).map((i) => i.code)).not.toContain('noEnding');
   });
 });

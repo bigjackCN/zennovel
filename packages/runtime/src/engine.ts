@@ -21,7 +21,13 @@ export interface Frame {
   /** Set when running inside an `if` branch. */
   ifId?: string;
   branch?: 'then' | 'else';
+  /** Next command to run in this frame's list. */
   index: number;
+  /**
+   * Id of the command that ran last in this frame. Lets a save find its
+   * place again after the writer inserts or deletes lines above it.
+   */
+  anchorId?: string;
 }
 
 export interface SpriteState {
@@ -116,11 +122,17 @@ export class Engine {
     return () => this.listeners.delete(listener);
   }
 
-  /** Start (or restart) from the beginning, or from a given scene. */
-  start(sceneId: string = this.project.startSceneId): void {
+  /**
+   * Start (or restart) from the beginning, from a given scene, or from a
+   * given command inside that scene (the editor's "play from this line").
+   * When starting mid-scene, the backgrounds, characters and variable
+   * changes above that command are applied first so the stage looks right.
+   */
+  start(sceneId: string = this.project.startSceneId, atCommandId?: string): void {
     this.state = emptyState(this.project);
     this.history = [];
     this.enterScene(sceneId);
+    if (atCommandId && !this.state.error) this.fastForward(sceneId, atCommandId);
     this.run();
   }
 
@@ -165,8 +177,26 @@ export class Engine {
     return structuredClone(this.state);
   }
 
+  /**
+   * Restore a save. The story may have been edited since it was made, so
+   * each frame is re-anchored on the command it last ran, variables added
+   * since then get their initial values, and a choice that no longer exists
+   * is dropped.
+   */
   load(saved: EngineState): void {
-    this.state = structuredClone(saved);
+    const state = structuredClone(saved);
+    state.variables = { ...initialVariables(this.project.variables), ...state.variables };
+    for (const frame of state.stack) {
+      const list = this.commandsFor(frame);
+      if (!list) continue; // scene or branch deleted: step() will pop this frame
+      const at = frame.anchorId ? list.findIndex((c) => c.id === frame.anchorId) : -1;
+      frame.index = at >= 0 ? at + 1 : Math.min(frame.index, list.length);
+    }
+    if (state.pendingChoiceId && this.findCommand(state.pendingChoiceId)?.type !== 'choice') {
+      state.pendingChoiceId = null;
+      state.choices = null;
+    }
+    this.state = state;
     this.history = [];
     this.emit();
   }
@@ -218,6 +248,57 @@ export class Engine {
     return ifCmd ? ifCmd[frame.branch ?? 'then'] : undefined;
   }
 
+  /** Position the stack just before `commandId`, applying the setup commands above it. */
+  private fastForward(sceneId: string, commandId: string) {
+    const scene = this.scenes.get(sceneId);
+    const path = scene && findPath(scene.commands, commandId);
+    if (!scene || !path) return;
+    const stack: Frame[] = [{ sceneId, index: 0 }];
+    let list = scene.commands;
+    path.forEach((step, depth) => {
+      for (let i = 0; i < step.index; i++) this.applyInstant(list[i]!);
+      const frame = stack[stack.length - 1]!;
+      if (depth === path.length - 1 || !step.branch) {
+        frame.index = step.index;
+        frame.anchorId = list[step.index - 1]?.id;
+        return;
+      }
+      const ifCmd = list[step.index] as IfCommand;
+      frame.index = step.index + 1;
+      frame.anchorId = ifCmd.id;
+      stack.push({ sceneId, ifId: ifCmd.id, branch: step.branch, index: 0 });
+      list = ifCmd[step.branch];
+    });
+    this.state.stack = stack;
+    this.state.backgroundTransition = 'none';
+  }
+
+  /** Apply a command that changes the stage or variables without pausing. Returns false for anything else. */
+  private applyInstant(cmd: Command): boolean {
+    const s = this.state;
+    switch (cmd.type) {
+      case 'bg':
+        s.background = cmd.background;
+        s.backgroundTransition = cmd.transition ?? 'none';
+        return true;
+      case 'show': {
+        const sprite = { characterId: cmd.characterId, expression: cmd.expression, position: cmd.position };
+        const i = s.sprites.findIndex((sp) => sp.characterId === cmd.characterId);
+        if (i >= 0) s.sprites[i] = sprite;
+        else s.sprites.push(sprite);
+        return true;
+      }
+      case 'hide':
+        s.sprites = s.sprites.filter((sp) => sp.characterId !== cmd.characterId);
+        return true;
+      case 'setVar':
+        s.variables = applyEffect(cmd.effect, s.variables);
+        return true;
+      default:
+        return false;
+    }
+  }
+
   /** Execute commands until something needs the player (a line, a choice, the end). */
   private run() {
     for (let steps = 0; steps < MAX_STEPS_PER_ADVANCE; steps++) {
@@ -248,22 +329,10 @@ export class Engine {
 
     const cmd = list[frame.index]!;
     frame.index++;
+    frame.anchorId = cmd.id;
 
+    if (this.applyInstant(cmd)) return false;
     switch (cmd.type) {
-      case 'bg':
-        s.background = cmd.background;
-        s.backgroundTransition = cmd.transition ?? 'none';
-        return false;
-      case 'show': {
-        const sprite = { characterId: cmd.characterId, expression: cmd.expression, position: cmd.position };
-        const i = s.sprites.findIndex((sp) => sp.characterId === cmd.characterId);
-        if (i >= 0) s.sprites[i] = sprite;
-        else s.sprites.push(sprite);
-        return false;
-      }
-      case 'hide':
-        s.sprites = s.sprites.filter((sp) => sp.characterId !== cmd.characterId);
-        return false;
       case 'say': {
         const line = { characterId: cmd.characterId, text: cmd.text };
         s.dialogue = line;
@@ -284,9 +353,6 @@ export class Engine {
       case 'jump':
         this.enterScene(cmd.targetSceneId);
         return false;
-      case 'setVar':
-        s.variables = applyEffect(cmd.effect, s.variables);
-        return false;
       case 'if': {
         const branch = evaluateCondition(cmd.condition, s.variables) ? 'then' : 'else';
         s.stack.push({ sceneId: frame.sceneId, ifId: cmd.id, branch, index: 0 });
@@ -296,6 +362,25 @@ export class Engine {
         s.ended = true;
         s.stack = [];
         return true;
+      default:
+        return false;
     }
   }
+}
+
+type PathStep = { index: number; branch?: 'then' | 'else' };
+
+/** Where `id` sits in a command tree: one step per `if` branch entered, then its index. */
+function findPath(list: Command[], id: string): PathStep[] | null {
+  for (let i = 0; i < list.length; i++) {
+    const c = list[i]!;
+    if (c.id === id) return [{ index: i }];
+    if (c.type === 'if') {
+      for (const branch of ['then', 'else'] as const) {
+        const sub = findPath(c[branch], id);
+        if (sub) return [{ index: i, branch }, ...sub];
+      }
+    }
+  }
+  return null;
 }

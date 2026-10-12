@@ -1,4 +1,19 @@
-import { createId, type Command, type CommandType, type Locale, type Project, type Scene, type Theme } from '@zennovel/core';
+import {
+  coerceValue,
+  createId,
+  type Asset,
+  type Condition,
+  type Effect,
+  type ValueType,
+  type Character,
+  type Command,
+  type CommandType,
+  type Locale,
+  type Project,
+  type Scene,
+  type Theme,
+  type Variable,
+} from '@zennovel/core';
 
 /**
  * All edits go through these pure functions (old project in, new project out).
@@ -27,6 +42,18 @@ function mapListContaining(
       : c,
   );
 }
+
+/** Apply `fn` to every command of every scene, at any depth. */
+function mapAllCommands(p: Project, fn: (c: Command) => Command): Scene[] {
+  const mapList = (list: Command[]): Command[] =>
+    list.map((c) => {
+      const next = fn(c);
+      return next.type === 'if' ? { ...next, then: mapList(next.then), else: mapList(next.else) } : next;
+    });
+  return p.scenes.map((s) => ({ ...s, commands: mapList(s.commands) }));
+}
+
+const replaceById = <T extends { id: string }>(list: T[], item: T): T[] => list.map((x) => (x.id === item.id ? item : x));
 
 /** `optionLabel` names the default options of a new choice, e.g. n => `Option ${n}`. */
 export function newCommand(
@@ -180,4 +207,108 @@ export const actions = {
   renameProject(p: Project, name: string): Project {
     return touch({ ...p, meta: { ...p.meta, name } });
   },
+
+  // --- Characters ----------------------------------------------------------
+
+  addCharacter(p: Project, character: Character): Project {
+    return touch({ ...p, characters: [...p.characters, character] });
+  },
+
+  updateCharacter(p: Project, character: Character): Project {
+    return touch({ ...p, characters: replaceById(p.characters, character) });
+  },
+
+  /** References to the character are left in place; the story check points them out. */
+  deleteCharacter(p: Project, characterId: string): Project {
+    return touch({ ...p, characters: p.characters.filter((c) => c.id !== characterId) });
+  },
+
+  /** Rename an expression and every "show" command that uses it. No-op if the new name is empty or taken. */
+  renameExpression(p: Project, characterId: string, from: string, to: string): Project {
+    const character = p.characters.find((c) => c.id === characterId);
+    to = to.trim();
+    if (!character || !(from in character.sprites) || !to || to === from || to in character.sprites) return p;
+    const sprites = Object.fromEntries(Object.entries(character.sprites).map(([k, v]) => [k === from ? to : k, v]));
+    return touch({
+      ...p,
+      characters: replaceById(p.characters, { ...character, sprites }),
+      scenes: mapAllCommands(p, (c) =>
+        c.type === 'show' && c.characterId === characterId && c.expression === from ? { ...c, expression: to } : c,
+      ),
+    });
+  },
+
+  // --- Variables -----------------------------------------------------------
+
+  addVariable(p: Project, variable: Variable): Project {
+    return touch({ ...p, variables: [...p.variables, variable] });
+  },
+
+  updateVariable(p: Project, variable: Variable): Project {
+    return touch({ ...p, variables: replaceById(p.variables, variable) });
+  },
+
+  /**
+   * Change a variable's kind (number / yes-no / text) and adjust everything
+   * that uses it, so "add 1" becomes "toggle" for a yes/no variable, "≥" becomes
+   * "=" for text, and values are converted.
+   */
+  changeVariableType(p: Project, variableId: string, type: ValueType): Project {
+    const variable = p.variables.find((v) => v.id === variableId);
+    if (!variable) return p;
+    const fixEffect = (e: Effect): Effect => {
+      if (e.variableId !== variableId) return e;
+      const valid = type === 'number' ? e.op !== 'toggle' : type === 'boolean' ? e.op === 'set' || e.op === 'toggle' : e.op === 'set';
+      const op = valid ? e.op : type === 'boolean' ? 'toggle' : 'set';
+      return op === 'toggle' ? { variableId, op } : { variableId, op, value: coerceValue(e.value, type) };
+    };
+    const fixCondition = (c: Condition): Condition => {
+      if (c.kind !== 'compare') return { ...c, conditions: c.conditions.map(fixCondition) };
+      if (c.variableId !== variableId) return c;
+      const ordering = c.op !== '==' && c.op !== '!=';
+      return { ...c, op: ordering && type !== 'number' ? '==' : c.op, value: coerceValue(c.value, type) };
+    };
+    return touch({
+      ...p,
+      variables: replaceById(p.variables, { ...variable, initial: coerceValue(variable.initial, type) }),
+      scenes: mapAllCommands(p, (c) => {
+        switch (c.type) {
+          case 'setVar':
+            return { ...c, effect: fixEffect(c.effect) };
+          case 'if':
+            return { ...c, condition: fixCondition(c.condition) };
+          case 'choice':
+            return {
+              ...c,
+              options: c.options.map((o) => ({
+                ...o,
+                ...(o.condition && { condition: fixCondition(o.condition) }),
+                ...(o.effects && { effects: o.effects.map(fixEffect) }),
+              })),
+            };
+          default:
+            return c;
+        }
+      }),
+    });
+  },
+
+  deleteVariable(p: Project, variableId: string): Project {
+    return touch({ ...p, variables: p.variables.filter((v) => v.id !== variableId) });
+  },
+
+  // --- Assets --------------------------------------------------------------
+
+  addAssets(p: Project, assets: Asset[]): Project {
+    return touch({ ...p, assets: [...p.assets, ...assets] });
+  },
+
+  updateAsset(p: Project, asset: Asset): Project {
+    return touch({ ...p, assets: replaceById(p.assets, asset) });
+  },
+
+  deleteAsset(p: Project, assetId: string): Project {
+    return touch({ ...p, assets: p.assets.filter((a) => a.id !== assetId) });
+  },
+
 };

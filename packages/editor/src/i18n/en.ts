@@ -1,4 +1,4 @@
-import type { CommandType, EffectOp, IssueCode, StagePosition } from '@zennovel/core';
+import type { CommandType, EffectOp, IssueCode, StagePosition, ValueType } from '@zennovel/core';
 
 type Params = Record<string, string> | undefined;
 
@@ -13,6 +13,18 @@ export const en = {
   app: {
     tagline: 'Write stories, not code. A visual novel maker for writers.',
     language: 'Language',
+  },
+
+  dialog: {
+    ok: 'OK',
+    cancel: 'Cancel',
+  },
+
+  crash: {
+    title: 'Something went wrong',
+    body: 'ZenNovel hit an unexpected problem. Your work is saved up to your last change; reloading usually fixes this.',
+    reload: 'Reload',
+    details: 'Technical details',
   },
 
   home: {
@@ -34,6 +46,8 @@ export const en = {
     blank: { name: 'Blank project', description: 'Start from a blank page' },
     loadFailed: (status: number) => `Could not load template (HTTP ${status})`,
     notAProject: "This isn't a ZenNovel project file",
+    newerFormat: (version: number) =>
+      `This project was made with a newer version of ZenNovel (format ${version}). Update ZenNovel to open it.`,
   },
 
   newProject: {
@@ -49,12 +63,24 @@ export const en = {
     projectName: 'Project name',
     saved: 'Saved',
     saving: 'Saving…',
+    saveFailed: 'Not saved — click to retry',
+    saveFailedDetail: (reason: string) =>
+      `Your latest changes could not be saved to this browser (${reason}). Browser storage may be full: export the project file to keep a copy, then delete projects you no longer need.`,
     exportProject: 'Export project file',
     sceneName: 'Scene name',
     startScene: 'Start scene',
     preview: 'Preview',
     appearance: 'Appearance',
-    previewHint: 'Click or press Space to continue; press ← or scroll up to go back. The preview refreshes as you edit.',
+    previewHint:
+      'Click or press Space to continue; press ← (or scroll up after clicking the preview) to go back. Pick options with ↑ ↓ and Enter. The preview refreshes as you edit.',
+    undo: 'Undo',
+    redo: 'Redo',
+    deleted: 'Deleted.',
+    sectionsLabel: 'Project sections',
+    sections: { story: 'Story', cast: 'Characters', variables: 'Variables', assets: 'Images' },
+    changedElsewhere: 'This project was changed in another tab or window.',
+    loadTheirs: 'Load that version',
+    keepMine: 'Keep mine',
   },
 
   scenes: {
@@ -74,10 +100,12 @@ export const en = {
     title: 'Story check',
     none: '✓ No problems found',
     separator: ': ',
+    goTo: 'Show me',
     messages: {
       noStartScene: () => 'No start scene is set',
       missingVariable: () => 'Uses a variable that does not exist',
       missingConditionVariable: () => 'A condition uses a variable that does not exist',
+      variableTypeMismatch: (p: Params) => `"${p?.variable}" is used in a way that doesn't fit its kind (number / yes-no / text)`,
       missingBackground: () => 'The background image is missing',
       missingShowCharacter: () => 'The character to show does not exist',
       missingExpression: (p: Params) => `${p?.character} has no "${p?.expression}" expression`,
@@ -128,9 +156,18 @@ export const en = {
     chooseCharacter: '(choose a character)',
     chooseScene: '(choose a scene)',
     continueBelow: 'Continue below',
-    noVariables: '(this project has no variables yet)',
     chooseVariable: '(choose a variable)',
-    compoundCondition: '(combined condition: not editable here yet)',
+    newCharacter: '+ New character…',
+    newVariable: '+ New variable…',
+    missingImage: '(missing image)',
+    uploadImage: 'Upload image…',
+    noExpressions: '(no pictures yet — add some under Characters)',
+    yes: 'yes',
+    no: 'no',
+    andOr: '+ and / or',
+    allOf: 'All of these are true',
+    anyOf: 'Any of these is true',
+    addCondition: '+ Add condition',
     choicePrompt: 'Question text (optional), e.g. Where should we go?',
     removeOption: 'Remove this option',
     whenPicked: 'When picked:',
@@ -145,8 +182,71 @@ export const en = {
   },
 
   preview: {
-    playScene: '▶ Play this scene',
-    playFromStart: '⟲ Play from start',
+    playLine: '▶ From this line',
+    playLineHint: 'Start at the card you are editing, with the background and characters above it already on stage',
+    playScene: 'This scene',
+    playFromStart: '⟲ From the start',
+  },
+
+  cast: {
+    title: 'Characters',
+    add: '+ New character',
+    hint: 'Each character has a name colour and any number of pictures ("expressions"): happy, sad, surprised… Use them with "Show character".',
+    empty: 'No characters yet. Add one to give lines a speaker and put people on stage.',
+    newPrompt: 'Name the new character:',
+    defaultName: (n: number) => `Character ${n}`,
+    name: 'Name',
+    color: 'Name colour',
+    usedIn: (n: number) => `used in ${plural(n, 'place', 'places')}`,
+    unused: 'not used yet',
+    delete: 'Delete',
+    deleteConfirm: (name: string, uses: number) =>
+      uses
+        ? `Delete "${name}"? They appear in ${plural(uses, 'place', 'places')}; the story check will point those out.`
+        : `Delete "${name}"?`,
+    image: 'Picture',
+    noImage: '(no picture)',
+    expressionName: 'Expression name',
+    nameTaken: 'That name is empty or already used',
+    defaultExpression: 'normal',
+    addExpression: 'Add picture',
+    removeExpression: 'Remove this expression',
+  },
+
+  variables: {
+    title: 'Variables',
+    add: '+ New variable',
+    hint: 'Variables remember things about the playthrough: affection points, whether the key was found, a chosen name. Choices change them; "If / else" and option conditions read them.',
+    empty: 'No variables yet.',
+    newPrompt: 'Name the new variable:',
+    defaultName: (n: number) => `Variable ${n}`,
+    name: 'Name',
+    type: 'Kind',
+    types: { number: 'Number', boolean: 'Yes / no', string: 'Text' } as Record<ValueType, string>,
+    initial: 'Starts as',
+    usedIn: (n: number) => `used in ${plural(n, 'place', 'places')}`,
+    unused: 'not used yet',
+    delete: 'Delete',
+    deleteConfirm: (name: string, uses: number) =>
+      uses
+        ? `Delete "${name}"? It is used in ${plural(uses, 'place', 'places')}; the story check will point those out.`
+        : `Delete "${name}"?`,
+  },
+
+  assets: {
+    title: 'Images',
+    upload: '+ Upload images',
+    hint: (mb: string) => `Backgrounds and character pictures. Images are stored inside the project, so an exported file contains everything. Drag files here to add them. Project size: about ${mb} MB.`,
+    empty: 'No images yet. Upload backgrounds and character pictures, or drop files here.',
+    name: 'Image name',
+    usedIn: (n: number) => `used in ${plural(n, 'place', 'places')}`,
+    unused: 'not used',
+    replace: 'Replace',
+    delete: 'Delete',
+    deleteConfirm: (name: string, uses: number) =>
+      uses ? `Delete "${name}"? It is used in ${plural(uses, 'place', 'places')}.` : `Delete "${name}"?`,
+    notImage: (name: string) => `"${name}" is not an image.`,
+    tooLarge: (name: string, mb: number) => `"${name}" is too large (${mb} MB). Please use images under 8 MB.`,
   },
 
   theme: {

@@ -7,6 +7,18 @@ export const zh: Messages = {
     language: '语言',
   },
 
+  dialog: {
+    ok: '确定',
+    cancel: '取消',
+  },
+
+  crash: {
+    title: '出了点问题',
+    body: 'ZenNovel 遇到了意外错误。你的作品已经保存到最后一次修改，重新加载一般就能恢复。',
+    reload: '重新加载',
+    details: '技术细节',
+  },
+
   home: {
     newStory: '新建故事',
     importProject: '导入项目',
@@ -26,6 +38,7 @@ export const zh: Messages = {
     blank: { name: '空白项目', description: '从一张白纸开始' },
     loadFailed: (status) => `模板加载失败（HTTP ${status}）`,
     notAProject: '这不是一个 ZenNovel 项目文件',
+    newerFormat: (version) => `这个项目是用更新版本的 ZenNovel 做的（格式 ${version}），请先更新 ZenNovel 再打开。`,
   },
 
   newProject: {
@@ -41,12 +54,23 @@ export const zh: Messages = {
     projectName: '项目名称',
     saved: '已保存',
     saving: '保存中…',
+    saveFailed: '未保存，点击重试',
+    saveFailedDetail: (reason) =>
+      `最新的修改没能保存到浏览器里（${reason}）。可能是浏览器存储空间满了：请先导出项目文件留一份备份，再删掉不需要的项目。`,
     exportProject: '导出项目文件',
     sceneName: '场景名称',
     startScene: '起始场景',
     preview: '预览',
     appearance: '外观',
-    previewHint: '点击画面或按空格继续，按 ← 或向上滚轮回退。编辑会自动刷新预览。',
+    previewHint: '点击画面或按空格继续，按 ←（或点进预览后向上滚轮）回退。用 ↑ ↓ 和回车选选项。编辑会自动刷新预览。',
+    undo: '撤销',
+    redo: '重做',
+    deleted: '已删除。',
+    sectionsLabel: '项目内容',
+    sections: { story: '故事', cast: '角色', variables: '变量', assets: '图片' },
+    changedElsewhere: '这个项目在另一个标签页或窗口里被修改了。',
+    loadTheirs: '载入那边的版本',
+    keepMine: '保留我这边的',
   },
 
   scenes: {
@@ -66,10 +90,12 @@ export const zh: Messages = {
     title: '故事检查',
     none: '✓ 没发现问题',
     separator: '：',
+    goTo: '定位到这里',
     messages: {
       noStartScene: () => '没有设置起始场景',
       missingVariable: () => '用到了不存在的变量',
       missingConditionVariable: () => '条件里用到了不存在的变量',
+      variableTypeMismatch: (p) => `变量「${p?.variable}」的用法和它的类型（数字 / 是否 / 文字）对不上`,
       missingBackground: () => '背景图片丢失了',
       missingShowCharacter: () => '要显示的角色不存在',
       missingExpression: (p) => `角色「${p?.character}」没有「${p?.expression}」这个表情`,
@@ -120,9 +146,18 @@ export const zh: Messages = {
     chooseCharacter: '（选择角色）',
     chooseScene: '（选择场景）',
     continueBelow: '继续往下',
-    noVariables: '（项目里还没有变量）',
     chooseVariable: '（选择变量）',
-    compoundCondition: '（组合条件，暂不支持在这里编辑）',
+    newCharacter: '+ 新角色…',
+    newVariable: '+ 新变量…',
+    missingImage: '（图片丢失）',
+    uploadImage: '上传图片…',
+    noExpressions: '（还没有立绘，去「角色」里添加）',
+    yes: '是',
+    no: '否',
+    andOr: '+ 且 / 或',
+    allOf: '以下全部成立',
+    anyOf: '以下任一成立',
+    addCondition: '+ 添加条件',
     choicePrompt: '提问文字（可选），例如：去哪里呢？',
     removeOption: '删除这个选项',
     whenPicked: '选了以后：',
@@ -137,8 +172,66 @@ export const zh: Messages = {
   },
 
   preview: {
-    playScene: '▶ 从本场景播放',
+    playLine: '▶ 从这一句',
+    playLineHint: '从正在编辑的卡片开始播放，上面的背景和角色会先摆好',
+    playScene: '本场景',
     playFromStart: '⟲ 从头播放',
+  },
+
+  cast: {
+    title: '角色',
+    add: '+ 新角色',
+    hint: '每个角色有名字颜色和若干张立绘（表情）：开心、难过、惊讶……在「角色登场」里使用。',
+    empty: '还没有角色。添加角色后，台词可以指定说话人，也能让人物登场。',
+    newPrompt: '新角色的名字：',
+    defaultName: (n) => `角色 ${n}`,
+    name: '名字',
+    color: '名字颜色',
+    usedIn: (n) => `用在 ${n} 处`,
+    unused: '还没用到',
+    delete: '删除',
+    deleteConfirm: (name, uses) =>
+      uses ? `删除「${name}」？有 ${uses} 处用到了这个角色，删除后故事检查会把它们标出来。` : `删除「${name}」？`,
+    image: '立绘',
+    noImage: '（没有图片）',
+    expressionName: '表情名',
+    nameTaken: '名字为空或已经被用了',
+    defaultExpression: '普通',
+    addExpression: '添加立绘',
+    removeExpression: '删除这个表情',
+  },
+
+  variables: {
+    title: '变量',
+    add: '+ 新变量',
+    hint: '变量用来记住玩家这一路的经历：好感度、有没有拿到钥匙、玩家起的名字……选项可以改变它们，「条件分支」和选项的出现条件会读取它们。',
+    empty: '还没有变量。',
+    newPrompt: '新变量的名字：',
+    defaultName: (n) => `变量 ${n}`,
+    name: '名字',
+    type: '类型',
+    types: { number: '数字', boolean: '是 / 否', string: '文字' },
+    initial: '初始值',
+    usedIn: (n) => `用在 ${n} 处`,
+    unused: '还没用到',
+    delete: '删除',
+    deleteConfirm: (name, uses) =>
+      uses ? `删除「${name}」？有 ${uses} 处用到了这个变量，删除后故事检查会把它们标出来。` : `删除「${name}」？`,
+  },
+
+  assets: {
+    title: '图片',
+    upload: '+ 上传图片',
+    hint: (mb) => `背景和角色立绘。图片直接存在项目里，导出的文件包含全部内容。可以把文件直接拖到这里。项目大小：约 ${mb} MB。`,
+    empty: '还没有图片。上传背景和立绘，或者把文件拖到这里。',
+    name: '图片名',
+    usedIn: (n) => `用在 ${n} 处`,
+    unused: '没用到',
+    replace: '替换',
+    delete: '删除',
+    deleteConfirm: (name, uses) => (uses ? `删除「${name}」？有 ${uses} 处用到了它。` : `删除「${name}」？`),
+    notImage: (name) => `「${name}」不是图片。`,
+    tooLarge: (name, mb) => `「${name}」太大了（${mb} MB），请用 8 MB 以内的图片。`,
   },
 
   theme: {

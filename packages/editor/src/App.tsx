@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ProjectList } from './components/ProjectList';
 import { Editor } from './components/Editor';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 /** Tiny hash router: "#/" = project list, "#/p/<id>" = editor. */
 function useHashRoute(): string {
@@ -16,5 +17,9 @@ function useHashRoute(): string {
 export function App() {
   const hash = useHashRoute();
   const match = /^#\/p\/([\w-]+)/.exec(hash);
-  return match ? <Editor key={match[1]} projectId={match[1]!} /> : <ProjectList />;
+  return (
+    <ErrorBoundary key={match?.[1] ?? 'home'}>
+      {match ? <Editor key={match[1]} projectId={match[1]!} /> : <ProjectList />}
+    </ErrorBoundary>
+  );
 }

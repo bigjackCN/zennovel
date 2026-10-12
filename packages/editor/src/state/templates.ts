@@ -1,5 +1,6 @@
-import { createEmptyProject, createId, type Locale, type Project } from '@zennovel/core';
+import { createEmptyProject, createId, normalizeProject, type Locale, type Project, type ProjectLoadError } from '@zennovel/core';
 import type { Messages } from '../i18n';
+import { inlineAssets } from './assets';
 
 /** Template ids; display names come from the i18n messages (t.templates[id]). */
 export const templateIds = ['demo', 'blank'] as const;
@@ -10,9 +11,15 @@ function freshMeta(project: Project, name: string): Project {
   return { ...project, meta: { ...project.meta, id: createId('proj'), name, createdAt: now, updatedAt: now } };
 }
 
+/** The writer-facing explanation of why a file couldn't be opened. */
+export function loadErrorMessage(error: ProjectLoadError, t: Messages): string {
+  return error.code === 'newerFormat' ? t.templates.newerFormat(error.version) : t.templates.notAProject;
+}
+
 /**
  * Sample templates ship one project file per language (project.en.json,
- * project.zh.json) and share one assets folder.
+ * project.zh.json) and share one assets folder. Their images are embedded
+ * into the new project, so it keeps working wherever it is opened or exported.
  */
 export async function createFromTemplate(templateId: TemplateId, name: string, locale: Locale, t: Messages): Promise<Project> {
   if (templateId === 'blank') {
@@ -26,9 +33,10 @@ export async function createFromTemplate(templateId: TemplateId, name: string, l
   const url = new URL(`${import.meta.env.BASE_URL}templates/${templateId}/project.${locale}.json`, window.location.href);
   const res = await fetch(url);
   if (!res.ok) throw new Error(t.templates.loadFailed(res.status));
-  const project = (await res.json()) as Project;
-  // Template assets use paths relative to the template folder; pin them to absolute URLs.
-  project.assets = project.assets.map((a) => ({ ...a, src: new URL(a.src, url).href }));
+  const result = normalizeProject(await res.json());
+  if (!result.ok) throw new Error(loadErrorMessage(result.error, t));
+  const project = result.project;
+  project.assets = await inlineAssets(project.assets, url);
   return freshMeta(project, name);
 }
 
@@ -38,16 +46,18 @@ export function downloadProject(project: Project) {
   a.href = URL.createObjectURL(blob);
   a.download = `${project.meta.name || 'zennovel-project'}.json`;
   a.click();
-  URL.revokeObjectURL(a.href);
+  // Revoking right away can cancel the download in some browsers.
+  window.setTimeout(() => URL.revokeObjectURL(a.href), 10_000);
 }
 
 export async function readProjectFile(file: File, t: Messages): Promise<Project> {
-  let project: Project;
+  let raw: unknown;
   try {
-    project = JSON.parse(await file.text()) as Project;
+    raw = JSON.parse(await file.text());
   } catch {
     throw new Error(t.templates.notAProject);
   }
-  if (!project?.meta || !Array.isArray(project.scenes)) throw new Error(t.templates.notAProject);
-  return freshMeta(project, project.meta.name);
+  const result = normalizeProject(raw);
+  if (!result.ok) throw new Error(loadErrorMessage(result.error, t));
+  return freshMeta(result.project, result.project.meta.name || file.name.replace(/\.json$/i, ''));
 }

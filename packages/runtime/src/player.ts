@@ -8,11 +8,23 @@ export interface PlayerOptions {
   assetBase?: string;
   /** Scene to start from (editor preview). Defaults to the project's start scene. */
   startSceneId?: string;
+  /** Command inside startSceneId to start from (editor "play from this line"). */
+  startCommandId?: string;
   /** UI language of the player. Defaults to the project's meta.locale, then English. */
   locale?: Locale;
   /** Called whenever engine state changes. */
   onStateChange?: (state: Readonly<EngineState>) => void;
+  /**
+   * Scrolling up rolls back one line. 'whenFocused' only does so after the
+   * player has been clicked or tabbed into, so scrolling a page that merely
+   * contains the player (e.g. the editor's side panel) doesn't rewind it.
+   * Defaults to 'always'.
+   */
+  wheelRollback?: 'always' | 'whenFocused' | 'never';
 }
+
+/** Wheel events closer together than this belong to one scroll gesture. */
+const WHEEL_GESTURE_GAP_MS = 150;
 
 const STYLE_ID = 'zennovel-player-style';
 
@@ -53,11 +65,18 @@ export class Player {
   private typing: { timer: number; full: string } | null = null;
   private lastDialogue: EngineState['dialogue'] = null;
   private lastBgKey = '';
+  /** Where "Play again" returns to. */
+  private startSceneId: string | undefined;
+  private startCommandId: string | undefined;
+  private lastWheelAt = 0;
+  private wheelGestureUsed = false;
 
   constructor(container: HTMLElement, project: Project, options: PlayerOptions = {}) {
     ensureStyles();
     this.project = project;
     this.options = options;
+    this.startSceneId = options.startSceneId;
+    this.startCommandId = options.startCommandId;
     this.engine = new Engine(project);
 
     this.root = el('div', 'zn-root', container);
@@ -83,22 +102,31 @@ export class Player {
       this.render(s);
       this.options.onStateChange?.(s);
     });
-    this.engine.start(options.startSceneId);
+    this.engine.start(this.startSceneId, this.startCommandId);
     this.fit();
   }
 
   /** Replace the project (e.g. after an edit) and restart. */
-  setProject(project: Project, startSceneId?: string): void {
+  setProject(project: Project, startSceneId?: string, startCommandId?: string): void {
     this.project = project;
     this.engine.setProject(project);
     this.applyTheme(project.theme);
-    this.restart(startSceneId ?? this.options.startSceneId);
+    this.fit();
+    this.restart(startSceneId, startCommandId);
   }
 
-  restart(sceneId?: string): void {
+  /**
+   * Restart from `sceneId` (optionally from `commandId` inside it). With no
+   * arguments, restart from wherever the last (re)start began.
+   */
+  restart(sceneId?: string, commandId?: string): void {
+    if (sceneId) {
+      this.startSceneId = sceneId;
+      this.startCommandId = commandId;
+    }
     this.lastBgKey = '';
     this.lastDialogue = null;
-    this.engine.start(sceneId);
+    this.engine.start(this.startSceneId, this.startCommandId);
   }
 
   focus(): void {
@@ -121,16 +149,35 @@ export class Player {
   };
 
   private onKey = (e: KeyboardEvent) => {
+    const onButton = (e.target as HTMLElement).closest('button');
     if (e.key === ' ' || e.key === 'Enter') {
+      // Let a focused choice / "Play again" button activate itself.
+      if (onButton) return;
       e.preventDefault();
       this.next();
     } else if (e.key === 'Backspace' || e.key === 'ArrowLeft') {
       this.engine.rollback();
+    } else if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && this.choiceLayer.childElementCount > 0) {
+      e.preventDefault();
+      const buttons = Array.from(this.choiceLayer.querySelectorAll('button'));
+      const i = onButton ? buttons.indexOf(onButton as HTMLButtonElement) : -1;
+      const step = e.key === 'ArrowDown' ? 1 : -1;
+      const next = i < 0 ? (step > 0 ? 0 : buttons.length - 1) : (i + step + buttons.length) % buttons.length;
+      buttons[next]?.focus({ preventScroll: true });
     }
   };
 
+  /** One rollback per scroll gesture, so a trackpad flick doesn't rewind ten lines. */
   private onWheel = (e: WheelEvent) => {
-    if (e.deltaY < 0) this.engine.rollback();
+    const mode = this.options.wheelRollback ?? 'always';
+    if (mode === 'never') return;
+    if (mode === 'whenFocused' && !this.root.contains(document.activeElement)) return;
+    const now = performance.now();
+    if (now - this.lastWheelAt > WHEEL_GESTURE_GAP_MS) this.wheelGestureUsed = false;
+    this.lastWheelAt = now;
+    if (e.deltaY >= 0 || this.wheelGestureUsed) return;
+    this.wheelGestureUsed = true;
+    this.engine.rollback();
   };
 
   private next() {
@@ -201,6 +248,10 @@ export class Player {
   }
 
   private render(s: Readonly<EngineState>) {
+    // Rebuilding the choice/overlay buttons below drops keyboard focus if a
+    // button had it; remember whether the player had focus to hand it back.
+    const hadFocus = this.root.contains(document.activeElement);
+
     // Background (cross-fade by stacking a new layer on top).
     const bgKey = JSON.stringify(s.background);
     if (bgKey !== this.lastBgKey) {
@@ -270,6 +321,11 @@ export class Player {
       again.textContent = strings.playAgain;
       again.addEventListener('click', () => this.restart());
     }
+
+    // Keep keyboard focus in the player, but never move it onto a choice or
+    // "Play again" by itself: someone holding Space to skip text would pick
+    // an option without meaning to. ↑ / ↓ move into the choices.
+    if (hadFocus && !this.root.contains(document.activeElement)) this.root.focus({ preventScroll: true });
   }
 
   private typeText(full: string) {
