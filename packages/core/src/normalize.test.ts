@@ -55,7 +55,12 @@ describe('normalizeProject', () => {
             { id: 'a', type: 'say', text: 'two' },
             { id: 'b', type: 'teleport' },
             'junk',
-            { id: 'c', type: 'if', condition: { kind: 'all', conditions: [{ kind: 'compare', variableId: 'v', op: '>=', value: 1 }, 5] }, then: [{ id: 'a', type: 'end' }] },
+            {
+              id: 'c',
+              type: 'if',
+              condition: { kind: 'all', conditions: [{ kind: 'compare', variableId: 'v', op: '>=', value: 1 }, 5] },
+              then: [{ id: 'a', type: 'end' }],
+            },
           ],
         },
       ],
@@ -71,7 +76,10 @@ describe('normalizeProject', () => {
   });
 
   it('keeps ids in separate namespaces (a scene and an asset may share one)', () => {
-    const p = ok({ scenes: [{ id: 'park', commands: [] }], assets: [{ id: 'park', kind: 'image', name: 'Park', src: 'a.png' }] });
+    const p = ok({
+      scenes: [{ id: 'park', commands: [] }],
+      assets: [{ id: 'park', kind: 'image', name: 'Park', src: 'a.png' }],
+    });
     expect(p.scenes[0]!.id).toBe('park');
     expect(p.assets[0]!.id).toBe('park');
   });

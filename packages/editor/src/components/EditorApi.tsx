@@ -23,4 +23,13 @@ export function useEditorApi(): EditorApi {
 }
 
 /** Name-label colours handed out to new characters in turn. */
-export const CHARACTER_COLORS = ['#c8553d', '#3f6e8c', '#5b8c3f', '#8c3f7b', '#c98a12', '#3f8c87', '#6b4fb3', '#b23a48'];
+export const CHARACTER_COLORS = [
+  '#c8553d',
+  '#3f6e8c',
+  '#5b8c3f',
+  '#8c3f7b',
+  '#c98a12',
+  '#3f8c87',
+  '#6b4fb3',
+  '#b23a48',
+];

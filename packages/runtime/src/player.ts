@@ -222,7 +222,9 @@ export class Player {
 
     if (d.frame) {
       const src = this.assetUrl(d.frame.assetId);
-      this.dialogueBox.style.borderImage = src ? `url("${src}") ${d.frame.slice} fill / ${d.frame.slice}px stretch` : '';
+      this.dialogueBox.style.borderImage = src
+        ? `url("${src}") ${d.frame.slice} fill / ${d.frame.slice}px stretch`
+        : '';
       this.dialogueBox.style.borderStyle = src ? 'solid' : '';
     } else {
       this.dialogueBox.style.borderImage = '';

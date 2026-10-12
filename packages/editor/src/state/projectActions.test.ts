@@ -21,10 +21,19 @@ describe('projectActions', () => {
     let p = demo();
     const firstThen = ifCmd(p).then[0]!.id;
     p = actions.insertCommand(p, 'scene_ending', { id: 'new', type: 'say', text: 'x' }, { afterId: firstThen });
-    expect(ifCmd(p).then.map((c) => c.id).slice(0, 2)).toEqual([firstThen, 'new']);
+    expect(
+      ifCmd(p)
+        .then.map((c) => c.id)
+        .slice(0, 2),
+    ).toEqual([firstThen, 'new']);
     p = actions.moveCommand(p, 'scene_ending', 'new', -1);
     expect(ifCmd(p).then[0]!.id).toBe('new');
-    p = actions.insertCommand(p, 'scene_ending', { id: 'nested', type: 'end' }, { parentIfId: 'cmd_026', branch: 'else' });
+    p = actions.insertCommand(
+      p,
+      'scene_ending',
+      { id: 'nested', type: 'end' },
+      { parentIfId: 'cmd_026', branch: 'else' },
+    );
     expect(ifCmd(p).else.at(-1)!.id).toBe('nested');
     p = actions.removeCommand(p, 'scene_ending', 'new');
     expect(ifCmd(p).then.some((c) => c.id === 'new')).toBe(false);
@@ -48,14 +57,21 @@ describe('projectActions', () => {
   it('changing a variable to yes/no rewrites the places that use it', () => {
     const p = actions.changeVariableType(demo(), 'var_courage', 'boolean');
     expect(p.variables[0]!.initial).toBe(false);
-    const opt = (scene(p, 'scene_start').commands.find((c) => c.type === 'choice') as { options: { effects?: unknown[] }[] }).options[0]!;
+    const opt = (
+      scene(p, 'scene_start').commands.find((c) => c.type === 'choice') as { options: { effects?: unknown[] }[] }
+    ).options[0]!;
     expect(opt.effects).toEqual([{ variableId: 'var_courage', op: 'toggle' }]);
     expect(ifCmd(p).condition).toEqual({ kind: 'compare', variableId: 'var_courage', op: '==', value: true });
   });
 
   it('changing a variable to text keeps "set" and converts values', () => {
     let p = demo();
-    p = actions.insertCommand(p, 'scene_start', { id: 'sv', type: 'setVar', effect: { variableId: 'var_courage', op: 'set', value: 3 } }, { afterId: 'cmd_002' });
+    p = actions.insertCommand(
+      p,
+      'scene_start',
+      { id: 'sv', type: 'setVar', effect: { variableId: 'var_courage', op: 'set', value: 3 } },
+      { afterId: 'cmd_002' },
+    );
     p = actions.changeVariableType(p, 'var_courage', 'string');
     const sv = scene(p, 'scene_start').commands.find((c) => c.id === 'sv') as SetVarCommand;
     expect(sv.effect).toEqual({ variableId: 'var_courage', op: 'set', value: '3' });

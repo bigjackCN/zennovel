@@ -30,7 +30,9 @@ function useReadImages() {
   return useCallback(
     async (files: File[]): Promise<Asset[]> => {
       const results = await Promise.all(files.map(async (f) => [f.name, await readImageFile(f)] as const));
-      const errors = results.filter(([, r]) => isImageReadError(r)).map(([name, r]) => readErrorMessage(name, r as ImageReadError, t));
+      const errors = results
+        .filter(([, r]) => isImageReadError(r))
+        .map(([name, r]) => readErrorMessage(name, r as ImageReadError, t));
       if (errors.length) await dialogs.alert(errors.join('\n'));
       return results.map(([, r]) => r).filter((r): r is Asset => !isImageReadError(r));
     },
@@ -77,7 +79,10 @@ export function AssetsPanel({ project, onEdit }: { project: Project; onEdit: Edi
 
   async function remove(asset: Asset) {
     const uses = usage.get(asset.id) ?? 0;
-    const ok = await dialogs.confirm(t.assets.deleteConfirm(asset.name, uses), { okLabel: t.assets.delete, danger: true });
+    const ok = await dialogs.confirm(t.assets.deleteConfirm(asset.name, uses), {
+      okLabel: t.assets.delete,
+      danger: true,
+    });
     if (!ok) return;
     onEdit((p) => actions.deleteAsset(p, asset.id));
     api.notifyDeleted();
@@ -116,14 +121,20 @@ export function AssetsPanel({ project, onEdit }: { project: Project; onEdit: Edi
             const uses = usage.get(a.id) ?? 0;
             return (
               <div key={a.id} className="asset-card">
-                <div className="asset-thumb">{a.kind === 'image' && a.src ? <img src={a.src} alt="" /> : <span>{a.kind}</span>}</div>
+                <div className="asset-thumb">
+                  {a.kind === 'image' && a.src ? <img src={a.src} alt="" /> : <span>{a.kind}</span>}
+                </div>
                 <input
                   value={a.name}
                   aria-label={t.assets.name}
-                  onChange={(e) => onEdit((p) => actions.updateAsset(p, { ...a, name: e.target.value }), `asset-name:${a.id}`)}
+                  onChange={(e) =>
+                    onEdit((p) => actions.updateAsset(p, { ...a, name: e.target.value }), `asset-name:${a.id}`)
+                  }
                 />
                 <div className="asset-meta">
-                  <span className={uses ? 'muted' : 'muted unused'}>{uses ? t.assets.usedIn(uses) : t.assets.unused}</span>
+                  <span className={uses ? 'muted' : 'muted unused'}>
+                    {uses ? t.assets.usedIn(uses) : t.assets.unused}
+                  </span>
                   <span className="spacer" />
                   {a.kind === 'image' && (
                     <button className="link" onClick={() => void replace(a)}>

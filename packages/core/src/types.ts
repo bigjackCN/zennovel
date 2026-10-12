@@ -75,9 +75,7 @@ export interface Scene {
 
 export type Transition = 'none' | 'fade';
 
-export type Background =
-  | { kind: 'color'; value: string }
-  | { kind: 'image'; assetId: string };
+export type Background = { kind: 'color'; value: string } | { kind: 'image'; assetId: string };
 
 export type StagePosition = 'left' | 'center' | 'right';
 

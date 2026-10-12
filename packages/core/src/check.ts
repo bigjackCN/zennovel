@@ -138,7 +138,8 @@ export function checkProject(project: Project): StoryIssue[] {
         case 'show': {
           const ch = characters.get(cmd.characterId);
           if (!ch) add('error', 'missingShowCharacter', cmd.id);
-          else if (!ch.sprites[cmd.expression]) add('warning', 'missingExpression', cmd.id, { character: ch.name, expression: cmd.expression });
+          else if (!ch.sprites[cmd.expression])
+            add('warning', 'missingExpression', cmd.id, { character: ch.name, expression: cmd.expression });
           break;
         }
         case 'hide':

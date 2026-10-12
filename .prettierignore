@@ -1,0 +1,6 @@
+# Generated / third-party
+pnpm-lock.yaml
+dist/
+coverage/
+# Sample assets (SVG art) — data, not source
+packages/editor/public/templates/**/*.svg

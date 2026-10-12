@@ -11,7 +11,8 @@ export interface SavedNotice {
 
 // randomUUID only exists in secure contexts (https / localhost).
 const TAB_ID = globalThis.crypto.randomUUID?.() ?? Math.random().toString(36).slice(2);
-const channel: BroadcastChannel | null = typeof BroadcastChannel === 'function' ? new BroadcastChannel('zennovel') : null;
+const channel: BroadcastChannel | null =
+  typeof BroadcastChannel === 'function' ? new BroadcastChannel('zennovel') : null;
 
 export function announceSaved(projectId: string, updatedAt: string | null): void {
   channel?.postMessage({ tab: TAB_ID, projectId, updatedAt });

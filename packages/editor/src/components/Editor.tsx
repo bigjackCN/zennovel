@@ -256,14 +256,24 @@ export function Editor({ projectId }: { projectId: string }) {
             aria-label={t.editor.projectName}
           />
           {saveState === 'failed' ? (
-            <button className="save-state failed" title={t.editor.saveFailedDetail(saveError ?? '')} onClick={() => void flush()}>
+            <button
+              className="save-state failed"
+              title={t.editor.saveFailedDetail(saveError ?? '')}
+              onClick={() => void flush()}
+            >
               {t.editor.saveFailed}
             </button>
           ) : (
             <span className="save-state">{saveState === 'saved' ? t.editor.saved : t.editor.saving}</span>
           )}
           <div className="undo-redo">
-            <button className="icon" onClick={doUndo} disabled={!canUndo(history)} title={`${t.editor.undo} (${mod}Z)`} aria-label={t.editor.undo}>
+            <button
+              className="icon"
+              onClick={doUndo}
+              disabled={!canUndo(history)}
+              title={`${t.editor.undo} (${mod}Z)`}
+              aria-label={t.editor.undo}
+            >
               ↶
             </button>
             <button
@@ -286,7 +296,12 @@ export function Editor({ projectId }: { projectId: string }) {
         <aside className="panel left">
           <nav className="sections" aria-label={t.editor.sectionsLabel}>
             {SECTIONS.map((s) => (
-              <button key={s} className={section === s ? 'active' : ''} onClick={() => setSection(s)} aria-current={section === s}>
+              <button
+                key={s}
+                className={section === s ? 'active' : ''}
+                onClick={() => setSection(s)}
+                aria-current={section === s}
+              >
                 <span>{t.editor.sections[s]}</span>
                 <span className="count">{counts[s]}</span>
               </button>
@@ -310,7 +325,9 @@ export function Editor({ projectId }: { projectId: string }) {
               <div className="scene-title">
                 <input
                   value={scene.name}
-                  onChange={(e) => edit((p) => actions.renameScene(p, scene.id, e.target.value), `scene-name:${scene.id}`)}
+                  onChange={(e) =>
+                    edit((p) => actions.renameScene(p, scene.id, e.target.value), `scene-name:${scene.id}`)
+                  }
                   aria-label={t.editor.sceneName}
                 />
                 {project.startSceneId === scene.id && <span className="badge">{t.editor.startScene}</span>}

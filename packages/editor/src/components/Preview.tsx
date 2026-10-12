@@ -27,7 +27,11 @@ export function Preview({ project, sceneId, commandId }: Props) {
   useEffect(() => {
     if (!host.current) return;
     const [scene, command] = from();
-    player.current = new Player(host.current, project, { startSceneId: scene, startCommandId: command, wheelRollback: 'whenFocused' });
+    player.current = new Player(host.current, project, {
+      startSceneId: scene,
+      startCommandId: command,
+      wheelRollback: 'whenFocused',
+    });
     return () => {
       player.current?.destroy();
       player.current = null;
@@ -58,7 +62,12 @@ export function Preview({ project, sceneId, commandId }: Props) {
     <div className="preview">
       <div className="preview-stage" ref={host} />
       <div className="preview-bar">
-        <button className={`btn small ${effective === 'line' ? 'active' : ''}`} disabled={!commandId} onClick={() => play('line')} title={t.preview.playLineHint}>
+        <button
+          className={`btn small ${effective === 'line' ? 'active' : ''}`}
+          disabled={!commandId}
+          onClick={() => play('line')}
+          title={t.preview.playLineHint}
+        >
           {t.preview.playLine}
         </button>
         <button className={`btn small ${effective === 'scene' ? 'active' : ''}`} onClick={() => play('scene')}>

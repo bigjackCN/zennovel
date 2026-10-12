@@ -41,7 +41,11 @@ export function ThemePanel({ theme, onChange, gameLocale, onGameLocaleChange }: 
       <h3>{t.theme.dialogueBox}</h3>
       <label>
         {t.theme.background}
-        <input type="color" value={bgHex} onChange={(e) => setDialogue({ background: rgbaFrom(e.target.value, bgAlpha) })} />
+        <input
+          type="color"
+          value={bgHex}
+          onChange={(e) => setDialogue({ background: rgbaFrom(e.target.value, bgAlpha) })}
+        />
       </label>
       <label>
         {t.theme.opacity}
@@ -56,34 +60,66 @@ export function ThemePanel({ theme, onChange, gameLocale, onGameLocaleChange }: 
       </label>
       <label>
         {t.theme.textColor}
-        <input type="color" value={toHex(d.textColor, '#f4f1ea')} onChange={(e) => setDialogue({ textColor: e.target.value })} />
+        <input
+          type="color"
+          value={toHex(d.textColor, '#f4f1ea')}
+          onChange={(e) => setDialogue({ textColor: e.target.value })}
+        />
       </label>
       <label>
         <span>
           {t.theme.fontSize} <span className="muted">{d.fontSize}px</span>
         </span>
-        <input type="range" min={16} max={40} value={d.fontSize} onChange={(e) => setDialogue({ fontSize: Number(e.target.value) })} />
+        <input
+          type="range"
+          min={16}
+          max={40}
+          value={d.fontSize}
+          onChange={(e) => setDialogue({ fontSize: Number(e.target.value) })}
+        />
       </label>
       <label>
         <span>
           {t.theme.cornerRadius} <span className="muted">{d.borderRadius}px</span>
         </span>
-        <input type="range" min={0} max={40} value={d.borderRadius} onChange={(e) => setDialogue({ borderRadius: Number(e.target.value) })} />
+        <input
+          type="range"
+          min={0}
+          max={40}
+          value={d.borderRadius}
+          onChange={(e) => setDialogue({ borderRadius: Number(e.target.value) })}
+        />
       </label>
       <label>
         <span>
           {t.theme.height} <span className="muted">{Math.round(d.height * 100)}%</span>
         </span>
-        <input type="range" min={0.15} max={0.5} step={0.01} value={d.height} onChange={(e) => setDialogue({ height: Number(e.target.value) })} />
+        <input
+          type="range"
+          min={0.15}
+          max={0.5}
+          step={0.01}
+          value={d.height}
+          onChange={(e) => setDialogue({ height: Number(e.target.value) })}
+        />
       </label>
 
       <h3>{t.theme.text}</h3>
       <label>
         <span>
           {t.theme.typingSpeed}{' '}
-          <span className="muted">{theme.textSpeed === 0 ? t.theme.instant : t.theme.charsPerSec(theme.textSpeed)}</span>
+          <span className="muted">
+            {theme.textSpeed === 0 ? t.theme.instant : t.theme.charsPerSec(theme.textSpeed)}
+          </span>
         </span>
-        <input type="range" min={0} max={120} step={5} value={theme.textSpeed} onChange={(e) => onChange({ ...theme, textSpeed: Number(e.target.value) })} />
+        <input
+          type="range"
+          min={0}
+          max={120}
+          step={5}
+          value={theme.textSpeed}
+          onChange={(e) => onChange({ ...theme, textSpeed: Number(e.target.value) })}
+        />
       </label>
 
       <h3>{t.theme.choiceButtons}</h3>

@@ -1,4 +1,11 @@
-import { createEmptyProject, createId, normalizeProject, type Locale, type Project, type ProjectLoadError } from '@zennovel/core';
+import {
+  createEmptyProject,
+  createId,
+  normalizeProject,
+  type Locale,
+  type Project,
+  type ProjectLoadError,
+} from '@zennovel/core';
 import type { Messages } from '../i18n';
 import { inlineAssets } from './assets';
 
@@ -21,7 +28,12 @@ export function loadErrorMessage(error: ProjectLoadError, t: Messages): string {
  * project.zh.json) and share one assets folder. Their images are embedded
  * into the new project, so it keeps working wherever it is opened or exported.
  */
-export async function createFromTemplate(templateId: TemplateId, name: string, locale: Locale, t: Messages): Promise<Project> {
+export async function createFromTemplate(
+  templateId: TemplateId,
+  name: string,
+  locale: Locale,
+  t: Messages,
+): Promise<Project> {
   if (templateId === 'blank') {
     return createEmptyProject(name, {
       locale,
@@ -30,7 +42,10 @@ export async function createFromTemplate(templateId: TemplateId, name: string, l
     });
   }
 
-  const url = new URL(`${import.meta.env.BASE_URL}templates/${templateId}/project.${locale}.json`, window.location.href);
+  const url = new URL(
+    `${import.meta.env.BASE_URL}templates/${templateId}/project.${locale}.json`,
+    window.location.href,
+  );
   const res = await fetch(url);
   if (!res.ok) throw new Error(t.templates.loadFailed(res.status));
   const result = normalizeProject(await res.json());

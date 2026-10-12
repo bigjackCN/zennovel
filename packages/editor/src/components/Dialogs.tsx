@@ -83,7 +83,13 @@ export function DialogProvider({ children }: { children: ReactNode }) {
           >
             <p className="app-dialog-message">{current.message}</p>
             {current.kind === 'prompt' && (
-              <input ref={inputRef} className="app-dialog-input" value={value} onChange={(e) => setValue(e.target.value)} autoFocus />
+              <input
+                ref={inputRef}
+                className="app-dialog-input"
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                autoFocus
+              />
             )}
             <div className="app-dialog-buttons">
               {current.kind !== 'alert' && (

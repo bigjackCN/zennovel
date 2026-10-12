@@ -118,7 +118,10 @@ export function CommandCard({ project, scene, command, isFirst, isLast, onEdit }
                 const asset = await pickImage();
                 if (asset) update({ ...command, background: { kind: 'image', assetId: asset.id } });
               } else {
-                update({ ...command, background: value === COLOR ? { kind: 'color', value: '#2b2d42' } : { kind: 'image', assetId: value } });
+                update({
+                  ...command,
+                  background: value === COLOR ? { kind: 'color', value: '#2b2d42' } : { kind: 'image', assetId: value },
+                });
               }
             }}
           >
@@ -132,7 +135,13 @@ export function CommandCard({ project, scene, command, isFirst, isLast, onEdit }
             <option value={UPLOAD}>{t.card.uploadImage}</option>
           </select>
           {bg.kind === 'color' && (
-            <input type="color" value={bg.value} onChange={(e) => update({ ...command, background: { kind: 'color', value: e.target.value } }, `bg:${command.id}`)} />
+            <input
+              type="color"
+              value={bg.value}
+              onChange={(e) =>
+                update({ ...command, background: { kind: 'color', value: e.target.value } }, `bg:${command.id}`)
+              }
+            />
           )}
           <label className="inline">
             <input
@@ -160,14 +169,20 @@ export function CommandCard({ project, scene, command, isFirst, isLast, onEdit }
             onChange={(characterId) => {
               const ch = project.characters.find((c) => c.id === characterId);
               const keep = ch && command.expression in ch.sprites;
-              update({ ...command, characterId, expression: keep ? command.expression : (Object.keys(ch?.sprites ?? {})[0] ?? 'normal') });
+              update({
+                ...command,
+                characterId,
+                expression: keep ? command.expression : (Object.keys(ch?.sprites ?? {})[0] ?? 'normal'),
+              });
             }}
           />
           {character && expressions.length === 0 ? (
             <span className="muted">{t.card.noExpressions}</span>
           ) : (
             <select value={command.expression} onChange={(e) => update({ ...command, expression: e.target.value })}>
-              {!expressions.includes(command.expression) && <option value={command.expression}>{command.expression}</option>}
+              {!expressions.includes(command.expression) && (
+                <option value={command.expression}>{command.expression}</option>
+              )}
               {expressions.map((x) => (
                 <option key={x} value={x}>
                   {x}
@@ -176,7 +191,10 @@ export function CommandCard({ project, scene, command, isFirst, isLast, onEdit }
             </select>
           )}
           <span className="muted">{t.card.at}</span>
-          <select value={command.position} onChange={(e) => update({ ...command, position: e.target.value as StagePosition })}>
+          <select
+            value={command.position}
+            onChange={(e) => update({ ...command, position: e.target.value as StagePosition })}
+          >
             {Object.entries(t.card.positions).map(([k, v]) => (
               <option key={k} value={k}>
                 {v}
@@ -191,7 +209,11 @@ export function CommandCard({ project, scene, command, isFirst, isLast, onEdit }
     case 'hide':
       body = (
         <div className="row">
-          <CharacterSelect project={project} value={command.characterId} onChange={(characterId) => update({ ...command, characterId })} />
+          <CharacterSelect
+            project={project}
+            value={command.characterId}
+            onChange={(characterId) => update({ ...command, characterId })}
+          />
           <span className="muted">{t.card.leavesStage}</span>
         </div>
       );
@@ -205,14 +227,22 @@ export function CommandCard({ project, scene, command, isFirst, isLast, onEdit }
       body = (
         <div className="row">
           <span className="muted">{t.card.goTo}</span>
-          <SceneSelect scenes={project.scenes} value={command.targetSceneId} onChange={(targetSceneId) => update({ ...command, targetSceneId })} />
+          <SceneSelect
+            scenes={project.scenes}
+            value={command.targetSceneId}
+            onChange={(targetSceneId) => update({ ...command, targetSceneId })}
+          />
         </div>
       );
       break;
 
     case 'setVar':
       body = (
-        <EffectEditor project={project} effect={command.effect} onChange={(effect, key) => update({ ...command, effect }, key && `${key}:${command.id}`)} />
+        <EffectEditor
+          project={project}
+          effect={command.effect}
+          onChange={(effect, key) => update({ ...command, effect }, key && `${key}:${command.id}`)}
+        />
       );
       break;
 
@@ -228,9 +258,21 @@ export function CommandCard({ project, scene, command, isFirst, isLast, onEdit }
             />
           </div>
           <div className="branch-label">{t.card.then}</div>
-          <CommandList project={project} scene={scene} commands={command.then} parent={{ ifId: command.id, branch: 'then' }} onEdit={onEdit} />
+          <CommandList
+            project={project}
+            scene={scene}
+            commands={command.then}
+            parent={{ ifId: command.id, branch: 'then' }}
+            onEdit={onEdit}
+          />
           <div className="branch-label">{t.card.otherwise}</div>
-          <CommandList project={project} scene={scene} commands={command.else} parent={{ ifId: command.id, branch: 'else' }} onEdit={onEdit} />
+          <CommandList
+            project={project}
+            scene={scene}
+            commands={command.else}
+            parent={{ ifId: command.id, branch: 'else' }}
+            onEdit={onEdit}
+          />
         </div>
       );
       break;
@@ -245,10 +287,18 @@ export function CommandCard({ project, scene, command, isFirst, isLast, onEdit }
       <div className="card-head">
         <span className={`chip chip-${command.type}`}>{t.commands.labels[command.type]}</span>
         <div className="card-tools">
-          <button title={t.commands.moveUp} disabled={isFirst} onClick={() => onEdit((p) => actions.moveCommand(p, scene.id, command.id, -1))}>
+          <button
+            title={t.commands.moveUp}
+            disabled={isFirst}
+            onClick={() => onEdit((p) => actions.moveCommand(p, scene.id, command.id, -1))}
+          >
             ↑
           </button>
-          <button title={t.commands.moveDown} disabled={isLast} onClick={() => onEdit((p) => actions.moveCommand(p, scene.id, command.id, 1))}>
+          <button
+            title={t.commands.moveDown}
+            disabled={isLast}
+            onClick={() => onEdit((p) => actions.moveCommand(p, scene.id, command.id, 1))}
+          >
             ↓
           </button>
           <button
@@ -337,7 +387,15 @@ function SceneSelect({
   );
 }
 
-function VariableSelect({ project, value, onChange }: { project: Project; value: string; onChange: (id: string) => void }) {
+function VariableSelect({
+  project,
+  value,
+  onChange,
+}: {
+  project: Project;
+  value: string;
+  onChange: (id: string) => void;
+}) {
   const { t } = useI18n();
   const api = useEditorApi();
   return (
@@ -380,11 +438,25 @@ export function ValueInput({
     );
   }
   if (type === 'number') return <NumberInput value={Number(value ?? 0)} onChange={(n) => onChange(n, 'value')} />;
-  return <input className="small-input wide-text" value={String(value ?? '')} onChange={(e) => onChange(e.target.value, 'value')} />;
+  return (
+    <input
+      className="small-input wide-text"
+      value={String(value ?? '')}
+      onChange={(e) => onChange(e.target.value, 'value')}
+    />
+  );
 }
 
 /** A number field that lets you type "-" or "1." on the way to a number. */
-export function NumberInput({ value, onChange, className = 'small-input' }: { value: number; onChange: (n: number) => void; className?: string }) {
+export function NumberInput({
+  value,
+  onChange,
+  className = 'small-input',
+}: {
+  value: number;
+  onChange: (n: number) => void;
+  className?: string;
+}) {
   const [draft, setDraft] = useState(String(value));
   useEffect(() => {
     // Resync only when the value changes from outside (undo, another field),
@@ -406,7 +478,15 @@ export function NumberInput({ value, onChange, className = 'small-input' }: { va
   );
 }
 
-function EffectEditor({ project, effect, onChange }: { project: Project; effect: Effect; onChange: (e: Effect, key?: string) => void }) {
+function EffectEditor({
+  project,
+  effect,
+  onChange,
+}: {
+  project: Project;
+  effect: Effect;
+  onChange: (e: Effect, key?: string) => void;
+}) {
   const { t } = useI18n();
   const type = typeOf(project, effect.variableId);
   const ops = EFFECT_OPS[type];
@@ -430,7 +510,11 @@ function EffectEditor({ project, effect, onChange }: { project: Project; effect:
         ))}
       </select>
       {effect.op !== 'toggle' && (
-        <ValueInput type={type} value={effect.value ?? defaultValue(type)} onChange={(value, key) => onChange({ ...effect, value }, key)} />
+        <ValueInput
+          type={type}
+          value={effect.value ?? defaultValue(type)}
+          onChange={(value, key) => onChange({ ...effect, value }, key)}
+        />
       )}
     </div>
   );
@@ -439,7 +523,12 @@ function EffectEditor({ project, effect, onChange }: { project: Project; effect:
 function newComparison(project: Project): Comparison {
   const v = project.variables[0];
   const type = v ? valueType(v.initial) : 'number';
-  return { kind: 'compare', variableId: v?.id ?? '', op: type === 'number' ? '>=' : '==', value: type === 'number' ? 1 : type === 'boolean' ? true : '' };
+  return {
+    kind: 'compare',
+    variableId: v?.id ?? '',
+    op: type === 'number' ? '>=' : '==',
+    value: type === 'number' ? 1 : type === 'boolean' ? true : '',
+  };
 }
 
 /** "If [Courage] ≥ [1]", or a group "all of / any of" these. Groups can nest. */
@@ -476,8 +565,15 @@ function ConditionEditor({
             </option>
           ))}
         </select>
-        <ValueInput type={type} value={condition.value} onChange={(value, key) => onChange({ ...condition, value }, key)} />
-        <button className="link small" onClick={() => onChange({ kind: 'all', conditions: [condition, newComparison(project)] })}>
+        <ValueInput
+          type={type}
+          value={condition.value}
+          onChange={(value, key) => onChange({ ...condition, value }, key)}
+        />
+        <button
+          className="link small"
+          onClick={() => onChange({ kind: 'all', conditions: [condition, newComparison(project)] })}
+        >
           {t.card.andOr}
         </button>
       </div>
@@ -485,16 +581,24 @@ function ConditionEditor({
   }
 
   const setChild = (i: number, child: Condition, key?: string) =>
-    onChange({ ...condition, conditions: condition.conditions.map((c, j) => (j === i ? child : c)) }, key && `${key}:${i}`);
+    onChange(
+      { ...condition, conditions: condition.conditions.map((c, j) => (j === i ? child : c)) },
+      key && `${key}:${i}`,
+    );
   const removeChild = (i: number) => {
     const rest = condition.conditions.filter((_, j) => j !== i);
     // A group of one is just that condition.
-    onChange(rest.length === 1 ? rest[0]! : rest.length === 0 ? newComparison(project) : { ...condition, conditions: rest });
+    onChange(
+      rest.length === 1 ? rest[0]! : rest.length === 0 ? newComparison(project) : { ...condition, conditions: rest },
+    );
   };
 
   return (
     <div className="cond-group">
-      <select value={condition.kind} onChange={(e) => onChange({ ...condition, kind: e.target.value as 'all' | 'any' })}>
+      <select
+        value={condition.kind}
+        onChange={(e) => onChange({ ...condition, kind: e.target.value as 'all' | 'any' })}
+      >
         <option value="all">{t.card.allOf}</option>
         <option value="any">{t.card.anyOf}</option>
       </select>
@@ -516,11 +620,22 @@ function ConditionEditor({
   );
 }
 
-function ChoiceEditor({ project, command, onChange }: { project: Project; command: ChoiceCommand; onChange: (c: ChoiceCommand, key?: string) => void }) {
+function ChoiceEditor({
+  project,
+  command,
+  onChange,
+}: {
+  project: Project;
+  command: ChoiceCommand;
+  onChange: (c: ChoiceCommand, key?: string) => void;
+}) {
   const { t } = useI18n();
   const api = useEditorApi();
   const setOption = (id: string, patch: Partial<ChoiceOption>, key?: string) =>
-    onChange({ ...command, options: command.options.map((o) => (o.id === id ? { ...o, ...patch } : o)) }, key && `${key}:${id}`);
+    onChange(
+      { ...command, options: command.options.map((o) => (o.id === id ? { ...o, ...patch } : o)) },
+      key && `${key}:${id}`,
+    );
 
   /**
    * The variable a new effect/condition starts with, and its type. If the
@@ -545,7 +660,12 @@ function ChoiceEditor({ project, command, onChange }: { project: Project; comman
         <div key={o.id} className="option">
           <span className="option-index">{i + 1}</span>
           <input className="wide" value={o.text} onChange={(e) => setOption(o.id, { text: e.target.value }, 'text')} />
-          <SceneSelect scenes={project.scenes} value={o.targetSceneId} allowContinue onChange={(v) => setOption(o.id, { targetSceneId: v || undefined })} />
+          <SceneSelect
+            scenes={project.scenes}
+            value={o.targetSceneId}
+            allowContinue
+            onChange={(v) => setOption(o.id, { targetSceneId: v || undefined })}
+          />
           <button
             className="icon danger"
             title={t.card.removeOption}
@@ -560,9 +680,19 @@ function ChoiceEditor({ project, command, onChange }: { project: Project; comman
                 <EffectEditor
                   project={project}
                   effect={eff}
-                  onChange={(next, key) => setOption(o.id, { effects: o.effects!.map((x, k) => (k === j ? next : x)) }, key && `effect${j}:${key}`)}
+                  onChange={(next, key) =>
+                    setOption(
+                      o.id,
+                      { effects: o.effects!.map((x, k) => (k === j ? next : x)) },
+                      key && `effect${j}:${key}`,
+                    )
+                  }
                 />
-                <button className="icon" title={t.card.remove} onClick={() => setOption(o.id, { effects: o.effects!.filter((_, k) => k !== j) })}>
+                <button
+                  className="icon"
+                  title={t.card.remove}
+                  onClick={() => setOption(o.id, { effects: o.effects!.filter((_, k) => k !== j) })}
+                >
                   ✕
                 </button>
               </div>
@@ -570,8 +700,16 @@ function ChoiceEditor({ project, command, onChange }: { project: Project; comman
             {o.condition && (
               <div className="row top">
                 <span className="muted">{t.card.onlyShowIf}</span>
-                <ConditionEditor project={project} condition={o.condition} onChange={(condition, key) => setOption(o.id, { condition }, key && `cond:${key}`)} />
-                <button className="icon" title={t.card.remove} onClick={() => setOption(o.id, { condition: undefined })}>
+                <ConditionEditor
+                  project={project}
+                  condition={o.condition}
+                  onChange={(condition, key) => setOption(o.id, { condition }, key && `cond:${key}`)}
+                />
+                <button
+                  className="icon"
+                  title={t.card.remove}
+                  onClick={() => setOption(o.id, { condition: undefined })}
+                >
                   ✕
                 </button>
               </div>
@@ -582,7 +720,11 @@ function ChoiceEditor({ project, command, onChange }: { project: Project; comman
                 onClick={async () => {
                   const v = await firstVariable();
                   if (!v) return;
-                  const effect: Effect = { variableId: v.id, op: EFFECT_OPS[v.type][0]!, value: v.type === 'number' ? 1 : defaultValue(v.type) };
+                  const effect: Effect = {
+                    variableId: v.id,
+                    op: EFFECT_OPS[v.type][0]!,
+                    value: v.type === 'number' ? 1 : defaultValue(v.type),
+                  };
                   setOption(o.id, { effects: [...(o.effects ?? []), effect] });
                 }}
               >
@@ -608,7 +750,12 @@ function ChoiceEditor({ project, command, onChange }: { project: Project; comman
           </div>
         </div>
       ))}
-      <button className="link" onClick={() => onChange({ ...command, options: [...command.options, { id: createId('opt'), text: t.card.newOption }] })}>
+      <button
+        className="link"
+        onClick={() =>
+          onChange({ ...command, options: [...command.options, { id: createId('opt'), text: t.card.newOption }] })
+        }
+      >
         {t.card.addOption}
       </button>
     </div>

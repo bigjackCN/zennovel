@@ -53,7 +53,8 @@ function mapAllCommands(p: Project, fn: (c: Command) => Command): Scene[] {
   return p.scenes.map((s) => ({ ...s, commands: mapList(s.commands) }));
 }
 
-const replaceById = <T extends { id: string }>(list: T[], item: T): T[] => list.map((x) => (x.id === item.id ? item : x));
+const replaceById = <T extends { id: string }>(list: T[], item: T): T[] =>
+  list.map((x) => (x.id === item.id ? item : x));
 
 /** `optionLabel` names the default options of a new choice, e.g. n => `Option ${n}`. */
 export function newCommand(
@@ -258,7 +259,12 @@ export const actions = {
     if (!variable) return p;
     const fixEffect = (e: Effect): Effect => {
       if (e.variableId !== variableId) return e;
-      const valid = type === 'number' ? e.op !== 'toggle' : type === 'boolean' ? e.op === 'set' || e.op === 'toggle' : e.op === 'set';
+      const valid =
+        type === 'number'
+          ? e.op !== 'toggle'
+          : type === 'boolean'
+            ? e.op === 'set' || e.op === 'toggle'
+            : e.op === 'set';
       const op = valid ? e.op : type === 'boolean' ? 'toggle' : 'set';
       return op === 'toggle' ? { variableId, op } : { variableId, op, value: coerceValue(e.value, type) };
     };
@@ -310,5 +316,4 @@ export const actions = {
   deleteAsset(p: Project, assetId: string): Project {
     return touch({ ...p, assets: p.assets.filter((a) => a.id !== assetId) });
   },
-
 };

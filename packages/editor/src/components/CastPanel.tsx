@@ -30,13 +30,25 @@ export function CastPanel({ project, onEdit }: { project: Project; onEdit: EditF
       {project.characters.length === 0 ? (
         <p className="muted empty-state">{t.cast.empty}</p>
       ) : (
-        project.characters.map((c) => <CharacterCard key={c.id} project={project} character={c} uses={usage.get(c.id) ?? 0} onEdit={onEdit} />)
+        project.characters.map((c) => (
+          <CharacterCard key={c.id} project={project} character={c} uses={usage.get(c.id) ?? 0} onEdit={onEdit} />
+        ))
       )}
     </section>
   );
 }
 
-function CharacterCard({ project, character, uses, onEdit }: { project: Project; character: Character; uses: number; onEdit: EditFn }) {
+function CharacterCard({
+  project,
+  character,
+  uses,
+  onEdit,
+}: {
+  project: Project;
+  character: Character;
+  uses: number;
+  onEdit: EditFn;
+}) {
   const { t } = useI18n();
   const dialogs = useDialogs();
   const api = useEditorApi();
@@ -48,7 +60,10 @@ function CharacterCard({ project, character, uses, onEdit }: { project: Project;
   async function addExpression() {
     const asset = await pickImage();
     if (!asset) return;
-    const name = uniqueName(expressions.length === 0 ? t.cast.defaultExpression : asset.name || t.cast.defaultExpression, Object.keys(character.sprites));
+    const name = uniqueName(
+      expressions.length === 0 ? t.cast.defaultExpression : asset.name || t.cast.defaultExpression,
+      Object.keys(character.sprites),
+    );
     // Read the latest character inside the edit: pickImage has just added the asset.
     onEdit((p) => {
       const latest = p.characters.find((c) => c.id === character.id);
@@ -57,7 +72,10 @@ function CharacterCard({ project, character, uses, onEdit }: { project: Project;
   }
 
   async function remove() {
-    const ok = await dialogs.confirm(t.cast.deleteConfirm(character.name, uses), { okLabel: t.cast.delete, danger: true });
+    const ok = await dialogs.confirm(t.cast.deleteConfirm(character.name, uses), {
+      okLabel: t.cast.delete,
+      danger: true,
+    });
     if (!ok) return;
     onEdit((p) => actions.deleteCharacter(p, character.id));
     api.notifyDeleted();
@@ -92,7 +110,9 @@ function CharacterCard({ project, character, uses, onEdit }: { project: Project;
           const asset = images.find((a) => a.id === assetId);
           return (
             <div key={name} className="expression">
-              <div className="expression-thumb">{asset ? <img src={asset.src} alt="" /> : <span className="muted">?</span>}</div>
+              <div className="expression-thumb">
+                {asset ? <img src={asset.src} alt="" /> : <span className="muted">?</span>}
+              </div>
               <ExpressionName
                 name={name}
                 taken={Object.keys(character.sprites)}
@@ -110,7 +130,9 @@ function CharacterCard({ project, character, uses, onEdit }: { project: Project;
                   }
                   onEdit((p) => {
                     const latest = p.characters.find((c) => c.id === character.id);
-                    return latest ? actions.updateCharacter(p, { ...latest, sprites: { ...latest.sprites, [name]: next } }) : p;
+                    return latest
+                      ? actions.updateCharacter(p, { ...latest, sprites: { ...latest.sprites, [name]: next } })
+                      : p;
                   });
                 }}
               >

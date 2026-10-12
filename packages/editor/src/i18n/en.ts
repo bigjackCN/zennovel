@@ -42,7 +42,10 @@ export const en = {
   },
 
   templates: {
-    demo: { name: 'Cherry Blossom Hill (sample)', description: 'A short story with backgrounds, characters, choices and two endings' },
+    demo: {
+      name: 'Cherry Blossom Hill (sample)',
+      description: 'A short story with backgrounds, characters, choices and two endings',
+    },
     blank: { name: 'Blank project', description: 'Start from a blank page' },
     loadFailed: (status: number) => `Could not load template (HTTP ${status})`,
     notAProject: "This isn't a ZenNovel project file",
@@ -105,7 +108,8 @@ export const en = {
       noStartScene: () => 'No start scene is set',
       missingVariable: () => 'Uses a variable that does not exist',
       missingConditionVariable: () => 'A condition uses a variable that does not exist',
-      variableTypeMismatch: (p: Params) => `"${p?.variable}" is used in a way that doesn't fit its kind (number / yes-no / text)`,
+      variableTypeMismatch: (p: Params) =>
+        `"${p?.variable}" is used in a way that doesn't fit its kind (number / yes-no / text)`,
       missingBackground: () => 'The background image is missing',
       missingShowCharacter: () => 'The character to show does not exist',
       missingExpression: (p: Params) => `${p?.character} has no "${p?.expression}" expression`,
@@ -236,7 +240,8 @@ export const en = {
   assets: {
     title: 'Images',
     upload: '+ Upload images',
-    hint: (mb: string) => `Backgrounds and character pictures. Images are stored inside the project, so an exported file contains everything. Drag files here to add them. Project size: about ${mb} MB.`,
+    hint: (mb: string) =>
+      `Backgrounds and character pictures. Images are stored inside the project, so an exported file contains everything. Drag files here to add them. Project size: about ${mb} MB.`,
     empty: 'No images yet. Upload backgrounds and character pictures, or drop files here.',
     name: 'Image name',
     usedIn: (n: number) => `used in ${plural(n, 'place', 'places')}`,

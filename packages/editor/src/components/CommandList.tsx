@@ -19,13 +19,17 @@ export function CommandList({ project, scene, commands, parent, onEdit }: Props)
   const { t } = useI18n();
   function append(type: CommandType) {
     const cmd = newCommand(type, project, scene.id, t.card.optionN);
-    onEdit((p) => actions.insertCommand(p, scene.id, cmd, { parentIfId: parent?.ifId ?? null, branch: parent?.branch }));
+    onEdit((p) =>
+      actions.insertCommand(p, scene.id, cmd, { parentIfId: parent?.ifId ?? null, branch: parent?.branch }),
+    );
     focusLater(cmd.id);
   }
 
   return (
     <div className={parent ? 'command-list nested' : 'command-list'}>
-      {commands.length === 0 && <p className="muted empty">{parent ? t.commands.emptyBranch : t.commands.emptyScene}</p>}
+      {commands.length === 0 && (
+        <p className="muted empty">{parent ? t.commands.emptyBranch : t.commands.emptyScene}</p>
+      )}
       {commands.map((cmd, i) => (
         <CommandCard
           key={cmd.id}

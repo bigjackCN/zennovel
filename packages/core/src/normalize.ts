@@ -108,31 +108,27 @@ export function normalizeProject(raw: unknown): NormalizeResult {
       createdAt: str(meta.createdAt, now),
       updatedAt: str(meta.updatedAt, now),
     },
-    assets: list(data.assets).map(
-      (a): Asset => ({
-        id: assetId(a.id),
-        kind: oneOf(a.kind, ASSET_KINDS, 'image'),
-        name: str(a.name, str(a.id, '')),
-        src: str(a.src, ''),
-      }),
-    ),
-    characters: list(data.characters).map(
-      (c): Character => ({
-        id: characterId(c.id),
-        name: str(c.name, ''),
-        color: str(c.color, '#888888'),
-        sprites: Object.fromEntries(
-          Object.entries(isObj(c.sprites) ? c.sprites : {}).filter((e): e is [string, string] => typeof e[1] === 'string'),
+    assets: list(data.assets).map((a): Asset => ({
+      id: assetId(a.id),
+      kind: oneOf(a.kind, ASSET_KINDS, 'image'),
+      name: str(a.name, str(a.id, '')),
+      src: str(a.src, ''),
+    })),
+    characters: list(data.characters).map((c): Character => ({
+      id: characterId(c.id),
+      name: str(c.name, ''),
+      color: str(c.color, '#888888'),
+      sprites: Object.fromEntries(
+        Object.entries(isObj(c.sprites) ? c.sprites : {}).filter(
+          (e): e is [string, string] => typeof e[1] === 'string',
         ),
-      }),
-    ),
-    variables: list(data.variables).map(
-      (v): Variable => ({
-        id: variableId(v.id),
-        name: str(v.name, ''),
-        initial: isValue(v.initial) ? v.initial : 0,
-      }),
-    ),
+      ),
+    })),
+    variables: list(data.variables).map((v): Variable => ({
+      id: variableId(v.id),
+      name: str(v.name, ''),
+      initial: isValue(v.initial) ? v.initial : 0,
+    })),
     theme: normalizeTheme(data.theme),
     scenes,
     startSceneId,
@@ -164,7 +160,10 @@ function normalizeTheme(raw: unknown): Theme {
   const n = isObj(t.nameplate) ? t.nameplate : {};
   const c = isObj(t.choice) ? t.choice : {};
   const dd = defaultTheme.dialogue;
-  const frame = isObj(d.frame) && typeof d.frame.assetId === 'string' ? { assetId: d.frame.assetId, slice: num(d.frame.slice, 16) } : undefined;
+  const frame =
+    isObj(d.frame) && typeof d.frame.assetId === 'string'
+      ? { assetId: d.frame.assetId, slice: num(d.frame.slice, 16) }
+      : undefined;
   return {
     fontFamily: str(t.fontFamily, defaultTheme.fontFamily),
     textSpeed: Math.max(0, num(t.textSpeed, defaultTheme.textSpeed)),
@@ -258,7 +257,9 @@ function normalizeCommand(c: Obj, ids: Minters): Command | undefined {
     case 'choice': {
       const options = list(c.options).map((o): ChoiceOption => {
         const condition = normalizeCondition(o.condition);
-        const effects = list(o.effects).map(normalizeEffect).filter((e): e is Effect => !!e);
+        const effects = list(o.effects)
+          .map(normalizeEffect)
+          .filter((e): e is Effect => !!e);
         return {
           id: ids.option(o.id),
           text: str(o.text, ''),
@@ -267,7 +268,12 @@ function normalizeCommand(c: Obj, ids: Minters): Command | undefined {
           ...(typeof o.targetSceneId === 'string' && o.targetSceneId && { targetSceneId: o.targetSceneId }),
         };
       });
-      return { id: id(), type: 'choice', options, ...(typeof c.prompt === 'string' && c.prompt && { prompt: c.prompt }) };
+      return {
+        id: id(),
+        type: 'choice',
+        options,
+        ...(typeof c.prompt === 'string' && c.prompt && { prompt: c.prompt }),
+      };
     }
     case 'jump':
       return { id: id(), type: 'jump', targetSceneId: str(c.targetSceneId, '') };

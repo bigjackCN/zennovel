@@ -160,11 +160,25 @@ describe('checkProject', () => {
     const cmds = p.scenes[0]!.commands;
     cmds.push({ id: 'ok1', type: 'setVar', effect: { variableId: 'flag', op: 'toggle' } });
     cmds.push({ id: 'ok2', type: 'setVar', effect: { variableId: 'n', op: 'add', value: 2 } });
-    cmds.push({ id: 'ok3', type: 'if', condition: { kind: 'compare', variableId: 'flag', op: '==', value: true }, then: [], else: [] });
+    cmds.push({
+      id: 'ok3',
+      type: 'if',
+      condition: { kind: 'compare', variableId: 'flag', op: '==', value: true },
+      then: [],
+      else: [],
+    });
     cmds.push({ id: 'bad1', type: 'setVar', effect: { variableId: 'flag', op: 'add', value: 1 } });
-    cmds.push({ id: 'bad2', type: 'if', condition: { kind: 'compare', variableId: 'flag', op: '>=', value: 1 }, then: [], else: [] });
+    cmds.push({
+      id: 'bad2',
+      type: 'if',
+      condition: { kind: 'compare', variableId: 'flag', op: '>=', value: 1 },
+      then: [],
+      else: [],
+    });
     cmds.push({ id: 'end', type: 'end' });
-    const flagged = checkProject(p).filter((i) => i.code === 'variableTypeMismatch').map((i) => i.commandId);
+    const flagged = checkProject(p)
+      .filter((i) => i.code === 'variableTypeMismatch')
+      .map((i) => i.commandId);
     expect(flagged).toEqual(['bad1', 'bad2']);
   });
 
@@ -182,7 +196,9 @@ describe('checkProject', () => {
     expect(checkProject(p).map((i) => i.code)).toContain('noEnding');
 
     // One unconditional option means the choice always shows, so the scene does end.
-    p.scenes[0]!.commands = [{ id: 'c', type: 'choice', options: [option('a'), { id: 'b', text: 'b', targetSceneId: target }] }];
+    p.scenes[0]!.commands = [
+      { id: 'c', type: 'choice', options: [option('a'), { id: 'b', text: 'b', targetSceneId: target }] },
+    ];
     expect(checkProject(p).map((i) => i.code)).not.toContain('noEnding');
   });
 });

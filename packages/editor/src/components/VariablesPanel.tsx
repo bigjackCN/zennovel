@@ -17,7 +17,10 @@ export function VariablesPanel({ project, onEdit }: { project: Project; onEdit: 
 
   async function remove(v: Variable) {
     const uses = usage.get(v.id) ?? 0;
-    const ok = await dialogs.confirm(t.variables.deleteConfirm(v.name, uses), { okLabel: t.variables.delete, danger: true });
+    const ok = await dialogs.confirm(t.variables.deleteConfirm(v.name, uses), {
+      okLabel: t.variables.delete,
+      danger: true,
+    });
     if (!ok) return;
     onEdit((p) => actions.deleteVariable(p, v.id));
     api.notifyDeleted();
@@ -51,7 +54,11 @@ export function VariablesPanel({ project, onEdit }: { project: Project; onEdit: 
               return (
                 <tr key={v.id}>
                   <td>
-                    <input value={v.name} aria-label={t.variables.name} onChange={(e) => update({ ...v, name: e.target.value }, `var-name:${v.id}`)} />
+                    <input
+                      value={v.name}
+                      aria-label={t.variables.name}
+                      onChange={(e) => update({ ...v, name: e.target.value }, `var-name:${v.id}`)}
+                    />
                   </td>
                   <td>
                     <select
@@ -67,7 +74,11 @@ export function VariablesPanel({ project, onEdit }: { project: Project; onEdit: 
                     </select>
                   </td>
                   <td>
-                    <ValueInput type={type} value={v.initial} onChange={(initial, key) => update({ ...v, initial }, key && `var-initial:${v.id}`)} />
+                    <ValueInput
+                      type={type}
+                      value={v.initial}
+                      onChange={(initial, key) => update({ ...v, initial }, key && `var-initial:${v.id}`)}
+                    />
                   </td>
                   <td className="var-actions">
                     <span className="muted small">{uses ? t.variables.usedIn(uses) : t.variables.unused}</span>
