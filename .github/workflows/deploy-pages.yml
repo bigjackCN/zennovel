@@ -26,6 +26,7 @@ jobs:
           cache: pnpm
       - run: pnpm install
       - run: pnpm test
+      - run: pnpm typecheck
       - name: Build editor
         run: pnpm build
         env:
