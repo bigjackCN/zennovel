@@ -47,17 +47,18 @@ function standalonePlayer(): Plugin {
   };
 }
 
+const play = fileURLToPath(new URL('play/index.html', import.meta.url));
+const editor = fileURLToPath(new URL('index.html', import.meta.url));
+
 // GitHub Pages serves the site from /<repo>/, so the workflow sets BASE_PATH=/zennovel/.
+// It also sets SITE=1: the website is the product page (site/) plus play/, without the editor.
 export default defineConfig({
   base: process.env.BASE_PATH ?? '/',
   plugins: [react(), standalonePlayer()],
   build: {
     rollupOptions: {
       // The editor, and play/ which runs a sample story as a game on its own.
-      input: {
-        main: fileURLToPath(new URL('index.html', import.meta.url)),
-        play: fileURLToPath(new URL('play/index.html', import.meta.url)),
-      },
+      input: process.env.SITE ? { play } : { main: editor, play },
     },
   },
 });

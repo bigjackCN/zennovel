@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZenNovel：写故事，不写代码</title>
+    <meta
+      name="description"
+      content="ZenNovel 是给写作者的视觉小说制作器。免费、开源，支持 Windows、macOS 和 Linux。"
+    />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <style>
+      :root {
+        --ink: #1f1c24;
+        --ink-2: #2b2732;
+        --paper: #efe6d6;
+        --dim: #a79e93;
+        --amber: #e6a95c;
+        --brand: #c8553d;
+        --serif: 'Songti SC', 'Noto Serif CJK SC', 'Source Han Serif SC', 'STSong', 'SimSun', serif;
+        --sans: system-ui, -apple-system, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        background: var(--ink);
+        color: var(--paper);
+        font: 16px/1.75 var(--sans);
+      }
+      body {
+        margin: 0;
+      }
+      a {
+        color: inherit;
+      }
+      a:focus-visible,
+      button:focus-visible {
+        outline: 2px solid var(--amber);
+        outline-offset: 3px;
+      }
+      .wrap {
+        width: min(1080px, 100% - 32px);
+        margin: 0 auto;
+      }
+      .sr {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+      }
+
+      /* Top bar */
+      .top {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        padding: 18px 0;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+      .logo svg {
+        width: 28px;
+        height: 28px;
+      }
+      .top nav {
+        margin-left: auto;
+        display: flex;
+        gap: 22px;
+        font-size: 15px;
+      }
+      .top nav a {
+        text-decoration: none;
+        color: var(--dim);
+      }
+      .top nav a:hover {
+        color: var(--paper);
+      }
+
+      /* The hero is a visual novel scene: click to read on. */
+      .stage {
+        position: relative;
+        aspect-ratio: 16 / 9;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #2a2230 url('templates/dalie/assets/title.webp') center / cover;
+        cursor: pointer;
+        user-select: none;
+      }
+      .box {
+        position: absolute;
+        left: 3%;
+        right: 3%;
+        bottom: 4%;
+        min-height: 30%;
+        padding: clamp(18px, 3.2vw, 34px) clamp(18px, 3.5vw, 40px);
+        border-radius: 6px;
+        background: rgba(14, 12, 10, 0.82);
+      }
+      .name {
+        position: absolute;
+        top: -16px;
+        left: clamp(18px, 3.5vw, 40px);
+        padding: 2px 14px;
+        border-radius: 4px;
+        background: var(--brand);
+        font: 600 15px/1.8 var(--sans);
+      }
+      .line {
+        margin: 0;
+        font: clamp(19px, 2.6vw, 30px) / 1.6 var(--serif);
+        min-height: 3.2em;
+      }
+      .more {
+        position: absolute;
+        right: clamp(18px, 3vw, 32px);
+        bottom: 14px;
+        color: var(--amber);
+        font-size: 14px;
+        animation: bob 1.2s ease-in-out infinite;
+      }
+      @keyframes bob {
+        50% {
+          transform: translateY(4px);
+        }
+      }
+      .hint {
+        margin: 10px 0 0;
+        color: var(--dim);
+        font-size: 13px;
+      }
+
+      /* Download */
+      .download {
+        margin: 44px 0 0;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 16px 32px;
+        align-items: center;
+      }
+      .download h2 {
+        margin: 0;
+        font: 600 clamp(22px, 3vw, 28px) / 1.3 var(--serif);
+      }
+      .download p {
+        margin: 4px 0 0;
+        color: var(--dim);
+        font-size: 14px;
+      }
+      .buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        border: 1px solid #ffffff2e;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .btn:hover {
+        border-color: var(--amber);
+      }
+      .btn.primary {
+        background: var(--amber);
+        border-color: var(--amber);
+        color: var(--ink);
+      }
+
+      section {
+        margin-top: 88px;
+      }
+      section > h2 {
+        margin: 0 0 24px;
+        font: 600 clamp(22px, 3vw, 28px) / 1.3 var(--serif);
+      }
+
+      /* Features: a plain list, no cards */
+      .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 28px 48px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      .features strong {
+        display: block;
+        font-size: 17px;
+      }
+      .features span {
+        color: var(--dim);
+        font-size: 15px;
+      }
+      .shot {
+        display: block;
+        width: 100%;
+        height: auto;
+        margin-top: 40px;
+        border-radius: 8px;
+        border: 1px solid #ffffff1a;
+      }
+
+      /* Games */
+      .game {
+        display: grid;
+        grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+        gap: 32px;
+        align-items: center;
+        text-decoration: none;
+      }
+      .game img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        display: block;
+      }
+      .game h3 {
+        margin: 0;
+        font: 600 26px/1.3 var(--serif);
+      }
+      .game p {
+        margin: 8px 0 18px;
+        color: var(--dim);
+      }
+      .game:hover .btn {
+        border-color: var(--amber);
+      }
+
+      footer {
+        margin: 96px 0 40px;
+        padding-top: 20px;
+        border-top: 1px solid #ffffff1a;
+        color: var(--dim);
+        font-size: 14px;
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      @media (max-width: 720px) {
+        .download,
+        .game {
+          grid-template-columns: 1fr;
+        }
+        .top nav {
+          gap: 14px;
+        }
+        .stage {
+          aspect-ratio: 4 / 3;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .more {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="top">
+        <a class="logo" href="./" aria-label="ZenNovel">
+          <svg viewBox="0 0 64 64" aria-hidden="true">
+            <rect width="64" height="64" rx="14" fill="#c8553d" />
+            <path
+              d="M18 20h28L20 44h26"
+              stroke="#fff"
+              stroke-width="6"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          ZenNovel
+        </a>
+        <nav>
+          <a href="#download">下载</a>
+          <a href="#games">作品</a>
+          <a href="https://github.com/bigjackCN/zennovel">GitHub</a>
+        </nav>
+      </header>
+
+      <main>
+        <h1 class="sr">ZenNovel：给写作者的视觉小说制作器</h1>
+        <div class="stage" id="stage" role="button" tabindex="0" aria-label="点击继续阅读">
+          <div class="box">
+            <span class="name">ZenNovel</span>
+            <p class="line" id="line" aria-live="polite">写故事，不写代码。</p>
+            <span class="more" id="more" aria-hidden="true">▼</span>
+          </div>
+        </div>
+        <p class="hint">点击画面继续</p>
+
+        <div class="download" id="download">
+          <div>
+            <h2>免费下载</h2>
+            <p>开源（MIT）。安装包暂未签名：Windows 上点「更多信息 → 仍要运行」，macOS 上右键选「打开」。</p>
+          </div>
+          <div class="buttons" id="buttons">
+            <a
+              class="btn"
+              data-os="win"
+              href="https://github.com/bigjackCN/zennovel/releases/latest/download/ZenNovel-win-x64.exe"
+              >Windows</a
+            >
+            <a
+              class="btn"
+              data-os="mac"
+              href="https://github.com/bigjackCN/zennovel/releases/latest/download/ZenNovel-mac-arm64.dmg"
+              title="Apple 芯片。Intel 芯片的 Mac 请在「所有版本」里下载 x64 版。"
+              >macOS</a
+            >
+            <a
+              class="btn"
+              data-os="linux"
+              href="https://github.com/bigjackCN/zennovel/releases/latest/download/ZenNovel-linux-x86_64.AppImage"
+              >Linux</a
+            >
+            <a class="btn" href="https://github.com/bigjackCN/zennovel/releases">所有版本</a>
+          </div>
+        </div>
+
+        <section>
+          <h2>能做什么</h2>
+          <ul class="features">
+            <li>
+              <strong>像写小说一样写</strong>
+              <span>一句台词一张卡片，回车写下一句。不用学脚本语言。</span>
+            </li>
+            <li>
+              <strong>分支和变量</strong>
+              <span>选项跳转、好感度、条件分支，都从下拉框里选。</span>
+            </li>
+            <li>
+              <strong>边写边看</strong>
+              <span>右边的预览就是玩家看到的游戏，改一句，马上看到效果。</span>
+            </li>
+            <li>
+              <strong>画面和声音</strong>
+              <span>背景、立绘、配乐、音效，拖进来就能用，没有大小限制。</span>
+            </li>
+            <li>
+              <strong>导出到任何地方</strong>
+              <span>网页、itch.io、Windows、Linux；Steam 版支持成就和云存档。</span>
+            </li>
+            <li>
+              <strong>作品是你的</strong>
+              <span>每个故事就是电脑上的一个文件夹，可以备份、可以放进 git。</span>
+            </li>
+          </ul>
+          <img
+            class="shot"
+            src="editor.webp"
+            width="1440"
+            height="860"
+            alt="ZenNovel 编辑器：左边是场景和台词卡片，右边是游戏预览"
+            loading="lazy"
+          />
+        </section>
+
+        <section id="games">
+          <h2>用 ZenNovel 做的作品</h2>
+          <a class="game" href="play/?story=dalie">
+            <img
+              src="dalie.webp"
+              width="1280"
+              height="720"
+              alt="《大裂》游戏画面：丁炜阳穿着盔甲站在火光里"
+              loading="lazy"
+            />
+            <div>
+              <h3>大裂</h3>
+              <p>根据胡迁中篇小说改编的互动故事。荒原上的大学、一张藏宝图、一个越挖越深的洞。八章，四个结局。</p>
+              <span class="btn">在浏览器里玩</span>
+            </div>
+          </a>
+        </section>
+      </main>
+
+      <footer>
+        <span>ZenNovel，MIT 许可</span>
+        <a href="https://github.com/bigjackCN/zennovel">GitHub</a>
+        <a href="https://github.com/bigjackCN/zennovel/blob/main/docs/STEAM.md">发布到 Steam</a>
+      </footer>
+    </div>
+
+    <script>
+      // The hero reads like a visual novel: click (or Enter / Space) for the next line.
+      const lines = [
+        '写故事，不写代码。',
+        'ZenNovel 是给写作者的视觉小说制作器。台词、选项、分支，都填在卡片里。',
+        '写完了，导出成网页、Windows 或 Linux 游戏，放到 itch.io 或 Steam 上。',
+        '下面就可以下载。',
+      ];
+      const stage = document.getElementById('stage');
+      const line = document.getElementById('line');
+      const more = document.getElementById('more');
+      const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let at = 0;
+      let timer = 0;
+
+      function show(text) {
+        clearInterval(timer);
+        if (still) {
+          line.textContent = text;
+          return;
+        }
+        let n = 0;
+        line.textContent = '';
+        timer = setInterval(() => {
+          line.textContent = text.slice(0, ++n);
+          if (n >= text.length) clearInterval(timer);
+        }, 45);
+      }
+
+      function next() {
+        if (line.textContent !== lines[at]) {
+          // Still typing: finish the line first.
+          clearInterval(timer);
+          line.textContent = lines[at];
+          return;
+        }
+        at = (at + 1) % lines.length;
+        more.textContent = at === lines.length - 1 ? '↺' : '▼';
+        show(lines[at]);
+      }
+
+      stage.addEventListener('click', next);
+      stage.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          next();
+        }
+      });
+      show(lines[0]);
+
+      // Put the visitor's own system first.
+      const ua = navigator.userAgent;
+      const os = /iPhone|iPad|Android/.test(ua)
+        ? null
+        : /Windows/.test(ua)
+          ? 'win'
+          : /Mac/.test(ua)
+            ? 'mac'
+            : /Linux|X11/.test(ua)
+              ? 'linux'
+              : null;
+      const mine = os && document.querySelector(`[data-os="${os}"]`);
+      if (mine) {
+        mine.classList.add('primary');
+        mine.parentElement.prepend(mine);
+      }
+    </script>
+  </body>
+</html>

@@ -30,11 +30,14 @@ jobs:
           ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
       - run: pnpm test
       - run: pnpm typecheck
-      - name: Build editor
+      - name: Build the game player (play/) and samples
         run: pnpm build
         env:
           # Served from https://<user>.github.io/<repo>/
           BASE_PATH: /${{ github.event.repository.name }}/
+          SITE: '1'
+      - name: Add the product page
+        run: cp -r site/. packages/editor/dist/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

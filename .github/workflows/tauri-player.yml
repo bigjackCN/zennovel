@@ -62,3 +62,5 @@ jobs:
       - uses: softprops/action-gh-release@v2
         with:
           files: out/*
+          # Not "latest": the website's download links point at the latest desktop release.
+          prerelease: true
