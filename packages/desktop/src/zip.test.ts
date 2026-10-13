@@ -19,10 +19,12 @@ describe('zip', () => {
     await chmod(join(src, 'game'), 0o755);
 
     const zip = join(dir, 'out.zip');
-    await zipFolder(src, zip, 'Game/');
+    // 'game' is named as a program too, so it is executable even when packed on Windows.
+    await zipFolder(src, zip, 'Game/', undefined, (path) => path === 'game');
     const entries = await listZip(zip);
     expect(entries.map((e) => e.name)).toEqual(['Game/assets/音乐/theme.mp3', 'Game/game', 'Game/index.html']);
     expect(entries.find((e) => e.name === 'Game/game')?.mode).toBe(0o755);
+    expect(entries.find((e) => e.name === 'Game/index.html')?.mode).toBe(0o644);
     // Text is deflated; the mp3 is stored as is.
     expect((await stat(zip)).size).toBeLessThan(15000);
 

@@ -159,13 +159,16 @@ const STORE = /\.(png|jpe?g|webp|gif|avif|mp3|ogg|oga|m4a|aac|opus|mp4|webm|zip|
 
 /**
  * Pack the folder `src` into the ZIP file `out`. Paths inside the archive
- * start with `prefix` (e.g. "MyGame/"). Executable files keep their mode.
+ * start with `prefix` (e.g. "MyGame/"). Files that are executable on disk,
+ * or that `executable` names (by path inside `src`), are marked executable:
+ * Windows has no such permission, so a Linux game packed there needs the hint.
  */
 export async function zipFolder(
   src: string,
   out: string,
   prefix = '',
   onProgress?: (done: number, total: number) => void,
+  executable: (path: string) => boolean = () => false,
 ): Promise<void> {
   const files = await walk(src);
   await mkdir(dirname(out), { recursive: true });
@@ -175,7 +178,8 @@ export async function zipFolder(
   const { time, date } = dosDateTime(new Date());
   try {
     for (const [i, full] of files.entries()) {
-      const name = Buffer.from(prefix + relative(src, full).split(sep).join('/'), 'utf8');
+      const rel = relative(src, full).split(sep).join('/');
+      const name = Buffer.from(prefix + rel, 'utf8');
       const data = await readFile(full);
       const st = await stat(full);
       const store = STORE.test(full) || data.length < 64;
@@ -184,7 +188,7 @@ export async function zipFolder(
       const body = method === 0 ? data : packed;
       if (body.length >= LIMIT || offset >= LIMIT) throw new Error('The game is too large for a ZIP file (over 4 GB)');
       const crc = crc32(data);
-      const mode = (st.mode & 0o777) | 0o100000;
+      const mode = (executable(rel) ? 0o755 : process.platform === 'win32' ? 0o644 : st.mode & 0o777) | 0o100000;
 
       const local = Buffer.alloc(30);
       local.writeUInt32LE(0x04034b50, 0);

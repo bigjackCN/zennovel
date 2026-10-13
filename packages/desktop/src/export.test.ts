@@ -117,7 +117,9 @@ describe('game export', () => {
     expect(pkg.name).toBe('zennovel-game');
     if (process.platform !== 'win32') expect((await stat(join(folder, 'linux-x64', '大裂'))).mode & 0o111).toBeTruthy();
     expect(existsSync(join(folder, '大裂-windows.zip'))).toBe(true);
-    expect(existsSync(join(folder, '大裂-linux.zip'))).toBe(true);
+    // The Linux program is executable in the zip, wherever the export ran.
+    const linuxZip = await listZip(join(folder, '大裂-linux.zip'));
+    expect(linuxZip.find((e) => e.name === '大裂/大裂')?.mode).toBe(0o755);
     expect(steps).toContain('package');
   });
 

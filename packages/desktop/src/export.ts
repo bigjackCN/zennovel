@@ -151,8 +151,17 @@ export class GameExporter {
         progress({ step: 'zip', target, fraction: 0 });
         const zip = join(folder, `${name}-${target === 'web' ? 'web' : target.replace('-electron', '')}.zip`);
         // itch.io wants index.html at the top of an HTML5 zip; desktop zips keep a folder.
-        await zipFolder(out, zip, target === 'web' ? '' : `${name}/`, (d, n) =>
-          progress({ step: 'zip', target, fraction: d / n }),
+        // Programs a Linux player must be able to run, even when the zip is made on Windows.
+        const programs =
+          platformOf(target) === 'linux'
+            ? [binaryName(req.gameName, target), 'chrome_crashpad_handler', 'chrome-sandbox']
+            : [];
+        await zipFolder(
+          out,
+          zip,
+          target === 'web' ? '' : `${name}/`,
+          (d, n) => progress({ step: 'zip', target, fraction: d / n }),
+          (path) => programs.includes(path),
         );
         output.zip = zip;
       }
