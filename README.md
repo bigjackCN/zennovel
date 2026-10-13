@@ -4,7 +4,9 @@
 
 ZenNovel is a visual novel maker that runs in the browser. It is inspired by Ren'Py, but built for **writers who don't code**: lines, branches and variables are edited with simple forms and cards, with a live preview right next to them.
 
-**Live demo:** https://bigjackcn.github.io/zennovel/
+**Live demo:** https://bigjackcn.github.io/zennovel/ (the editor; a first visit finds 《大裂》 already in "My stories")
+
+**Play the sample story:** https://bigjackcn.github.io/zennovel/play/?story=dalie (《大裂》, an interactive adaptation in Chinese: 44 scenes, four endings, illustrated and scored)
 
 ## Features (v0.1)
 
@@ -22,7 +24,7 @@ ZenNovel is a visual novel maker that runs in the browser. It is inspired by Ren
 - 📦 **Export a game**: one self-contained `index.html` (zipped, ready to upload to itch.io as an HTML game) with a title screen, save/load slots, autosave, a history of past lines and an Esc / right-click menu. "▶ Play" opens the same game in a new tab
 - 💾 **Backups**: projects are marked when they have changes that haven't been exported; an exported game can be imported back as a project
 - 🌐 **English / 中文**: switch the editor language any time; the short sample story and the player's built-in buttons come in both languages
-- 📖 **Two samples to start from**: a short bilingual demo, and 大裂, a longer branching adaptation in Chinese (44 scenes, four endings, original score) that shows variables, conditions and music at scale
+- 📖 **Two samples to start from**: a short bilingual demo, and 大裂, a longer branching adaptation in Chinese (44 scenes, four endings, 31 backgrounds, 14 characters, original score) that shows variables, conditions, art and music at scale. Both can be played straight from `play/?story=<id>` without opening the editor
 
 ## Getting started
 
@@ -46,6 +48,7 @@ packages/
   editor/    React editor
     src/i18n/           UI text (en.ts is the source of truth, zh.ts must match it)
     public/templates/   Templates for new projects (one project.<lang>.json per language, shared assets)
+    play/               play/?story=<id>: a sample played as a finished game (src/play.ts)
 ```
 
 ### How "Export game" works

@@ -756,6 +756,9 @@ h3 {
   margin: 0;
   line-height: 1.6;
 }
+.hint.play-links {
+  margin-top: 14px;
+}
 .theme-panel {
   display: grid;
   gap: 10px;

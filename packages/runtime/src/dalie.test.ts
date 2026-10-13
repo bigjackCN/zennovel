@@ -9,10 +9,17 @@ const project = dalieJson as Project;
  * Plays until the end, picking each choice by the start of its text.
  * Returns every line shown, so tests can look for an ending.
  */
-function play(picks: string[]): { lines: string[]; engine: Engine } {
+interface Seen {
+  text: string;
+  background: string | null;
+  sprites: string[];
+}
+
+function play(picks: string[]): { lines: string[]; seen: Seen[]; engine: Engine } {
   const engine = new Engine(project);
   engine.start();
   const lines: string[] = [];
+  const seen: Seen[] = [];
   const queue = [...picks];
   for (let i = 0; i < 5000; i++) {
     const s = engine.getState();
@@ -25,11 +32,21 @@ function play(picks: string[]): { lines: string[]; engine: Engine } {
       engine.choose(option.id);
       continue;
     }
-    if (s.dialogue) lines.push(s.dialogue.text);
+    if (s.dialogue) {
+      lines.push(s.dialogue.text);
+      seen.push({
+        text: s.dialogue.text,
+        background: s.background?.kind === 'image' ? s.background.assetId : null,
+        sprites: s.sprites.map((sp) => `${sp.characterId}:${sp.expression}@${sp.position}`),
+      });
+      // Never two people in the same spot.
+      const spots = s.sprites.map((sp) => sp.position);
+      if (new Set(spots).size !== spots.length) throw new Error(`two sprites share a spot at "${s.dialogue.text}"`);
+    }
     engine.advance();
   }
   expect(queue).toEqual([]);
-  return { lines, engine };
+  return { lines, seen, engine };
 }
 
 describe('大裂 sample', () => {
@@ -39,10 +56,23 @@ describe('大裂 sample', () => {
     expect(checkProject(project)).toEqual([]);
   });
 
-  it('points every audio asset at a file shipped in assets/', () => {
-    const shipped = ['cave', 'glass', 'leaving', 'night', 'riot', 'wasteland'].map((n) => `assets/${n}.mp3`);
-    expect(project.assets.map((a) => a.kind)).toEqual(project.assets.map(() => 'audio'));
-    expect(project.assets.map((a) => a.src).sort()).toEqual(shipped);
+  it('ships its pictures and music as files next to the story', () => {
+    for (const asset of project.assets) {
+      const ext = /^assets\/[\w-]+\.(webp|svg|mp3)$/.exec(asset.src)?.[1] ?? asset.src;
+      expect(['webp', 'svg', 'mp3']).toContain(ext);
+      expect(asset.kind).toBe(ext === 'mp3' ? 'audio' : 'image');
+    }
+    expect(project.assets.filter((a) => a.kind === 'audio')).toHaveLength(6);
+  });
+
+  it('gives everyone who appears on stage a sprite', () => {
+    const withSprites = project.characters.filter((c) => Object.keys(c.sprites).length > 0).map((c) => c.id);
+    expect(withSprites).toHaveLength(14);
+    for (const c of project.characters) {
+      for (const assetId of Object.values(c.sprites)) {
+        expect(project.assets.find((a) => a.id === assetId)?.kind).toBe('image');
+      }
+    }
   });
 
   it('opens on a silent title card, then the night theme', () => {
@@ -52,6 +82,7 @@ describe('大裂 sample', () => {
     expect(engine.getState().music).toBeNull();
     engine.advance();
     expect(engine.getState().music?.assetId).toBe('bgm_night');
+    expect(engine.getState().background).toEqual({ kind: 'image', assetId: 'bg_dorm_night' });
   });
 
   it('leaving the stone unturned ends early', () => {
@@ -61,7 +92,7 @@ describe('大裂 sample', () => {
   });
 
   it('the route closest to the novel reaches “我偷了你的洋镐”, with its callbacks', () => {
-    const { lines, engine } = play([
+    const { lines, seen, engine } = play([
       '搬椅子',
       '别过脸去',
       '接过来',
@@ -88,5 +119,12 @@ describe('大裂 sample', () => {
     expect(lines).toContain('那辆手推车，是那家的吧。……我早就知道。你连这个都要骗我。');
     expect(lines).toContain('那眼神和第七夜一模一样。那天晚上，我也只是站在门口看着。');
     expect(engine.getState().music?.assetId).toBe('bgm_leaving');
+    // Ding Weiyang walks out of the cave in the armour; nobody from the dorm is left standing in the yard.
+    const armour = seen.find((s) => s.text.startsWith('根本没有黄金'));
+    expect(armour?.background).toBe('bg_riot');
+    expect(armour?.sprites).toEqual(['ding:盔甲@center']);
+    const yard = seen.find((s) => s.text === '我偷了你的洋镐。');
+    expect(yard?.background).toBe('bg_yard');
+    expect(yard?.sprites).toEqual(['pick:平常@center']);
   });
 });

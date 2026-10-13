@@ -15,6 +15,288 @@
   },
   "assets": [
     {
+      "id": "bg_campus",
+      "kind": "image",
+      "name": "背景 · 山传校园",
+      "src": "assets/campus.webp"
+    },
+    {
+      "id": "bg_dorm_night",
+      "kind": "image",
+      "name": "背景 · 宿舍（夜）",
+      "src": "assets/dorm_night.webp"
+    },
+    {
+      "id": "bg_dorm_day",
+      "kind": "image",
+      "name": "背景 · 宿舍",
+      "src": "assets/dorm_day.webp"
+    },
+    {
+      "id": "bg_dorm_dim",
+      "kind": "image",
+      "name": "背景 · 宿舍（拉着窗帘）",
+      "src": "assets/dorm_dim.webp"
+    },
+    {
+      "id": "bg_dorm_rain",
+      "kind": "image",
+      "name": "背景 · 宿舍（雨夜）",
+      "src": "assets/dorm_rain.webp"
+    },
+    {
+      "id": "bg_roof_dawn",
+      "kind": "image",
+      "name": "背景 · 天台（黎明）",
+      "src": "assets/roof_dawn.webp"
+    },
+    {
+      "id": "bg_home",
+      "kind": "image",
+      "name": "背景 · 家",
+      "src": "assets/home.webp"
+    },
+    {
+      "id": "bg_canteen",
+      "kind": "image",
+      "name": "背景 · 食堂",
+      "src": "assets/canteen.webp"
+    },
+    {
+      "id": "bg_canteen_back",
+      "kind": "image",
+      "name": "背景 · 食堂后面",
+      "src": "assets/canteen_back.webp"
+    },
+    {
+      "id": "bg_dream",
+      "kind": "image",
+      "name": "背景 · 梦里的土丘",
+      "src": "assets/dream.webp"
+    },
+    {
+      "id": "bg_floor2",
+      "kind": "image",
+      "name": "背景 · 二楼走廊",
+      "src": "assets/floor2.webp"
+    },
+    {
+      "id": "bg_classroom",
+      "kind": "image",
+      "name": "背景 · 大教室",
+      "src": "assets/classroom.webp"
+    },
+    {
+      "id": "bg_stones_dusk",
+      "kind": "image",
+      "name": "背景 · 三块石头（黄昏）",
+      "src": "assets/stones_dusk.webp"
+    },
+    {
+      "id": "bg_stones_day",
+      "kind": "image",
+      "name": "背景 · 三块石头（白天）",
+      "src": "assets/stones_day.webp"
+    },
+    {
+      "id": "bg_city",
+      "kind": "image",
+      "name": "背景 · 城市",
+      "src": "assets/city.webp"
+    },
+    {
+      "id": "bg_mound_pit",
+      "kind": "image",
+      "name": "背景 · 土丘与坑",
+      "src": "assets/mound_pit.webp"
+    },
+    {
+      "id": "bg_mound_steps",
+      "kind": "image",
+      "name": "背景 · 洞口",
+      "src": "assets/mound_steps.webp"
+    },
+    {
+      "id": "bg_mound_dusk",
+      "kind": "image",
+      "name": "背景 · 洞口（傍晚）",
+      "src": "assets/mound_dusk.webp"
+    },
+    {
+      "id": "bg_hollow",
+      "kind": "image",
+      "name": "背景 · 塌陷的土丘",
+      "src": "assets/hollow.webp"
+    },
+    {
+      "id": "bg_cave",
+      "kind": "image",
+      "name": "背景 · 洞穴",
+      "src": "assets/cave.webp"
+    },
+    {
+      "id": "bg_cave_dark",
+      "kind": "image",
+      "name": "背景 · 洞穴（黑暗）",
+      "src": "assets/cave_dark.webp"
+    },
+    {
+      "id": "bg_cave_gold",
+      "kind": "image",
+      "name": "背景 · 洞底（黄金）",
+      "src": "assets/cave_gold.webp"
+    },
+    {
+      "id": "bg_cave_rock",
+      "kind": "image",
+      "name": "背景 · 洞底（石头）",
+      "src": "assets/cave_rock.webp"
+    },
+    {
+      "id": "bg_village",
+      "kind": "image",
+      "name": "背景 · 北边的村子",
+      "src": "assets/village.webp"
+    },
+    {
+      "id": "bg_yard",
+      "kind": "image",
+      "name": "背景 · 那户人家的院子",
+      "src": "assets/yard.webp"
+    },
+    {
+      "id": "bg_town",
+      "kind": "image",
+      "name": "背景 · 镇上",
+      "src": "assets/town.webp"
+    },
+    {
+      "id": "bg_town_new",
+      "kind": "image",
+      "name": "背景 · 镇上（四年后）",
+      "src": "assets/town_new.webp"
+    },
+    {
+      "id": "bg_riot",
+      "kind": "image",
+      "name": "背景 · 那一夜",
+      "src": "assets/riot.webp"
+    },
+    {
+      "id": "bg_title",
+      "kind": "image",
+      "name": "背景 · 大裂（标题）",
+      "src": "assets/title.webp"
+    },
+    {
+      "id": "bg_riot_after",
+      "kind": "image",
+      "name": "背景 · 那一夜之后",
+      "src": "assets/riot_after.webp"
+    },
+    {
+      "id": "bg_fog",
+      "kind": "image",
+      "name": "背景 · 雾",
+      "src": "assets/fog.webp"
+    },
+    {
+      "id": "img_me_me",
+      "kind": "image",
+      "name": "立绘 · 我",
+      "src": "assets/me.svg"
+    },
+    {
+      "id": "img_me_me_cave",
+      "kind": "image",
+      "name": "立绘 · 我（第四年）",
+      "src": "assets/me_cave.svg"
+    },
+    {
+      "id": "img_ding_ding",
+      "kind": "image",
+      "name": "立绘 · 丁炜阳",
+      "src": "assets/ding.svg"
+    },
+    {
+      "id": "img_ding_ding_armor",
+      "kind": "image",
+      "name": "立绘 · 丁炜阳（盔甲）",
+      "src": "assets/ding_armor.svg"
+    },
+    {
+      "id": "img_guo_guo",
+      "kind": "image",
+      "name": "立绘 · 郭仲翰",
+      "src": "assets/guo.svg"
+    },
+    {
+      "id": "img_liu_liu",
+      "kind": "image",
+      "name": "立绘 · 刘庆庆",
+      "src": "assets/liu.svg"
+    },
+    {
+      "id": "img_zhao_zhao",
+      "kind": "image",
+      "name": "立绘 · 赵乃夫",
+      "src": "assets/zhao.svg"
+    },
+    {
+      "id": "img_li_li",
+      "kind": "image",
+      "name": "立绘 · 李宁",
+      "src": "assets/li.svg"
+    },
+    {
+      "id": "img_yang_yang",
+      "kind": "image",
+      "name": "立绘 · 杨邦",
+      "src": "assets/yang.svg"
+    },
+    {
+      "id": "img_wzy_wzy",
+      "kind": "image",
+      "name": "立绘 · 王子叶",
+      "src": "assets/wzy.svg"
+    },
+    {
+      "id": "img_lx_lx",
+      "kind": "image",
+      "name": "立绘 · 梁晓",
+      "src": "assets/lx.svg"
+    },
+    {
+      "id": "img_girl_girl",
+      "kind": "image",
+      "name": "立绘 · 短发女孩",
+      "src": "assets/girl.svg"
+    },
+    {
+      "id": "img_pick_pick",
+      "kind": "image",
+      "name": "立绘 · 丢洋镐的男人",
+      "src": "assets/pick.svg"
+    },
+    {
+      "id": "img_mom_mom",
+      "kind": "image",
+      "name": "立绘 · 母亲",
+      "src": "assets/mom.svg"
+    },
+    {
+      "id": "img_old_old",
+      "kind": "image",
+      "name": "立绘 · 老广院",
+      "src": "assets/old.svg"
+    },
+    {
+      "id": "img_cui_cui",
+      "kind": "image",
+      "name": "立绘 · 崔晨",
+      "src": "assets/cui.svg"
+    },
+    {
       "id": "bgm_night",
       "kind": "audio",
       "name": "配乐 · 夜",
@@ -55,103 +337,133 @@
     {
       "id": "me",
       "name": "我",
-      "color": "#e0c36a",
-      "sprites": {}
+      "color": "#a8843a",
+      "sprites": {
+        "平常": "img_me_me",
+        "第四年": "img_me_me_cave"
+      }
     },
     {
       "id": "ding",
       "name": "丁炜阳",
-      "color": "#7fb3d5",
-      "sprites": {}
+      "color": "#4f86b0",
+      "sprites": {
+        "平常": "img_ding_ding",
+        "盔甲": "img_ding_ding_armor"
+      }
     },
     {
       "id": "guo",
       "name": "郭仲翰",
-      "color": "#d98c5f",
-      "sprites": {}
+      "color": "#b8693c",
+      "sprites": {
+        "平常": "img_guo_guo"
+      }
     },
     {
       "id": "liu",
       "name": "刘庆庆",
-      "color": "#9bc27a",
-      "sprites": {}
+      "color": "#5f8a44",
+      "sprites": {
+        "平常": "img_liu_liu"
+      }
     },
     {
       "id": "zhao",
       "name": "赵乃夫",
-      "color": "#b39ddb",
-      "sprites": {}
+      "color": "#7e66ae",
+      "sprites": {
+        "平常": "img_zhao_zhao"
+      }
     },
     {
       "id": "li",
       "name": "李宁",
-      "color": "#a0a0a0",
-      "sprites": {}
+      "color": "#6e6e6e",
+      "sprites": {
+        "平常": "img_li_li"
+      }
     },
     {
       "id": "yang",
       "name": "杨邦",
-      "color": "#d0503c",
-      "sprites": {}
+      "color": "#b8402e",
+      "sprites": {
+        "平常": "img_yang_yang"
+      }
     },
     {
       "id": "wzy",
       "name": "王子叶",
-      "color": "#f48fb1",
-      "sprites": {}
+      "color": "#c25a82",
+      "sprites": {
+        "平常": "img_wzy_wzy"
+      }
     },
     {
       "id": "lx",
       "name": "梁晓",
-      "color": "#80cbc4",
-      "sprites": {}
+      "color": "#3f8a84",
+      "sprites": {
+        "平常": "img_lx_lx"
+      }
     },
     {
       "id": "girl",
       "name": "短发女孩",
-      "color": "#e8eaf6",
-      "sprites": {}
+      "color": "#62788f",
+      "sprites": {
+        "平常": "img_girl_girl"
+      }
     },
     {
       "id": "pick",
       "name": "丢洋镐的男人",
-      "color": "#bca07a",
-      "sprites": {}
+      "color": "#8c7048",
+      "sprites": {
+        "平常": "img_pick_pick"
+      }
     },
     {
       "id": "mom",
       "name": "母亲",
-      "color": "#ffcc80",
-      "sprites": {}
+      "color": "#b07a3a",
+      "sprites": {
+        "平常": "img_mom_mom"
+      }
     },
     {
       "id": "old",
       "name": "老广院",
-      "color": "#8d6e63",
-      "sprites": {}
+      "color": "#7a5a4e",
+      "sprites": {
+        "平常": "img_old_old"
+      }
     },
     {
       "id": "cui",
       "name": "崔晨",
-      "color": "#90a4ae",
-      "sprites": {}
+      "color": "#5e7480",
+      "sprites": {
+        "平常": "img_cui_cui"
+      }
     },
     {
       "id": "kid",
       "name": "小男孩",
-      "color": "#fff59d",
+      "color": "#a08a2c",
       "sprites": {}
     },
     {
       "id": "boss",
       "name": "五金店老板",
-      "color": "#a1887f",
+      "color": "#7e665a",
       "sprites": {}
     },
     {
       "id": "ktv",
       "name": "KTV的女人",
-      "color": "#ce93d8",
+      "color": "#9a5ca6",
       "sprites": {}
     }
   ],
@@ -249,8 +561,8 @@
           "id": "c0001",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#000000"
+            "kind": "image",
+            "assetId": "bg_title"
           },
           "transition": "fade"
         },
@@ -263,8 +575,8 @@
           "id": "c0003",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#14161f"
+            "kind": "image",
+            "assetId": "bg_dorm_night"
           },
           "transition": "fade"
         },
@@ -293,122 +605,155 @@
         },
         {
           "id": "c0008",
-          "type": "say",
-          "text": "丁炜阳总是我的上家。他学得慢，我学得快。这是五年来，我第一次在什么事情上学得比别人快。"
+          "type": "show",
+          "characterId": "ding",
+          "expression": "平常",
+          "position": "center"
         },
         {
           "id": "c0009",
           "type": "say",
-          "text": "刘庆庆一边码牌，一边憋着笑。"
+          "text": "丁炜阳总是我的上家。他学得慢，我学得快。这是五年来，我第一次在什么事情上学得比别人快。"
         },
         {
           "id": "c0010",
-          "type": "say",
+          "type": "show",
           "characterId": "liu",
-          "text": "前两天在网吧，有个人不给老广院让座。"
+          "expression": "平常",
+          "position": "left"
         },
         {
           "id": "c0011",
           "type": "say",
-          "characterId": "guo",
-          "text": "凭什么让？"
+          "text": "刘庆庆一边码牌，一边憋着笑。"
         },
         {
           "id": "c0012",
           "type": "say",
           "characterId": "liu",
-          "text": "那人也这么说。然后老广院指着他鼻子——“等着，把你们杀得片甲不留。”"
+          "text": "前两天在网吧，有个人不给老广院让座。"
         },
         {
           "id": "c0013",
+          "type": "show",
+          "characterId": "guo",
+          "expression": "平常",
+          "position": "right"
+        },
+        {
+          "id": "c0014",
+          "type": "say",
+          "characterId": "guo",
+          "text": "凭什么让？"
+        },
+        {
+          "id": "c0015",
+          "type": "say",
+          "characterId": "liu",
+          "text": "那人也这么说。然后老广院指着他鼻子——“等着，把你们杀得片甲不留。”"
+        },
+        {
+          "id": "c0016",
           "type": "say",
           "characterId": "guo",
           "text": "片甲不留？原话？"
         },
         {
-          "id": "c0014",
+          "id": "c0017",
           "type": "say",
           "text": "刘庆庆点头，笑得牌都拿不稳。我们全笑趴了。连坐在一边、拿本子记我们“不良作风”的舍长，嘴角都抽了一下。"
         },
         {
-          "id": "c0015",
+          "id": "c0018",
           "type": "say",
           "text": "片甲不留。我们一致认为，这是那一年听过最好笑的词。"
         },
         {
-          "id": "c0016",
+          "id": "c0019",
           "type": "say",
           "text": "凌晨一点，最后一把。我又一次把丁炜阳闷死在手里。"
         },
         {
-          "id": "c0017",
+          "id": "c0020",
           "type": "say",
           "text": "他捏着半副没出完的牌，茫然地看了一圈，像一个听见收卷铃的考生。然后他把牌轻轻放下，出了门。"
         },
         {
-          "id": "c0018",
-          "type": "say",
-          "text": "我们都以为，他只是去洗把脸。"
-        },
-        {
-          "id": "c0019",
-          "type": "say",
-          "text": "走廊里忽然炸开一声吼。"
-        },
-        {
-          "id": "c0020",
-          "type": "say",
-          "text": "那声音又长又哑，在这片被城市扔掉的荒地上来回撞。很久以后我才想明白：那是动物临死前才会发出的声音。"
-        },
-        {
           "id": "c0021",
-          "type": "say",
-          "text": "楼下传来一阵乱糟糟的脚步。"
+          "type": "hide",
+          "characterId": "ding"
         },
         {
           "id": "c0022",
           "type": "say",
-          "text": "丁炜阳撞开门冲回来，后背死死抵住门板。他的大舌头一着急就更大了。"
+          "text": "我们都以为，他只是去洗把脸。"
         },
         {
           "id": "c0023",
+          "type": "say",
+          "text": "走廊里忽然炸开一声吼。"
+        },
+        {
+          "id": "c0024",
+          "type": "say",
+          "text": "那声音又长又哑，在这片被城市扔掉的荒地上来回撞。很久以后我才想明白：那是动物临死前才会发出的声音。"
+        },
+        {
+          "id": "c0025",
+          "type": "say",
+          "text": "楼下传来一阵乱糟糟的脚步。"
+        },
+        {
+          "id": "c0026",
+          "type": "show",
+          "characterId": "ding",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0027",
+          "type": "say",
+          "text": "丁炜阳撞开门冲回来，后背死死抵住门板。他的大舌头一着急就更大了。"
+        },
+        {
+          "id": "c0028",
           "type": "say",
           "characterId": "ding",
           "text": "他们……上来了。"
         },
         {
-          "id": "c0024",
+          "id": "c0029",
           "type": "sound",
           "assetId": "sfx_glass",
           "volume": 0.8
         },
         {
-          "id": "c0025",
+          "id": "c0030",
           "type": "say",
           "text": "话还没说完，一只啤酒瓶在门外炸开，碎玻璃从门缝底下滑了进来。"
         },
         {
-          "id": "c0026",
+          "id": "c0031",
           "type": "say",
           "characterId": "ding",
           "text": "他们手里……好像有刀。"
         },
         {
-          "id": "c0027",
+          "id": "c0032",
           "type": "say",
           "text": "是老广院的人。住在二楼的上一届，一百来号。我们是学校改名后招进来的第一批新生，住三楼和四楼。在他们眼里，我们是来抢地盘的。"
         },
         {
-          "id": "c0028",
+          "id": "c0033",
           "type": "say",
           "text": "踹门声一间一间地往这边挪。铁器砸在床架上，砸在柜子上，砸在人身上。"
         },
         {
-          "id": "c0029",
+          "id": "c0034",
           "type": "choice",
           "options": [
             {
-              "id": "c0030",
+              "id": "c0035",
               "text": "搬椅子顶住门",
               "effects": [
                 {
@@ -419,7 +764,7 @@
               ]
             },
             {
-              "id": "c0031",
+              "id": "c0036",
               "text": "抓起墙角的拖把，站到丁炜阳身边",
               "effects": [
                 {
@@ -435,7 +780,7 @@
               ]
             },
             {
-              "id": "c0032",
+              "id": "c0037",
               "text": "缩进墙角，屏住呼吸",
               "effects": [
                 {
@@ -449,72 +794,94 @@
           "prompt": "门外的声音越来越近。"
         },
         {
-          "id": "c0033",
+          "id": "c0038",
           "type": "say",
           "text": "走廊尽头突然响起一个很粗的嗓门：“都出来！我们人比他们多！别怕！”"
         },
         {
-          "id": "c0034",
+          "id": "c0039",
           "type": "say",
           "text": "老广院那边居然静了一瞬。"
         },
         {
-          "id": "c0035",
+          "id": "c0040",
           "type": "say",
           "text": "屋里有人小声说：开门。"
         },
         {
-          "id": "c0036",
+          "id": "c0041",
           "type": "say",
           "text": "丁炜阳的手按在门把上，胸口一起一伏。"
         },
         {
-          "id": "c0037",
+          "id": "c0042",
           "type": "say",
           "text": "门开了。别的宿舍也传来稀稀拉拉的开门声。郭仲翰从抽屉里摸出一把剪刀，攥得指节发白。"
         },
         {
-          "id": "c0038",
+          "id": "c0043",
           "type": "say",
           "text": "然后是一声闷响。那个喊话的人，被一棍子放倒在走廊里。"
         },
         {
-          "id": "c0039",
+          "id": "c0044",
           "type": "say",
           "text": "门既然都开了，老广院也就省了踹门的力气。他们三四个一组冲进来，见人就抡。"
         },
         {
-          "id": "c0040",
+          "id": "c0045",
           "type": "say",
           "text": "我们的门被一脚踹开，丁炜阳整个人摔出去，额头磕在瓷砖上，不动了。"
         },
         {
-          "id": "c0041",
+          "id": "c0046",
+          "type": "hide",
+          "characterId": "ding"
+        },
+        {
+          "id": "c0047",
+          "type": "hide",
+          "characterId": "liu"
+        },
+        {
+          "id": "c0048",
+          "type": "hide",
+          "characterId": "guo"
+        },
+        {
+          "id": "c0049",
+          "type": "show",
+          "characterId": "old",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0050",
           "type": "say",
           "characterId": "old",
           "text": "刚才谁开的门？"
         },
         {
-          "id": "c0042",
+          "id": "c0051",
           "type": "say",
           "text": "没人吭声。舍长缩在椅子上，抬起一根弯弯的手指，指了指地上的丁炜阳。"
         },
         {
-          "id": "c0043",
+          "id": "c0052",
           "type": "say",
           "text": "铁棍砸在丁炜阳的肩胛骨上。几只脚轮流踩下去。他想撑起来，被踩下去；再撑，又被踩下去。"
         },
         {
-          "id": "c0044",
+          "id": "c0053",
           "type": "say",
           "text": "一道红色，从他脑袋底下慢慢流了出来。"
         },
         {
-          "id": "c0045",
+          "id": "c0054",
           "type": "choice",
           "options": [
             {
-              "id": "c0046",
+              "id": "c0055",
               "text": "冲上去",
               "effects": [
                 {
@@ -536,7 +903,7 @@
               "targetSceneId": "s01_charge"
             },
             {
-              "id": "c0047",
+              "id": "c0056",
               "text": "别过脸去",
               "effects": [
                 {
@@ -561,27 +928,27 @@
       },
       "commands": [
         {
-          "id": "c0048",
+          "id": "c0057",
           "type": "say",
           "text": "我还没迈出门槛，肚子上就挨了一下，接着是脑袋。"
         },
         {
-          "id": "c0049",
+          "id": "c0058",
           "type": "say",
           "text": "不疼，只是晕。一圈一圈的晕从脑子里漾开，我顺着门框滑了下去。"
         },
         {
-          "id": "c0050",
+          "id": "c0059",
           "type": "say",
           "text": "倒下之前，我和地上的丁炜阳对上了一眼。他满脸是血，却好像看清了是谁扑过来的。"
         },
         {
-          "id": "c0051",
+          "id": "c0060",
           "type": "say",
           "text": "然后角落里的赵乃夫吼着扑了出去——那一嗓子像是从胸腔里炸出来的。他也倒了，眼角豁开一道口子。"
         },
         {
-          "id": "c0052",
+          "id": "c0061",
           "type": "jump",
           "targetSceneId": "s01_roof"
         }
@@ -596,27 +963,27 @@
       },
       "commands": [
         {
-          "id": "c0053",
+          "id": "c0062",
           "type": "say",
           "text": "我伸出手，又缩了回来。"
         },
         {
-          "id": "c0054",
+          "id": "c0063",
           "type": "say",
           "text": "“我打不过他们。”我在心里一遍遍地念。这句话是真的，可它一点也没让我好受。"
         },
         {
-          "id": "c0055",
+          "id": "c0064",
           "type": "say",
           "text": "角落里的赵乃夫吼了一声冲出去，三根棍子同时落在他身上。他倒下的时候，眼角裂开了一道口子。"
         },
         {
-          "id": "c0056",
+          "id": "c0065",
           "type": "say",
           "text": "我站在原地，一下也没挨。后来我才知道，一下也没挨，是那天晚上最难挨的一种。"
         },
         {
-          "id": "c0057",
+          "id": "c0066",
           "type": "jump",
           "targetSceneId": "s01_roof"
         }
@@ -631,56 +998,61 @@
       },
       "commands": [
         {
-          "id": "c0058",
+          "id": "c1047",
+          "type": "hide",
+          "characterId": "old"
+        },
+        {
+          "id": "c0067",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#3c4452"
+            "kind": "image",
+            "assetId": "bg_roof_dawn"
           },
           "transition": "fade"
         },
         {
-          "id": "c0059",
+          "id": "c0068",
           "type": "music",
           "action": "stop"
         },
         {
-          "id": "c0060",
+          "id": "c0069",
           "type": "say",
           "text": "三点左右，老广院退回了二楼。"
         },
         {
-          "id": "c0061",
+          "id": "c0070",
           "type": "say",
           "text": "走廊像屠宰场，碎玻璃和血迹一路铺过去。挨了打的人都待在各自屋里，谁也不说话，谁也不动，像一屋子被拔了电源的电器。"
         },
         {
-          "id": "c0062",
+          "id": "c0071",
           "type": "say",
           "text": "丁炜阳被扶到椅子上，鼻血干在脖子上，一片一片的，像鱼鳞。舍长背对着所有人，一直在搓那根弯手指，搓得它肿了起来。"
         },
         {
-          "id": "c0063",
+          "id": "c0072",
           "type": "say",
           "text": "天快亮的时候，我爬上了楼顶。"
         },
         {
-          "id": "c0064",
+          "id": "c0073",
           "type": "say",
           "text": "那个喊“都出来”的胖子趴在天台上，一条胳膊拧成了不该有的角度。他的脸贴着水泥地，看不出还有没有气。"
         },
         {
-          "id": "c0065",
+          "id": "c0074",
           "type": "say",
           "text": "凌晨五点，冷气把整片荒地裹得严严实实。"
         },
         {
-          "id": "c0066",
+          "id": "c0075",
           "type": "say",
           "text": "也许，我们后来决定相信一张藏宝图，就是从这个早上开始的。"
         },
         {
-          "id": "c0067",
+          "id": "c0076",
           "type": "jump",
           "targetSceneId": "s02"
         }
@@ -695,7 +1067,7 @@
       },
       "commands": [
         {
-          "id": "c0068",
+          "id": "c0077",
           "type": "bg",
           "background": {
             "kind": "color",
@@ -704,21 +1076,21 @@
           "transition": "fade"
         },
         {
-          "id": "c0069",
+          "id": "c0078",
           "type": "say",
           "text": "— 二 · 每个人的到来 —"
         },
         {
-          "id": "c0070",
+          "id": "c0079",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#3d3a35"
+            "kind": "image",
+            "assetId": "bg_home"
           },
           "transition": "fade"
         },
         {
-          "id": "c0071",
+          "id": "c0080",
           "type": "music",
           "action": "play",
           "assetId": "bgm_leaving",
@@ -726,52 +1098,59 @@
           "volume": 0.45
         },
         {
-          "id": "c0072",
+          "id": "c0081",
           "type": "say",
           "text": "倒回去说。我的初中和高中，都是全市最差的。这座城市有一百多万个年轻人，我一直觉得自己是其中最不像样的那百分之五。"
         },
         {
-          "id": "c0073",
+          "id": "c0082",
           "type": "say",
           "text": "我考了五年电影学院。第一年拿到最好那所学校的合格证，走路都带风；然后全省考生人数创了新高，分数线水涨船高，我被刷了下来。"
         },
         {
-          "id": "c0074",
+          "id": "c0083",
           "type": "say",
           "text": "后面四年，我每年都要把自己在几十万考生里的排位算一遍，像病人每天量体温，越量越凉。"
         },
         {
-          "id": "c0075",
+          "id": "c0084",
           "type": "say",
           "text": "第二年，父亲撞见我在屋里看一张来路不明的碟，从此认定“学电影”就是关起门来不干正事。也是那一年，我在北京的地下室里认识了赵乃夫。"
         },
         {
-          "id": "c0076",
+          "id": "c0085",
           "type": "say",
           "text": "第五年，我开始掉头发，考出了五年来最差的成绩。父亲说，再考不上，就托人送我去环卫站开车。"
         },
         {
-          "id": "c0077",
+          "id": "c0086",
           "type": "say",
           "text": "母亲已经很久不怎么说话了。那天，她递给我一本招生小册子。"
         },
         {
-          "id": "c0078",
+          "id": "c0087",
+          "type": "show",
+          "characterId": "mom",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0088",
           "type": "say",
           "characterId": "mom",
           "text": "你看看这个吧。"
         },
         {
-          "id": "c0079",
+          "id": "c0089",
           "type": "choice",
           "options": [
             {
-              "id": "c0080",
+              "id": "c0090",
               "text": "接过来",
               "targetSceneId": "s02_leave"
             },
             {
-              "id": "c0081",
+              "id": "c0091",
               "text": "“我宁可去开环卫车。”",
               "effects": [
                 {
@@ -796,23 +1175,23 @@
       },
       "commands": [
         {
-          "id": "c0082",
+          "id": "c0092",
           "type": "say",
           "characterId": "me",
           "text": "我宁可去开环卫车。"
         },
         {
-          "id": "c0083",
+          "id": "c0093",
           "type": "say",
           "text": "母亲没再说话，转过身去。我看见她鬓角的白头发，和一直在抖的肩膀。"
         },
         {
-          "id": "c0084",
+          "id": "c0094",
           "type": "say",
           "text": "我站了一会儿，还是把册子拿了过来。"
         },
         {
-          "id": "c0085",
+          "id": "c0095",
           "type": "jump",
           "targetSceneId": "s02_leave"
         }
@@ -827,28 +1206,28 @@
       },
       "commands": [
         {
-          "id": "c0086",
+          "id": "c0096",
           "type": "say",
           "text": "临走那天，我背着那只用了五年、隔层多得像迷宫的旅行包，对母亲说："
         },
         {
-          "id": "c0087",
+          "id": "c0097",
           "type": "say",
           "characterId": "me",
           "text": "就算是那种学校，我也要杀出一条路来。"
         },
         {
-          "id": "c0088",
+          "id": "c0098",
           "type": "say",
           "text": "说完我就哭了。这是五年来的第一次。"
         },
         {
-          "id": "c0089",
+          "id": "c0099",
           "type": "say",
           "text": "父亲一脚踢翻了客厅里那张摆了二十年的大理石茶几，算是给我送行。"
         },
         {
-          "id": "c0090",
+          "id": "c0100",
           "type": "jump",
           "targetSceneId": "s02_arrive"
         }
@@ -863,16 +1242,21 @@
       },
       "commands": [
         {
-          "id": "c0091",
+          "id": "c1048",
+          "type": "hide",
+          "characterId": "mom"
+        },
+        {
+          "id": "c0101",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#6b5a3e"
+            "kind": "image",
+            "assetId": "bg_campus"
           },
           "transition": "fade"
         },
         {
-          "id": "c0092",
+          "id": "c0102",
           "type": "music",
           "action": "play",
           "assetId": "bgm_wasteland",
@@ -880,120 +1264,141 @@
           "volume": 0.6
         },
         {
-          "id": "c0093",
+          "id": "c0103",
           "type": "say",
           "text": "城郊，一条笔直的高速公路，两边是望不到头的荒地。入秋以后，土是一种焦躁的黄色。"
         },
         {
-          "id": "c0094",
+          "id": "c0104",
           "type": "say",
           "text": "这里原来叫广播学院，后来扩建改名，叫山化传播学院，大家叫它山传。教学楼是化工厂改的。如果给全国三百多所专科排个队，它大概站在队尾，负责关灯。"
         },
         {
-          "id": "c0095",
+          "id": "c0105",
           "type": "say",
           "text": "报到那天，所有新生抱着一样的薄塑料盆、一样的草芯被子，站在食堂前那块小广场上。"
         },
         {
-          "id": "c0096",
+          "id": "c0106",
           "type": "say",
           "text": "天阴着，没人说话。大家都盯着食堂那扇油腻腻的大门，慢慢明白了一件事：完了。"
         },
         {
-          "id": "c0097",
+          "id": "c0107",
           "type": "say",
           "text": "宿舍楼二楼的窗户里，老广院的人趴在窗台上剥香蕉，看着我们。他们什么也没在等。他们只是觉得，这块地方被我们挤占了。"
         },
         {
-          "id": "c0098",
+          "id": "c0108",
+          "type": "show",
+          "characterId": "guo",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0109",
           "type": "say",
           "text": "在走廊里，我撞见了郭仲翰——复读班的同桌。我以为他去了上海。看样子，他也这么以为。"
         },
         {
-          "id": "c0099",
+          "id": "c0110",
           "type": "say",
           "text": "郭仲翰个子高大，却长了张娃娃脸。为了显得老成，他留了胡子，可胡子也长不起来，像一块放久了的馒头表面那层东西。"
         },
         {
-          "id": "c0100",
+          "id": "c0111",
           "type": "say",
           "characterId": "guo",
           "text": "我高考发挥失常，就差五分。我女朋友已经在上海了。你看，虹桥。"
         },
         {
-          "id": "c0101",
+          "id": "c0112",
           "type": "say",
           "text": "他把手机里的照片怼到我眼前。以他在复读班的睡眠时长，差五分已经是老天开恩。"
         },
         {
-          "id": "c0102",
+          "id": "c0113",
+          "type": "show",
+          "characterId": "liu",
+          "expression": "平常",
+          "position": "left"
+        },
+        {
+          "id": "c0114",
           "type": "say",
           "text": "他对床是刘庆庆，圆脑袋，黑皮肤，躺着让他爸给他套枕套。他爸瘦得像根柴，一句话也不说，只哼了一声，就拉着他去食堂了。"
         },
         {
-          "id": "c0103",
+          "id": "c0115",
           "type": "say",
           "text": "然后，一个人出现在我们身后。"
         },
         {
-          "id": "c0104",
+          "id": "c0116",
+          "type": "show",
+          "characterId": "ding",
+          "expression": "平常",
+          "position": "right"
+        },
+        {
+          "id": "c0117",
           "type": "say",
           "text": "浓眉，大眼，格子衬衫一道褶也没有，像是从九十年代的漫画里走错片场出来的。"
         },
         {
-          "id": "c0105",
+          "id": "c0118",
           "type": "say",
           "characterId": "ding",
           "text": "你好，我叫丁炜阳。"
         },
         {
-          "id": "c0106",
+          "id": "c0119",
           "type": "say",
           "text": "他一开口，屋里好像多了几缕阳光。这个人跟这地方太不搭了。按山传的标准，人人都该长着死鱼眼，裤脚沾着土。"
         },
         {
-          "id": "c0107",
+          "id": "c0120",
           "type": "say",
           "text": "丁炜阳弯腰去拉行李箱的拉链。郭仲翰路过，顺手在他屁股上拍了一下。丁炜阳回过头，冲他灿烂地一笑。"
         },
         {
-          "id": "c0108",
+          "id": "c0121",
           "type": "say",
           "text": "我也拍了一下。他又冲我笑。"
         },
         {
-          "id": "c0109",
+          "id": "c0122",
           "type": "say",
           "text": "郭仲翰都走到门口了，又折回来拍了一下。这回丁炜阳终于愣住了。"
         },
         {
-          "id": "c0110",
+          "id": "c0123",
           "type": "say",
           "characterId": "ding",
           "text": "……干什么？"
         },
         {
-          "id": "c0111",
+          "id": "c0124",
           "type": "say",
           "text": "我们三个人的友谊，就建立在一个人反应慢了两拍的基础上。"
         },
         {
-          "id": "c0112",
+          "id": "c0125",
           "type": "say",
           "text": "郭仲翰反坐在椅子上，下巴搁在椅背上看我。"
         },
         {
-          "id": "c0113",
+          "id": "c0126",
           "type": "say",
           "characterId": "guo",
           "text": "你呢？你怎么也到这儿来了？"
         },
         {
-          "id": "c0114",
+          "id": "c0127",
           "type": "choice",
           "options": [
             {
-              "id": "c0115",
+              "id": "c0128",
               "text": "照实说：考了五年，没考上",
               "effects": [
                 {
@@ -1004,7 +1409,7 @@
               ]
             },
             {
-              "id": "c0116",
+              "id": "c0129",
               "text": "不说话",
               "effects": [
                 {
@@ -1017,27 +1422,51 @@
           ]
         },
         {
-          "id": "c0117",
+          "id": "c0130",
           "type": "say",
           "text": "郭仲翰点了点头。那个点头，让人很想把他的椅子踢翻。"
         },
         {
-          "id": "c0118",
+          "id": "c0131",
           "type": "say",
           "text": "我的铁柜门上，有前人用一笔一画、又很幼稚的字抄了几句《圣经》，大意是地上满是强暴，凡有血气的都败坏了。底下又有人添了一行脏话，算是读后感。"
         },
         {
-          "id": "c0119",
+          "id": "c1049",
+          "type": "hide",
+          "characterId": "ding"
+        },
+        {
+          "id": "c1050",
+          "type": "hide",
+          "characterId": "guo"
+        },
+        {
+          "id": "c1051",
+          "type": "hide",
+          "characterId": "liu"
+        },
+        {
+          "id": "c0132",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_canteen"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "c0133",
           "type": "say",
           "text": "那天晚上在食堂，一个女生端着盘子滑倒了，一盘鱼香茄子扣了一身。她坐在地上，困惑地看着远处。"
         },
         {
-          "id": "c0120",
+          "id": "c0134",
           "type": "say",
           "text": "所有人都抬起头，困惑地看着她。谁也不知道这是怎么了。"
         },
         {
-          "id": "c0121",
+          "id": "c0135",
           "type": "jump",
           "targetSceneId": "s03"
         }
@@ -1052,7 +1481,7 @@
       },
       "commands": [
         {
-          "id": "c0122",
+          "id": "c0136",
           "type": "bg",
           "background": {
             "kind": "color",
@@ -1061,21 +1490,21 @@
           "transition": "fade"
         },
         {
-          "id": "c0123",
+          "id": "c0137",
           "type": "say",
           "text": "— 三 · 聚集 —"
         },
         {
-          "id": "c0124",
+          "id": "c0138",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#6b5a3e"
+            "kind": "image",
+            "assetId": "bg_campus"
           },
           "transition": "fade"
         },
         {
-          "id": "c0125",
+          "id": "c0139",
           "type": "music",
           "action": "play",
           "assetId": "bgm_wasteland",
@@ -1083,278 +1512,383 @@
           "volume": 0.6
         },
         {
-          "id": "c0126",
+          "id": "c0140",
           "type": "say",
           "text": "开学头半个月，新生干成的第一件事，是打通了一堵墙。"
         },
         {
-          "id": "c0127",
+          "id": "c0141",
           "type": "say",
           "text": "有个胖子要去学校西边，可大门只开在东边。他想起自己在技校学过开挖掘机，而工地上正好停着一台。"
         },
         {
-          "id": "c0128",
+          "id": "c0142",
           "type": "say",
           "text": "他爬上去，在围墙上推开了一个口子。围观的人都鼓起掌来。从那以后，他就叫西门大官人。"
         },
         {
-          "id": "c0129",
+          "id": "c0143",
           "type": "say",
           "text": "后来他又连夜铺出一条从西门直通网吧的鹅卵石小路。这是我们这一届唯一的基础设施建设。"
         },
         {
-          "id": "c0130",
+          "id": "c0144",
           "type": "say",
           "text": "就是他，在那天夜里喊“都出来”，被打成一张饼，摊在了天台上。"
         },
         {
-          "id": "c0131",
+          "id": "c0145",
           "type": "say",
           "text": "那段时间，我总做同一个梦。"
         },
         {
-          "id": "c0132",
+          "id": "c0146",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#8e8a7a"
+            "kind": "image",
+            "assetId": "bg_dream"
           },
           "transition": "fade"
         },
         {
-          "id": "c0133",
+          "id": "c0147",
           "type": "say",
           "text": "一座三米来高的土丘，上面爬满了雪白的乌鸡。它们爬上去，又爬下来。"
         },
         {
-          "id": "c0134",
+          "id": "c0148",
           "type": "say",
           "text": "我蹲在那儿看着它们，心里很高兴。我想，这大概就是我自己的小宇宙。"
         },
         {
-          "id": "c0135",
+          "id": "c0149",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#6b5a3e"
+            "kind": "image",
+            "assetId": "bg_campus"
           },
           "transition": "fade"
         },
         {
-          "id": "c0136",
+          "id": "c0150",
+          "type": "show",
+          "characterId": "liu",
+          "expression": "平常",
+          "position": "left"
+        },
+        {
+          "id": "c0151",
+          "type": "show",
+          "characterId": "ding",
+          "expression": "平常",
+          "position": "right"
+        },
+        {
+          "id": "c0152",
           "type": "say",
           "text": "开学第二天，刘庆庆要从丁炜阳的本子上撕一页纸。"
         },
         {
-          "id": "c0137",
+          "id": "c0153",
           "type": "say",
           "characterId": "ding",
           "text": "不行。这是学习用的纸。"
         },
         {
-          "id": "c0138",
+          "id": "c0154",
           "type": "say",
           "text": "全班都安静了，好像有人在追悼会上讲了个笑话。"
         },
         {
-          "id": "c0139",
+          "id": "c0155",
           "type": "say",
           "characterId": "liu",
           "text": "学什么学。"
         },
         {
-          "id": "c0140",
+          "id": "c0156",
           "type": "say",
           "text": "他一把扯下那页纸。丁炜阳涨红了脸，蹲了下去。我以为他要找砖头——他把刘庆庆屁股底下的椅子抽走了。"
         },
         {
-          "id": "c0141",
+          "id": "c0157",
           "type": "say",
           "text": "刘庆庆滑进桌子底下，很久没有上来。老师踮着脚看了看，继续讲课。"
         },
         {
-          "id": "c0142",
+          "id": "c0158",
           "type": "say",
           "text": "等他再冒头，已经在教室另一头了，两只手各提着一个簸箕，满头大汗，走一步喘一口，像是去打仗之前先跑了个马拉松。"
         },
         {
-          "id": "c0143",
+          "id": "c0159",
+          "type": "show",
+          "characterId": "guo",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0160",
           "type": "say",
           "text": "郭仲翰站起来，把两个人都按回了座位。"
         },
         {
-          "id": "c0144",
+          "id": "c0161",
           "type": "say",
           "characterId": "guo",
           "text": "不打了，都不打了。学习又不神圣——要是神圣，你们怎么会在这儿？"
         },
         {
-          "id": "c0145",
+          "id": "c0162",
           "type": "say",
           "text": "丁炜阳被安慰得眼圈都红了。后来我问刘庆庆为什么非要那页纸，他说他想起一个笑话，想记下来。"
         },
         {
-          "id": "c0146",
+          "id": "c0163",
           "type": "say",
           "characterId": "liu",
           "text": "结果没记下来，就忘了。"
         },
         {
-          "id": "c0147",
+          "id": "c0164",
           "type": "say",
           "text": "从那以后，丁炜阳决定在本子上写散文。可他总是写了一句，就再也写不下去。我凑过去看，整页纸上只有一行，没有标点："
         },
         {
-          "id": "c0148",
+          "id": "c0165",
           "type": "say",
           "characterId": "ding",
           "text": "今天我很幸福"
         },
         {
-          "id": "c0149",
+          "id": "c0166",
           "type": "say",
           "characterId": "me",
           "text": "你这么写，是没法往下写的。"
         },
         {
-          "id": "c0150",
+          "id": "c0167",
           "type": "say",
           "characterId": "ding",
           "text": "那我该写什么？"
         },
         {
-          "id": "c0151",
+          "id": "c0168",
           "type": "say",
           "text": "我答不上来。他眼睛里那点卡通片似的光，让我有点不敢看。"
         },
         {
-          "id": "c0152",
+          "id": "c0169",
+          "type": "hide",
+          "characterId": "liu"
+        },
+        {
+          "id": "c0170",
+          "type": "hide",
+          "characterId": "ding"
+        },
+        {
+          "id": "c0171",
+          "type": "hide",
+          "characterId": "guo"
+        },
+        {
+          "id": "c0172",
           "type": "say",
           "text": "上课的人一天比一天少。到最后，每间教室只剩一个人，还是轮流来的。"
         },
         {
-          "id": "c0153",
+          "id": "c0173",
           "type": "say",
           "text": "老广院开始找新生的麻烦。一个叫杨邦的新生因为抢厕所，被他们按进了茅坑。"
         },
         {
-          "id": "c0154",
+          "id": "c0174",
           "type": "say",
           "text": "我和郭仲翰决定办一个电影社。"
         },
         {
-          "id": "c0155",
+          "id": "c0175",
+          "type": "show",
+          "characterId": "guo",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0176",
           "type": "say",
           "characterId": "guo",
           "text": "凑一帮人，说不定能干点什么。"
         },
         {
-          "id": "c0156",
+          "id": "c0177",
           "type": "say",
           "text": "我照着一本书的封面，用炭条画了好几遍海报：一位纪录片导演带着他的剧组，走在田埂上。那本书讲的是，同一块田，走一遍和走十年，看到的东西不一样。"
         },
         {
-          "id": "c0157",
+          "id": "c0178",
           "type": "say",
           "text": "第二天，海报全被轮滑社的盖掉了。我们干脆把他们海报上的集合地点，改成了我们的。这是电影社成立后做成的第一件事，也差不多是最后一件。"
         },
         {
-          "id": "c0158",
+          "id": "c0179",
           "type": "say",
           "text": "招新那天，来了一个头发上还挂着肥皂沫的人。"
         },
         {
-          "id": "c0159",
+          "id": "c0180",
+          "type": "show",
+          "characterId": "li",
+          "expression": "平常",
+          "position": "left"
+        },
+        {
+          "id": "c0181",
           "type": "say",
           "characterId": "li",
           "text": "老广院把澡堂的水掐了，毛巾也给扔了。"
         },
         {
-          "id": "c0160",
+          "id": "c0182",
           "type": "say",
           "text": "我随手递给他一个新板擦。他站到窗边，对着外面的荒地，一下一下地擦着头发。"
         },
         {
-          "id": "c0161",
+          "id": "c0183",
           "type": "say",
           "characterId": "li",
           "text": "我叫李宁。"
         },
         {
-          "id": "c0162",
+          "id": "c0184",
+          "type": "show",
+          "characterId": "zhao",
+          "expression": "平常",
+          "position": "right"
+        },
+        {
+          "id": "c0185",
           "type": "say",
           "text": "傍晚，赵乃夫也来了。看见我，他和我一样吃惊。"
         },
         {
-          "id": "c0163",
+          "id": "c0186",
           "type": "say",
           "characterId": "zhao",
           "text": "我不想死在老家。"
         },
         {
-          "id": "c0164",
+          "id": "c0187",
           "type": "say",
           "text": "他是牡丹江人，离这儿两千公里。他住在唯一一间被分到二楼的新生宿舍，门口天天被老广院堆满垃圾。他的个子是给篮球场准备的，脑子却好像是给另一个更慢的世界准备的。"
         },
         {
-          "id": "c0165",
+          "id": "c0188",
+          "type": "hide",
+          "characterId": "li"
+        },
+        {
+          "id": "c0189",
+          "type": "hide",
+          "characterId": "zhao"
+        },
+        {
+          "id": "c0190",
+          "type": "hide",
+          "characterId": "guo"
+        },
+        {
+          "id": "c0191",
+          "type": "show",
+          "characterId": "wzy",
+          "expression": "平常",
+          "position": "left"
+        },
+        {
+          "id": "c0192",
+          "type": "show",
+          "characterId": "lx",
+          "expression": "平常",
+          "position": "right"
+        },
+        {
+          "id": "c0193",
           "type": "say",
           "text": "电影社招到了五个人。除了李宁和赵乃夫，还有两个女生：机灵的卷发小个子王子叶，和看上去有点愣的梁晓。"
         },
         {
-          "id": "c0166",
+          "id": "c0194",
+          "type": "show",
+          "characterId": "guo",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0195",
           "type": "say",
           "characterId": "guo",
           "text": "我有种不好的预感。"
         },
         {
-          "id": "c0167",
+          "id": "c0196",
           "type": "say",
           "text": "他每次这么说，接下来都会碰上点好事。这次的好事是，他和王子叶坐在了一起。"
         },
         {
-          "id": "c0168",
+          "id": "c0197",
           "type": "say",
           "text": "第一次活动在操场上。没人知道该干什么。"
         },
         {
-          "id": "c0169",
+          "id": "c0198",
+          "type": "hide",
+          "characterId": "guo"
+        },
+        {
+          "id": "c0199",
+          "type": "show",
+          "characterId": "li",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0200",
           "type": "say",
           "text": "李宁从怀里掏出一张皱巴巴的纸，是从丁炜阳的本子上撕下来的。"
         },
         {
-          "id": "c0170",
+          "id": "c0201",
           "type": "say",
           "characterId": "li",
           "text": "这是我上大学以前最喜欢的一个故事。大家帮我看看。"
         },
         {
-          "id": "c0171",
+          "id": "c0202",
           "type": "say",
           "text": "纸传了一圈。故事讲的是一个儿子不小心变成了猪，可他爸一点也不嫌弃，一家人反倒因此和和气气的。"
         },
         {
-          "id": "c0172",
+          "id": "c0203",
           "type": "say",
           "text": "所有人都不说话。纸传到梁晓手里，她盯着看了很久。"
         },
         {
-          "id": "c0173",
+          "id": "c0204",
           "type": "say",
           "characterId": "lx",
           "text": "……写得挺好的。"
         },
         {
-          "id": "c0174",
+          "id": "c0205",
           "type": "say",
           "text": "李宁看着我们。纸最后传到了我手上。"
         },
         {
-          "id": "c0175",
+          "id": "c0206",
           "type": "choice",
           "options": [
             {
-              "id": "c0176",
+              "id": "c0207",
               "text": "认真读完，告诉他你真正的想法",
               "effects": [
                 {
@@ -1370,7 +1904,7 @@
               ]
             },
             {
-              "id": "c0177",
+              "id": "c0208",
               "text": "跟大家一样，什么也不说",
               "effects": [
                 {
@@ -1384,7 +1918,7 @@
           "prompt": "李宁在等。"
         },
         {
-          "id": "c0178",
+          "id": "c0209",
           "type": "if",
           "condition": {
             "kind": "compare",
@@ -1394,69 +1928,93 @@
           },
           "then": [
             {
-              "id": "c0179",
+              "id": "c0210",
               "type": "say",
               "characterId": "me",
               "text": "他爸越不嫌弃他，我越看越难受。你想写的是不是这个？"
             },
             {
-              "id": "c0180",
+              "id": "c0211",
               "type": "say",
               "text": "李宁愣了一下。他的眼睛亮了一瞬，又暗了下去。"
             },
             {
-              "id": "c0181",
+              "id": "c0212",
               "type": "say",
               "characterId": "li",
               "text": "……差不多吧。"
             },
             {
-              "id": "c0182",
+              "id": "c0213",
               "type": "say",
               "text": "他把纸叠好，收回了怀里。别人已经站起来了。"
             }
           ],
           "else": [
             {
-              "id": "c0183",
+              "id": "c0214",
               "type": "say",
               "text": "我把纸递了回去。李宁接过来，叠成了四折。"
             }
           ]
         },
         {
-          "id": "c0184",
+          "id": "c0215",
+          "type": "hide",
+          "characterId": "wzy"
+        },
+        {
+          "id": "c0216",
+          "type": "show",
+          "characterId": "zhao",
+          "expression": "平常",
+          "position": "left"
+        },
+        {
+          "id": "c0217",
           "type": "say",
           "text": "赵乃夫看见操场角落里有一个篮球。"
         },
         {
-          "id": "c0185",
+          "id": "c0218",
           "type": "say",
           "characterId": "zhao",
           "text": "打球去吧。"
         },
         {
-          "id": "c0186",
+          "id": "c0219",
           "type": "say",
           "text": "大家都松了一口气。赵乃夫后来跟我说，“尽情挥洒汗水”这种感觉，真是虚伪得要命。"
         },
         {
-          "id": "c0187",
+          "id": "c0220",
+          "type": "hide",
+          "characterId": "lx"
+        },
+        {
+          "id": "c0221",
+          "type": "show",
+          "characterId": "old",
+          "expression": "平常",
+          "position": "right"
+        },
+        {
+          "id": "c0222",
           "type": "say",
           "text": "球还没打热，十几个老广院就围了过来。一个光膀子的平头把球夹在了腋下。"
         },
         {
-          "id": "c0188",
+          "id": "c0223",
           "type": "say",
           "characterId": "old",
           "text": "这个点儿是我们的场子。不服就接着打，敢吗？"
         },
         {
-          "id": "c0189",
+          "id": "c0224",
           "type": "choice",
           "options": [
             {
-              "id": "c0190",
+              "id": "c0225",
               "text": "顶回去：“凭什么？”",
               "effects": [
                 {
@@ -1467,34 +2025,56 @@
               ]
             },
             {
-              "id": "c0191",
+              "id": "c0226",
               "text": "拉着大家走"
             }
           ]
         },
         {
-          "id": "c0192",
+          "id": "c0227",
           "type": "say",
           "text": "平头笑了笑，把球朝我们狠狠一砸。最后，还是王子叶和梁晓把所有人拉走了。"
         },
         {
-          "id": "c0193",
+          "id": "c0228",
+          "type": "hide",
+          "characterId": "zhao"
+        },
+        {
+          "id": "c0229",
+          "type": "hide",
+          "characterId": "li"
+        },
+        {
+          "id": "c0230",
+          "type": "hide",
+          "characterId": "old"
+        },
+        {
+          "id": "c0231",
           "type": "say",
           "text": "那是电影社唯一的一次活动。"
         },
         {
-          "id": "c0194",
+          "id": "c0232",
           "type": "say",
           "text": "几天后，我在澡堂门口又碰见了李宁。他湿着头发站在冷风里，没有拿毛巾。"
         },
         {
-          "id": "c0195",
+          "id": "c0233",
+          "type": "show",
+          "characterId": "li",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0234",
           "type": "say",
           "characterId": "li",
           "text": "那天梁晓说“写得挺好”。你觉得她是什么意思？"
         },
         {
-          "id": "c0196",
+          "id": "c0235",
           "type": "if",
           "condition": {
             "kind": "compare",
@@ -1504,44 +2084,44 @@
           },
           "then": [
             {
-              "id": "c0197",
+              "id": "c0236",
               "type": "say",
               "characterId": "me",
               "text": "她大概是真的不知道该说什么。"
             },
             {
-              "id": "c0198",
+              "id": "c0237",
               "type": "say",
               "characterId": "li",
               "text": "你至少看完了。"
             },
             {
-              "id": "c0199",
+              "id": "c0238",
               "type": "say",
               "text": "他说这话的口气，不像感谢，像在记账。"
             }
           ],
           "else": [
             {
-              "id": "c0200",
+              "id": "c0239",
               "type": "say",
               "text": "我说我没仔细看。李宁点点头，好像这正是他要的答案。"
             }
           ]
         },
         {
-          "id": "c0201",
+          "id": "c0240",
           "type": "say",
           "characterId": "li",
           "text": "我以后不擦了。"
         },
         {
-          "id": "c0202",
+          "id": "c0241",
           "type": "say",
           "text": "我没听懂。很久以后我才明白，他说的不是头发上的肥皂沫。"
         },
         {
-          "id": "c0203",
+          "id": "c0242",
           "type": "jump",
           "targetSceneId": "s03_cui"
         }
@@ -1556,16 +2136,21 @@
       },
       "commands": [
         {
-          "id": "c0204",
+          "id": "c1052",
+          "type": "hide",
+          "characterId": "li"
+        },
+        {
+          "id": "c0243",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#2a2a1e"
+            "kind": "image",
+            "assetId": "bg_floor2"
           },
           "transition": "fade"
         },
         {
-          "id": "c0205",
+          "id": "c0244",
           "type": "music",
           "action": "play",
           "assetId": "bgm_night",
@@ -1573,77 +2158,96 @@
           "volume": 0.5
         },
         {
-          "id": "c0206",
+          "id": "c0245",
           "type": "say",
           "text": "后来，王子叶塞给我一台带长焦镜头的相机，说是她以社团的名义，从二楼老广院那儿借的。"
         },
         {
-          "id": "c0207",
+          "id": "c0246",
+          "type": "show",
+          "characterId": "wzy",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0247",
           "type": "say",
           "characterId": "wzy",
           "text": "该还回去了。听说那边挺危险的……你去吧？"
         },
         {
-          "id": "c0208",
+          "id": "c0248",
           "type": "say",
           "text": "她说“危险”的时候眨了眨眼，好像在说一件很可爱的事。我拿起相机就走，免得自己说出什么来。"
         },
         {
-          "id": "c0209",
+          "id": "c0249",
+          "type": "hide",
+          "characterId": "wzy"
+        },
+        {
+          "id": "c0250",
           "type": "say",
           "text": "我第一次越过那条线，走进了二楼。每间宿舍门口都堆着垃圾山，臭味像锤子一样砸过来。"
         },
         {
-          "id": "c0210",
+          "id": "c0251",
           "type": "say",
           "text": "那间宿舍的门半掩着。里面暗得像地窖，四个人以各种姿势瘫在床上，分不清还有没有在喘气。地板是黏的。"
         },
         {
-          "id": "c0211",
+          "id": "c0252",
           "type": "say",
           "characterId": "me",
           "text": "崔晨？"
         },
         {
-          "id": "c0212",
+          "id": "c0253",
           "type": "say",
           "text": "角落里的蚊帐晃了晃，传出一阵咳嗽。"
         },
         {
-          "id": "c0213",
+          "id": "c0254",
+          "type": "show",
+          "characterId": "cui",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0255",
           "type": "say",
           "characterId": "cui",
           "text": "……啊？"
         },
         {
-          "id": "c0214",
+          "id": "c0256",
           "type": "say",
           "characterId": "me",
           "text": "你的相机。给你放这儿了。"
         },
         {
-          "id": "c0215",
+          "id": "c0257",
           "type": "say",
           "text": "他挣扎着想坐起来，又像是耗尽了一整天的力气，躺了回去。"
         },
         {
-          "id": "c0216",
+          "id": "c0258",
           "type": "say",
           "characterId": "cui",
           "text": "啊。好。"
         },
         {
-          "id": "c0217",
+          "id": "c0259",
           "type": "say",
           "text": "我逃了出来。那间屋子后来在我的梦里反复出现。"
         },
         {
-          "id": "c0218",
+          "id": "c0260",
           "type": "say",
           "text": "我总觉得，那就是我们这一代人住的地方，只是换了个颜色。"
         },
         {
-          "id": "c0219",
+          "id": "c0261",
           "type": "jump",
           "targetSceneId": "s04"
         }
@@ -1658,7 +2262,12 @@
       },
       "commands": [
         {
-          "id": "c0220",
+          "id": "c1053",
+          "type": "hide",
+          "characterId": "cui"
+        },
+        {
+          "id": "c0262",
           "type": "bg",
           "background": {
             "kind": "color",
@@ -1667,21 +2276,21 @@
           "transition": "fade"
         },
         {
-          "id": "c0221",
+          "id": "c0263",
           "type": "say",
           "text": "— 四 · 黄金 —"
         },
         {
-          "id": "c0222",
+          "id": "c0264",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#6b5a3e"
+            "kind": "image",
+            "assetId": "bg_campus"
           },
           "transition": "fade"
         },
         {
-          "id": "c0223",
+          "id": "c0265",
           "type": "music",
           "action": "play",
           "assetId": "bgm_wasteland",
@@ -1689,156 +2298,199 @@
           "volume": 0.6
         },
         {
-          "id": "c0224",
+          "id": "c0266",
           "type": "say",
           "text": "在那天夜里之前，郭仲翰和王子叶在学校南边开了一小块地，种“牡丹”。种子是他在高速路边拦车买的，其实是茉莉——这件事他到最后都不知道。"
         },
         {
-          "id": "c0225",
+          "id": "c0267",
           "type": "say",
           "text": "一周过去，周围的野草长得很好，他的地里什么也没长。"
         },
         {
-          "id": "c0226",
+          "id": "c0268",
+          "type": "show",
+          "characterId": "guo",
+          "expression": "平常",
+          "position": "left"
+        },
+        {
+          "id": "c0269",
+          "type": "show",
+          "characterId": "wzy",
+          "expression": "平常",
+          "position": "right"
+        },
+        {
+          "id": "c0270",
           "type": "say",
           "characterId": "guo",
           "text": "是不是土把种子给消化了？"
         },
         {
-          "id": "c0227",
+          "id": "c0271",
           "type": "say",
           "characterId": "me",
           "text": "种子得先泡水。……得用肥料水泡。"
         },
         {
-          "id": "c0228",
+          "id": "c0272",
           "type": "say",
           "characterId": "guo",
           "text": "我知道，我只是没想起来。"
         },
         {
-          "id": "c0229",
+          "id": "c0273",
           "type": "say",
           "text": "在他的农业知识里，肥料就是大粪。他真的用大粪水泡了种子。更不可思议的是，它们真的发了芽。"
         },
         {
-          "id": "c0230",
+          "id": "c0274",
           "type": "say",
           "text": "王子叶蹲在旁边，拿一根小棍戳土。两个人看着那一排小芽，像一对刚分到地的农民。那是我在山传见过的最像幸福的画面，虽然有点臭。"
         },
         {
-          "id": "c0231",
+          "id": "c0275",
+          "type": "hide",
+          "characterId": "guo"
+        },
+        {
+          "id": "c0276",
+          "type": "hide",
+          "characterId": "wzy"
+        },
+        {
+          "id": "c0277",
           "type": "say",
           "text": "可是苗刚冒头，就在夜里被人齐根剪掉了。"
         },
         {
-          "id": "c0232",
+          "id": "c0278",
           "type": "say",
           "text": "有天晚上，我和刘庆庆从网吧回来，撞见一个人影正拿着剪刀，咔嚓咔嚓地剪花苞。"
         },
         {
-          "id": "c0233",
+          "id": "c0279",
+          "type": "show",
+          "characterId": "liu",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0280",
           "type": "say",
           "characterId": "liu",
           "text": "别动！"
         },
         {
-          "id": "c0234",
+          "id": "c0281",
           "type": "say",
           "text": "那个人头也不回，一阵风似的钻进了黑暗里。"
         },
         {
-          "id": "c0235",
+          "id": "c0282",
+          "type": "hide",
+          "characterId": "liu"
+        },
+        {
+          "id": "c0283",
           "type": "say",
           "text": "后来我才认出那是梁晓。再后来，我看见她一个人蹲在枯掉的花枝旁边，用透明胶把一朵朵小黄花粘上去。"
         },
         {
-          "id": "c0236",
+          "id": "c0284",
           "type": "say",
           "text": "我没有过去。她想在暗地里做这些事，不管是坏事，还是多余的好事。"
         },
         {
-          "id": "c0237",
+          "id": "c0285",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#4b4038"
+            "kind": "image",
+            "assetId": "bg_dorm_day"
           },
           "transition": "fade"
         },
         {
-          "id": "c0238",
+          "id": "c0286",
           "type": "say",
           "text": "暴力事件之后，学校在二楼和三楼之间加了两道门。伤得重的回了市区，其余的人都在宿舍里躺着。"
         },
         {
-          "id": "c0239",
+          "id": "c0287",
           "type": "say",
           "text": "学校说，谁告诉家长，就开除谁。大多数新生本来也不想说——事情闹大了，会耽误他们报仇。"
         },
         {
-          "id": "c0240",
+          "id": "c0288",
           "type": "say",
           "text": "报仇的念头，在老广院撤回二楼的那一刻，就已经遍地发芽了，长得比郭仲翰的茉莉快多了。杨邦搞来了几百斤钢管。"
         },
         {
-          "id": "c0241",
+          "id": "c0289",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#6b5a3e"
+            "kind": "image",
+            "assetId": "bg_stones_dusk"
           },
           "transition": "fade"
         },
         {
-          "id": "c0242",
+          "id": "c0290",
           "type": "say",
           "text": "赵乃夫能下床以后，我拉着他往荒野里走。东南西北，都是一眼望不到头的地。"
         },
         {
-          "id": "c0243",
+          "id": "c0291",
           "type": "say",
           "text": "我有一种预感：我的生活就要被整个翻过来了。某个地方，藏着一个入口。"
         },
         {
-          "id": "c0244",
+          "id": "c0292",
           "type": "say",
           "text": "往东走，我们找到一间没有窗户的矮房，里面堆着干草和粪便。"
         },
         {
-          "id": "c0245",
+          "id": "c0293",
           "type": "say",
           "text": "我坐在矮房边的一块大石头上歇脚，忽然听见一阵窸窸窣窣的声音，像是有什么东西从我身边爬过去，钻进了地下。"
         },
         {
-          "id": "c0246",
+          "id": "c0294",
           "type": "say",
           "text": "我站起来，盯着那块石头。不远处，还有两块差不多的。三块石头站在荒原上，像三个不肯说话的人。"
         },
         {
-          "id": "c0247",
+          "id": "c0295",
+          "type": "show",
+          "characterId": "zhao",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0296",
           "type": "say",
           "characterId": "zhao",
           "text": "你怎么了？"
         },
         {
-          "id": "c0248",
+          "id": "c0297",
           "type": "say",
           "characterId": "me",
           "text": "这底下有东西。我听见了。"
         },
         {
-          "id": "c0249",
+          "id": "c0298",
           "type": "say",
           "characterId": "zhao",
           "text": "老鼠吧。天要黑了。"
         },
         {
-          "id": "c0250",
+          "id": "c0299",
           "type": "choice",
           "options": [
             {
-              "id": "c0251",
+              "id": "c0300",
               "text": "跟赵乃夫一起把它掀开",
               "effects": [
                 {
@@ -1850,7 +2502,7 @@
               "targetSceneId": "s04_plank"
             },
             {
-              "id": "c0252",
+              "id": "c0301",
               "text": "算了，回去吧",
               "targetSceneId": "e1"
             }
@@ -1868,16 +2520,21 @@
       },
       "commands": [
         {
-          "id": "c0253",
+          "id": "c1054",
+          "type": "hide",
+          "characterId": "zhao"
+        },
+        {
+          "id": "c0302",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#5a3a2e"
+            "kind": "image",
+            "assetId": "bg_stones_dusk"
           },
           "transition": "fade"
         },
         {
-          "id": "c0254",
+          "id": "c0303",
           "type": "music",
           "action": "play",
           "assetId": "bgm_cave",
@@ -1885,80 +2542,87 @@
           "volume": 0.6
         },
         {
-          "id": "c0255",
+          "id": "c0304",
           "type": "say",
           "text": "我们俩一起使劲，石头翻了个身，露出它不知多少年没见过光的那一面。"
         },
         {
-          "id": "c0256",
+          "id": "c0305",
           "type": "say",
           "text": "底下的土坑里，压着一块快要烂掉的木板。凑近了，才认出上面歪歪扭扭地刻着一行字："
         },
         {
-          "id": "c0257",
+          "id": "c0306",
           "type": "say",
           "text": "你将无父无母，无依无靠。"
         },
         {
-          "id": "c0258",
+          "id": "c0307",
+          "type": "show",
+          "characterId": "zhao",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0308",
           "type": "say",
           "text": "冷风里，我们谁也说不出话。我扭头看赵乃夫。纱布遮住了他半只眼睛，露出来的那半只，全是眼泪。"
         },
         {
-          "id": "c0259",
+          "id": "c0309",
           "type": "say",
           "characterId": "me",
           "text": "挖吧。"
         },
         {
-          "id": "c0260",
+          "id": "c0310",
           "type": "say",
           "characterId": "zhao",
           "text": "嗯。……我也听见了。"
         },
         {
-          "id": "c0261",
+          "id": "c0311",
           "type": "say",
           "text": "我们找来扁平的石头往下刨。土很硬，每一下只能刮下薄薄一层。挖到半米深，天已经黑透了，我们挖出一块叠成方块的皮子。"
         },
         {
-          "id": "c0262",
+          "id": "c0312",
           "type": "say",
           "text": "抖掉泥土和千足虫，展开。是一张刻出来的地图：西边的煤山，北边的村子，东边这间矮房是起点。"
         },
         {
-          "id": "c0263",
+          "id": "c0313",
           "type": "say",
           "text": "南边的某个地方，画着一个记号。旁边刻着两个字：黄金。"
         },
         {
-          "id": "c0264",
+          "id": "c0314",
           "type": "say",
           "text": "我知道这很可能是个玩笑。可如果眼下的一切还有可能变一变，入口就只能在这儿了。"
         },
         {
-          "id": "c0265",
+          "id": "c0315",
           "type": "say",
           "text": "回去的路上，我们谁也没有说话。快到宿舍楼的时候，我问他："
         },
         {
-          "id": "c0266",
+          "id": "c0316",
           "type": "say",
           "characterId": "me",
           "text": "告诉他们吗？"
         },
         {
-          "id": "c0267",
+          "id": "c0317",
           "type": "say",
           "characterId": "zhao",
           "text": "人多力量大。"
         },
         {
-          "id": "c0268",
+          "id": "c0318",
           "type": "choice",
           "options": [
             {
-              "id": "c0269",
+              "id": "c0319",
               "text": "告诉宿舍里的人",
               "effects": [
                 {
@@ -1970,7 +2634,7 @@
               "targetSceneId": "s04_tell"
             },
             {
-              "id": "c0270",
+              "id": "c0320",
               "text": "就我们俩",
               "targetSceneId": "s05"
             }
@@ -1987,76 +2651,124 @@
       },
       "commands": [
         {
-          "id": "c0271",
+          "id": "c1055",
+          "type": "hide",
+          "characterId": "zhao"
+        },
+        {
+          "id": "c0321",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#23252e"
+            "kind": "image",
+            "assetId": "bg_dorm_dim"
           },
           "transition": "fade"
         },
         {
-          "id": "c0272",
+          "id": "c0322",
           "type": "music",
           "action": "stop"
         },
         {
-          "id": "c0273",
+          "id": "c0323",
           "type": "say",
           "text": "郭仲翰拄着拐，坐在电脑前用鼠标玩一个见不得人的游戏，手指上贴着创可贴，看样子是搓出了水泡。丁炜阳脸冲着墙躺着，已经躺了很多天了。墙角堆着别的宿舍送来的六根钢管。"
         },
         {
-          "id": "c0274",
+          "id": "c0324",
+          "type": "show",
+          "characterId": "guo",
+          "expression": "平常",
+          "position": "left"
+        },
+        {
+          "id": "c0325",
+          "type": "show",
+          "characterId": "ding",
+          "expression": "平常",
+          "position": "right"
+        },
+        {
+          "id": "c0326",
           "type": "say",
           "characterId": "me",
           "text": "我找到黄金了。"
         },
         {
-          "id": "c0275",
+          "id": "c0327",
           "type": "say",
           "text": "没人理我。赵乃夫把地图摊开，屋里冒出一股腐臭味。"
         },
         {
-          "id": "c0276",
+          "id": "c0328",
+          "type": "show",
+          "characterId": "liu",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0329",
           "type": "say",
           "characterId": "liu",
           "text": "什么味儿啊。"
         },
         {
-          "id": "c0277",
+          "id": "c0330",
           "type": "say",
           "text": "郭仲翰回头看了一眼，又转了回去。"
         },
         {
-          "id": "c0278",
+          "id": "c0331",
           "type": "say",
           "characterId": "guo",
           "text": "黄金！给你黄金！"
         },
         {
-          "id": "c0279",
+          "id": "c0332",
           "type": "say",
           "text": "他抄起拐棍朝我扔过来。丁炜阳对着墙吼："
         },
         {
-          "id": "c0280",
+          "id": "c0333",
           "type": "say",
           "characterId": "ding",
           "text": "滚！让我躺着！"
         },
         {
-          "id": "c0281",
+          "id": "c0334",
+          "type": "hide",
+          "characterId": "guo"
+        },
+        {
+          "id": "c0335",
+          "type": "hide",
+          "characterId": "ding"
+        },
+        {
+          "id": "c0336",
+          "type": "hide",
+          "characterId": "liu"
+        },
+        {
+          "id": "c0337",
+          "type": "show",
+          "characterId": "zhao",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0338",
           "type": "say",
           "text": "赵乃夫回二楼的时候，在楼梯上说："
         },
         {
-          "id": "c0282",
+          "id": "c0339",
           "type": "say",
           "characterId": "zhao",
           "text": "这栋楼里的人，都已经死了。"
         },
         {
-          "id": "c0283",
+          "id": "c0340",
           "type": "jump",
           "targetSceneId": "s05"
         }
@@ -2071,16 +2783,21 @@
       },
       "commands": [
         {
-          "id": "c0284",
+          "id": "c1056",
+          "type": "hide",
+          "characterId": "zhao"
+        },
+        {
+          "id": "c0341",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#3a3a3a"
+            "kind": "image",
+            "assetId": "bg_city"
           },
           "transition": "fade"
         },
         {
-          "id": "c0285",
+          "id": "c0342",
           "type": "music",
           "action": "play",
           "assetId": "bgm_leaving",
@@ -2088,57 +2805,57 @@
           "volume": 0.5
         },
         {
-          "id": "c0286",
+          "id": "c0343",
           "type": "say",
           "text": "我们没有掀开那块石头。"
         },
         {
-          "id": "c0287",
+          "id": "c0344",
           "type": "say",
           "text": "回去的路上，赵乃夫说，下次再来。我们谁也没有再去过。"
         },
         {
-          "id": "c0288",
+          "id": "c0345",
           "type": "say",
           "text": "后来报仇的那天晚上，我在宿舍里锁好门，戴上耳机，一直等到天亮。"
         },
         {
-          "id": "c0289",
+          "id": "c0346",
           "type": "say",
           "text": "三年以后，我拿到了一张没人在乎的文凭，回到了那座城市。"
         },
         {
-          "id": "c0290",
+          "id": "c0347",
           "type": "say",
           "text": "父亲托的人还在。我穿上橙色的制服，坐在环卫车高高的驾驶座上，在坑坑洼洼的马路上开过来，开过去。"
         },
         {
-          "id": "c0291",
+          "id": "c0348",
           "type": "say",
           "text": "我终于算出了自己的位置。不用再算了。"
         },
         {
-          "id": "c0292",
+          "id": "c0349",
           "type": "say",
           "text": "有时候，我会摇下车窗，冲外面吐一口痰。"
         },
         {
-          "id": "c0293",
+          "id": "c0350",
           "type": "say",
           "text": "偶尔我会梦见那片荒地，那间矮房，还有三块一模一样的石头。"
         },
         {
-          "id": "c0294",
+          "id": "c0351",
           "type": "say",
           "text": "梦里，我总是蹲下去，手掌贴着冰凉的石面，却怎么也使不上力气。"
         },
         {
-          "id": "c0295",
+          "id": "c0352",
           "type": "say",
           "text": "【结局：最后的百分之五】"
         },
         {
-          "id": "c0296",
+          "id": "c0353",
           "type": "end"
         }
       ]
@@ -2152,7 +2869,12 @@
       },
       "commands": [
         {
-          "id": "c0297",
+          "id": "c1057",
+          "type": "hide",
+          "characterId": "zhao"
+        },
+        {
+          "id": "c0354",
           "type": "bg",
           "background": {
             "kind": "color",
@@ -2161,21 +2883,21 @@
           "transition": "fade"
         },
         {
-          "id": "c0298",
+          "id": "c0355",
           "type": "say",
           "text": "— 五 · 洞穴 —"
         },
         {
-          "id": "c0299",
+          "id": "c0356",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#6b5a3e"
+            "kind": "image",
+            "assetId": "bg_mound_pit"
           },
           "transition": "fade"
         },
         {
-          "id": "c0300",
+          "id": "c0357",
           "type": "music",
           "action": "play",
           "assetId": "bgm_wasteland",
@@ -2183,107 +2905,156 @@
           "volume": 0.6
         },
         {
-          "id": "c0301",
+          "id": "c0358",
           "type": "say",
           "text": "我量了地图上的比例，把记号锁定在学校南边，一座荒得连挖掘机都不去的土丘后面。"
         },
         {
-          "id": "c0302",
+          "id": "c0359",
           "type": "say",
           "text": "一开始，我觉得这像个游戏。第二天醒来我就明白了：这和郭仲翰种花、西门大官人铺路没什么两样。我只是终于找到了一件事做。"
         },
         {
-          "id": "c0303",
+          "id": "c0360",
           "type": "say",
           "text": "挖了三天，只挖出了土。"
         },
         {
-          "id": "c0304",
+          "id": "c0361",
           "type": "say",
           "text": "赵乃夫嫌铁锹不好使，从北边的村子里“顺”来一把洋镐。"
         },
         {
-          "id": "c0305",
+          "id": "c0362",
+          "type": "show",
+          "characterId": "zhao",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0363",
           "type": "say",
           "characterId": "zhao",
           "text": "村里人的家伙都刻了记号，邻居之间不偷。所以特别好偷。"
         },
         {
-          "id": "c0306",
+          "id": "c0364",
           "type": "say",
           "text": "我接过洋镐。木柄上刻着一个歪歪扭扭的圆圈，圈里点了一个点，像一只闭不上的眼睛。"
         },
         {
-          "id": "c0307",
+          "id": "c1058",
+          "type": "hide",
+          "characterId": "zhao"
+        },
+        {
+          "id": "c0365",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_village"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "c0366",
           "type": "say",
           "text": "我想弄个铁桶运土，就去了村子。在五金店里，老板拍了拍角落里仅剩的一只。"
         },
         {
-          "id": "c0308",
+          "id": "c0367",
           "type": "say",
           "characterId": "boss",
           "text": "就这一个了。最近你们学校的学生跑来买铁桶，一买就是好几个。买这么多桶干啥，打水仗？"
         },
         {
-          "id": "c0309",
+          "id": "c0368",
           "type": "say",
           "text": "我也不知道。那时候我只觉得自己运气不好。"
         },
         {
-          "id": "c0310",
+          "id": "c0369",
           "type": "say",
           "text": "店里还有一个中年男人，也是来买洋镐的。"
         },
         {
-          "id": "c0311",
+          "id": "c0370",
+          "type": "show",
+          "characterId": "pick",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0371",
           "type": "say",
           "characterId": "pick",
           "text": "家里的洋镐又丢了。上回丢的是铁锹。"
         },
         {
-          "id": "c0312",
+          "id": "c0372",
           "type": "say",
           "characterId": "boss",
           "text": "这玩意儿还能丢？谁家没有啊。"
         },
         {
-          "id": "c0313",
+          "id": "c0373",
           "type": "say",
           "characterId": "pick",
           "text": "……你家最多。"
         },
         {
-          "id": "c0314",
+          "id": "c0374",
           "type": "say",
           "text": "我站在一边，假装研究那只铁桶的大小，心里很不是滋味。我顺手还买了一整箱蜡烛。"
         },
         {
-          "id": "c0315",
+          "id": "c0375",
           "type": "say",
           "text": "回去的路上，那个男人说他就住前面。他家门口，停着一辆手推车。车把上，刻着同一只闭不上的眼睛。"
         },
         {
-          "id": "c0316",
+          "id": "c0376",
           "type": "say",
           "text": "天快黑了。我把那箱蜡烛轻轻放在他家门口，推着手推车走了。好像拿一箱蜡烛换一辆车，就不算偷。"
         },
         {
-          "id": "c0317",
+          "id": "c1059",
+          "type": "hide",
+          "characterId": "pick"
+        },
+        {
+          "id": "c0377",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_mound_pit"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "c0378",
           "type": "say",
           "text": "赵乃夫灰头土脸地坐在坑边抽烟，看见手推车，咧开嘴露出一口白牙。"
         },
         {
-          "id": "c0318",
+          "id": "c0379",
+          "type": "show",
+          "characterId": "zhao",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0380",
           "type": "say",
           "characterId": "zhao",
           "text": "这车……不是那家的吧？"
         },
         {
-          "id": "c0319",
+          "id": "c0381",
           "type": "choice",
           "options": [
             {
-              "id": "c0320",
+              "id": "c0382",
               "text": "“是他家的。”",
               "effects": [
                 {
@@ -2299,7 +3070,7 @@
               ]
             },
             {
-              "id": "c0321",
+              "id": "c0383",
               "text": "“不是。”",
               "effects": [
                 {
@@ -2312,43 +3083,48 @@
           ]
         },
         {
-          "id": "c0322",
+          "id": "c0384",
           "type": "say",
           "text": "又挖了一天，还是只有土。太阳往西落，我看着自己满手的泥。"
         },
         {
-          "id": "c0323",
+          "id": "c0385",
           "type": "say",
           "characterId": "me",
           "text": "算了吧。都是假的。"
         },
         {
-          "id": "c0324",
+          "id": "c0386",
           "type": "say",
           "text": "赵乃夫从坑里钻出来，眼角那道疤还红着。"
         },
         {
-          "id": "c0325",
+          "id": "c0387",
           "type": "say",
           "characterId": "zhao",
           "text": "不行。我信。"
         },
         {
-          "id": "c0326",
+          "id": "c0388",
           "type": "say",
           "text": "那天夜里，下起了暴雨。"
         },
         {
-          "id": "c0327",
+          "id": "c1060",
+          "type": "hide",
+          "characterId": "zhao"
+        },
+        {
+          "id": "c0389",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#1e2a33"
+            "kind": "image",
+            "assetId": "bg_dorm_rain"
           },
           "transition": "fade"
         },
         {
-          "id": "c0328",
+          "id": "c0390",
           "type": "music",
           "action": "play",
           "assetId": "bgm_night",
@@ -2356,27 +3132,34 @@
           "volume": 0.6
         },
         {
-          "id": "c0329",
+          "id": "c0391",
           "type": "say",
           "text": "赵乃夫冲进了我们宿舍。"
         },
         {
-          "id": "c0330",
+          "id": "c0392",
+          "type": "show",
+          "characterId": "zhao",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0393",
           "type": "say",
           "characterId": "zhao",
           "text": "挖出来的土堆得离坑太近了！这么大的雨，土会冲回去，把坑堵死！"
         },
         {
-          "id": "c0331",
+          "id": "c0394",
           "type": "say",
           "text": "他从墙角抓起一把伞。"
         },
         {
-          "id": "c0332",
+          "id": "c0395",
           "type": "choice",
           "options": [
             {
-              "id": "c0333",
+              "id": "c0396",
               "text": "跟他一起冲进雨里",
               "effects": [
                 {
@@ -2393,7 +3176,7 @@
               "targetSceneId": "s05_rain"
             },
             {
-              "id": "c0334",
+              "id": "c0397",
               "text": "“去了也没用。”",
               "effects": [
                 {
@@ -2418,22 +3201,22 @@
       },
       "commands": [
         {
-          "id": "c0335",
+          "id": "c0398",
           "type": "say",
           "text": "我们深一脚浅一脚地跑到南边。土丘塌了，坑被埋得严严实实。"
         },
         {
-          "id": "c0336",
+          "id": "c0399",
           "type": "say",
           "text": "赵乃夫跪在泥里，用手往下刨，刨了两把就停了。"
         },
         {
-          "id": "c0337",
+          "id": "c0400",
           "type": "say",
           "text": "我们俩站在雨里，像两条落水狗。谁也没说要回去。"
         },
         {
-          "id": "c0338",
+          "id": "c0401",
           "type": "jump",
           "targetSceneId": "s05_hollow"
         }
@@ -2448,47 +3231,47 @@
       },
       "commands": [
         {
-          "id": "c0339",
+          "id": "c0402",
           "type": "say",
           "text": "赵乃夫一个人冲了出去。半夜他回来，浑身淌着水，站在走廊里。"
         },
         {
-          "id": "c0340",
+          "id": "c0403",
           "type": "say",
           "characterId": "zhao",
           "text": "塌了。土丘塌了，坑全埋了。"
         },
         {
-          "id": "c0341",
+          "id": "c0404",
           "type": "say",
           "characterId": "me",
           "text": "那就别挖了，地图扔了吧。我们就是个笑话。"
         },
         {
-          "id": "c0342",
+          "id": "c0405",
           "type": "say",
           "characterId": "zhao",
           "text": "不行！会有黄金的。"
         },
         {
-          "id": "c0343",
+          "id": "c0406",
           "type": "say",
           "characterId": "me",
           "text": "你能挖一千米吗？还是能挖五年？"
         },
         {
-          "id": "c0344",
+          "id": "c0407",
           "type": "say",
           "text": "话一出口，我自己都没想到能这么刻薄。他看了我一眼。"
         },
         {
-          "id": "c0345",
+          "id": "c0408",
           "type": "say",
           "characterId": "zhao",
           "text": "你不懂。"
         },
         {
-          "id": "c0346",
+          "id": "c0409",
           "type": "jump",
           "targetSceneId": "s05_hollow"
         }
@@ -2503,16 +3286,21 @@
       },
       "commands": [
         {
-          "id": "c0347",
+          "id": "c1061",
+          "type": "hide",
+          "characterId": "zhao"
+        },
+        {
+          "id": "c0410",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#7a6a50"
+            "kind": "image",
+            "assetId": "bg_hollow"
           },
           "transition": "fade"
         },
         {
-          "id": "c0348",
+          "id": "c0411",
           "type": "music",
           "action": "play",
           "assetId": "bgm_wasteland",
@@ -2520,93 +3308,105 @@
           "volume": 0.5
         },
         {
-          "id": "c0349",
+          "id": "c0412",
           "type": "say",
           "text": "雨下了两夜，第三天早上停了。"
         },
         {
-          "id": "c0350",
+          "id": "c0413",
+          "type": "show",
+          "characterId": "zhao",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0414",
           "type": "say",
           "text": "原来的土丘没了，只剩下一块泡软的凹地。赵乃夫蹲在那儿，像是死了亲人。"
         },
         {
-          "id": "c0351",
+          "id": "c0415",
           "type": "say",
           "text": "我想起了那个梦。一座土丘，一群白色的乌鸡。"
         },
         {
-          "id": "c0352",
+          "id": "c0416",
           "type": "say",
           "text": "我突然明白了。"
         },
         {
-          "id": "c0353",
+          "id": "c0417",
           "type": "say",
           "characterId": "me",
           "text": "你傻啊！我们挖的那个小坑，装不下这么大一座土丘。"
         },
         {
-          "id": "c0354",
+          "id": "c0418",
           "type": "say",
           "characterId": "zhao",
           "text": "……那又怎么了？"
         },
         {
-          "id": "c0355",
+          "id": "c0419",
           "type": "say",
           "characterId": "me",
           "text": "底下是空的！"
         },
         {
-          "id": "c0356",
+          "id": "c0420",
           "type": "say",
           "text": "他想了足足五秒钟，才“啊”了一声。那五秒里，我替老天感到了一丝骄傲：它总算把一个好用的脑子分给了我。"
         },
         {
-          "id": "c0357",
+          "id": "c0421",
           "type": "say",
           "text": "泥是松的，一铲下去就是一大块。还没到中午，土丘底下就露出了一个一米多高的洞口，斜斜地往下通，冒出一股雨水和烂叶子的味道。"
         },
         {
-          "id": "c0358",
+          "id": "c0422",
           "type": "say",
           "characterId": "zhao",
           "text": "金子会发光吧？"
         },
         {
-          "id": "c0359",
+          "id": "c0423",
           "type": "say",
           "characterId": "me",
           "text": "有光才会发光。蜡烛呢？"
         },
         {
-          "id": "c0360",
+          "id": "c0424",
           "type": "say",
           "characterId": "zhao",
           "text": "我怕淋湿，搬回宿舍了。"
         },
         {
-          "id": "c0361",
+          "id": "c0425",
           "type": "say",
           "characterId": "me",
           "text": "蜡烛怎么会怕淋？"
         },
         {
-          "id": "c0362",
+          "id": "c0426",
           "type": "say",
           "text": "他跑回去拿。我等不及，抓起他落下的打火机，一个人钻了进去。"
         },
         {
-          "id": "c0363",
+          "id": "c1062",
+          "type": "hide",
+          "characterId": "zhao"
+        },
+        {
+          "id": "c0427",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#120c07"
+            "kind": "image",
+            "assetId": "bg_cave_dark"
           },
           "transition": "fade"
         },
         {
-          "id": "c0364",
+          "id": "c0428",
           "type": "music",
           "action": "play",
           "assetId": "bgm_cave",
@@ -2614,42 +3414,58 @@
           "volume": 0.7
         },
         {
-          "id": "c0365",
+          "id": "c0429",
           "type": "say",
           "text": "洞只有三米深。我又被耍了。"
         },
         {
-          "id": "c0366",
+          "id": "c0430",
           "type": "say",
           "text": "往回挪的时候，我的脚踩到了一个硬东西。打火机烫得拿不住，灭了。"
         },
         {
-          "id": "c0367",
+          "id": "c0431",
           "type": "say",
           "text": "奇怪的是，我并不害怕。黑暗里有一种说不出的安稳，好像整片荒原都被关在了外面。"
         },
         {
-          "id": "c0368",
+          "id": "c0432",
           "type": "say",
           "text": "重新打着火，我看清了：是一截大腿骨，连着一段埋进土里的小腿。"
         },
         {
-          "id": "c0369",
+          "id": "c0433",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_hollow"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "c0434",
+          "type": "show",
+          "characterId": "zhao",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0435",
           "type": "say",
           "text": "我钻出洞口。赵乃夫抱着蜡烛跑回来，看了看我。"
         },
         {
-          "id": "c0370",
+          "id": "c0436",
           "type": "say",
           "characterId": "zhao",
           "text": "你进去过了。里面有什么？"
         },
         {
-          "id": "c0371",
+          "id": "c0437",
           "type": "choice",
           "options": [
             {
-              "id": "c0372",
+              "id": "c0438",
               "text": "“一具骨头。”",
               "effects": [
                 {
@@ -2660,7 +3476,7 @@
               ]
             },
             {
-              "id": "c0373",
+              "id": "c0439",
               "text": "“……不知道。”",
               "effects": [
                 {
@@ -2673,102 +3489,140 @@
           ]
         },
         {
-          "id": "c0374",
+          "id": "c0440",
           "type": "say",
           "text": "赵乃夫钻了进去。出来的时候，他举着那根大腿骨，用袖子擦着上面的土。"
         },
         {
-          "id": "c0375",
+          "id": "c0441",
           "type": "say",
           "characterId": "zhao",
           "text": "走。"
         },
         {
-          "id": "c0376",
+          "id": "c0442",
           "type": "say",
           "text": "他就这么举着一根人骨，穿过整个校园，一路走进了郭仲翰的宿舍。路上没有一个人多看一眼。在山传，一个人举着一根骨头走路，并不比别的事情更奇怪。"
         },
         {
-          "id": "c0377",
+          "id": "c1063",
+          "type": "hide",
+          "characterId": "zhao"
+        },
+        {
+          "id": "c0443",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#23252e"
+            "kind": "image",
+            "assetId": "bg_dorm_dim"
           },
           "transition": "fade"
         },
         {
-          "id": "c0378",
+          "id": "c0444",
           "type": "music",
           "action": "stop"
         },
         {
-          "id": "c0379",
+          "id": "c0445",
+          "type": "show",
+          "characterId": "yang",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0446",
           "type": "say",
           "text": "杨邦正坐在屋子正中间，身边站着一个戴眼镜的跟班。他说话的样子，像在给自己的铜像揭幕。"
         },
         {
-          "id": "c0380",
+          "id": "c0447",
           "type": "say",
           "characterId": "yang",
           "text": "正好，你们也来了，我就一起说。我们还要在这儿待三年。这次要是不还手，以后他们会骑在我们头上拉屎。"
         },
         {
-          "id": "c0381",
+          "id": "c0448",
           "type": "say",
           "characterId": "yang",
           "text": "这世上的东西，都得自己去争。哪怕只有一点光，也要死死攥住。我亲自来，是想邀请各位有志之士，一起把这个学校拿下来。"
         },
         {
-          "id": "c0382",
+          "id": "c0449",
+          "type": "show",
+          "characterId": "guo",
+          "expression": "平常",
+          "position": "left"
+        },
+        {
+          "id": "c0450",
+          "type": "show",
+          "characterId": "ding",
+          "expression": "平常",
+          "position": "right"
+        },
+        {
+          "id": "c0451",
           "type": "say",
           "text": "郭仲翰耷拉着眼皮，快睡着了。丁炜阳却从床上扭过身来，听得很专注。"
         },
         {
-          "id": "c0383",
+          "id": "c0452",
+          "type": "hide",
+          "characterId": "guo"
+        },
+        {
+          "id": "c0453",
+          "type": "show",
+          "characterId": "zhao",
+          "expression": "平常",
+          "position": "left"
+        },
+        {
+          "id": "c0454",
           "type": "say",
           "characterId": "zhao",
           "text": "你们看！"
         },
         {
-          "id": "c0384",
+          "id": "c0455",
           "type": "say",
           "text": "他把大腿骨举到每个人眼前。丁炜阳的脸一下子白了。"
         },
         {
-          "id": "c0385",
+          "id": "c0456",
           "type": "say",
           "characterId": "zhao",
           "text": "我们有藏宝图，能挖到黄金！已经挖到这个了！杨邦，你带人跟我们一起挖，挖到了，大家就都不一样了！"
         },
         {
-          "id": "c0386",
+          "id": "c0457",
           "type": "say",
           "text": "杨邦冷冷地看着他。"
         },
         {
-          "id": "c0387",
+          "id": "c0458",
           "type": "say",
           "characterId": "yang",
           "text": "幼稚。藏宝图？挖黄金？你们活在童话里吗？我们在养伤，在筹备，你们在做白日梦。"
         },
         {
-          "id": "c0388",
+          "id": "c0459",
           "type": "say",
           "text": "他站起来，转向我。"
         },
         {
-          "id": "c0389",
+          "id": "c0460",
           "type": "say",
           "characterId": "yang",
           "text": "你呢？我看你跟他们不一样。"
         },
         {
-          "id": "c0390",
+          "id": "c0461",
           "type": "choice",
           "options": [
             {
-              "id": "c0391",
+              "id": "c0462",
               "text": "跟杨邦走",
               "effects": [
                 {
@@ -2785,7 +3639,7 @@
               "targetSceneId": "s05y"
             },
             {
-              "id": "c0392",
+              "id": "c0463",
               "text": "“我留下来挖。”",
               "effects": [
                 {
@@ -2810,40 +3664,52 @@
       },
       "commands": [
         {
-          "id": "c0393",
+          "id": "c0464",
+          "type": "hide",
+          "characterId": "yang"
+        },
+        {
+          "id": "c0465",
           "type": "say",
           "text": "杨邦哼了一声，带着眼镜走了。"
         },
         {
-          "id": "c0394",
+          "id": "c0466",
+          "type": "show",
+          "characterId": "guo",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0467",
           "type": "say",
           "characterId": "guo",
           "text": "将军慢走。"
         },
         {
-          "id": "c0395",
+          "id": "c0468",
           "type": "say",
           "text": "杨邦没听出来这是讽刺。"
         },
         {
-          "id": "c0396",
+          "id": "c0469",
           "type": "say",
           "characterId": "me",
           "text": "我们得救了。我们会找到黄金，离开这儿，去做世界上所有的事。"
         },
         {
-          "id": "c0397",
+          "id": "c0470",
           "type": "say",
           "text": "除了刘庆庆，屋里的人都从床上、椅子上下来了。一走到太阳底下，他们就像吸血鬼一样拿手挡住眼睛。"
         },
         {
-          "id": "c0398",
+          "id": "c0471",
           "type": "say",
           "characterId": "ding",
           "text": "不行，我要被晒成灰了。"
         },
         {
-          "id": "c0399",
+          "id": "c0472",
           "type": "jump",
           "targetSceneId": "s06"
         }
@@ -2858,16 +3724,31 @@
       },
       "commands": [
         {
-          "id": "c0400",
+          "id": "c1064",
+          "type": "hide",
+          "characterId": "ding"
+        },
+        {
+          "id": "c1065",
+          "type": "hide",
+          "characterId": "yang"
+        },
+        {
+          "id": "c1066",
+          "type": "hide",
+          "characterId": "zhao"
+        },
+        {
+          "id": "c0473",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#2e2a24"
+            "kind": "image",
+            "assetId": "bg_classroom"
           },
           "transition": "fade"
         },
         {
-          "id": "c0401",
+          "id": "c0474",
           "type": "music",
           "action": "play",
           "assetId": "bgm_night",
@@ -2875,97 +3756,163 @@
           "volume": 0.4
         },
         {
-          "id": "c0402",
+          "id": "c0475",
           "type": "say",
           "text": "我跟着杨邦走了出去。身后，赵乃夫还举着那根骨头。"
         },
         {
-          "id": "c0403",
+          "id": "c0476",
+          "type": "show",
+          "characterId": "yang",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0477",
           "type": "say",
           "text": "杨邦的会在最大的那间教室开。十几个人坐在拼起来的长桌边，腰板挺得笔直，像一群等着被检阅的土豆。"
         },
         {
-          "id": "c0404",
+          "id": "c0478",
+          "type": "show",
+          "characterId": "li",
+          "expression": "平常",
+          "position": "left"
+        },
+        {
+          "id": "c0479",
           "type": "say",
           "text": "李宁站在杨邦身边，像个跟班。暴力事件以后，他看不起我们这些“软骨头”。"
         },
         {
-          "id": "c0405",
+          "id": "c0480",
           "type": "say",
           "characterId": "li",
           "text": "你们就一点也不觉得羞耻吗？"
         },
         {
-          "id": "c0406",
+          "id": "c0481",
           "type": "say",
           "text": "开完会，杨邦亲自下厨做西餐。炉子烧的是蜂窝煤，不能进教室，大家就蹲在一楼大厅里吃。"
         },
         {
-          "id": "c0407",
+          "id": "c0482",
           "type": "say",
           "text": "有那么几天，我觉得自己活过来了。终于有人告诉我，该干什么了。"
         },
         {
-          "id": "c0408",
+          "id": "c0483",
           "type": "say",
           "characterId": "yang",
           "text": "我们的人数是老广院的两倍。那天晚上，把他们放倒以后，两人一组，把每一个都抬到荒野里去。"
         },
         {
-          "id": "c0409",
+          "id": "c0484",
           "type": "say",
           "characterId": "yang",
           "text": "让他们醒过来的时候，看见自己像浮尸一样躺在野地里。"
         },
         {
-          "id": "c0410",
+          "id": "c0485",
           "type": "say",
           "text": "大家拍着桌子叫好。我也拍了。"
         },
         {
-          "id": "c0411",
+          "id": "c0486",
+          "type": "show",
+          "characterId": "wzy",
+          "expression": "平常",
+          "position": "right"
+        },
+        {
+          "id": "c0487",
           "type": "say",
           "text": "王子叶开始坐在杨邦旁边。她看着杨邦说话的样子，像在看一尊雕像。"
         },
         {
-          "id": "c0412",
+          "id": "c1067",
+          "type": "hide",
+          "characterId": "li"
+        },
+        {
+          "id": "c1068",
+          "type": "hide",
+          "characterId": "wzy"
+        },
+        {
+          "id": "c1069",
+          "type": "hide",
+          "characterId": "yang"
+        },
+        {
+          "id": "c0488",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_canteen"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "c0489",
+          "type": "show",
+          "characterId": "yang",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0490",
+          "type": "show",
+          "characterId": "wzy",
+          "expression": "平常",
+          "position": "left"
+        },
+        {
+          "id": "c0491",
           "type": "say",
           "text": "有一天在食堂，郭仲翰摇摇晃晃地走过来，满身怪味。他坐到王子叶旁边，抓住了杨邦的手——他本来是想抓王子叶的。"
         },
         {
-          "id": "c0413",
+          "id": "c0492",
+          "type": "show",
+          "characterId": "guo",
+          "expression": "平常",
+          "position": "right"
+        },
+        {
+          "id": "c0493",
           "type": "say",
           "characterId": "guo",
           "text": "小杨，你觉得你伟大吗？你凭什么永远自我感觉那么好？"
         },
         {
-          "id": "c0414",
+          "id": "c0494",
           "type": "say",
           "text": "杨邦身边的人都站了起来。杨邦抬了抬手，示意大家坐下。"
         },
         {
-          "id": "c0415",
+          "id": "c0495",
           "type": "say",
           "characterId": "yang",
           "text": "等你酒醒了，我们再谈。"
         },
         {
-          "id": "c0416",
+          "id": "c0496",
           "type": "say",
           "text": "郭仲翰抬起头，看见了我。他愣了一下，然后笑了。"
         },
         {
-          "id": "c0417",
+          "id": "c0497",
           "type": "say",
           "characterId": "guo",
           "text": "哟。你也在这儿。"
         },
         {
-          "id": "c0418",
+          "id": "c0498",
           "type": "choice",
           "options": [
             {
-              "id": "c0419",
+              "id": "c0499",
               "text": "起身，走过去扶住他",
               "effects": [
                 {
@@ -2982,7 +3929,7 @@
               "targetSceneId": "s05_back"
             },
             {
-              "id": "c0420",
+              "id": "c0500",
               "text": "坐着不动",
               "effects": [
                 {
@@ -3007,22 +3954,22 @@
       },
       "commands": [
         {
-          "id": "c0421",
+          "id": "c0501",
           "type": "say",
           "text": "我把郭仲翰架起来，一步一步扶出了食堂。身后，杨邦的人没有一个出声。"
         },
         {
-          "id": "c0422",
+          "id": "c0502",
           "type": "say",
           "text": "那之后，我再也没去开过会。"
         },
         {
-          "id": "c0423",
+          "id": "c0503",
           "type": "say",
           "text": "丁炜阳告诉我，那几天他们在洞里挖出了一包怪草，郭仲翰就是抽了那个。"
         },
         {
-          "id": "c0424",
+          "id": "c0504",
           "type": "jump",
           "targetSceneId": "s05_zhao"
         }
@@ -3037,7 +3984,22 @@
       },
       "commands": [
         {
-          "id": "c0425",
+          "id": "c1070",
+          "type": "hide",
+          "characterId": "ding"
+        },
+        {
+          "id": "c1071",
+          "type": "hide",
+          "characterId": "guo"
+        },
+        {
+          "id": "c1072",
+          "type": "hide",
+          "characterId": "zhao"
+        },
+        {
+          "id": "c0505",
           "type": "bg",
           "background": {
             "kind": "color",
@@ -3046,21 +4008,21 @@
           "transition": "fade"
         },
         {
-          "id": "c0426",
+          "id": "c0506",
           "type": "say",
           "text": "— 六 · 鼠尾草 —"
         },
         {
-          "id": "c0427",
+          "id": "c0507",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#6b5a3e"
+            "kind": "image",
+            "assetId": "bg_mound_steps"
           },
           "transition": "fade"
         },
         {
-          "id": "c0428",
+          "id": "c0508",
           "type": "music",
           "action": "play",
           "assetId": "bgm_wasteland",
@@ -3068,121 +4030,199 @@
           "volume": 0.6
         },
         {
-          "id": "c0429",
+          "id": "c0509",
+          "type": "show",
+          "characterId": "ding",
+          "expression": "平常",
+          "position": "left"
+        },
+        {
+          "id": "c0510",
+          "type": "show",
+          "characterId": "guo",
+          "expression": "平常",
+          "position": "right"
+        },
+        {
+          "id": "c0511",
           "type": "say",
           "text": "丁炜阳和郭仲翰加入了。我画了张村子的地图，让他们去五金店买工具。"
         },
         {
-          "id": "c0430",
+          "id": "c0512",
           "type": "say",
           "text": "结果他们没进五金店。郭仲翰熟门熟路地带着丁炜阳，翻进了那户人家的院墙。"
         },
         {
-          "id": "c0431",
+          "id": "c0513",
           "type": "say",
           "text": "又是那一家。我开始怀疑那户人家是这片荒原上唯一的银行。"
         },
         {
-          "id": "c0432",
+          "id": "c1073",
+          "type": "hide",
+          "characterId": "ding"
+        },
+        {
+          "id": "c1074",
+          "type": "hide",
+          "characterId": "guo"
+        },
+        {
+          "id": "c0514",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_village"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "c0515",
           "type": "say",
           "text": "我和赵乃夫去村里买手套，在五金店门口又碰见了那个男人。他像一只烂掉的梨。"
         },
         {
-          "id": "c0433",
+          "id": "c0516",
+          "type": "show",
+          "characterId": "pick",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0517",
           "type": "say",
           "characterId": "pick",
           "text": "洋镐和铁锹又丢了。学生，这世界越来越坏了。"
         },
         {
-          "id": "c0434",
+          "id": "c0518",
           "type": "say",
           "text": "他说了很多。说他去过英国，在哪儿都住在垃圾堆边上。说人和人之间隔着的，是几十年、一百年、两百年。他说着说着，从胡子里摘出一根白色的鸡毛，捏在手里看。"
         },
         {
-          "id": "c0435",
+          "id": "c0519",
           "type": "say",
           "characterId": "pick",
           "text": "世界变坏，是拦不住的。就像一列火车开下悬崖，车厢是一节一节掉下去的。这列车，有两百年那么长。"
         },
         {
-          "id": "c0436",
+          "id": "c0520",
           "type": "say",
           "characterId": "pick",
           "text": "我不指望你们学校的人把东西还回来。我只想让你带句话：就算哪天还回来了，也不会有什么因此变好。"
         },
         {
-          "id": "c0437",
+          "id": "c0521",
+          "type": "show",
+          "characterId": "zhao",
+          "expression": "平常",
+          "position": "left"
+        },
+        {
+          "id": "c0522",
           "type": "say",
           "characterId": "zhao",
           "text": "这也太绝望了。"
         },
         {
-          "id": "c0438",
+          "id": "c0523",
           "type": "say",
           "characterId": "pick",
           "text": "是啊。你身上有多少钱？……比我年轻时多。挺好。"
         },
         {
-          "id": "c0439",
+          "id": "c0524",
           "type": "say",
           "text": "他推着一辆崭新的手推车回家了。那个方向，我们太熟了。"
         },
         {
-          "id": "c0440",
+          "id": "c1075",
+          "type": "hide",
+          "characterId": "pick"
+        },
+        {
+          "id": "c1076",
+          "type": "hide",
+          "characterId": "zhao"
+        },
+        {
+          "id": "c0525",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_town"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "c0526",
           "type": "say",
           "text": "去镇上的大巴上，赵乃夫一直很恍惚。"
         },
         {
-          "id": "c0441",
+          "id": "c0527",
+          "type": "show",
+          "characterId": "zhao",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0528",
           "type": "say",
           "characterId": "zhao",
           "text": "我们为什么老偷他家？……他说动我了。"
         },
         {
-          "id": "c0442",
+          "id": "c0529",
           "type": "say",
           "characterId": "me",
           "text": "他什么也没说明白，就是丢了东西发牢骚。"
         },
         {
-          "id": "c0443",
+          "id": "c0530",
           "type": "say",
           "characterId": "zhao",
           "text": "你不懂。"
         },
         {
-          "id": "c0444",
+          "id": "c0531",
           "type": "say",
           "text": "下车以后，路边是一排KTV，有个女人隔着玻璃敲窗户。"
         },
         {
-          "id": "c0445",
+          "id": "c0532",
           "type": "say",
           "characterId": "ktv",
           "text": "来吗？来吧！"
         },
         {
-          "id": "c0446",
+          "id": "c0533",
           "type": "say",
           "text": "赵乃夫站住了。我拉他，他甩开了我的手，脸涨得通红。"
         },
         {
-          "id": "c0447",
+          "id": "c0534",
           "type": "say",
           "characterId": "zhao",
           "text": "我憋了好几年了。你去买水壶吧。"
         },
         {
-          "id": "c0448",
+          "id": "c1077",
+          "type": "hide",
+          "characterId": "zhao"
+        },
+        {
+          "id": "c0535",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#1b130c"
+            "kind": "image",
+            "assetId": "bg_cave"
           },
           "transition": "fade"
         },
         {
-          "id": "c0449",
+          "id": "c0536",
           "type": "music",
           "action": "play",
           "assetId": "bgm_cave",
@@ -3190,60 +4230,74 @@
           "volume": 0.6
         },
         {
-          "id": "c0450",
+          "id": "c0537",
           "type": "say",
           "text": "我们在洞壁上插满了蜡烛。烛泪顺着土壁往下淌，每隔一米就凝成一道，像尺子上的刻度。我们终于有了一样能量出来的东西。"
         },
         {
-          "id": "c0451",
+          "id": "c0538",
+          "type": "show",
+          "characterId": "ding",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0539",
           "type": "say",
           "text": "有天收工，丁炜阳神神秘秘地把本子递给我。在“今天我很幸福”下面，多了第二行："
         },
         {
-          "id": "c0452",
+          "id": "c0540",
           "type": "say",
           "characterId": "ding",
           "text": "今天挖了一米"
         },
         {
-          "id": "c0453",
+          "id": "c0541",
           "type": "say",
           "text": "他看着我，眼睛亮得像刚上过油。"
         },
         {
-          "id": "c0454",
+          "id": "c0542",
           "type": "say",
           "characterId": "ding",
           "text": "我写出第二句了。"
         },
         {
-          "id": "c0455",
+          "id": "c0543",
           "type": "say",
           "text": "洞往下挖了六七米。到第三天，郭仲翰扔下了铁锹。"
         },
         {
-          "id": "c0456",
+          "id": "c0544",
+          "type": "show",
+          "characterId": "guo",
+          "expression": "平常",
+          "position": "left"
+        },
+        {
+          "id": "c0545",
           "type": "say",
           "characterId": "guo",
           "text": "我们在干什么？我们在浪费生命。我们的命是垃圾，可垃圾里挑挑拣拣，总还有能回收的。挖洞，是把垃圾一把火全烧了。"
         },
         {
-          "id": "c0457",
+          "id": "c0546",
           "type": "say",
           "characterId": "ding",
           "text": "我觉得我比以前好了。我不觉得自己弱小了。"
         },
         {
-          "id": "c0458",
+          "id": "c0547",
           "type": "say",
           "text": "郭仲翰大笑起来，伸手掐了一把丁炜阳的屁股。丁炜阳没躲，也不在意。这让郭仲翰很不高兴。"
         },
         {
-          "id": "c0459",
+          "id": "c0548",
           "type": "choice",
           "options": [
             {
-              "id": "c0460",
+              "id": "c0549",
               "text": "骂回去：“你就是条狗，一点努力就打回原形。”",
               "effects": [
                 {
@@ -3254,7 +4308,7 @@
               ]
             },
             {
-              "id": "c0461",
+              "id": "c0550",
               "text": "什么也不说，继续挖",
               "effects": [
                 {
@@ -3268,26 +4322,31 @@
           "prompt": "郭仲翰越说越刻薄。"
         },
         {
-          "id": "c0462",
+          "id": "c0551",
+          "type": "hide",
+          "characterId": "guo"
+        },
+        {
+          "id": "c0552",
           "type": "say",
           "text": "郭仲翰调头冲回洞里，抡起洋镐疯了一样地刨，一边刨一边骂我们全是狗屎。一个多小时以后，一个包裹从洞里飞了出来。"
         },
         {
-          "id": "c0463",
+          "id": "c0553",
           "type": "say",
           "text": "硬化的塑料布里，裹着一袋长条状的干叶子。像茶叶，味道却冲得多。"
         },
         {
-          "id": "c0464",
+          "id": "c0554",
           "type": "say",
           "text": "赵乃夫把一根烟里的烟丝挤出来，把叶子塞进去，点着，深深吸了一口。烟传了一圈，到了我手里。"
         },
         {
-          "id": "c0465",
+          "id": "c0555",
           "type": "choice",
           "options": [
             {
-              "id": "c0466",
+              "id": "c0556",
               "text": "吸一口",
               "effects": [
                 {
@@ -3298,13 +4357,13 @@
               ]
             },
             {
-              "id": "c0467",
+              "id": "c0557",
               "text": "递给下一个人"
             }
           ]
         },
         {
-          "id": "c0468",
+          "id": "c0558",
           "type": "if",
           "condition": {
             "kind": "compare",
@@ -3314,92 +4373,137 @@
           },
           "then": [
             {
-              "id": "c0469",
+              "id": "c0559",
               "type": "say",
               "text": "几分钟后，四周的东西开始膨胀。近处的小树像海绵一样往外长，天上的星星连成了我从没见过的星座。"
             },
             {
-              "id": "c0470",
+              "id": "c0560",
               "type": "say",
               "text": "我想起了那具骨头。它好像就躺在我眼前，干干净净的，泛着白玉一样的光。"
             }
           ],
           "else": [
             {
-              "id": "c0471",
+              "id": "c0561",
               "type": "say",
               "text": "我把烟递给丁炜阳。他不会抽，就把叶子泡进水壶里，咕咚咕咚地喝了下去，像在喝胖大海。"
             },
             {
-              "id": "c0472",
+              "id": "c0562",
               "type": "say",
               "text": "我清醒地看着他们一个个瘫倒在地上，像几只摔破的鸡蛋。"
             }
           ]
         },
         {
-          "id": "c0473",
+          "id": "c0563",
           "type": "music",
           "action": "stop"
         },
         {
-          "id": "c0474",
+          "id": "c1078",
+          "type": "hide",
+          "characterId": "ding"
+        },
+        {
+          "id": "c0564",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_canteen"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "c0565",
+          "type": "show",
+          "characterId": "yang",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0566",
+          "type": "show",
+          "characterId": "wzy",
+          "expression": "平常",
+          "position": "right"
+        },
+        {
+          "id": "c0567",
           "type": "say",
           "text": "我们去食堂吃饭。王子叶和杨邦坐在不远处。"
         },
         {
-          "id": "c0475",
+          "id": "c0568",
           "type": "say",
           "text": "郭仲翰盯着王子叶看了很久，好像这才想起来，世界上还有这么一个人。他摇摇晃晃地走过去，一屁股坐在了她旁边。"
         },
         {
-          "id": "c0476",
+          "id": "c0569",
+          "type": "show",
+          "characterId": "guo",
+          "expression": "平常",
+          "position": "left"
+        },
+        {
+          "id": "c0570",
           "type": "say",
           "characterId": "guo",
           "text": "小杨。你觉得你伟大吗？"
         },
         {
-          "id": "c0477",
+          "id": "c0571",
           "type": "say",
           "characterId": "yang",
           "text": "伟大谈不上。"
         },
         {
-          "id": "c0478",
+          "id": "c0572",
           "type": "say",
           "characterId": "guo",
           "text": "还“谈不上”。你凭什么永远自我感觉那么好？你连一泡尿是怎么回事都不知道！"
         },
         {
-          "id": "c0479",
+          "id": "c0573",
           "type": "say",
           "characterId": "yang",
           "text": "等你酒醒了，我们再谈。"
         },
         {
-          "id": "c0480",
+          "id": "c0574",
           "type": "say",
           "characterId": "guo",
           "text": "王子叶，走，跟我种花去。浇大粪，开花。"
         },
         {
-          "id": "c0481",
+          "id": "c0575",
           "type": "say",
           "text": "王子叶挽着杨邦站起来，回头怜悯地看了郭仲翰一眼。就是那一眼，把他整个人打垮了。"
         },
         {
-          "id": "c0482",
+          "id": "c0576",
+          "type": "hide",
+          "characterId": "yang"
+        },
+        {
+          "id": "c0577",
+          "type": "hide",
+          "characterId": "wzy"
+        },
+        {
+          "id": "c0578",
           "type": "say",
           "text": "郭仲翰把脸从桌上抬起来，裹紧了风衣。风衣底下是打着补丁的羊毛衫，从外面一点也看不出来。"
         },
         {
-          "id": "c0483",
+          "id": "c0579",
           "type": "say",
           "characterId": "guo",
           "text": "这些人真逗。"
         },
         {
-          "id": "c0484",
+          "id": "c0580",
           "type": "jump",
           "targetSceneId": "s05_zhao"
         }
@@ -3414,16 +4518,31 @@
       },
       "commands": [
         {
-          "id": "c0485",
+          "id": "c1079",
+          "type": "hide",
+          "characterId": "guo"
+        },
+        {
+          "id": "c1080",
+          "type": "hide",
+          "characterId": "wzy"
+        },
+        {
+          "id": "c1081",
+          "type": "hide",
+          "characterId": "yang"
+        },
+        {
+          "id": "c0581",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#4b4038"
+            "kind": "image",
+            "assetId": "bg_dorm_day"
           },
           "transition": "fade"
         },
         {
-          "id": "c0486",
+          "id": "c0582",
           "type": "music",
           "action": "play",
           "assetId": "bgm_leaving",
@@ -3431,92 +4550,99 @@
           "volume": 0.5
         },
         {
-          "id": "c0487",
+          "id": "c0583",
           "type": "say",
           "text": "那包草，刘庆庆认了出来，叫墨西哥鼠尾草。赵乃夫把它拿走了。"
         },
         {
-          "id": "c0488",
+          "id": "c0584",
           "type": "say",
           "text": "后来刘庆庆说，他在网吧门口看见赵乃夫插着兜，问路过的人“要么”。人家摇头，他再说一声“要吧”，人家就过来了。这是我见过最短的推销话术。"
         },
         {
-          "id": "c0489",
+          "id": "c0585",
           "type": "say",
           "text": "我去他宿舍的时候，他正在收拾行李。嘴唇是紫的。"
         },
         {
-          "id": "c0490",
+          "id": "c0586",
+          "type": "show",
+          "characterId": "zhao",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0587",
           "type": "say",
           "characterId": "me",
           "text": "你要去哪儿？"
         },
         {
-          "id": "c0491",
+          "id": "c0588",
           "type": "say",
           "characterId": "zhao",
           "text": "镇上。我把鼠尾草掺进普通烟丝里卖，够活一阵子。"
         },
         {
-          "id": "c0492",
+          "id": "c0589",
           "type": "say",
           "characterId": "me",
           "text": "黄金不要了？"
         },
         {
-          "id": "c0493",
+          "id": "c0590",
           "type": "say",
           "characterId": "zhao",
           "text": "不要了。"
         },
         {
-          "id": "c0494",
+          "id": "c0591",
           "type": "say",
           "text": "他把一件毛衣塞进包里，塞了好几次才塞进去。"
         },
         {
-          "id": "c0495",
+          "id": "c0592",
           "type": "say",
           "characterId": "zhao",
           "text": "开学第一个礼拜，有天晚上打牌，我手气好得邪门，一晚上大小王全在我手里。你记得吧？"
         },
         {
-          "id": "c0496",
+          "id": "c0593",
           "type": "say",
           "text": "我记得。那天晚上丁炜阳替他高兴得差点哭了。"
         },
         {
-          "id": "c0497",
+          "id": "c0594",
           "type": "say",
           "characterId": "zhao",
           "text": "我借了李宁的手机，跑到天台上给她打电话。五年了，我总算有一件能跟她说的好事。"
         },
         {
-          "id": "c0498",
+          "id": "c0595",
           "type": "say",
           "characterId": "zhao",
           "text": "电话通了。她问我是谁。我说，是我。"
         },
         {
-          "id": "c0499",
+          "id": "c0596",
           "type": "say",
           "characterId": "zhao",
           "text": "然后她就开始尖叫。一直叫，一直叫，然后挂了。"
         },
         {
-          "id": "c0500",
+          "id": "c0597",
           "type": "say",
           "characterId": "zhao",
           "text": "一千封情书，换来一晚上的大小王，再换来一声尖叫。从那天起，我就知道自己完了。"
         },
         {
-          "id": "c0501",
+          "id": "c0598",
           "type": "say",
           "characterId": "zhao",
           "text": "那天抽完鼠尾草，我从来没那么清醒过。我看见了所有人的可怜——你的，丁炜阳的，所有人的。那是黄金也改变不了的。"
         },
         {
-          "id": "c0502",
+          "id": "c0599",
           "type": "if",
           "condition": {
             "kind": "compare",
@@ -3526,7 +4652,7 @@
           },
           "then": [
             {
-              "id": "c0503",
+              "id": "c0600",
               "type": "say",
               "characterId": "zhao",
               "text": "你也抽了。你就没觉得清醒吗？"
@@ -3535,17 +4661,17 @@
           "else": []
         },
         {
-          "id": "c0504",
+          "id": "c0601",
           "type": "say",
           "characterId": "zhao",
           "text": "我这辈子，眼前一直是大雾。这几天，雾突然散了。我看见了颜色。你看见过颜色吗？"
         },
         {
-          "id": "c0505",
+          "id": "c0602",
           "type": "choice",
           "options": [
             {
-              "id": "c0506",
+              "id": "c0603",
               "text": "“别走。”",
               "effects": [
                 {
@@ -3556,36 +4682,57 @@
               ]
             },
             {
-              "id": "c0507",
+              "id": "c0604",
               "text": "默默帮他拎包"
             }
           ],
           "prompt": "他已经收拾出了两个大包。"
         },
         {
-          "id": "c0508",
+          "id": "c1082",
+          "type": "hide",
+          "characterId": "zhao"
+        },
+        {
+          "id": "c0605",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_campus"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "c0606",
           "type": "say",
           "text": "我帮他拎着包，穿过荒芜的校园，从北边的墙洞出去，站到高速公路边上。"
         },
         {
-          "id": "c0509",
+          "id": "c0607",
+          "type": "show",
+          "characterId": "zhao",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0608",
           "type": "say",
           "characterId": "me",
           "text": "找到黄金了，我就叫你。"
         },
         {
-          "id": "c0510",
+          "id": "c0609",
           "type": "say",
           "characterId": "zhao",
           "text": "还需要吗？……不知道啊。"
         },
         {
-          "id": "c0511",
+          "id": "c0610",
           "type": "say",
           "text": "大巴来了。他裹紧了那件狗皮袄子，上了车。车开走以后，我才发现他把那张皮子地图留在了我的包里。"
         },
         {
-          "id": "c0512",
+          "id": "c0611",
           "type": "jump",
           "targetSceneId": "s05_liu"
         }
@@ -3600,16 +4747,21 @@
       },
       "commands": [
         {
-          "id": "c0513",
+          "id": "c1083",
+          "type": "hide",
+          "characterId": "zhao"
+        },
+        {
+          "id": "c0612",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#1b130c"
+            "kind": "image",
+            "assetId": "bg_cave"
           },
           "transition": "fade"
         },
         {
-          "id": "c0514",
+          "id": "c0613",
           "type": "music",
           "action": "play",
           "assetId": "bgm_cave",
@@ -3617,51 +4769,70 @@
           "volume": 0.6
         },
         {
-          "id": "c0515",
+          "id": "c0614",
           "type": "say",
           "text": "王子叶住进了杨邦的宿舍。在走廊里、在厕所里，郭仲翰总能听见她夸杨邦。他在地上打滚。"
         },
         {
-          "id": "c0516",
+          "id": "c0615",
+          "type": "show",
+          "characterId": "guo",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0616",
           "type": "say",
           "characterId": "guo",
           "text": "我搬到洞里去住吧。"
         },
         {
-          "id": "c0517",
+          "id": "c0617",
           "type": "say",
           "text": "我们在洞里挖出一块能放下钢丝床的地方，四壁钉上塑料布。烛光把塑料布的褶皱照得一条一条的。"
         },
         {
-          "id": "c0518",
+          "id": "c0618",
+          "type": "hide",
+          "characterId": "guo"
+        },
+        {
+          "id": "c0619",
           "type": "say",
           "text": "十一月中旬，梁晓的家人把她接走，送出了国。学校里传说，李宁在树林里强暴了她。"
         },
         {
-          "id": "c0519",
+          "id": "c0620",
+          "type": "show",
+          "characterId": "lx",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0621",
           "type": "say",
           "text": "走之前，她来找过我。嘴唇干裂，眼睛很久都不眨一下。"
         },
         {
-          "id": "c0520",
+          "id": "c0622",
           "type": "say",
           "characterId": "lx",
           "text": "因为我当时笑话了他的故事。我知道。"
         },
         {
-          "id": "c0521",
+          "id": "c0623",
           "type": "say",
           "characterId": "lx",
           "text": "这只是开始吧。"
         },
         {
-          "id": "c0522",
+          "id": "c0624",
           "type": "say",
           "characterId": "me",
           "text": "嗯。"
         },
         {
-          "id": "c0523",
+          "id": "c0625",
           "type": "if",
           "condition": {
             "kind": "compare",
@@ -3671,12 +4842,12 @@
           },
           "then": [
             {
-              "id": "c0524",
+              "id": "c0626",
               "type": "say",
               "text": "我想起操场上，只有我认真读了那张纸；想起澡堂门口，他说“你至少看完了”。"
             },
             {
-              "id": "c0525",
+              "id": "c0627",
               "type": "say",
               "text": "原来，那一点也不够。我连一个写儿子变猪的人，都改变不了。"
             }
@@ -3684,55 +4855,76 @@
           "else": []
         },
         {
-          "id": "c0526",
+          "id": "c0628",
           "type": "say",
           "text": "她塞给我一张纸，上面是她最喜欢的故事。"
         },
         {
-          "id": "c0527",
+          "id": "c0629",
           "type": "say",
           "characterId": "lx",
           "text": "我已经不信了。一点也不美好。"
         },
         {
-          "id": "c0528",
+          "id": "c1084",
+          "type": "hide",
+          "characterId": "lx"
+        },
+        {
+          "id": "c0630",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_mound_steps"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "c0631",
           "type": "say",
           "text": "几天以后，刘庆庆拎着一袋香蕉来到洞口。我们几个坐在石阶上吃香蕉。"
         },
         {
-          "id": "c0529",
+          "id": "c0632",
+          "type": "show",
+          "characterId": "liu",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0633",
           "type": "say",
           "characterId": "liu",
           "text": "那天傍晚，我从西门回来，看见梁晓了。李宁跟在后面，还带着三个人。我就躲到砖堆后面去了。"
         },
         {
-          "id": "c0530",
+          "id": "c0634",
           "type": "say",
           "characterId": "liu",
           "text": "他没有强暴她。他从包里拿出一张猪皮，逼她把衣服脱了，穿上。"
         },
         {
-          "id": "c0531",
+          "id": "c0635",
           "type": "say",
           "text": "没有人再嚼香蕉了。"
         },
         {
-          "id": "c0532",
+          "id": "c0636",
           "type": "say",
           "characterId": "liu",
           "text": "我就在砖堆后面看着。一直没敢出来。"
         },
         {
-          "id": "c0533",
+          "id": "c0637",
           "type": "say",
           "text": "他一口气吃了三根香蕉，还在吃。他的眼睛里全是躲藏。"
         },
         {
-          "id": "c0534",
+          "id": "c0638",
           "type": "choice",
           "options": [
             {
-              "id": "c0535",
+              "id": "c0639",
               "text": "“你要不要来挖黄金？”",
               "effects": [
                 {
@@ -3748,7 +4940,7 @@
               ]
             },
             {
-              "id": "c0536",
+              "id": "c0640",
               "text": "什么也说不出来",
               "effects": [
                 {
@@ -3761,55 +4953,81 @@
           ]
         },
         {
-          "id": "c0537",
+          "id": "c0641",
           "type": "say",
           "text": "刘庆庆从那以后就留了下来。他不怎么下洞，管水，管吃的，管倒垃圾。"
         },
         {
-          "id": "c0538",
+          "id": "c1085",
+          "type": "hide",
+          "characterId": "liu"
+        },
+        {
+          "id": "c0642",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_mound_dusk"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "c0643",
           "type": "say",
           "text": "有天夜里，只剩我和他守在洞口。他忽然说起他爸。"
         },
         {
-          "id": "c0539",
+          "id": "c0644",
+          "type": "show",
+          "characterId": "liu",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0645",
           "type": "say",
           "characterId": "liu",
           "text": "我爸喝多了，就让我打盆热水给他洗脚。从我十岁，洗到二十岁。"
         },
         {
-          "id": "c0540",
+          "id": "c0646",
           "type": "say",
           "characterId": "liu",
           "text": "后来他找了个女的。我给他洗完，他再去给那个女的洗。"
         },
         {
-          "id": "c0541",
+          "id": "c0647",
           "type": "say",
           "characterId": "liu",
           "text": "你说可笑不可笑，一盆水，一家人轮着用。"
         },
         {
-          "id": "c0542",
+          "id": "c0648",
           "type": "say",
           "text": "他笑了，我没笑。烛光底下，他的圆脑袋像一个被人拧得太紧的瓶盖。"
         },
         {
-          "id": "c0543",
+          "id": "c0649",
           "type": "say",
           "characterId": "liu",
           "text": "我恨死他了。……可他让我干什么，我还是干。"
         },
         {
-          "id": "c0544",
+          "id": "c1086",
+          "type": "hide",
+          "characterId": "liu"
+        },
+        {
+          "id": "c0650",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#33303a"
+            "kind": "image",
+            "assetId": "bg_town"
           },
           "transition": "fade"
         },
         {
-          "id": "c0545",
+          "id": "c0651",
           "type": "music",
           "action": "play",
           "assetId": "bgm_leaving",
@@ -3817,34 +5035,41 @@
           "volume": 0.45
         },
         {
-          "id": "c0546",
+          "id": "c0652",
           "type": "say",
           "text": "我拎着剩下的半袋香蕉，坐车去镇上找赵乃夫。"
         },
         {
-          "id": "c0547",
+          "id": "c0653",
           "type": "say",
           "text": "他住在一条石板胡同里。屋里的烟囱从一扇窗户穿进来，又从另一扇穿出去。"
         },
         {
-          "id": "c0548",
+          "id": "c0654",
+          "type": "show",
+          "characterId": "zhao",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0655",
           "type": "say",
           "characterId": "zhao",
           "text": "这样屋里不会中煤气，还能取暖。"
         },
         {
-          "id": "c0549",
+          "id": "c0656",
           "type": "say",
           "characterId": "me",
           "text": "你以前没这么聪明。"
         },
         {
-          "id": "c0550",
+          "id": "c0657",
           "type": "say",
           "text": "他带我去喝牛肉汤。"
         },
         {
-          "id": "c0551",
+          "id": "c0658",
           "type": "if",
           "condition": {
             "kind": "compare",
@@ -3854,7 +5079,7 @@
           },
           "then": [
             {
-              "id": "c0552",
+              "id": "c0659",
               "type": "say",
               "characterId": "zhao",
               "text": "你知道吗，在山传，你是唯一一个跟我说过实话的人。那辆手推车。"
@@ -3862,7 +5087,7 @@
           ],
           "else": [
             {
-              "id": "c0553",
+              "id": "c0660",
               "type": "say",
               "characterId": "zhao",
               "text": "那辆手推车，是那家的吧。……我早就知道。你连这个都要骗我。"
@@ -3870,59 +5095,59 @@
           ]
         },
         {
-          "id": "c0554",
+          "id": "c0661",
           "type": "say",
           "characterId": "zhao",
           "text": "我跟一个女的好了。她晚上住我这儿，我给她念书听。"
         },
         {
-          "id": "c0555",
+          "id": "c0662",
           "type": "say",
           "characterId": "me",
           "text": "她不识字？"
         },
         {
-          "id": "c0556",
+          "id": "c0663",
           "type": "say",
           "characterId": "zhao",
           "text": "她看不见。"
         },
         {
-          "id": "c0557",
+          "id": "c0664",
           "type": "say",
           "text": "傍晚，他牵着一个女孩慢慢走过来。她的眼睛很大，里面是一片灰白的翳。那段路他们走得很慢很慢。我好像一下子明白了赵乃夫现在的节奏。"
         },
         {
-          "id": "c0558",
+          "id": "c0665",
           "type": "say",
           "characterId": "me",
           "text": "我总觉得，是我害了你。"
         },
         {
-          "id": "c0559",
+          "id": "c0666",
           "type": "say",
           "characterId": "zhao",
           "text": "别想多了。你害不了任何人。人是很难被别的东西改变的。"
         },
         {
-          "id": "c0560",
+          "id": "c0667",
           "type": "say",
           "characterId": "me",
           "text": "我有好多事都搞不明白。"
         },
         {
-          "id": "c0561",
+          "id": "c0668",
           "type": "say",
           "characterId": "zhao",
           "text": "我都明白了。"
         },
         {
-          "id": "c0562",
+          "id": "c0669",
           "type": "say",
           "text": "他的狗皮袄子消失在灯光的那一头。我在路口等车，一直在想：他明白什么了？"
         },
         {
-          "id": "c0563",
+          "id": "c0670",
           "type": "jump",
           "targetSceneId": "s07"
         }
@@ -3937,7 +5162,12 @@
       },
       "commands": [
         {
-          "id": "c0564",
+          "id": "c1087",
+          "type": "hide",
+          "characterId": "zhao"
+        },
+        {
+          "id": "c0671",
           "type": "bg",
           "background": {
             "kind": "color",
@@ -3946,21 +5176,21 @@
           "transition": "fade"
         },
         {
-          "id": "c0565",
+          "id": "c0672",
           "type": "say",
           "text": "— 七 · 战争与黄金 —"
         },
         {
-          "id": "c0566",
+          "id": "c0673",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#1b130c"
+            "kind": "image",
+            "assetId": "bg_cave"
           },
           "transition": "fade"
         },
         {
-          "id": "c0567",
+          "id": "c0674",
           "type": "music",
           "action": "play",
           "assetId": "bgm_cave",
@@ -3968,32 +5198,46 @@
           "volume": 0.6
         },
         {
-          "id": "c0568",
+          "id": "c0675",
           "type": "say",
           "text": "十一月下旬，我们挖出了一只木箱子。"
         },
         {
-          "id": "c0569",
+          "id": "c0676",
           "type": "say",
           "text": "厚杨木，漆掉了一半，挂着一把老锁。要两个人才抬得出来。摇一摇，里面有干草一样的沙沙声。"
         },
         {
-          "id": "c0570",
+          "id": "c0677",
+          "type": "show",
+          "characterId": "guo",
+          "expression": "平常",
+          "position": "left"
+        },
+        {
+          "id": "c0678",
           "type": "say",
           "text": "郭仲翰用洋镐砸了几下锁，锁没坏，箱板先裂了。"
         },
         {
-          "id": "c0571",
+          "id": "c0679",
+          "type": "show",
+          "characterId": "ding",
+          "expression": "平常",
+          "position": "right"
+        },
+        {
+          "id": "c0680",
           "type": "say",
           "characterId": "ding",
           "text": "别砸了，钥匙能找到的。"
         },
         {
-          "id": "c0572",
+          "id": "c0681",
           "type": "choice",
           "options": [
             {
-              "id": "c0573",
+              "id": "c0682",
               "text": "抡起洋镐，现在就砸开",
               "effects": [
                 {
@@ -4005,7 +5249,7 @@
               "targetSceneId": "s06_open"
             },
             {
-              "id": "c0574",
+              "id": "c0683",
               "text": "等着找钥匙",
               "targetSceneId": "s06_li"
             }
@@ -4022,33 +5266,33 @@
       },
       "commands": [
         {
-          "id": "c0575",
+          "id": "c0684",
           "type": "say",
           "text": "箱子散开了。里面垫着烂草，草上躺着一副青铜的东西，锈成了绿色。"
         },
         {
-          "id": "c0576",
+          "id": "c0685",
           "type": "say",
           "text": "是一副盔甲。边沿都快烂穿了，像是在一点一点往下滴。"
         },
         {
-          "id": "c0577",
+          "id": "c0686",
           "type": "say",
           "text": "丁炜阳把它捧起来，在烛光里看了很久。"
         },
         {
-          "id": "c0578",
+          "id": "c0687",
           "type": "say",
           "characterId": "ding",
           "text": "……这是古代人的吗？"
         },
         {
-          "id": "c0579",
+          "id": "c0688",
           "type": "say",
           "text": "没有人回答他。我们把盔甲放回去，把箱子推到了郭仲翰的钢丝床底下。"
         },
         {
-          "id": "c0580",
+          "id": "c0689",
           "type": "setVar",
           "effect": {
             "variableId": "knowArmor",
@@ -4057,7 +5301,7 @@
           }
         },
         {
-          "id": "c0581",
+          "id": "c0690",
           "type": "jump",
           "targetSceneId": "s06_li"
         }
@@ -4072,16 +5316,26 @@
       },
       "commands": [
         {
-          "id": "c0582",
+          "id": "c1088",
+          "type": "hide",
+          "characterId": "ding"
+        },
+        {
+          "id": "c1089",
+          "type": "hide",
+          "characterId": "guo"
+        },
+        {
+          "id": "c0691",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#6b5a3e"
+            "kind": "image",
+            "assetId": "bg_mound_steps"
           },
           "transition": "fade"
         },
         {
-          "id": "c0583",
+          "id": "c0692",
           "type": "music",
           "action": "play",
           "assetId": "bgm_night",
@@ -4089,110 +5343,148 @@
           "volume": 0.6
         },
         {
-          "id": "c0584",
+          "id": "c0693",
           "type": "say",
           "text": "第二天，李宁带着十来个人朝洞口走过来。刘庆庆一看见他，就躲进了洞里。"
         },
         {
-          "id": "c0585",
+          "id": "c0694",
+          "type": "show",
+          "characterId": "li",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0695",
           "type": "say",
           "text": "李宁的下巴上长满了钉子一样硬的胡茬，衣服硬得像纸板。他再也没有擦过头发。我闻到他们身上有一股汽油味。"
         },
         {
-          "id": "c0586",
+          "id": "c0696",
           "type": "say",
           "characterId": "li",
           "text": "明天晚上十点，广场集合。你们来吗？"
         },
         {
-          "id": "c0587",
+          "id": "c0697",
+          "type": "show",
+          "characterId": "ding",
+          "expression": "平常",
+          "position": "left"
+        },
+        {
+          "id": "c0698",
           "type": "say",
           "text": "丁炜阳撑着铁锹。他的眉毛比以前更黑，也更锋利了。"
         },
         {
-          "id": "c0588",
+          "id": "c0699",
           "type": "say",
           "characterId": "ding",
           "text": "你怎么不去死呢？"
         },
         {
-          "id": "c0589",
+          "id": "c0700",
           "type": "say",
           "text": "李宁盯着他看了很久，然后朝洞里走去。"
         },
         {
-          "id": "c0590",
+          "id": "c0701",
           "type": "say",
           "characterId": "li",
           "text": "你们以为在这儿挖了两个月，没人知道？所有人都知道。往北看——那些窗户后面全是眼睛。从第一天起，他们就天天看着你们几个在这儿装模作样，看得可乐了。"
         },
         {
-          "id": "c0591",
+          "id": "c0702",
           "type": "say",
           "text": "我抬起头。北边那几栋矮楼的玻璃反着光。"
         },
         {
-          "id": "c0592",
+          "id": "c0703",
           "type": "say",
           "text": "洞里传来刘庆庆的喊声，然后是木头被摔碎的声音。"
         },
         {
-          "id": "c0593",
+          "id": "c0704",
           "type": "say",
           "text": "接着，是十几个人的狂笑。那笑声把整条洞震得簌簌往下掉土。"
         },
         {
-          "id": "c0594",
+          "id": "c0705",
+          "type": "hide",
+          "characterId": "li"
+        },
+        {
+          "id": "c0706",
           "type": "say",
           "text": "他们走了。我能感觉到远处楼里上百双眼睛，像一块块烫出来的疤。"
         },
         {
-          "id": "c0595",
+          "id": "c0707",
           "type": "say",
           "characterId": "me",
           "text": "今天不挖了。"
         },
         {
-          "id": "c0596",
+          "id": "c0708",
           "type": "say",
           "text": "我们用手推车堵上了洞口。"
         },
         {
-          "id": "c0597",
+          "id": "c1090",
+          "type": "hide",
+          "characterId": "ding"
+        },
+        {
+          "id": "c0709",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#4b4038"
+            "kind": "image",
+            "assetId": "bg_canteen_back"
           },
           "transition": "fade"
         },
         {
-          "id": "c0598",
+          "id": "c0710",
           "type": "say",
           "text": "在食堂，我又闻到了汽油味。我顺着味道绕到食堂后面：五个崭新的铁桶，上面盖着一张床单。"
         },
         {
-          "id": "c0599",
+          "id": "c0711",
           "type": "say",
           "text": "我想起五金店老板说的话：你们学校的学生跑来买铁桶，一买就是好几个。原来那时候，他们就已经在准备了。"
         },
         {
-          "id": "c0600",
+          "id": "c0712",
           "type": "say",
           "text": "我们还在犹豫，几个人已经冲了过来。杨邦跟在后面，喘着粗气。"
         },
         {
-          "id": "c0601",
+          "id": "c0713",
+          "type": "show",
+          "characterId": "yang",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0714",
           "type": "say",
           "characterId": "yang",
           "text": "谁敢推倒，就把谁塞进去。"
         },
         {
-          "id": "c0602",
+          "id": "c0715",
+          "type": "show",
+          "characterId": "guo",
+          "expression": "平常",
+          "position": "right"
+        },
+        {
+          "id": "c0716",
           "type": "choice",
           "options": [
             {
-              "id": "c0603",
+              "id": "c0717",
               "text": "抢在他前面，一脚踹倒铁桶",
               "effects": [
                 {
@@ -4204,7 +5496,7 @@
               "targetSceneId": "s06_kick"
             },
             {
-              "id": "c0604",
+              "id": "c0718",
               "text": "拉住郭仲翰",
               "effects": [
                 {
@@ -4229,22 +5521,22 @@
       },
       "commands": [
         {
-          "id": "c0605",
+          "id": "c0719",
           "type": "say",
           "text": "我抬腿就踹。铁桶倒了，汽油味像火苗一样蹿起来，熏得人睁不开眼。"
         },
         {
-          "id": "c0606",
+          "id": "c0720",
           "type": "say",
           "text": "两个人捡起滚远的铁桶，用桶底朝我的脑袋抡过来。我听见了自己牙齿的声音。"
         },
         {
-          "id": "c0607",
+          "id": "c0721",
           "type": "say",
           "text": "郭仲翰把我从地上拽起来，自己站进了那摊汽油里。"
         },
         {
-          "id": "c0608",
+          "id": "c0722",
           "type": "jump",
           "targetSceneId": "s06_lighter"
         }
@@ -4259,17 +5551,17 @@
       },
       "commands": [
         {
-          "id": "c0609",
+          "id": "c0723",
           "type": "say",
           "text": "我抓住郭仲翰的胳膊。他甩开我，一脚踹倒了铁桶。"
         },
         {
-          "id": "c0610",
+          "id": "c0724",
           "type": "say",
           "text": "两个人捡起铁桶，朝他的脑袋抡了下去。"
         },
         {
-          "id": "c0611",
+          "id": "c0725",
           "type": "jump",
           "targetSceneId": "s06_lighter"
         }
@@ -4284,55 +5576,60 @@
       },
       "commands": [
         {
-          "id": "c0612",
+          "id": "c0726",
           "type": "say",
           "text": "杨邦朝宿舍楼抬了抬下巴。三楼、四楼推开了很多扇窗户，一张张木然的脸探出来，看着我们。"
         },
         {
-          "id": "c0613",
+          "id": "c0727",
           "type": "say",
           "text": "郭仲翰从地上爬起来，头发上滴着汽油。他掏出打火机，打着了。"
         },
         {
-          "id": "c0614",
+          "id": "c0728",
           "type": "say",
           "characterId": "me",
           "text": "郭仲翰。"
         },
         {
-          "id": "c0615",
+          "id": "c0729",
           "type": "say",
           "characterId": "guo",
           "text": "什么都特别容易。"
         },
         {
-          "id": "c0616",
+          "id": "c0730",
           "type": "say",
           "text": "杨邦一动不动。然后他笑了，凑近郭仲翰，轻声说了句什么——是关于王子叶的。"
         },
         {
-          "id": "c0617",
+          "id": "c0731",
           "type": "say",
           "text": "火苗在郭仲翰手里扑闪着，冒出细细的黑烟。"
         },
         {
-          "id": "c0618",
+          "id": "c0732",
+          "type": "hide",
+          "characterId": "yang"
+        },
+        {
+          "id": "c0733",
           "type": "say",
           "text": "杨邦转身走了。有人把铁桶扶回原处，重新盖上了床单。"
         },
         {
-          "id": "c0619",
+          "id": "c0734",
           "type": "say",
           "text": "那天晚上郭仲翰在洞里说，他应该在脸上涂白粉、画红脸蛋，踩着一个皮球，从荒原的东头跑到西头。"
         },
         {
-          "id": "c0620",
+          "id": "c0735",
           "type": "say",
           "characterId": "guo",
           "text": "每一秒都得记着自己是个小丑。不记着，就活不下去。"
         },
         {
-          "id": "c0621",
+          "id": "c0736",
           "type": "jump",
           "targetSceneId": "s06_eve"
         }
@@ -4347,16 +5644,21 @@
       },
       "commands": [
         {
-          "id": "c0622",
+          "id": "c1091",
+          "type": "hide",
+          "characterId": "guo"
+        },
+        {
+          "id": "c0737",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#14161f"
+            "kind": "image",
+            "assetId": "bg_mound_dusk"
           },
           "transition": "fade"
         },
         {
-          "id": "c0623",
+          "id": "c0738",
           "type": "music",
           "action": "play",
           "assetId": "bgm_night",
@@ -4364,81 +5666,114 @@
           "volume": 0.6
         },
         {
-          "id": "c0624",
+          "id": "c0739",
           "type": "say",
           "text": "我们昏睡了一整天。走廊里一直有脚步声，和铁器碰撞的声音。"
         },
         {
-          "id": "c0625",
+          "id": "c0740",
           "type": "say",
           "text": "傍晚，我们回到洞口，坐在石阶上看着远处的宿舍楼。每一扇窗户都亮着灯。"
         },
         {
-          "id": "c0626",
+          "id": "c0741",
+          "type": "show",
+          "characterId": "ding",
+          "expression": "平常",
+          "position": "left"
+        },
+        {
+          "id": "c0742",
+          "type": "show",
+          "characterId": "liu",
+          "expression": "平常",
+          "position": "right"
+        },
+        {
+          "id": "c0743",
+          "type": "show",
+          "characterId": "guo",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0744",
           "type": "say",
           "text": "丁炜阳站起来扭腰，刘庆庆也跟着扭。后来，郭仲翰也加入了。三个人在暮色里扭来扭去，像三根被风吹歪的电线杆。"
         },
         {
-          "id": "c0627",
+          "id": "c0745",
           "type": "say",
           "characterId": "ding",
           "text": "这样可舒服了，你们也试试。"
         },
         {
-          "id": "c0628",
+          "id": "c0746",
           "type": "say",
           "characterId": "guo",
           "text": "我怎么觉得……有点凄凉呢。"
         },
         {
-          "id": "c0629",
+          "id": "c0747",
           "type": "say",
           "text": "九点，广场上一道手电光一闪而过。地平线上，站着密密麻麻的人影。"
         },
         {
-          "id": "c0630",
+          "id": "c0748",
           "type": "say",
           "text": "一团火光朝洞口走过来。郭仲翰握紧了铁锹。"
         },
         {
-          "id": "c0631",
+          "id": "c0749",
+          "type": "hide",
+          "characterId": "guo"
+        },
+        {
+          "id": "c0750",
+          "type": "show",
+          "characterId": "girl",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0751",
           "type": "say",
           "text": "走近了，是个短头发的女生，皮肤很白，嘴唇像挂着一层薄冰。"
         },
         {
-          "id": "c0632",
+          "id": "c0752",
           "type": "say",
           "characterId": "girl",
           "text": "我是梁晓的室友。梁晓走之前……跟我说起过你们。"
         },
         {
-          "id": "c0633",
+          "id": "c0753",
           "type": "say",
           "text": "她把火把插在地上。"
         },
         {
-          "id": "c0634",
+          "id": "c0754",
           "type": "say",
           "characterId": "girl",
           "text": "我给你们跳支舞吧。"
         },
         {
-          "id": "c0635",
+          "id": "c0755",
           "type": "music",
           "action": "stop"
         },
         {
-          "id": "c0636",
+          "id": "c0756",
           "type": "say",
           "text": "雾开始往下落。她抬起胳膊，迈着细碎的步子。"
         },
         {
-          "id": "c0637",
+          "id": "c0757",
           "type": "say",
           "text": "远处，第一扇玻璃碎了。有人被从窗户里推了出来。那些声音传到这里，已经碎得像一串铃铛。"
         },
         {
-          "id": "c0638",
+          "id": "c0758",
           "type": "if",
           "condition": {
             "kind": "compare",
@@ -4448,64 +5783,91 @@
           },
           "then": [
             {
-              "id": "c0639",
+              "id": "c0759",
               "type": "say",
               "characterId": "liu",
               "text": "那个箱子……你们还记得里面是什么吧。"
             },
             {
-              "id": "c0640",
+              "id": "c0760",
               "type": "say",
               "text": "我们看着她跳舞，没有人回答。"
             }
           ],
           "else": [
             {
-              "id": "c0641",
+              "id": "c0761",
               "type": "say",
               "characterId": "liu",
               "text": "你们知道那个箱子里是什么吗？一副盔甲。一副烂盔甲。"
             },
             {
-              "id": "c0642",
+              "id": "c0762",
               "type": "say",
               "text": "我们看着她跳舞，没有人回答。"
             }
           ]
         },
         {
-          "id": "c0643",
+          "id": "c0763",
           "type": "say",
           "text": "第一批火团扔进了宿舍楼。二楼的窗户里冒出了火光。"
         },
         {
-          "id": "c0644",
+          "id": "c0764",
+          "type": "hide",
+          "characterId": "ding"
+        },
+        {
+          "id": "c0765",
+          "type": "show",
+          "characterId": "guo",
+          "expression": "平常",
+          "position": "left"
+        },
+        {
+          "id": "c0766",
           "type": "say",
           "characterId": "guo",
           "text": "你走吧。"
         },
         {
-          "id": "c0645",
+          "id": "c0767",
           "type": "say",
           "text": "女孩停下来，拾起火把，回头看了看广场。"
         },
         {
-          "id": "c0646",
+          "id": "c0768",
           "type": "say",
           "characterId": "girl",
           "text": "我去哪儿？"
         },
         {
-          "id": "c0647",
+          "id": "c1092",
+          "type": "hide",
+          "characterId": "girl"
+        },
+        {
+          "id": "c1093",
+          "type": "hide",
+          "characterId": "guo"
+        },
+        {
+          "id": "c1094",
+          "type": "hide",
+          "characterId": "liu"
+        },
+        {
+          "id": "c0769",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#3a1608"
+            "kind": "image",
+            "assetId": "bg_riot"
           },
           "transition": "fade"
         },
         {
-          "id": "c0648",
+          "id": "c0770",
           "type": "music",
           "action": "play",
           "assetId": "bgm_riot",
@@ -4513,42 +5875,54 @@
           "volume": 0.75
         },
         {
-          "id": "c0649",
+          "id": "c0771",
           "type": "say",
           "text": "到处都是笑声。挨打的老广院在笑，胳膊被打断了还在笑，那笑声几乎能把围墙撕开。"
         },
         {
-          "id": "c0650",
+          "id": "c0772",
           "type": "say",
           "text": "洞里传来一阵金属碰撞的声音。"
         },
         {
-          "id": "c0651",
+          "id": "c0773",
+          "type": "show",
+          "characterId": "ding",
+          "expression": "盔甲",
+          "position": "center"
+        },
+        {
+          "id": "c0774",
           "type": "say",
           "text": "丁炜阳从洞里走了出来。他穿着那副青铜盔甲，锈烂的铜片包住了他的眉毛，手里提着一把洋镐。"
         },
         {
-          "id": "c0652",
+          "id": "c0775",
           "type": "say",
           "text": "我忽然想起第七夜的那个笑话。片甲不留。我们笑了整整一晚上——原来那副甲，一直埋在我们自己的洞里。"
         },
         {
-          "id": "c0653",
+          "id": "c0776",
           "type": "say",
           "characterId": "ding",
           "text": "根本没有黄金！这世界上什么都没有！"
         },
         {
-          "id": "c0654",
+          "id": "c0777",
           "type": "say",
           "text": "他提着洋镐冲进了火光里，盔甲哗啦哗啦地响，像一挂长长的鞭炮。"
         },
         {
-          "id": "c0655",
+          "id": "c0778",
+          "type": "hide",
+          "characterId": "ding"
+        },
+        {
+          "id": "c0779",
           "type": "choice",
           "options": [
             {
-              "id": "c0656",
+              "id": "c0780",
               "text": "追上去",
               "effects": [
                 {
@@ -4560,7 +5934,7 @@
               "targetSceneId": "s06_war"
             },
             {
-              "id": "c0657",
+              "id": "c0781",
               "text": "留在洞里",
               "effects": [
                 {
@@ -4584,15 +5958,15 @@
       },
       "commands": [
         {
-          "id": "c0658",
+          "id": "c0782",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#5a1d0a"
+            "kind": "image",
+            "assetId": "bg_riot"
           }
         },
         {
-          "id": "c0659",
+          "id": "c0783",
           "type": "music",
           "action": "play",
           "assetId": "bgm_riot",
@@ -4600,33 +5974,64 @@
           "volume": 0.8
         },
         {
-          "id": "c0660",
+          "id": "c0784",
           "type": "say",
           "text": "我抓起铁锹跟在后面。跑起来的时候，身体轻得像要飞起来。我已经很久没有跑过了，那感觉几乎是幸福。这是那天晚上最可怕的事。"
         },
         {
-          "id": "c0661",
+          "id": "c0785",
+          "type": "show",
+          "characterId": "ding",
+          "expression": "盔甲",
+          "position": "center"
+        },
+        {
+          "id": "c0786",
           "type": "say",
           "text": "丁炜阳一洋镐抡在一个比他高大得多的人的胳膊上。那条胳膊折了。那人倒在地上，看着自己反折的胳膊，冲丁炜阳大笑。"
         },
         {
-          "id": "c0662",
+          "id": "c0787",
+          "type": "show",
+          "characterId": "old",
+          "expression": "平常",
+          "position": "right"
+        },
+        {
+          "id": "c0788",
           "type": "say",
           "characterId": "old",
           "text": "你算个什么东西！穿成这样，你以为你是谁啊！"
         },
         {
-          "id": "c0663",
+          "id": "c0789",
           "type": "say",
           "text": "丁炜阳愣住了。他没见过这样的笑。然后他吼着踩了上去。"
         },
         {
-          "id": "c0664",
+          "id": "c0790",
+          "type": "hide",
+          "characterId": "ding"
+        },
+        {
+          "id": "c0791",
+          "type": "hide",
+          "characterId": "old"
+        },
+        {
+          "id": "c0792",
+          "type": "show",
+          "characterId": "girl",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0793",
           "type": "say",
           "text": "我在广场一角看见了那个跳舞的女孩。她在哭。"
         },
         {
-          "id": "c0665",
+          "id": "c0794",
           "type": "if",
           "condition": {
             "kind": "compare",
@@ -4636,7 +6041,7 @@
           },
           "then": [
             {
-              "id": "c0666",
+              "id": "c0795",
               "type": "say",
               "text": "一根铁棍朝她抡过来。我想都没想，用铁锹挡了上去，虎口震得发麻。"
             }
@@ -4644,63 +6049,82 @@
           "else": []
         },
         {
-          "id": "c0667",
+          "id": "c0796",
           "type": "say",
           "characterId": "me",
           "text": "梁晓到底跟你说了什么？"
         },
         {
-          "id": "c0668",
+          "id": "c0797",
           "type": "say",
           "text": "她只是哭。"
         },
         {
-          "id": "c0669",
+          "id": "c0798",
+          "type": "hide",
+          "characterId": "girl"
+        },
+        {
+          "id": "c0799",
+          "type": "show",
+          "characterId": "yang",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0800",
+          "type": "show",
+          "characterId": "guo",
+          "expression": "平常",
+          "position": "left"
+        },
+        {
+          "id": "c0801",
           "type": "say",
           "text": "杨邦站在人群中间，身边围着一圈人。郭仲翰几步冲过去，抡起铁锹砸向杨邦的头——侧面飞来一脚，正踹在他肚子上。他跪了下去。"
         },
         {
-          "id": "c0670",
+          "id": "c0802",
           "type": "say",
           "characterId": "yang",
           "text": "你疯了。"
         },
         {
-          "id": "c0671",
+          "id": "c0803",
           "type": "say",
           "characterId": "guo",
           "text": "你觉得……你伟大吗？"
         },
         {
-          "id": "c0672",
+          "id": "c0804",
           "type": "say",
           "characterId": "yang",
           "text": "我伟大。我做成了。今晚就是横尸遍野。"
         },
         {
-          "id": "c0673",
+          "id": "c0805",
           "type": "say",
           "text": "我挡开扑过来的人，拽住了郭仲翰。"
         },
         {
-          "id": "c0674",
+          "id": "c0806",
           "type": "say",
           "characterId": "me",
           "text": "走吧，没用的。"
         },
         {
-          "id": "c0675",
+          "id": "c0807",
           "type": "say",
           "characterId": "guo",
           "text": "我看不惯。……我是个小丑。"
         },
         {
-          "id": "c0676",
+          "id": "c0808",
           "type": "say",
           "text": "他一把把我推倒。我的后脑勺磕在了地上。"
         },
         {
-          "id": "c0677",
+          "id": "c0809",
           "type": "if",
           "condition": {
             "kind": "compare",
@@ -4710,28 +6134,33 @@
           },
           "then": [
             {
-              "id": "c0678",
+              "id": "c0810",
               "type": "say",
               "text": "我爬起来，他还没走远。我又扑上去，死死抱住了他的腰。"
             },
             {
-              "id": "c0679",
+              "id": "c0811",
               "type": "say",
               "text": "郭仲翰挣了两下，没挣开。他在我怀里哭了起来，哭得像一个终于被允许哭的小孩。"
             },
             {
-              "id": "c0680",
+              "id": "c0812",
               "type": "say",
               "characterId": "guo",
               "text": "放开我……放开我……"
             },
             {
-              "id": "c0681",
+              "id": "c0813",
+              "type": "hide",
+              "characterId": "yang"
+            },
+            {
+              "id": "c0814",
               "type": "say",
               "text": "远处，杨邦被别的什么人点着了。火光照亮了郭仲翰的脸。他没有回头去看。"
             },
             {
-              "id": "c0682",
+              "id": "c0815",
               "type": "setVar",
               "effect": {
                 "variableId": "savedGuo",
@@ -4742,61 +6171,112 @@
           ],
           "else": [
             {
-              "id": "c0683",
+              "id": "c0816",
               "type": "say",
               "text": "等我爬起来，郭仲翰已经把一瓶汽油泼向了杨邦，扔出了打火机。"
             },
             {
-              "id": "c0684",
+              "id": "c0817",
               "type": "say",
               "characterId": "guo",
               "text": "我是个卑鄙的人！我是个圣徒！"
             },
             {
-              "id": "c0685",
+              "id": "c0818",
+              "type": "hide",
+              "characterId": "yang"
+            },
+            {
+              "id": "c0819",
               "type": "say",
               "text": "杨邦烧了起来。他一边叫，一边扯自己的衣服，扯下来也没用了。"
             },
             {
-              "id": "c0686",
+              "id": "c0820",
+              "type": "hide",
+              "characterId": "guo"
+            },
+            {
+              "id": "c0821",
               "type": "say",
               "text": "我最后一次看见郭仲翰，是一个被他划破了脸的新生从墙根站起来，抡起铁锹，拍向他的后脑勺。他倒下去的时候，嘴角还挂着那种笑——就是他在食堂说“这些人真逗”的那种笑。"
             }
           ]
         },
         {
-          "id": "c0687",
+          "id": "c0822",
+          "type": "hide",
+          "characterId": "yang"
+        },
+        {
+          "id": "c0823",
+          "type": "hide",
+          "characterId": "guo"
+        },
+        {
+          "id": "c0824",
+          "type": "show",
+          "characterId": "liu",
+          "expression": "平常",
+          "position": "left"
+        },
+        {
+          "id": "c0825",
+          "type": "show",
+          "characterId": "li",
+          "expression": "平常",
+          "position": "right"
+        },
+        {
+          "id": "c0826",
           "type": "say",
           "text": "食堂门口，刘庆庆掐住了李宁的脖子。"
         },
         {
-          "id": "c0688",
+          "id": "c0827",
           "type": "say",
           "characterId": "liu",
           "text": "你的猪皮呢？我要杀了你！"
         },
         {
-          "id": "c0689",
+          "id": "c0828",
           "type": "say",
           "text": "李宁把烟头摁进他的手腕。刘庆庆一点也没松手，好像那只手已经不是他自己的了。他们抱在一起，从台阶上滚了下去。"
         },
         {
-          "id": "c0690",
+          "id": "c0829",
           "type": "say",
           "text": "我想起烛光底下他说的话：他让我干什么，我还是干。这一次，没有人让他干。"
         },
         {
-          "id": "c0691",
+          "id": "c0830",
+          "type": "hide",
+          "characterId": "liu"
+        },
+        {
+          "id": "c0831",
+          "type": "hide",
+          "characterId": "li"
+        },
+        {
+          "id": "c0832",
           "type": "say",
           "text": "我最后一次见到丁炜阳，是几个人把盔甲从他身上扒下来，一片一片穿到自己身上，对着夜空喊：“我不一样了！”"
         },
         {
-          "id": "c0692",
+          "id": "c0833",
           "type": "say",
           "text": "铜片从里往外渗着血。丁炜阳大概也不知道自己伤在哪儿。"
         },
         {
-          "id": "c0693",
+          "id": "c0834",
+          "type": "show",
+          "characterId": "ding",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0835",
           "type": "if",
           "condition": {
             "kind": "compare",
@@ -4806,37 +6286,37 @@
           },
           "then": [
             {
-              "id": "c0694",
+              "id": "c0836",
               "type": "say",
               "text": "他认出了我。没有了盔甲，他浓黑的眉毛露了出来。"
             },
             {
-              "id": "c0695",
+              "id": "c0837",
               "type": "say",
               "characterId": "ding",
               "text": "那天晚上……你过来了。"
             },
             {
-              "id": "c0696",
+              "id": "c0838",
               "type": "say",
               "text": "他说完这一句，就被人群挤走了。"
             }
           ],
           "else": [
             {
-              "id": "c0697",
+              "id": "c0839",
               "type": "say",
               "text": "他认出了我。没有了盔甲，他浓黑的眉毛露了出来，眼睛里是说不完的难过。"
             },
             {
-              "id": "c0698",
+              "id": "c0840",
               "type": "say",
               "text": "那眼神和第七夜一模一样。那天晚上，我也只是站在门口看着。"
             }
           ]
         },
         {
-          "id": "c0699",
+          "id": "c0841",
           "type": "jump",
           "targetSceneId": "s06_after"
         }
@@ -4851,16 +6331,16 @@
       },
       "commands": [
         {
-          "id": "c0700",
+          "id": "c0842",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#1b130c"
+            "kind": "image",
+            "assetId": "bg_cave"
           },
           "transition": "fade"
         },
         {
-          "id": "c0701",
+          "id": "c0843",
           "type": "music",
           "action": "play",
           "assetId": "bgm_riot",
@@ -4868,50 +6348,57 @@
           "volume": 0.25
         },
         {
-          "id": "c0702",
+          "id": "c0844",
           "type": "say",
           "text": "我退回洞里，把所有的蜡烛都点上了。"
         },
         {
-          "id": "c0703",
+          "id": "c0845",
           "type": "say",
           "text": "外面的声音隔着几十米厚的土传进来：笑声，碎玻璃，金属的哗啦声。后来什么都听不清了，只剩下我自己的心跳。"
         },
         {
-          "id": "c0704",
+          "id": "c0846",
           "type": "say",
           "text": "我对自己说：跟我们没关系。我们只是来挖黄金的。"
         },
         {
-          "id": "c0705",
+          "id": "c0847",
           "type": "say",
           "text": "天快亮的时候，有人摸黑走进了洞里。是那个跳舞的女孩，满脸是灰。"
         },
         {
-          "id": "c0706",
+          "id": "c0848",
+          "type": "show",
+          "characterId": "girl",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0849",
           "type": "say",
           "characterId": "girl",
           "text": "你一直在这儿？"
         },
         {
-          "id": "c0707",
+          "id": "c0850",
           "type": "say",
           "characterId": "me",
           "text": "嗯。"
         },
         {
-          "id": "c0708",
+          "id": "c0851",
           "type": "say",
           "characterId": "girl",
           "text": "……他们都没回来。"
         },
         {
-          "id": "c0709",
+          "id": "c0852",
           "type": "say",
           "text": "她在钢丝床边坐了下来。我们谁也没再说话。"
         },
         {
-          "id": "c0710",
+          "id": "c0853",
           "type": "jump",
           "targetSceneId": "s08"
         }
@@ -4926,16 +6413,31 @@
       },
       "commands": [
         {
-          "id": "c0711",
+          "id": "c1095",
+          "type": "hide",
+          "characterId": "guo"
+        },
+        {
+          "id": "c1096",
+          "type": "hide",
+          "characterId": "wzy"
+        },
+        {
+          "id": "c1097",
+          "type": "hide",
+          "characterId": "yang"
+        },
+        {
+          "id": "c0854",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#4b4038"
+            "kind": "image",
+            "assetId": "bg_canteen_back"
           },
           "transition": "fade"
         },
         {
-          "id": "c0712",
+          "id": "c0855",
           "type": "music",
           "action": "play",
           "assetId": "bgm_night",
@@ -4943,43 +6445,57 @@
           "volume": 0.5
         },
         {
-          "id": "c0713",
+          "id": "c0856",
           "type": "say",
           "text": "那之后，我负责看守食堂后面的五个汽油桶。"
         },
         {
-          "id": "c0714",
+          "id": "c0857",
           "type": "say",
           "text": "那五只铁桶崭新发亮。我认出来了，就是五金店里被买空的那种。原来我早就站在这一边了，只是那时候还不知道。"
         },
         {
-          "id": "c0715",
+          "id": "c0858",
           "type": "say",
           "text": "有一天，郭仲翰他们几个绕到了这里。郭仲翰看见我，愣了一下。"
         },
         {
-          "id": "c0716",
+          "id": "c0859",
+          "type": "show",
+          "characterId": "guo",
+          "expression": "平常",
+          "position": "left"
+        },
+        {
+          "id": "c0860",
           "type": "say",
           "characterId": "guo",
           "text": "你在给他们看汽油？"
         },
         {
-          "id": "c0717",
+          "id": "c0861",
+          "type": "show",
+          "characterId": "yang",
+          "expression": "平常",
+          "position": "right"
+        },
+        {
+          "id": "c0862",
           "type": "say",
           "characterId": "yang",
           "text": "谁敢推倒，就把谁塞进去。"
         },
         {
-          "id": "c0718",
+          "id": "c0863",
           "type": "say",
           "text": "郭仲翰一脚踹倒了铁桶。"
         },
         {
-          "id": "c0719",
+          "id": "c0864",
           "type": "choice",
           "options": [
             {
-              "id": "c0720",
+              "id": "c0865",
               "text": "你也捡起一个铁桶",
               "effects": [
                 {
@@ -4990,7 +6506,7 @@
               ]
             },
             {
-              "id": "c0721",
+              "id": "c0866",
               "text": "站着不动",
               "effects": [
                 {
@@ -5004,22 +6520,22 @@
           "prompt": "汽油淌了一地。站在你旁边的人捡起了滚远的铁桶。"
         },
         {
-          "id": "c0722",
+          "id": "c0867",
           "type": "say",
           "text": "桶底砸在郭仲翰的脑袋上。他倒在汽油里，又爬起来，掏出了打火机。"
         },
         {
-          "id": "c0723",
+          "id": "c0868",
           "type": "say",
           "text": "杨邦一点也不怕。他笑着凑过去，说了句关于王子叶的话。"
         },
         {
-          "id": "c0724",
+          "id": "c0869",
           "type": "say",
           "text": "火苗在郭仲翰手里抖了很久，最后灭了。"
         },
         {
-          "id": "c0725",
+          "id": "c0870",
           "type": "jump",
           "targetSceneId": "s06y_night"
         }
@@ -5034,16 +6550,26 @@
       },
       "commands": [
         {
-          "id": "c0726",
+          "id": "c1098",
+          "type": "hide",
+          "characterId": "guo"
+        },
+        {
+          "id": "c1099",
+          "type": "hide",
+          "characterId": "yang"
+        },
+        {
+          "id": "c0871",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#3a1608"
+            "kind": "image",
+            "assetId": "bg_riot"
           },
           "transition": "fade"
         },
         {
-          "id": "c0727",
+          "id": "c0872",
           "type": "music",
           "action": "play",
           "assetId": "bgm_riot",
@@ -5051,56 +6577,68 @@
           "volume": 0.8
         },
         {
-          "id": "c0728",
+          "id": "c0873",
           "type": "say",
           "text": "那天晚上十点，我站在广场上，手里握着一根钢管。"
         },
         {
-          "id": "c0729",
+          "id": "c0874",
           "type": "say",
           "text": "二楼的玻璃一扇一扇地碎了。火团扔进了窗户。老广院从窗户里跳下来，被我们追着打。"
         },
         {
-          "id": "c0730",
+          "id": "c0875",
           "type": "say",
           "text": "他们在笑。胳膊被打断了还在笑。我不明白他们在笑什么。"
         },
         {
-          "id": "c0731",
+          "id": "c0876",
           "type": "say",
           "text": "我挥出第一棍的时候，心里什么也没想。第二棍，第三棍，也是。"
         },
         {
-          "id": "c0732",
+          "id": "c0877",
+          "type": "show",
+          "characterId": "ding",
+          "expression": "盔甲",
+          "position": "center"
+        },
+        {
+          "id": "c0878",
           "type": "say",
           "text": "远处，一个穿着青铜盔甲的人提着洋镐冲进人群，铜片哗啦哗啦地响。是丁炜阳。"
         },
         {
-          "id": "c0733",
+          "id": "c0879",
           "type": "say",
           "text": "“根本没有黄金！”他喊。"
         },
         {
-          "id": "c0734",
+          "id": "c0880",
           "type": "say",
           "text": "片甲不留。我想起那个笑话，却怎么也笑不出来。"
         },
         {
-          "id": "c0735",
+          "id": "c0881",
+          "type": "hide",
+          "characterId": "ding"
+        },
+        {
+          "id": "c0882",
           "type": "say",
           "text": "我看见郭仲翰把一瓶汽油泼向杨邦。杨邦烧起来的时候，王子叶尖叫着跑开了。"
         },
         {
-          "id": "c0736",
+          "id": "c0883",
           "type": "say",
           "text": "后来，有人把盔甲从丁炜阳身上一片一片地扒了下来。一块铜片掉在我脚边，还沾着血。"
         },
         {
-          "id": "c0737",
+          "id": "c0884",
           "type": "choice",
           "options": [
             {
-              "id": "c0738",
+              "id": "c0885",
               "text": "捡起来",
               "effects": [
                 {
@@ -5112,7 +6650,7 @@
               "targetSceneId": "e2"
             },
             {
-              "id": "c0739",
+              "id": "c0886",
               "text": "扔下钢管，往南边的洞走去",
               "targetSceneId": "s06_after"
             }
@@ -5130,62 +6668,62 @@
       },
       "commands": [
         {
-          "id": "c0740",
+          "id": "c0887",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#2b1215"
+            "kind": "image",
+            "assetId": "bg_riot_after"
           },
           "transition": "fade"
         },
         {
-          "id": "c0741",
+          "id": "c0888",
           "type": "music",
           "action": "stop"
         },
         {
-          "id": "c0742",
+          "id": "c0889",
           "type": "say",
           "text": "我把铜片按在胸口上，对着夜空大喊："
         },
         {
-          "id": "c0743",
+          "id": "c0890",
           "type": "say",
           "characterId": "me",
           "text": "我不一样了！"
         },
         {
-          "id": "c0744",
+          "id": "c0891",
           "type": "say",
           "text": "周围的人也都在喊。喊声和笑声混在一起，往荒原深处的某道裂缝里涌过去。"
         },
         {
-          "id": "c0745",
+          "id": "c0892",
           "type": "say",
           "text": "天亮以后，警车从高速公路上开过来，一辆接着一辆。"
         },
         {
-          "id": "c0746",
+          "id": "c0893",
           "type": "say",
           "text": "很多年以后，我还留着那块铜片。它早就不发光了，绿得像一块苔藓。"
         },
         {
-          "id": "c0747",
+          "id": "c0894",
           "type": "say",
           "text": "我从来没有进过那个洞。我不知道他们最后挖到了哪里。"
         },
         {
-          "id": "c0748",
+          "id": "c0895",
           "type": "say",
           "text": "我只知道，那天晚上，我也变成了某种东西。"
         },
         {
-          "id": "c0749",
+          "id": "c0896",
           "type": "say",
           "text": "【结局：我不一样了】"
         },
         {
-          "id": "c0750",
+          "id": "c0897",
           "type": "end"
         }
       ]
@@ -5199,45 +6737,50 @@
       },
       "commands": [
         {
-          "id": "c0751",
+          "id": "c1100",
+          "type": "hide",
+          "characterId": "ding"
+        },
+        {
+          "id": "c0898",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#5f666d"
+            "kind": "image",
+            "assetId": "bg_fog"
           },
           "transition": "fade"
         },
         {
-          "id": "c0752",
+          "id": "c0899",
           "type": "music",
           "action": "stop"
         },
         {
-          "id": "c0753",
+          "id": "c0900",
           "type": "say",
           "text": "我的肩膀脱臼了，膝盖也伤了。我拖着脚往回走。"
         },
         {
-          "id": "c0754",
+          "id": "c0901",
           "type": "say",
           "text": "人们把伤员两人一组抬往荒野，就像杨邦计划的那样，只是没人分得清抬的是谁。西门大官人一个人背伤员，背了几十个。他走上食堂台阶的时候，我听见身后一声闷响。我没有回头，很长时间都不敢回头。"
         },
         {
-          "id": "c0755",
+          "id": "c0902",
           "type": "say",
           "text": "后半夜，雾把一切都吞了进去。我凭着感觉，一瘸一拐地回到了洞里。"
         },
         {
-          "id": "c0756",
+          "id": "c0903",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#1b130c"
+            "kind": "image",
+            "assetId": "bg_cave"
           },
           "transition": "fade"
         },
         {
-          "id": "c0757",
+          "id": "c0904",
           "type": "music",
           "action": "play",
           "assetId": "bgm_cave",
@@ -5245,28 +6788,35 @@
           "volume": 0.5
         },
         {
-          "id": "c0758",
+          "id": "c0905",
           "type": "say",
           "text": "我点着蜡烛，看着自己身上的伤口。不知道为什么，我庆幸自己还活着。除了活着本身，我终于什么都不想了。"
         },
         {
-          "id": "c0759",
+          "id": "c0906",
           "type": "say",
           "text": "十分钟以后，角落里有人站了起来。是那个跳舞的女孩。"
         },
         {
-          "id": "c0760",
+          "id": "c0907",
+          "type": "show",
+          "characterId": "girl",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0908",
           "type": "say",
           "characterId": "me",
           "text": "跳支舞吧。"
         },
         {
-          "id": "c0761",
+          "id": "c0909",
           "type": "say",
           "text": "她擦着眼睛，摇了摇头。"
         },
         {
-          "id": "c0762",
+          "id": "c0910",
           "type": "jump",
           "targetSceneId": "s08"
         }
@@ -5281,7 +6831,12 @@
       },
       "commands": [
         {
-          "id": "c0763",
+          "id": "c1101",
+          "type": "hide",
+          "characterId": "girl"
+        },
+        {
+          "id": "c0911",
           "type": "bg",
           "background": {
             "kind": "color",
@@ -5290,21 +6845,21 @@
           "transition": "fade"
         },
         {
-          "id": "c0764",
+          "id": "c0912",
           "type": "say",
           "text": "— 八 · 离开 —"
         },
         {
-          "id": "c0765",
+          "id": "c0913",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#1b130c"
+            "kind": "image",
+            "assetId": "bg_cave"
           },
           "transition": "fade"
         },
         {
-          "id": "c0766",
+          "id": "c0914",
           "type": "music",
           "action": "play",
           "assetId": "bgm_cave",
@@ -5312,86 +6867,98 @@
           "volume": 0.55
         },
         {
-          "id": "c0767",
+          "id": "c0915",
           "type": "say",
           "text": "之后很长一段时间，我都没有走出那个洞。"
         },
         {
-          "id": "c0768",
+          "id": "c0916",
           "type": "say",
           "text": "在钢丝床底下，我摸到了丁炜阳的本子。前面几页被撕得只剩毛边，都是给别人写故事用掉的。最后一页上有三行字："
         },
         {
-          "id": "c0769",
+          "id": "c0917",
           "type": "say",
           "text": "今天我很幸福"
         },
         {
-          "id": "c0770",
+          "id": "c0918",
           "type": "say",
           "text": "今天挖了一米"
         },
         {
-          "id": "c0771",
+          "id": "c0919",
           "type": "say",
           "text": "今天我不弱小了"
         },
         {
-          "id": "c0772",
+          "id": "c0920",
           "type": "say",
           "text": "再往后，就没有了。"
         },
         {
-          "id": "c0773",
+          "id": "c0921",
           "type": "say",
           "text": "白天，那个女孩会给我带吃的来。我不知道学校还在不在。"
         },
         {
-          "id": "c0774",
+          "id": "c0922",
           "type": "say",
           "text": "她给我讲《圣经》，说像我这样的人身上满是罪，得悔改，得祈祷。有一句她念出来，我听着耳熟——是我铁柜门上抄着的那句，地上满是强暴。我只是看着她。她讲的那些罪与罚，也都跟她一样，变得很好看。"
         },
         {
-          "id": "c0775",
+          "id": "c0923",
           "type": "say",
           "characterId": "me",
           "text": "跟我一起挖黄金吧。"
         },
         {
-          "id": "c0776",
+          "id": "c0924",
+          "type": "show",
+          "characterId": "girl",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0925",
           "type": "say",
           "text": "她拿起洗干净的铁锹，站在烛光里，忽然笑出了声。"
         },
         {
-          "id": "c0777",
+          "id": "c0926",
           "type": "say",
           "characterId": "girl",
           "text": "这太不对了。我没法相信。"
         },
         {
-          "id": "c0778",
+          "id": "c0927",
           "type": "say",
           "text": "她在钢丝床头挂了一个小十字架。"
         },
         {
-          "id": "c0779",
+          "id": "c0928",
           "type": "say",
           "characterId": "girl",
           "text": "难受的时候，就跟它说说话，会好的。"
         },
         {
-          "id": "c0780",
+          "id": "c0929",
           "type": "say",
           "characterId": "me",
           "text": "那在这之前，它在哪儿呢？"
         },
         {
-          "id": "c0781",
+          "id": "c0930",
           "type": "say",
           "text": "她答不上来。大概一周以后，她走了，再也没有回来。"
         },
         {
-          "id": "c0782",
+          "id": "c0931",
+          "type": "hide",
+          "characterId": "girl"
+        },
+        {
+          "id": "c0932",
           "type": "if",
           "condition": {
             "kind": "compare",
@@ -5401,37 +6968,49 @@
           },
           "then": [
             {
-              "id": "c0783",
+              "id": "c0933",
               "type": "say",
               "text": "丁炜阳和刘庆庆再也没有回来过。郭仲翰回来过一次，站在洞口，没有进来。"
             },
             {
-              "id": "c0784",
+              "id": "c0934",
+              "type": "show",
+              "characterId": "guo",
+              "expression": "平常",
+              "position": "center"
+            },
+            {
+              "id": "c0935",
               "type": "say",
               "characterId": "guo",
               "text": "我要回家了。……我有种不好的预感。"
             },
             {
-              "id": "c0785",
+              "id": "c0936",
               "type": "say",
               "text": "他笑了一下，把一包烟放在石阶上，走了。我希望这一次，他的预感也灵。"
+            },
+            {
+              "id": "c0937",
+              "type": "hide",
+              "characterId": "guo"
             }
           ],
           "else": [
             {
-              "id": "c0786",
+              "id": "c0938",
               "type": "say",
               "text": "丁炜阳、郭仲翰、刘庆庆，再也没有回来过。"
             },
             {
-              "id": "c0787",
+              "id": "c0939",
               "type": "say",
               "text": "后来我在高速路上，隔着大巴的车窗见过一个熟悉的背影，分不清是丁炜阳，还是郭仲翰，还是刘庆庆。车开得太快，我没来得及确认。也许是不想确认。"
             }
           ]
         },
         {
-          "id": "c0788",
+          "id": "c0940",
           "type": "if",
           "condition": {
             "kind": "compare",
@@ -5441,7 +7020,7 @@
           },
           "then": [
             {
-              "id": "c0789",
+              "id": "c0941",
               "type": "say",
               "text": "我常常梦见那些我别过脸去的时刻。梦里，我一次也没有转回头来。"
             }
@@ -5449,74 +7028,86 @@
           "else": []
         },
         {
-          "id": "c0790",
+          "id": "c0942",
           "type": "say",
           "text": "一个月以后，赵乃夫拎着一袋香蕉出现在洞口。"
         },
         {
-          "id": "c0791",
+          "id": "c0943",
+          "type": "show",
+          "characterId": "zhao",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0944",
           "type": "say",
           "characterId": "zhao",
           "text": "我现在拉皮条。她跟我一起。"
         },
         {
-          "id": "c0792",
+          "id": "c0945",
           "type": "say",
           "characterId": "zhao",
           "text": "你怎么办？"
         },
         {
-          "id": "c0793",
+          "id": "c0946",
           "type": "say",
           "characterId": "me",
           "text": "你怎么办？"
         },
         {
-          "id": "c0794",
+          "id": "c0947",
           "type": "say",
           "characterId": "zhao",
           "text": "我挺好的。"
         },
         {
-          "id": "c0795",
+          "id": "c0948",
           "type": "say",
           "characterId": "me",
           "text": "我决定了，黄金不分给任何人。你们都不知道什么能救自己。"
         },
         {
-          "id": "c0796",
+          "id": "c0949",
           "type": "say",
           "characterId": "zhao",
           "text": "你自己留着吧。没人需要黄金。……活不下去了，就来镇上找我。"
         },
         {
-          "id": "c0797",
+          "id": "c0950",
           "type": "say",
           "characterId": "me",
           "text": "你是叛徒。我不会去找你的。"
         },
         {
-          "id": "c0798",
+          "id": "c0951",
+          "type": "hide",
+          "characterId": "zhao"
+        },
+        {
+          "id": "c0952",
           "type": "say",
           "text": "有一年夏天，我回到废掉的宿舍。窗户被二楼的火熏得乌黑。在褥子底下，我找到了那块木板。"
         },
         {
-          "id": "c0799",
+          "id": "c0953",
           "type": "say",
           "text": "那行字一点也没变，只是干了。我把它挂在了十字架旁边。一个说你会得救，一个说你无依无靠，我每天睡在它们中间。"
         },
         {
-          "id": "c0800",
+          "id": "c0954",
           "type": "say",
           "text": "那时我忽然想起来：那天在荒原上，石头不止一块。另外两块底下，压着什么？"
         },
         {
-          "id": "c0801",
+          "id": "c0955",
           "type": "say",
           "text": "在找到黄金以前，我不打算去翻。我怕翻开以后，就再也没有可能了。"
         },
         {
-          "id": "c0802",
+          "id": "c0956",
           "type": "if",
           "condition": {
             "kind": "compare",
@@ -5526,14 +7117,14 @@
           },
           "then": [
             {
-              "id": "c0803",
+              "id": "c0957",
               "type": "jump",
               "targetSceneId": "s07_gold"
             }
           ],
           "else": [
             {
-              "id": "c0804",
+              "id": "c0958",
               "type": "jump",
               "targetSceneId": "s07_none"
             }
@@ -5550,16 +7141,16 @@
       },
       "commands": [
         {
-          "id": "c0805",
+          "id": "c0959",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#c9cdd2"
+            "kind": "image",
+            "assetId": "bg_cave_gold"
           },
           "transition": "fade"
         },
         {
-          "id": "c0806",
+          "id": "c0960",
           "type": "music",
           "action": "play",
           "assetId": "bgm_leaving",
@@ -5567,93 +7158,100 @@
           "volume": 0.6
         },
         {
-          "id": "c0807",
+          "id": "c0961",
           "type": "say",
           "text": "第四年冬天，洋镐敲下去，声音不一样了。"
         },
         {
-          "id": "c0808",
+          "id": "c0962",
           "type": "say",
           "text": "我在烛光里跪了很久。然后我用洋镐小心地敲下指甲盖大的一小块，揣进了兜里。"
         },
         {
-          "id": "c0809",
+          "id": "c0963",
           "type": "say",
           "text": "我终于可以离开这里了。"
         },
         {
-          "id": "c0810",
+          "id": "c0964",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#33303a"
+            "kind": "image",
+            "assetId": "bg_town_new"
           },
           "transition": "fade"
         },
         {
-          "id": "c0811",
+          "id": "c0965",
           "type": "say",
           "text": "镇子变了。楼盖起来了，那条街上的玻璃，也不再贴着透明胶带。"
         },
         {
-          "id": "c0812",
+          "id": "c0966",
           "type": "say",
           "text": "我用那一小块金子换了钱。在一扇崭新的玻璃后面，我看见了那个跳舞的女孩。"
         },
         {
-          "id": "c0813",
+          "id": "c0967",
+          "type": "show",
+          "characterId": "girl",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0968",
           "type": "say",
           "text": "她嘴唇上的那层冰，已经化了。"
         },
         {
-          "id": "c0814",
+          "id": "c0969",
           "type": "say",
           "text": "我把钱全给了她。她陪了我一夜。"
         },
         {
-          "id": "c0815",
+          "id": "c0970",
           "type": "say",
           "characterId": "me",
           "text": "我已经四年没在屋子里睡过觉了。"
         },
         {
-          "id": "c0816",
+          "id": "c0971",
           "type": "say",
           "characterId": "girl",
           "text": "你是那个挖金子的人。……你挖到了吗？"
         },
         {
-          "id": "c0817",
+          "id": "c0972",
           "type": "say",
           "characterId": "me",
           "text": "你觉得呢？"
         },
         {
-          "id": "c0818",
+          "id": "c0973",
           "type": "say",
           "characterId": "girl",
           "text": "你就是打发时间吧？"
         },
         {
-          "id": "c0819",
+          "id": "c0974",
           "type": "say",
           "characterId": "me",
           "text": "也许吧。"
         },
         {
-          "id": "c0820",
+          "id": "c0975",
           "type": "say",
           "characterId": "girl",
           "text": "我也想看看，一大堆金子堆在一起是什么样子。"
         },
         {
-          "id": "c0821",
+          "id": "c0976",
           "type": "say",
           "characterId": "me",
           "text": "没什么。没有蜡烛的话，就是黑乎乎的一片。"
         },
         {
-          "id": "c0822",
+          "id": "c0977",
           "type": "jump",
           "targetSceneId": "s07_answer"
         }
@@ -5668,16 +7266,16 @@
       },
       "commands": [
         {
-          "id": "c0823",
+          "id": "c0978",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#c9cdd2"
+            "kind": "image",
+            "assetId": "bg_cave_rock"
           },
           "transition": "fade"
         },
         {
-          "id": "c0824",
+          "id": "c0979",
           "type": "music",
           "action": "play",
           "assetId": "bgm_leaving",
@@ -5685,75 +7283,82 @@
           "volume": 0.6
         },
         {
-          "id": "c0825",
+          "id": "c0980",
           "type": "say",
           "text": "第四年冬天，洋镐敲在了石头上。"
         },
         {
-          "id": "c0826",
+          "id": "c0981",
           "type": "say",
           "text": "我换了三个方向，都是石头。原来这片荒原底下，是一整块石头。"
         },
         {
-          "id": "c0827",
+          "id": "c0982",
           "type": "say",
           "text": "洞到这里就结束了。我坐在烛光里，把最后一根蜡烛烧完。"
         },
         {
-          "id": "c0828",
+          "id": "c0983",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#33303a"
+            "kind": "image",
+            "assetId": "bg_town_new"
           },
           "transition": "fade"
         },
         {
-          "id": "c0829",
+          "id": "c0984",
           "type": "say",
           "text": "我去了镇上。楼盖起来了，那条街上的玻璃，也不再贴着透明胶带。"
         },
         {
-          "id": "c0830",
+          "id": "c0985",
           "type": "say",
           "text": "在一扇崭新的玻璃后面，我看见了那个跳舞的女孩。她嘴唇上的那层冰，已经化了。"
         },
         {
-          "id": "c0831",
+          "id": "c0986",
+          "type": "show",
+          "characterId": "girl",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c0987",
           "type": "say",
           "characterId": "girl",
           "text": "你是那个挖金子的人。……你挖到了吗？"
         },
         {
-          "id": "c0832",
+          "id": "c0988",
           "type": "say",
           "characterId": "me",
           "text": "没有。"
         },
         {
-          "id": "c0833",
+          "id": "c0989",
           "type": "say",
           "text": "她咬着头发，看了我很久。"
         },
         {
-          "id": "c0834",
+          "id": "c0990",
           "type": "say",
           "characterId": "girl",
           "text": "那这四年，你都在干什么？"
         },
         {
-          "id": "c0835",
+          "id": "c0991",
           "type": "say",
           "characterId": "me",
           "text": "挖。"
         },
         {
-          "id": "c0836",
+          "id": "c0992",
           "type": "say",
           "text": "她笑了，就像那天在洞里一样。"
         },
         {
-          "id": "c0837",
+          "id": "c0993",
           "type": "jump",
           "targetSceneId": "s07_answer"
         }
@@ -5768,48 +7373,48 @@
       },
       "commands": [
         {
-          "id": "c0838",
+          "id": "c0994",
           "type": "say",
           "characterId": "me",
           "text": "那天晚上我问你，梁晓跟你说了什么。你一直没告诉我。"
         },
         {
-          "id": "c0839",
+          "id": "c0995",
           "type": "say",
           "text": "她想了一会儿，好像在找一件放了很久的东西。"
         },
         {
-          "id": "c0840",
+          "id": "c0996",
           "type": "say",
           "characterId": "girl",
           "text": "她说，这个学校里，只有南边挖坑的那几个人还在做点什么。"
         },
         {
-          "id": "c0841",
+          "id": "c0997",
           "type": "say",
           "characterId": "girl",
           "text": "她说她想知道，那样的人最后会怎么样。可她等不到了。"
         },
         {
-          "id": "c0842",
+          "id": "c0998",
           "type": "say",
           "characterId": "girl",
           "text": "所以我去给你们跳舞。替她看看。"
         },
         {
-          "id": "c0843",
+          "id": "c0999",
           "type": "say",
           "characterId": "me",
           "text": "那你看到了吗？"
         },
         {
-          "id": "c0844",
+          "id": "c1000",
           "type": "say",
           "characterId": "girl",
           "text": "看到了。……也没什么。"
         },
         {
-          "id": "c0845",
+          "id": "c1001",
           "type": "jump",
           "targetSceneId": "s07_last"
         }
@@ -5824,16 +7429,21 @@
       },
       "commands": [
         {
-          "id": "c0846",
+          "id": "c1102",
+          "type": "hide",
+          "characterId": "girl"
+        },
+        {
+          "id": "c1002",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#1b130c"
+            "kind": "image",
+            "assetId": "bg_cave"
           },
           "transition": "fade"
         },
         {
-          "id": "c0847",
+          "id": "c1003",
           "type": "music",
           "action": "play",
           "assetId": "bgm_leaving",
@@ -5841,36 +7451,36 @@
           "volume": 0.6
         },
         {
-          "id": "c0848",
+          "id": "c1004",
           "type": "say",
           "text": "我回到洞里，把锅碗瓢盆都埋了。丁炜阳的本子，我揣进了怀里。"
         },
         {
-          "id": "c0849",
+          "id": "c1005",
           "type": "say",
           "text": "这个洞，我再也不会回来了。翻山越岭之前的那个晚上，有一种说不出的好。"
         },
         {
-          "id": "c0850",
+          "id": "c1006",
           "type": "say",
           "text": "可我心里还是空了一块。另外两块石头底下，会不会有更好的东西？"
         },
         {
-          "id": "c0851",
+          "id": "c1007",
           "type": "say",
           "text": "我仍然没有找到答案。我只是把四年时间过完了。"
         },
         {
-          "id": "c0852",
+          "id": "c1008",
           "type": "choice",
           "options": [
             {
-              "id": "c0853",
+              "id": "c1009",
               "text": "去北边的村子",
               "targetSceneId": "e3"
             },
             {
-              "id": "c0854",
+              "id": "c1010",
               "text": "去东边，翻开另外两块石头",
               "targetSceneId": "e4"
             }
@@ -5888,16 +7498,16 @@
       },
       "commands": [
         {
-          "id": "c0855",
+          "id": "c1011",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#8a7a5a"
+            "kind": "image",
+            "assetId": "bg_yard"
           },
           "transition": "fade"
         },
         {
-          "id": "c0856",
+          "id": "c1012",
           "type": "music",
           "action": "play",
           "assetId": "bgm_leaving",
@@ -5905,87 +7515,94 @@
           "volume": 0.7
         },
         {
-          "id": "c0857",
+          "id": "c1013",
           "type": "say",
           "text": "我走到那户人家门口，绕着院墙转了一圈，然后翻了进去。"
         },
         {
-          "id": "c0858",
+          "id": "c1014",
           "type": "say",
           "text": "院子里散养着一群白色的乌鸡。就是我梦里的那些。"
         },
         {
-          "id": "c0859",
+          "id": "c1015",
           "type": "say",
           "text": "墙根放着一箱蜡烛，落满了灰，一根也没动过。旁边靠着一把新洋镐，木柄上刻着那只闭不上的眼睛。"
         },
         {
-          "id": "c0860",
+          "id": "c1016",
           "type": "say",
           "text": "一个小男孩蹲在地上，手里抓着一把黄土。"
         },
         {
-          "id": "c0861",
+          "id": "c1017",
           "type": "say",
           "characterId": "kid",
           "text": "你是谁？"
         },
         {
-          "id": "c0862",
+          "id": "c1018",
           "type": "say",
           "text": "我摇了摇头。"
         },
         {
-          "id": "c0863",
+          "id": "c1019",
           "type": "say",
           "characterId": "kid",
           "text": "你是小偷吗？"
         },
         {
-          "id": "c0864",
+          "id": "c1020",
           "type": "say",
           "characterId": "me",
           "text": "是。"
         },
         {
-          "id": "c0865",
+          "id": "c1021",
           "type": "say",
           "text": "一阵从来没有过的难过攥住了我。一千多个日夜，我都没有松过劲，这一刻却怎么也收不住了。"
         },
         {
-          "id": "c0866",
+          "id": "c1022",
+          "type": "show",
+          "characterId": "pick",
+          "expression": "平常",
+          "position": "center"
+        },
+        {
+          "id": "c1023",
           "type": "say",
           "text": "那个丢了洋镐的男人从屋里走出来，看着我，微微地笑着。他看了一眼墙根的蜡烛，又看了看我。他一直都知道。"
         },
         {
-          "id": "c0867",
+          "id": "c1024",
           "type": "say",
           "characterId": "me",
           "text": "我偷了你的洋镐。"
         },
         {
-          "id": "c0868",
+          "id": "c1025",
           "type": "say",
           "text": "男人和孩子都看着我。"
         },
         {
-          "id": "c0869",
+          "id": "c1026",
           "type": "say",
           "characterId": "me",
           "text": "我给你们跳支舞吧。"
         },
         {
-          "id": "c0870",
+          "id": "c1027",
           "type": "say",
           "text": "我照着记忆里那个短发女孩模模糊糊的样子，张开了双臂。"
         },
         {
-          "id": "c0871",
+          "id": "c1028",
           "type": "say",
           "text": "【结局：我偷了你的洋镐】"
         },
         {
-          "id": "c0872",
+          "id": "c1029",
           "type": "end"
         }
       ]
@@ -5999,16 +7616,16 @@
       },
       "commands": [
         {
-          "id": "c0873",
+          "id": "c1030",
           "type": "bg",
           "background": {
-            "kind": "color",
-            "value": "#b5ad95"
+            "kind": "image",
+            "assetId": "bg_stones_day"
           },
           "transition": "fade"
         },
         {
-          "id": "c0874",
+          "id": "c1031",
           "type": "music",
           "action": "play",
           "assetId": "bgm_leaving",
@@ -6016,57 +7633,57 @@
           "volume": 0.7
         },
         {
-          "id": "c0875",
+          "id": "c1032",
           "type": "say",
           "text": "矮房还在。第一块石头翻过来的那一面，青苔早就干了。"
         },
         {
-          "id": "c0876",
+          "id": "c1033",
           "type": "say",
           "text": "我走到第二块石头前，蹲下去，用肩膀顶住它。"
         },
         {
-          "id": "c0877",
+          "id": "c1034",
           "type": "say",
           "text": "它比我记忆里的要轻。翻过来，底下是一个浅浅的土坑，什么也没有，只有几根白色的羽毛。"
         },
         {
-          "id": "c0878",
+          "id": "c1035",
           "type": "say",
           "text": "我走到第三块石头前。翻过来，底下也压着一块木板。"
         },
         {
-          "id": "c0879",
+          "id": "c1036",
           "type": "say",
           "text": "木板是新的，上面一个字也没有。"
         },
         {
-          "id": "c0880",
+          "id": "c1037",
           "type": "say",
           "text": "我在旁边坐了很久。风像鱼群一样，从草尖上游过去。"
         },
         {
-          "id": "c0881",
+          "id": "c1038",
           "type": "say",
           "text": "然后我捡起一块尖石头，在木板上刻字。刻得很慢，歪歪扭扭的，就像很多年前的那个人一样。"
         },
         {
-          "id": "c0882",
+          "id": "c1039",
           "type": "say",
           "text": "刻完了，我把木板放回坑里，把石头翻回去，压好。"
         },
         {
-          "id": "c0883",
+          "id": "c1040",
           "type": "say",
           "text": "我不知道下一个掀开它的人会是谁。也许是很多年以后，又一个不知道该做点什么的年轻人。"
         },
         {
-          "id": "c0884",
+          "id": "c1041",
           "type": "say",
           "text": "我只希望，他看见的那句话，跟我当年看见的不一样。"
         },
         {
-          "id": "c0885",
+          "id": "c1042",
           "type": "if",
           "condition": {
             "kind": "compare",
@@ -6076,26 +7693,26 @@
           },
           "then": [
             {
-              "id": "c0886",
+              "id": "c1043",
               "type": "say",
               "text": "我朝镇子的方向走去。赵乃夫说过，活不下去了可以去找他。我活得下去。我只是想见见他。"
             }
           ],
           "else": [
             {
-              "id": "c0887",
+              "id": "c1044",
               "type": "say",
               "text": "我朝高速公路走去。来了一辆大巴，我上了车，没有问它开往哪里。"
             }
           ]
         },
         {
-          "id": "c0888",
+          "id": "c1045",
           "type": "say",
           "text": "【结局：另外两块石头】"
         },
         {
-          "id": "c0889",
+          "id": "c1046",
           "type": "end"
         }
       ]

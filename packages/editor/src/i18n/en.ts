@@ -44,6 +44,7 @@ export const en = {
     neverBackedUp: 'no backup yet',
     changedSinceBackup: 'changed since backup',
     delete: 'Delete',
+    playNow: 'Play a sample as a finished game: ',
   },
 
   templates: {
@@ -53,7 +54,7 @@ export const en = {
     },
     dalie: {
       name: 'The Great Rift (in Chinese)',
-      description: 'A branching adaptation of Hu Qian’s novella: eight chapters, four endings, with music',
+      description: 'A branching adaptation of Hu Qian’s novella: eight chapters, four endings, with art and music',
     },
     blank: { name: 'Blank project', description: 'Start from a blank page' },
     loadFailed: (status: number) => `Could not load template (HTTP ${status})`,

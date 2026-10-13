@@ -5,6 +5,8 @@ import { storage, type ProjectSummary } from '../storage';
 import { onSavedElsewhere } from '../storage/sync';
 import { backupStatus, requestPersistentStorage } from '../storage/backups';
 import { createFromTemplate, downloadProject, readProjectFile, templateIds, type TemplateId } from '../state/templates';
+import { playUrl, sampleIds } from '../state/samples';
+import { preloadSamples } from '../state/seed';
 import { useDialogs } from './Dialogs';
 import { LanguageSwitcher, useI18n } from '../i18n';
 
@@ -19,8 +21,14 @@ export function ProjectList() {
   const refresh = () => storage.listProjects().then(setProjects);
   useEffect(() => {
     void refresh();
+    // A first visit finds the sample story already here.
+    void preloadSamples(locale, t).then((added) => {
+      if (added) void refresh();
+    });
     // Keep the list current when another tab creates, edits or deletes a project.
     return onSavedElsewhere(() => void refresh());
+    // Preloading happens once per browser, whatever the language is at the time.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function create(templateId: TemplateId) {
@@ -108,6 +116,17 @@ export function ProjectList() {
             }}
           />
         </div>
+        <p className="hint play-links">
+          {t.home.playNow}
+          {sampleIds.map((id, i) => (
+            <span key={id}>
+              {i > 0 && ' · '}
+              <a className="link" href={playUrl(id)} target="_blank" rel="noreferrer">
+                {t.templates[id].name}
+              </a>
+            </span>
+          ))}
+        </p>
         {error && <p className="error">{error}</p>}
       </section>
 

@@ -51,4 +51,13 @@ function standalonePlayer(): Plugin {
 export default defineConfig({
   base: process.env.BASE_PATH ?? '/',
   plugins: [react(), standalonePlayer()],
+  build: {
+    rollupOptions: {
+      // The editor, and play/ which runs a sample story as a game on its own.
+      input: {
+        main: fileURLToPath(new URL('index.html', import.meta.url)),
+        play: fileURLToPath(new URL('play/index.html', import.meta.url)),
+      },
+    },
+  },
 });
