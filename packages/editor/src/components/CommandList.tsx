@@ -4,7 +4,19 @@ import { CommandCard } from './CommandCard';
 import type { EditFn } from './EditorApi';
 import { useI18n } from '../i18n';
 
-const ADD_ORDER: CommandType[] = ['say', 'bg', 'show', 'hide', 'choice', 'jump', 'setVar', 'if', 'end'];
+const ADD_ORDER: CommandType[] = [
+  'say',
+  'bg',
+  'show',
+  'hide',
+  'music',
+  'sound',
+  'choice',
+  'jump',
+  'setVar',
+  'if',
+  'end',
+];
 
 interface Props {
   project: Project;

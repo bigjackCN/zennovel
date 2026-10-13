@@ -59,6 +59,23 @@ export interface EngineState {
   backlog: DialogueState[];
   ended: boolean;
   error: EngineError | null;
+  /** Background music that should be playing, or null for silence. */
+  music: MusicState | null;
+  /** The most recent sound effect. Players play it when `id` is higher than the last one they played. */
+  sfx: SoundCue | null;
+}
+
+export interface MusicState {
+  assetId: string;
+  volume: number;
+  loop: boolean;
+}
+
+export interface SoundCue {
+  assetId: string;
+  volume: number;
+  /** Increases with every sound the engine plays (never reused, even after a rollback). */
+  id: number;
 }
 
 /** Runtime problems, as codes so the player can show them in any language. */
@@ -83,6 +100,8 @@ function emptyState(project: Project): EngineState {
     backlog: [],
     ended: false,
     error: null,
+    music: null,
+    sfx: null,
   };
 }
 
@@ -96,6 +115,7 @@ export class Engine {
   private state: EngineState;
   private history: EngineState[] = [];
   private listeners = new Set<EngineListener>();
+  private sfxCounter = 0;
 
   constructor(project: Project) {
     this.project = project;
@@ -185,6 +205,10 @@ export class Engine {
    */
   load(saved: EngineState): void {
     const state = structuredClone(saved);
+    // Saves from before music existed lack these fields.
+    state.music ??= null;
+    state.sfx ??= null;
+    this.sfxCounter = Math.max(this.sfxCounter, state.sfx?.id ?? 0);
     state.variables = { ...initialVariables(this.project.variables), ...state.variables };
     for (const frame of state.stack) {
       const list = this.commandsFor(frame);
@@ -256,7 +280,7 @@ export class Engine {
     const stack: Frame[] = [{ sceneId, index: 0 }];
     let list = scene.commands;
     path.forEach((step, depth) => {
-      for (let i = 0; i < step.index; i++) this.applyInstant(list[i]!);
+      for (let i = 0; i < step.index; i++) this.applyInstant(list[i]!, true);
       const frame = stack[stack.length - 1]!;
       if (depth === path.length - 1 || !step.branch) {
         frame.index = step.index;
@@ -273,8 +297,12 @@ export class Engine {
     this.state.backgroundTransition = 'none';
   }
 
-  /** Apply a command that changes the stage or variables without pausing. Returns false for anything else. */
-  private applyInstant(cmd: Command): boolean {
+  /**
+   * Apply a command that changes the stage, music or variables without
+   * pausing. Returns false for anything else. `skipping` is set while
+   * fast-forwarding to a line: sound effects passed over stay silent.
+   */
+  private applyInstant(cmd: Command, skipping = false): boolean {
     const s = this.state;
     switch (cmd.type) {
       case 'bg':
@@ -293,6 +321,13 @@ export class Engine {
         return true;
       case 'setVar':
         s.variables = applyEffect(cmd.effect, s.variables);
+        return true;
+      case 'music':
+        s.music =
+          cmd.action === 'play' ? { assetId: cmd.assetId, volume: cmd.volume ?? 1, loop: cmd.loop ?? true } : null;
+        return true;
+      case 'sound':
+        if (!skipping) s.sfx = { assetId: cmd.assetId, volume: cmd.volume ?? 1, id: ++this.sfxCounter };
         return true;
       default:
         return false;

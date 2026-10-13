@@ -21,7 +21,7 @@ export interface GameOptions {
   saveBackend?: SaveBackend | null;
 }
 
-type Screen = 'title' | 'playing' | 'menu' | 'save' | 'load' | 'history' | 'confirm';
+type Screen = 'title' | 'playing' | 'menu' | 'save' | 'load' | 'history' | 'settings' | 'confirm';
 
 function el<K extends keyof HTMLElementTagNameMap>(tag: K, className: string, parent: HTMLElement, text?: string) {
   const node = document.createElement(tag);
@@ -63,6 +63,8 @@ export class Game {
   private screen: Screen = 'title';
   /** Where "Close" on the load screen goes back to. */
   private loadReturn: 'title' | 'menu' = 'title';
+  /** Where "Close" on the settings screen goes back to. */
+  private settingsReturn: 'title' | 'menu' = 'title';
   private ui: HTMLElement;
   private hud: HTMLElement;
   private toastTimer = 0;
@@ -83,13 +85,22 @@ export class Game {
         { label: this.strings.playAgain, onClick: () => this.startNew() },
       ],
       onStateChange: (state) => this.autosave(state),
+      // The story (and its music) starts from the title screen.
+      autoStart: false,
     });
+    const volumes = this.saves.readVolumes();
+    if (volumes) this.player.setVolumes(volumes);
 
     this.hud = this.player.addLayer('zn-hud');
     button(this.hud, '☰', () => this.openMenu(), 'zn-menu-button').setAttribute('aria-label', this.strings.menu);
     this.ui = this.player.addLayer('zn-ui');
 
     this.player.element.addEventListener('keydown', this.onKey);
+    // When a panel closes, its focused button disappears and focus falls back
+    // to <body> for a moment: keys pressed then should still reach the game.
+    document.addEventListener('keydown', (e) => {
+      if (e.target === document.body) this.onKey(e);
+    });
     this.player.element.addEventListener('contextmenu', (e) => {
       if (this.screen !== 'playing') return;
       e.preventDefault();
@@ -116,6 +127,7 @@ export class Game {
     if (this.saves.read(AUTO_SLOT)) button(buttons, this.strings.continue, () => this.load(AUTO_SLOT));
     button(buttons, this.strings.start, () => this.startNew());
     if (this.saves.hasManualSaves()) button(buttons, this.strings.load, () => this.showSlots('load', 'title'));
+    button(buttons, this.strings.settings, () => this.showSettings('title'));
     this.focusFirst();
   }
 
@@ -132,6 +144,7 @@ export class Game {
     button(list, this.strings.save, () => this.showSlots('save'));
     button(list, this.strings.load, () => this.showSlots('load', 'menu'));
     button(list, this.strings.history, () => this.showHistory());
+    button(list, this.strings.settings, () => this.showSettings('menu'));
     button(list, this.strings.backToTitle, () => this.confirmTitle());
     this.focusFirst();
   }
@@ -237,8 +250,38 @@ export class Game {
 
   // ---------------------------------------------------------------- plumbing
 
+  private showSettings(returnTo: 'title' | 'menu') {
+    this.settingsReturn = returnTo;
+    this.setScreen('settings');
+    const panel = this.panel(this.strings.settings);
+    const list = el('div', 'zn-settings', panel);
+    const volumes = this.player.audio.getVolumes();
+    const slider = (label: string, key: keyof typeof volumes) => {
+      const row = el('label', 'zn-setting', list);
+      el('span', 'zn-setting-label', row, label);
+      const input = el('input', 'zn-range', row);
+      input.type = 'range';
+      input.min = '0';
+      input.max = '100';
+      input.step = '5';
+      input.value = String(Math.round(volumes[key] * 100));
+      const value = el('span', 'zn-setting-value', row, `${input.value}%`);
+      input.addEventListener('input', () => {
+        volumes[key] = Number(input.value) / 100;
+        value.textContent = `${input.value}%`;
+        this.player.setVolumes(volumes);
+        this.saves.writeVolumes(volumes);
+      });
+    };
+    slider(this.strings.musicVolume, 'music');
+    slider(this.strings.soundVolume, 'sfx');
+    button(panel, this.strings.close, () => this.back(), 'zn-btn zn-close');
+    this.focusFirst('input');
+  }
+
   private back() {
     if (this.screen === 'load' && this.loadReturn === 'title') this.showTitle();
+    else if (this.screen === 'settings' && this.settingsReturn === 'title') this.showTitle();
     else this.openMenu();
   }
 
@@ -267,6 +310,8 @@ export class Game {
     this.ui.style.display = playing ? 'none' : '';
     this.hud.style.display = playing ? '' : 'none';
     this.player.setPaused(!playing);
+    // The title screen is silent; menus keep the story's music going.
+    this.player.setAudioSuspended(screen === 'title');
     if (playing) this.player.focus();
   }
 

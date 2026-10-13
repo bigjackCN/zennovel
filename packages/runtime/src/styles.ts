@@ -88,4 +88,10 @@ export const PLAYER_CSS = /* css */ `
   position: absolute; left: 50%; bottom: 40px; transform: translateX(-50%); padding: 10px 26px; border-radius: 999px;
   background: #000c; color: #fff; font-size: 20px;
 }
+
+.zn-settings { display: grid; gap: 22px; width: 620px; }
+.zn-setting { display: grid; grid-template-columns: 180px 1fr 70px; align-items: center; gap: 18px; font-size: 22px; }
+.zn-setting-value { text-align: right; opacity: 0.8; font-variant-numeric: tabular-nums; }
+.zn-range { width: 100%; accent-color: var(--zn-choice-hover); height: 28px; cursor: pointer; }
+.zn-audio-music, .zn-audio-sfx { display: none; }
 `;

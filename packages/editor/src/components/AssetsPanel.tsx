@@ -1,17 +1,17 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { findUsages, type Asset, type Project } from '@zennovel/core';
 import { actions } from '../state/projectActions';
-import { isImageReadError, readImageFile, type ImageReadError } from '../state/assets';
+import { isMediaReadError, readMediaFile, type MediaKind, type MediaReadError } from '../state/assets';
 import { useDialogs } from './Dialogs';
 import { useEditorApi, type EditFn } from './EditorApi';
 import { useI18n, type Messages } from '../i18n';
 
 /** Open the browser's file picker. Resolves to [] if the picker is cancelled. */
-function chooseFiles(multiple: boolean): Promise<File[]> {
+function chooseFiles(kinds: MediaKind[], multiple: boolean): Promise<File[]> {
   return new Promise((resolve) => {
     const input = document.createElement('input');
     input.type = 'file';
-    input.accept = 'image/*';
+    input.accept = kinds.map((k) => `${k}/*`).join(',');
     input.multiple = multiple;
     input.onchange = () => resolve(Array.from(input.files ?? []));
     input.addEventListener('cancel', () => resolve([]));
@@ -19,39 +19,98 @@ function chooseFiles(multiple: boolean): Promise<File[]> {
   });
 }
 
-function readErrorMessage(name: string, e: ImageReadError, t: Messages): string {
-  return e.code === 'notImage' ? t.assets.notImage(name) : t.assets.tooLarge(name, e.megabytes);
+function readErrorMessage(name: string, e: MediaReadError, t: Messages): string {
+  if (e.code === 'tooLarge') return t.assets.tooLarge(name, e.megabytes, e.limit);
+  return e.accepted.includes('audio') && e.accepted.includes('image')
+    ? t.assets.notMedia(name)
+    : e.accepted.includes('audio')
+      ? t.assets.notAudio(name)
+      : t.assets.notImage(name);
 }
 
-/** Read files into image assets; explains any that were refused. */
-function useReadImages() {
+/** Read files into assets; explains any that were refused. */
+function useReadMedia() {
   const { t } = useI18n();
   const dialogs = useDialogs();
   return useCallback(
-    async (files: File[]): Promise<Asset[]> => {
-      const results = await Promise.all(files.map(async (f) => [f.name, await readImageFile(f)] as const));
+    async (files: File[], kinds: MediaKind[]): Promise<Asset[]> => {
+      const results = await Promise.all(files.map(async (f) => [f.name, await readMediaFile(f, kinds)] as const));
       const errors = results
-        .filter(([, r]) => isImageReadError(r))
-        .map(([name, r]) => readErrorMessage(name, r as ImageReadError, t));
+        .filter(([, r]) => isMediaReadError(r))
+        .map(([name, r]) => readErrorMessage(name, r as MediaReadError, t));
       if (errors.length) await dialogs.alert(errors.join('\n'));
-      return results.map(([, r]) => r).filter((r): r is Asset => !isImageReadError(r));
+      return results.map(([, r]) => r).filter((r): r is Asset => !isMediaReadError(r));
     },
     [dialogs, t],
   );
 }
 
 /**
- * Pick one image from the computer and add it to the project's assets.
- * Used by the background card and the cast panel's "upload" options.
+ * Pick one image or audio file from the computer and add it to the
+ * project's assets. Used by the "Upload…" options on cards and in the cast panel.
  */
-export function usePickImage(onEdit: EditFn): () => Promise<Asset | null> {
-  const readImages = useReadImages();
+export function usePickAsset(onEdit: EditFn, kind: MediaKind): () => Promise<Asset | null> {
+  const readMedia = useReadMedia();
   return useCallback(async () => {
-    const [asset] = await readImages(await chooseFiles(false));
+    const [asset] = await readMedia(await chooseFiles([kind], false), [kind]);
     if (!asset) return null;
     onEdit((p) => actions.addAssets(p, [asset]));
     return asset;
-  }, [onEdit, readImages]);
+  }, [onEdit, readMedia, kind]);
+}
+
+export const usePickImage = (onEdit: EditFn) => usePickAsset(onEdit, 'image');
+
+// --- Listening to audio in the editor -----------------------------------------
+
+/** One preview at a time across the whole editor. */
+let previewing: { el: HTMLAudioElement; src: string } | null = null;
+const listeners = new Set<() => void>();
+const notify = () => listeners.forEach((l) => l());
+
+function togglePreview(src: string) {
+  const same = previewing?.src === src;
+  previewing?.el.pause();
+  previewing = null;
+  if (!same && src) {
+    const el = new Audio(src);
+    previewing = { el, src };
+    el.addEventListener('ended', () => {
+      if (previewing?.el === el) previewing = null;
+      notify();
+    });
+    el.play().catch(() => {
+      previewing = null;
+      notify();
+    });
+  }
+  notify();
+}
+
+/** ▶ / ■ button that plays an audio asset in the editor. */
+export function ListenButton({ src, className = 'icon' }: { src: string | undefined; className?: string }) {
+  const { t } = useI18n();
+  const [, rerender] = useState(0);
+  useEffect(() => {
+    const l = () => rerender((n) => n + 1);
+    listeners.add(l);
+    return () => {
+      listeners.delete(l);
+    };
+  }, []);
+  const playing = !!src && previewing?.src === src;
+  return (
+    <button
+      type="button"
+      className={`${className} listen ${playing ? 'playing' : ''}`}
+      disabled={!src}
+      title={playing ? t.assets.stopListening : t.assets.listen}
+      aria-label={playing ? t.assets.stopListening : t.assets.listen}
+      onClick={() => src && togglePreview(src)}
+    >
+      {playing ? '■' : '▶'}
+    </button>
+  );
 }
 
 /** Rough size of the project as stored (images are embedded as data: URLs). */
@@ -63,17 +122,18 @@ export function AssetsPanel({ project, onEdit }: { project: Project; onEdit: Edi
   const { t } = useI18n();
   const dialogs = useDialogs();
   const api = useEditorApi();
-  const readImages = useReadImages();
+  const readMedia = useReadMedia();
   const usage = useMemo(() => findUsages(project).assets, [project]);
   const [dragging, setDragging] = useState(false);
 
   async function add(files: File[]) {
-    const assets = await readImages(files);
+    const assets = await readMedia(files, ['image', 'audio']);
     if (assets.length) onEdit((p) => actions.addAssets(p, assets));
   }
 
   async function replace(asset: Asset) {
-    const [next] = await readImages(await chooseFiles(false));
+    const kind: MediaKind = asset.kind === 'audio' ? 'audio' : 'image';
+    const [next] = await readMedia(await chooseFiles([kind], false), [kind]);
     if (next) onEdit((p) => actions.updateAsset(p, { ...asset, src: next.src }));
   }
 
@@ -107,7 +167,7 @@ export function AssetsPanel({ project, onEdit }: { project: Project; onEdit: Edi
     >
       <div className="manager-head">
         <h2>{t.assets.title}</h2>
-        <button className="btn primary" onClick={async () => void add(await chooseFiles(true))}>
+        <button className="btn primary" onClick={async () => void add(await chooseFiles(['image', 'audio'], true))}>
           {t.assets.upload}
         </button>
       </div>
@@ -122,7 +182,16 @@ export function AssetsPanel({ project, onEdit }: { project: Project; onEdit: Edi
             return (
               <div key={a.id} className="asset-card">
                 <div className="asset-thumb">
-                  {a.kind === 'image' && a.src ? <img src={a.src} alt="" /> : <span>{a.kind}</span>}
+                  {a.kind === 'image' && a.src ? (
+                    <img src={a.src} alt="" />
+                  ) : a.kind === 'audio' ? (
+                    <div className="audio-thumb">
+                      <span className="note">♪</span>
+                      <ListenButton src={a.src} className="btn small" />
+                    </div>
+                  ) : (
+                    <span>{a.kind}</span>
+                  )}
                 </div>
                 <input
                   value={a.name}
@@ -136,7 +205,7 @@ export function AssetsPanel({ project, onEdit }: { project: Project; onEdit: Edi
                     {uses ? t.assets.usedIn(uses) : t.assets.unused}
                   </span>
                   <span className="spacer" />
-                  {a.kind === 'image' && (
+                  {(a.kind === 'image' || a.kind === 'audio') && (
                     <button className="link" onClick={() => void replace(a)}>
                       {t.assets.replace}
                     </button>

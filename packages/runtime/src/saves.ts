@@ -1,5 +1,6 @@
 import type { Project } from '@zennovel/core';
 import type { EngineState } from './engine';
+import type { AudioVolumes } from './audio';
 
 /** One saved game, as stored in the player's browser. */
 export interface SaveRecord {
@@ -91,5 +92,24 @@ export class SaveStore {
   /** Whether any manual slot holds a save. */
   hasManualSaves(): boolean {
     return MANUAL_SLOTS.some((s) => this.read(s) !== null);
+  }
+
+  /** The player's volume settings for this game, if they changed them. */
+  readVolumes(): AudioVolumes | null {
+    try {
+      const raw = this.backend?.getItem(`zennovel:${this.projectId}:volumes`);
+      const v = raw ? (JSON.parse(raw) as Partial<AudioVolumes>) : null;
+      return v && typeof v.music === 'number' && typeof v.sfx === 'number' ? { music: v.music, sfx: v.sfx } : null;
+    } catch {
+      return null;
+    }
+  }
+
+  writeVolumes(volumes: AudioVolumes): void {
+    try {
+      this.backend?.setItem(`zennovel:${this.projectId}:volumes`, JSON.stringify(volumes));
+    } catch {
+      // Not saved; the settings still apply for this session.
+    }
   }
 }

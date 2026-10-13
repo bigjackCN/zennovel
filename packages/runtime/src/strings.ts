@@ -27,6 +27,9 @@ export interface PlayerStrings {
   saveFailed: string;
   noStorage: string;
   confirmTitle: string;
+  settings: string;
+  musicVolume: string;
+  soundVolume: string;
 }
 
 export const playerStrings: Record<Locale, PlayerStrings> = {
@@ -57,6 +60,9 @@ export const playerStrings: Record<Locale, PlayerStrings> = {
     saveFailed: 'Could not save: this browser is not allowing storage.',
     noStorage: 'Saving is not available in this browser (private mode?).',
     confirmTitle: 'Return to the title screen? Progress since your last save will be lost.',
+    settings: 'Settings',
+    musicVolume: 'Music',
+    soundVolume: 'Sound effects',
   },
   zh: {
     theEnd: '— 完 —',
@@ -83,5 +89,8 @@ export const playerStrings: Record<Locale, PlayerStrings> = {
     saveFailed: '保存失败：浏览器不允许写入存储。',
     noStorage: '这个浏览器无法存档（可能是无痕模式）。',
     confirmTitle: '回到标题画面？上次存档之后的进度会丢失。',
+    settings: '设置',
+    musicVolume: '音乐音量',
+    soundVolume: '音效音量',
   },
 };

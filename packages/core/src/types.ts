@@ -151,6 +151,31 @@ export interface EndCommand {
   type: 'end';
 }
 
+/** Start background music (it keeps playing across lines and scenes), or stop it. */
+export type MusicCommand =
+  | {
+      id: string;
+      type: 'music';
+      action: 'play';
+      /** An asset of kind 'audio'. */
+      assetId: string;
+      /** 0–1. Defaults to 1. */
+      volume?: number;
+      /** Defaults to true. */
+      loop?: boolean;
+    }
+  | { id: string; type: 'music'; action: 'stop' };
+
+/** Play a sound effect once. */
+export interface SoundCommand {
+  id: string;
+  type: 'sound';
+  /** An asset of kind 'audio'. */
+  assetId: string;
+  /** 0–1. Defaults to 1. */
+  volume?: number;
+}
+
 export type Command =
   | BgCommand
   | ShowCommand
@@ -160,7 +185,9 @@ export type Command =
   | JumpCommand
   | SetVarCommand
   | IfCommand
-  | EndCommand;
+  | EndCommand
+  | MusicCommand
+  | SoundCommand;
 
 export type CommandType = Command['type'];
 

@@ -21,7 +21,7 @@ import {
 import { actions } from '../state/projectActions';
 import { CommandList, focusLater } from './CommandList';
 import { useEditorApi, type EditFn } from './EditorApi';
-import { usePickImage } from './AssetsPanel';
+import { ListenButton, usePickAsset, usePickImage } from './AssetsPanel';
 import { useI18n } from '../i18n';
 
 interface Props {
@@ -280,6 +280,67 @@ export function CommandCard({ project, scene, command, isFirst, isLast, onEdit }
     case 'end':
       body = <div className="muted">{t.card.storyEnds}</div>;
       break;
+
+    case 'music':
+      body = (
+        <div className="row">
+          <select
+            value={command.action}
+            aria-label={t.card.musicAction}
+            onChange={(e) =>
+              update(
+                e.target.value === 'stop'
+                  ? { id: command.id, type: 'music', action: 'stop' }
+                  : { id: command.id, type: 'music', action: 'play', assetId: firstAudioId(project) },
+              )
+            }
+          >
+            <option value="play">{t.card.musicPlay}</option>
+            <option value="stop">{t.card.musicStop}</option>
+          </select>
+          {command.action === 'play' && (
+            <>
+              <AudioSelect
+                project={project}
+                value={command.assetId}
+                onEdit={onEdit}
+                onChange={(assetId) => update({ ...command, assetId })}
+              />
+              <VolumeInput
+                value={command.volume ?? 1}
+                onChange={(volume) => update({ ...command, volume }, `volume:${command.id}`)}
+              />
+              <label className="inline">
+                <input
+                  type="checkbox"
+                  checked={command.loop ?? true}
+                  onChange={(e) => update({ ...command, loop: e.target.checked })}
+                />
+                {t.card.loop}
+              </label>
+            </>
+          )}
+          {command.action === 'stop' && <span className="muted">{t.card.musicFadesOut}</span>}
+        </div>
+      );
+      break;
+
+    case 'sound':
+      body = (
+        <div className="row">
+          <AudioSelect
+            project={project}
+            value={command.assetId}
+            onEdit={onEdit}
+            onChange={(assetId) => update({ ...command, assetId })}
+          />
+          <VolumeInput
+            value={command.volume ?? 1}
+            onChange={(volume) => update({ ...command, volume }, `volume:${command.id}`)}
+          />
+        </div>
+      );
+      break;
   }
 
   return (
@@ -359,6 +420,67 @@ function CharacterSelect({
       ))}
       <option value={NEW}>{t.card.newCharacter}</option>
     </select>
+  );
+}
+
+const firstAudioId = (project: Project) => project.assets.find((a) => a.kind === 'audio')?.id ?? '';
+
+/** Pick an audio asset, upload a new one, and listen to the current one. */
+function AudioSelect({
+  project,
+  value,
+  onChange,
+  onEdit,
+}: {
+  project: Project;
+  value: string;
+  onChange: (assetId: string) => void;
+  onEdit: EditFn;
+}) {
+  const { t } = useI18n();
+  const pickAudio = usePickAsset(onEdit, 'audio');
+  const audio = project.assets.filter((a) => a.kind === 'audio');
+  const current = audio.find((a) => a.id === value);
+  return (
+    <>
+      <select
+        value={current ? value : ''}
+        aria-label={t.card.audioFile}
+        onChange={async (e) => {
+          if (e.target.value !== UPLOAD) return onChange(e.target.value);
+          const asset = await pickAudio();
+          if (asset) onChange(asset.id);
+        }}
+      >
+        {!current && <option value="">{value ? t.card.missingAudio : t.card.chooseAudio}</option>}
+        {audio.map((a) => (
+          <option key={a.id} value={a.id}>
+            ♪ {a.name}
+          </option>
+        ))}
+        <option value={UPLOAD}>{t.card.uploadAudio}</option>
+      </select>
+      <ListenButton src={current?.src} />
+    </>
+  );
+}
+
+/** 0–100 % slider for a 0–1 volume. */
+function VolumeInput({ value, onChange }: { value: number; onChange: (v: number) => void }) {
+  const { t } = useI18n();
+  return (
+    <label className="inline volume" title={t.card.volume}>
+      <span className="muted">{t.card.volume}</span>
+      <input
+        type="range"
+        min={0}
+        max={100}
+        step={5}
+        value={Math.round(value * 100)}
+        onChange={(e) => onChange(Number(e.target.value) / 100)}
+      />
+      <span className="muted small">{Math.round(value * 100)}%</span>
+    </label>
   );
 }
 

@@ -1,7 +1,8 @@
 import { createId, type Asset, type Project } from '@zennovel/core';
 
-/** Larger images are refused: they bloat the project file and slow the editor down. */
+/** Larger files are refused: they bloat the project (and every export) and slow the editor down. */
 export const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
+export const MAX_AUDIO_BYTES = 20 * 1024 * 1024;
 
 export function blobToDataUrl(blob: Blob): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -12,25 +13,33 @@ export function blobToDataUrl(blob: Blob): Promise<string> {
   });
 }
 
-export type ImageReadError = { code: 'notImage' } | { code: 'tooLarge'; megabytes: number };
+/** Which kinds of file an upload accepts. */
+export type MediaKind = 'image' | 'audio';
+
+export type MediaReadError =
+  { code: 'unsupported'; accepted: MediaKind[] } | { code: 'tooLarge'; megabytes: number; limit: number };
 
 /**
- * Read a user-picked file into an image asset. The image is stored inside
- * the project as a data: URL, so the project (and its export) is
+ * Read a user-picked file into an image or audio asset. The file is stored
+ * inside the project as a data: URL, so the project (and its export) is
  * self-contained.
  */
-export async function readImageFile(file: File): Promise<Asset | ImageReadError> {
-  if (!file.type.startsWith('image/')) return { code: 'notImage' };
-  if (file.size > MAX_IMAGE_BYTES) return { code: 'tooLarge', megabytes: Math.round(file.size / 1024 / 1024) };
+export async function readMediaFile(file: File, accepted: MediaKind[]): Promise<Asset | MediaReadError> {
+  const kind = accepted.find((k) => file.type.startsWith(`${k}/`));
+  if (!kind) return { code: 'unsupported', accepted };
+  const limit = kind === 'image' ? MAX_IMAGE_BYTES : MAX_AUDIO_BYTES;
+  if (file.size > limit) {
+    return { code: 'tooLarge', megabytes: Math.round(file.size / 1024 / 1024), limit: limit / 1024 / 1024 };
+  }
   return {
-    id: createId('img'),
-    kind: 'image',
+    id: createId(kind === 'image' ? 'img' : 'snd'),
+    kind,
     name: file.name.replace(/\.[^.]+$/, ''),
     src: await blobToDataUrl(file),
   };
 }
 
-export const isImageReadError = (v: Asset | ImageReadError): v is ImageReadError => 'code' in v;
+export const isMediaReadError = (v: Asset | MediaReadError): v is MediaReadError => 'code' in v;
 
 /** Fetch an asset URL and turn it into a data: URL; returns null if it can't be fetched. */
 async function inline(url: string): Promise<string | null> {

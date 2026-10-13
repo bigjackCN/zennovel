@@ -95,7 +95,7 @@ export const en = {
     redo: 'Redo',
     deleted: 'Deleted.',
     sectionsLabel: 'Project sections',
-    sections: { story: 'Story', map: 'Story map', cast: 'Characters', variables: 'Variables', assets: 'Images' },
+    sections: { story: 'Story', map: 'Story map', cast: 'Characters', variables: 'Variables', assets: 'Media' },
     changedElsewhere: 'This project was changed in another tab or window.',
     loadTheirs: 'Load that version',
     keepMine: 'Keep mine',
@@ -126,6 +126,7 @@ export const en = {
       variableTypeMismatch: (p: Params) =>
         `"${p?.variable}" is used in a way that doesn't fit its kind (number / yes-no / text)`,
       missingBackground: () => 'The background image is missing',
+      missingAudio: () => 'The music or sound file is missing',
       missingShowCharacter: () => 'The character to show does not exist',
       missingExpression: (p: Params) => `${p?.character} has no "${p?.expression}" expression`,
       missingHideCharacter: () => 'The character to hide does not exist',
@@ -150,6 +151,8 @@ export const en = {
       setVar: 'Variable',
       if: 'If / else',
       end: 'End',
+      music: 'Music',
+      sound: 'Sound',
     } as Record<CommandType, string>,
     add: 'Add:',
     emptyScene: 'This scene is empty. Add the first step below.',
@@ -187,6 +190,16 @@ export const en = {
     allOf: 'All of these are true',
     anyOf: 'Any of these is true',
     addCondition: '+ Add condition',
+    musicAction: 'Music',
+    musicPlay: 'Play music',
+    musicStop: 'Stop music',
+    musicFadesOut: 'The music fades out',
+    loop: 'Loop',
+    volume: 'Volume',
+    audioFile: 'Audio file',
+    chooseAudio: '(choose audio)',
+    missingAudio: '(missing audio)',
+    uploadAudio: 'Upload audio…',
     choicePrompt: 'Question text (optional), e.g. Where should we go?',
     removeOption: 'Remove this option',
     whenPicked: 'When picked:',
@@ -205,6 +218,8 @@ export const en = {
     playLineHint: 'Start at the card you are editing, with the background and characters above it already on stage',
     playScene: 'This scene',
     playFromStart: '⟲ From the start',
+    soundOn: 'Sound is on in the preview. Click to mute.',
+    soundOff: 'Sound is off in the preview. Click to hear music and sound effects.',
   },
 
   map: {
@@ -262,12 +277,14 @@ export const en = {
   },
 
   assets: {
-    title: 'Images',
-    upload: '+ Upload images',
+    title: 'Media',
+    upload: '+ Upload files',
     hint: (mb: string) =>
-      `Backgrounds and character pictures. Images are stored inside the project, so an exported file contains everything. Drag files here to add them. Project size: about ${mb} MB.`,
-    empty: 'No images yet. Upload backgrounds and character pictures, or drop files here.',
-    name: 'Image name',
+      `Backgrounds, character pictures, music and sound effects. Files are stored inside the project, so an exported file contains everything. Drag files here to add them. Project size: about ${mb} MB.`,
+    empty: 'Nothing here yet. Upload backgrounds, character pictures, music or sound effects, or drop files here.',
+    listen: 'Listen',
+    stopListening: 'Stop',
+    name: 'Name',
     usedIn: (n: number) => `used in ${plural(n, 'place', 'places')}`,
     unused: 'not used',
     replace: 'Replace',
@@ -275,7 +292,10 @@ export const en = {
     deleteConfirm: (name: string, uses: number) =>
       uses ? `Delete "${name}"? It is used in ${plural(uses, 'place', 'places')}.` : `Delete "${name}"?`,
     notImage: (name: string) => `"${name}" is not an image.`,
-    tooLarge: (name: string, mb: number) => `"${name}" is too large (${mb} MB). Please use images under 8 MB.`,
+    notAudio: (name: string) => `"${name}" is not an audio file.`,
+    notMedia: (name: string) => `"${name}" is not an image or audio file.`,
+    tooLarge: (name: string, mb: number, limit: number) =>
+      `"${name}" is too large (${mb} MB). Please use files under ${limit} MB.`,
   },
 
   theme: {

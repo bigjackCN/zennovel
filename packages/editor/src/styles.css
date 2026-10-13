@@ -573,6 +573,11 @@ h3 {
   background: #fff4d6;
   color: #8a6700;
 }
+.chip-music,
+.chip-sound {
+  background: #e4f2f5;
+  color: #22707f;
+}
 .chip-end {
   background: #eee;
   color: #555;
@@ -1220,4 +1225,33 @@ input.invalid {
 }
 .theme-panel select {
   justify-self: start;
+}
+
+/* ---------------- Audio ---------------- */
+.volume input[type='range'] {
+  width: 90px;
+  accent-color: var(--accent);
+}
+.audio-thumb {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  color: #22707f;
+}
+.audio-thumb .note {
+  font-size: 34px;
+  line-height: 1;
+}
+.listen.playing {
+  color: var(--accent);
+}
+.preview-bar .spacer {
+  flex: 1;
+}
+.sound-toggle {
+  font-size: 16px;
+  opacity: 0.6;
+}
+.sound-toggle.on {
+  opacity: 1;
 }

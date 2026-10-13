@@ -41,6 +41,7 @@ const str = (v: unknown, fallback: string): string => (typeof v === 'string' ? v
 const num = (v: unknown, fallback: number): number => (typeof v === 'number' && Number.isFinite(v) ? v : fallback);
 const oneOf = <T extends string>(v: unknown, allowed: readonly T[], fallback: T): T =>
   allowed.includes(v as T) ? (v as T) : fallback;
+const clamp01 = (v: number) => (Number.isFinite(v) ? Math.min(1, Math.max(0, v)) : 1);
 const isValue = (v: unknown): v is VariableValue =>
   typeof v === 'boolean' || typeof v === 'string' || (typeof v === 'number' && Number.isFinite(v));
 
@@ -295,6 +296,23 @@ function normalizeCommand(c: Obj, ids: Minters): Command | undefined {
     }
     case 'end':
       return { id: id(), type: 'end' };
+    case 'music':
+      if (c.action === 'stop') return { id: id(), type: 'music', action: 'stop' };
+      return {
+        id: id(),
+        type: 'music',
+        action: 'play',
+        assetId: str(c.assetId, ''),
+        ...(typeof c.volume === 'number' && { volume: clamp01(c.volume) }),
+        ...(typeof c.loop === 'boolean' && { loop: c.loop }),
+      };
+    case 'sound':
+      return {
+        id: id(),
+        type: 'sound',
+        assetId: str(c.assetId, ''),
+        ...(typeof c.volume === 'number' && { volume: clamp01(c.volume) }),
+      };
     default:
       return undefined;
   }

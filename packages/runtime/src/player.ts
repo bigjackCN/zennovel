@@ -1,5 +1,6 @@
 import type { Background, Locale, Project, Theme } from '@zennovel/core';
 import { Engine, type EngineState } from './engine';
+import { AudioController, type AudioVolumes } from './audio';
 import { PLAYER_CSS } from './styles';
 import { playerStrings } from './strings';
 
@@ -23,6 +24,10 @@ export interface PlayerOptions {
   wheelRollback?: 'always' | 'whenFocused' | 'never';
   /** Buttons on the end screen. Defaults to a single "Play again". */
   endActions?: EndAction[];
+  /** Start without sound (the editor preview, until the writer turns it on). */
+  muted?: boolean;
+  /** Start the story right away (default). The game shell starts it from its title screen instead. */
+  autoStart?: boolean;
 }
 
 export interface EndAction {
@@ -79,6 +84,10 @@ export class Player {
   private wheelGestureUsed = false;
   /** While a menu is open on top of the story, the story ignores input. */
   private paused = false;
+  /** Background music and sound effects. */
+  readonly audio: AudioController;
+  /** Id of the last sound effect played (see EngineState.sfx). */
+  private lastSfxId = 0;
 
   constructor(container: HTMLElement, project: Project, options: PlayerOptions = {}) {
     ensureStyles();
@@ -104,6 +113,13 @@ export class Player {
     this.root.addEventListener('keydown', this.onKey);
     this.root.addEventListener('wheel', this.onWheel, { passive: true });
 
+    this.audio = new AudioController(this.root);
+    this.audio.setMuted(options.muted ?? false);
+    // Browsers only allow sound after the user has interacted with the page.
+    const unlock = () => this.audio.unlock();
+    this.root.addEventListener('pointerdown', unlock, true);
+    this.root.addEventListener('keydown', unlock, true);
+
     this.resizeObserver = new ResizeObserver(() => this.fit());
     this.resizeObserver.observe(this.root);
 
@@ -111,7 +127,7 @@ export class Player {
       this.render(s);
       this.options.onStateChange?.(s);
     });
-    this.engine.start(this.startSceneId, this.startCommandId);
+    if (options.autoStart !== false) this.engine.start(this.startSceneId, this.startCommandId);
     this.fit();
   }
 
@@ -142,7 +158,22 @@ export class Player {
   loadState(state: EngineState): void {
     this.lastBgKey = '';
     this.lastDialogue = null;
+    // Don't replay the sound effect that was playing when the game was saved.
+    this.lastSfxId = Math.max(this.lastSfxId, state.sfx?.id ?? 0);
     this.engine.load(state);
+  }
+
+  setMuted(muted: boolean): void {
+    this.audio.setMuted(muted);
+  }
+
+  /** Hold the music back (e.g. on the title screen) without forgetting what should play. */
+  setAudioSuspended(suspended: boolean): void {
+    this.audio.setSuspended(suspended);
+  }
+
+  setVolumes(volumes: AudioVolumes): void {
+    this.audio.setVolumes(volumes);
   }
 
   /** Ignore clicks, keys and scrolling (e.g. while a menu is open). */
@@ -185,6 +216,7 @@ export class Player {
 
   destroy(): void {
     this.stopTyping();
+    this.audio.destroy();
     this.unsubscribe();
     this.resizeObserver.disconnect();
     this.root.remove();
@@ -343,6 +375,15 @@ export class Player {
       btn.type = 'button';
       btn.textContent = choice.text;
       btn.addEventListener('click', () => this.engine.choose(choice.id));
+    }
+
+    // Music and sound
+    const music = s.music && this.assetUrl(s.music.assetId);
+    this.audio.setMusic(music && s.music ? { url: music, volume: s.music.volume, loop: s.music.loop } : null);
+    if (s.sfx && s.sfx.id > this.lastSfxId) {
+      this.lastSfxId = s.sfx.id;
+      const sound = this.assetUrl(s.sfx.assetId);
+      if (sound) this.audio.playSound(sound, s.sfx.volume);
     }
 
     // End / error overlay

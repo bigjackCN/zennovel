@@ -10,13 +10,14 @@ ZenNovel is a visual novel maker that runs in the browser. It is inspired by Ren
 
 - 📚 **Multiple projects**: create, open, delete, import and export projects (autosaved in the browser's IndexedDB; a project file contains its images, so it opens anywhere)
 - ✍️ **Write like you're writing prose**: press Enter for the next line, Shift+Enter for a line break
-- 👥 **Characters, variables and images**: manage them in their own panels; upload backgrounds and character expressions, see where each one is used before deleting it
+- 👥 **Characters, variables and media**: manage them in their own panels; upload backgrounds, character expressions, music and sound effects, see where each one is used before deleting it
 - 🔀 **Choices**: each option can jump to a scene, change variables, or only appear under a condition
 - 🧮 **Variables and if/else**: pick from dropdowns like "If [Courage] ≥ 1"; combine conditions with "all of / any of", nest if/else blocks
 - ↶ **Undo / redo** for every edit (Ctrl+Z / Ctrl+Y, ⌘Z / ⌘⇧Z)
 - 🎨 **Custom look**: dialogue box color, opacity, font size, corner radius, typing speed
 - ▶️ **Live preview**: the editor preview uses the same player as exported games, with rollback; start from the line you're editing, the scene, or the beginning
 - 🩺 **Story check**: finds broken jumps, unreachable scenes, scenes with no ending and variables used the wrong way; click an issue to jump to it
+- 🎵 **Music and sound effects**: background music that crossfades between tracks and carries across scenes, one-shot sound effects, per-game volume settings for players; the preview is muted until you turn sound on
 - 🗺️ **Story map**: every scene and where it leads, as a flowchart; drag scenes to arrange them, click one to edit it
 - 📦 **Export a game**: one self-contained `index.html` (zipped, ready to upload to itch.io as an HTML game) with a title screen, save/load slots, autosave, a history of past lines and an Esc / right-click menu. "▶ Play" opens the same game in a new tab
 - 💾 **Backups**: projects are marked when they have changes that haven't been exported; an exported game can be imported back as a project
@@ -72,7 +73,7 @@ packages/
 - [x] Undo / redo
 - [x] Save / load screens and dialogue history
 - [x] Export as a standalone web game (zip, ready for itch.io)
-- [ ] Music and sound effects
+- [x] Music and sound effects
 - [ ] 9-slice frame images for the dialogue box
 - [x] IndexedDB storage (for large assets)
 - [x] Localization (English / Chinese)

@@ -114,6 +114,11 @@ export function newCommand(
       };
     case 'end':
       return { id, type };
+    case 'music':
+    case 'sound': {
+      const assetId = project.assets.find((a) => a.kind === 'audio')?.id ?? '';
+      return type === 'music' ? { id, type, action: 'play', assetId } : { id, type, assetId };
+    }
   }
 }
 

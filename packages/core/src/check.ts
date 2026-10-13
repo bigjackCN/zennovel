@@ -12,6 +12,7 @@ export type IssueCode =
   | 'missingConditionVariable'
   | 'variableTypeMismatch'
   | 'missingBackground'
+  | 'missingAudio'
   | 'missingShowCharacter'
   | 'missingExpression'
   | 'missingHideCharacter'
@@ -80,6 +81,7 @@ export function checkProject(project: Project): StoryIssue[] {
   const sceneIds = new Set(project.scenes.map((s) => s.id));
   const characters = new Map(project.characters.map((c) => [c.id, c]));
   const assetIds = new Set(project.assets.map((a) => a.id));
+  const audioIds = new Set(project.assets.filter((a) => a.kind === 'audio').map((a) => a.id));
   const variableIds = new Set(project.variables.map((v) => v.id));
   const variables = new Map(project.variables.map((v) => [v.id, v]));
   const kind = (v: VariableValue) => typeof v;
@@ -167,6 +169,11 @@ export function checkProject(project: Project): StoryIssue[] {
           break;
         case 'if':
           checkCondition(cmd.condition, cmd.id);
+          break;
+        case 'music':
+        case 'sound':
+          if (cmd.type === 'music' && cmd.action === 'stop') break;
+          if (!audioIds.has(cmd.assetId)) add('error', 'missingAudio', cmd.id);
           break;
       }
     });

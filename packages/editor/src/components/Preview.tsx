@@ -5,6 +5,17 @@ import { useI18n } from '../i18n';
 
 type Mode = 'line' | 'scene' | 'start';
 
+const SOUND_KEY = 'zennovel:previewSound';
+
+/** The preview starts muted (it restarts on every edit); the writer's choice is remembered. */
+function soundPreference(): boolean {
+  try {
+    return localStorage.getItem(SOUND_KEY) === 'on';
+  } catch {
+    return false;
+  }
+}
+
 interface Props {
   project: Project;
   sceneId: string;
@@ -18,6 +29,7 @@ export function Preview({ project, sceneId, commandId }: Props) {
   const host = useRef<HTMLDivElement>(null);
   const player = useRef<Player | null>(null);
   const [mode, setMode] = useState<Mode>('line');
+  const [sound, setSound] = useState(soundPreference);
   // Without a card to start from, "this line" means the top of the scene.
   const effective: Mode = mode === 'line' && !commandId ? 'scene' : mode;
 
@@ -31,6 +43,7 @@ export function Preview({ project, sceneId, commandId }: Props) {
       startSceneId: scene,
       startCommandId: command,
       wheelRollback: 'whenFocused',
+      muted: !sound,
     });
     return () => {
       player.current?.destroy();
@@ -75,6 +88,25 @@ export function Preview({ project, sceneId, commandId }: Props) {
         </button>
         <button className={`btn small ${effective === 'start' ? 'active' : ''}`} onClick={() => play('start')}>
           {t.preview.playFromStart}
+        </button>
+        <span className="spacer" />
+        <button
+          className={`icon sound-toggle ${sound ? 'on' : ''}`}
+          title={sound ? t.preview.soundOn : t.preview.soundOff}
+          aria-label={sound ? t.preview.soundOn : t.preview.soundOff}
+          aria-pressed={sound}
+          onClick={() => {
+            const next = !sound;
+            setSound(next);
+            player.current?.setMuted(!next);
+            try {
+              localStorage.setItem(SOUND_KEY, next ? 'on' : 'off');
+            } catch {
+              // Not remembered; it still applies now.
+            }
+          }}
+        >
+          {sound ? '🔊' : '🔇'}
         </button>
       </div>
     </div>

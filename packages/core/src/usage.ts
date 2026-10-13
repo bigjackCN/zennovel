@@ -67,6 +67,12 @@ export function findUsages(project: Project): Usage {
         case 'bg':
           if (cmd.background.kind === 'image') bump(usage.assets, cmd.background.assetId);
           break;
+        case 'music':
+          if (cmd.action === 'play') bump(usage.assets, cmd.assetId);
+          break;
+        case 'sound':
+          bump(usage.assets, cmd.assetId);
+          break;
         case 'show':
         case 'hide':
           bump(usage.characters, cmd.characterId);
