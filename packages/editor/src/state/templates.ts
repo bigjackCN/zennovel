@@ -8,6 +8,8 @@ import {
 } from '@zennovel/core';
 import type { Messages } from '../i18n';
 import { inlineAssets } from './assets';
+import { markBackedUp } from '../storage/backups';
+import { projectJsonFromGameHtml, safeFileName } from '../export/gameHtml';
 
 /** Template ids; display names come from the i18n messages (t.templates[id]). */
 export const templateIds = ['demo', 'blank'] as const;
@@ -59,8 +61,9 @@ export function downloadProject(project: Project) {
   const blob = new Blob([JSON.stringify(project, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = `${project.meta.name || 'zennovel-project'}.json`;
+  a.download = `${safeFileName(project.meta.name, 'zennovel-project')}.json`;
   a.click();
+  markBackedUp(project.meta.id);
   // Revoking right away can cancel the download in some browsers.
   window.setTimeout(() => URL.revokeObjectURL(a.href), 10_000);
 }
@@ -68,11 +71,14 @@ export function downloadProject(project: Project) {
 export async function readProjectFile(file: File, t: Messages): Promise<Project> {
   let raw: unknown;
   try {
-    raw = JSON.parse(await file.text());
+    const text = await file.text();
+    // An exported game (index.html) carries its project, so it can be opened again.
+    const json = text.trimStart().startsWith('<') ? projectJsonFromGameHtml(text) : text;
+    raw = JSON.parse(json ?? '');
   } catch {
     throw new Error(t.templates.notAProject);
   }
   const result = normalizeProject(raw);
   if (!result.ok) throw new Error(loadErrorMessage(result.error, t));
-  return freshMeta(result.project, result.project.meta.name || file.name.replace(/\.json$/i, ''));
+  return freshMeta(result.project, result.project.meta.name || file.name.replace(/\.(json|html?)$/i, ''));
 }

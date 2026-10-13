@@ -30,7 +30,7 @@ export const en = {
   home: {
     newStory: 'New story',
     importProject: 'Import project',
-    importHint: 'Open a previously exported .json project file',
+    importHint: 'Open an exported project file (.json) or game (index.html)',
     myStories: 'My stories',
     empty: 'No projects yet. Try starting from the sample above.',
     namePrompt: 'Name your new story:',
@@ -38,6 +38,11 @@ export const en = {
     deleteConfirm: (name: string) => `Delete "${name}"? This can't be undone.`,
     summary: (scenes: number, date: string) => `${plural(scenes, 'scene', 'scenes')} · edited ${date}`,
     export: 'Export',
+    exportHint: 'Download a backup (.json) you can import again',
+    backupHint:
+      'Your stories are stored only in this browser. Clearing browser data deletes them, so export a backup now and then.',
+    neverBackedUp: 'no backup yet',
+    changedSinceBackup: 'changed since backup',
     delete: 'Delete',
   },
 
@@ -70,6 +75,16 @@ export const en = {
     saveFailedDetail: (reason: string) =>
       `Your latest changes could not be saved to this browser (${reason}). Browser storage may be full: export the project file to keep a copy, then delete projects you no longer need.`,
     exportProject: 'Export project file',
+    exportProjectHint: 'Download the project as a .json file you can import again (a backup)',
+    playGame: '▶ Play',
+    playGameHint: 'Play the whole game in a new tab, with title screen, menu and saves, exactly as players will see it',
+    exportGame: 'Export game',
+    exportGameHint:
+      'Download a .zip with a single index.html: open it in a browser, or upload it to itch.io as an HTML game',
+    exportWithErrors: (n: number) =>
+      `The story check found ${plural(n, 'error', 'errors')}. Players may hit a broken jump or a missing picture. Export anyway?`,
+    exportAnyway: 'Export anyway',
+    exportFailed: (reason: string) => `Could not build the game: ${reason}`,
     sceneName: 'Scene name',
     startScene: 'Start scene',
     preview: 'Preview',
@@ -80,7 +95,7 @@ export const en = {
     redo: 'Redo',
     deleted: 'Deleted.',
     sectionsLabel: 'Project sections',
-    sections: { story: 'Story', cast: 'Characters', variables: 'Variables', assets: 'Images' },
+    sections: { story: 'Story', map: 'Story map', cast: 'Characters', variables: 'Variables', assets: 'Images' },
     changedElsewhere: 'This project was changed in another tab or window.',
     loadTheirs: 'Load that version',
     keepMine: 'Keep mine',
@@ -190,6 +205,15 @@ export const en = {
     playLineHint: 'Start at the card you are editing, with the background and characters above it already on stage',
     playScene: 'This scene',
     playFromStart: '⟲ From the start',
+  },
+
+  map: {
+    title: 'Story map',
+    autoArrange: 'Arrange automatically',
+    hint: 'Every scene and where it leads. Drag scenes to arrange them; click one to edit it.',
+    jump: 'Jump',
+    choice: 'Choice option',
+    lines: (n: number) => plural(n, 'line', 'lines'),
   },
 
   cast: {

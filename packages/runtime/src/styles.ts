@@ -38,4 +38,54 @@ export const PLAYER_CSS = /* css */ `
 .zn-overlay-error { font-size: 26px; color: #ffb4a2; max-width: 70%; text-align: center; }
 .zn-overlay button { font: inherit; font-size: 22px; padding: 10px 28px; border-radius: 999px; border: 1px solid #fff8; background: transparent; color: #fff; cursor: pointer; }
 .zn-overlay button:hover { background: #ffffff22; }
+
+/* ---- Exported games: HUD, title screen, menus ---- */
+.zn-hud { position: absolute; inset: 0; pointer-events: none; }
+.zn-menu-button {
+  pointer-events: auto; position: absolute; top: 18px; right: 18px; width: 52px; height: 52px; border-radius: 50%;
+  border: none; background: #0006; color: #fff; font-size: 26px; cursor: pointer; transition: background 0.15s;
+}
+.zn-menu-button:hover, .zn-menu-button:focus-visible { background: #000a; outline: none; }
+.zn-ui { position: absolute; inset: 0; cursor: default; color: #fff; }
+.zn-btn {
+  font: inherit; font-size: 24px; padding: 12px 34px; min-width: 300px; border-radius: 999px; cursor: pointer;
+  border: 1px solid #ffffff55; background: #00000066; color: #fff; transition: background 0.15s, border-color 0.15s;
+}
+.zn-btn:hover, .zn-btn:focus-visible { background: var(--zn-choice-hover); border-color: transparent; outline: none; }
+.zn-title { position: absolute; inset: 0; display: grid; place-items: center; }
+.zn-title::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, #0003 0%, #000a 100%); }
+.zn-title-inner { position: relative; display: grid; justify-items: center; gap: 18px; text-align: center; padding: 0 80px; }
+.zn-title-name { margin: 0; font-size: 72px; font-weight: 700; letter-spacing: 0.06em; text-shadow: 0 4px 24px #000a; }
+.zn-title-author { margin: -6px 0 26px; font-size: 22px; opacity: 0.8; }
+.zn-title-buttons { display: grid; gap: 14px; }
+.zn-backdrop {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  background: #0b0b12e8; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+.zn-panel { display: grid; gap: 20px; justify-items: center; width: 860px; max-height: 640px; }
+.zn-panel-title { margin: 0; font-size: 34px; font-weight: 600; letter-spacing: 0.1em; }
+.zn-menu-list { display: grid; gap: 14px; }
+.zn-note { margin: 0; font-size: 22px; opacity: 0.8; text-align: center; }
+.zn-row { display: flex; gap: 16px; }
+.zn-row .zn-btn { min-width: 220px; }
+.zn-close { min-width: 200px; }
+.zn-slots { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; width: 100%; }
+.zn-slot {
+  font: inherit; display: grid; gap: 4px; text-align: left; padding: 14px 20px; border-radius: 14px; cursor: pointer;
+  background: #1c1c26; border: 1px solid #ffffff26; color: #fff; min-height: 104px; align-content: start;
+}
+.zn-slot:hover:not(:disabled), .zn-slot:focus-visible { background: #2a2a38; border-color: var(--zn-choice-hover); outline: none; }
+.zn-slot:disabled { opacity: 0.45; cursor: default; }
+.zn-slot-name { font-size: 20px; font-weight: 600; }
+.zn-slot-date { font-size: 16px; opacity: 0.7; }
+.zn-slot-empty { font-size: 18px; opacity: 0.6; }
+.zn-slot-text { font-size: 17px; opacity: 0.9; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.zn-history { width: 100%; max-height: 470px; overflow-y: auto; display: grid; gap: 14px; padding-right: 10px; user-select: text; }
+.zn-history-line { display: grid; grid-template-columns: 150px 1fr; gap: 16px; font-size: 22px; line-height: 1.5; }
+.zn-history-who { font-weight: 600; text-align: right; }
+.zn-history-text { white-space: pre-wrap; }
+.zn-toast {
+  position: absolute; left: 50%; bottom: 40px; transform: translateX(-50%); padding: 10px 26px; border-radius: 999px;
+  background: #000c; color: #fff; font-size: 20px;
+}
 `;

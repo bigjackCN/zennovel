@@ -258,6 +258,19 @@ textarea:focus {
 .project-open:hover strong {
   color: var(--accent);
 }
+.backup-hint {
+  margin: -4px 0 10px;
+}
+.project-open .backup-badge {
+  margin-left: 8px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: #fff4d6;
+  color: #8a6700;
+  font-size: 11px;
+  font-weight: 500;
+  vertical-align: 2px;
+}
 .project-open span {
   font-size: 12px;
 }
@@ -268,6 +281,10 @@ textarea:focus {
   grid-template-columns: 250px minmax(380px, 1fr) minmax(380px, 40%);
   grid-template-rows: auto 1fr;
   height: 100vh;
+}
+/* The story map needs room more than it needs the preview. */
+.editor.no-preview {
+  grid-template-columns: 250px minmax(380px, 1fr);
 }
 .editor-header {
   grid-column: 1 / -1;
@@ -975,6 +992,108 @@ input.invalid {
   white-space: nowrap;
 }
 
+/* ---------------- Story map ---------------- */
+.story-map {
+  min-height: auto;
+}
+.map-legend {
+  display: flex;
+  gap: 18px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.map-legend span::before {
+  content: '';
+  display: inline-block;
+  width: 22px;
+  height: 0;
+  margin-right: 6px;
+  vertical-align: middle;
+  border-top: 2px solid;
+}
+.legend-jump::before {
+  border-color: #5545a8;
+}
+.legend-choice::before {
+  border-color: #c27a3a;
+  border-top-style: dashed !important;
+}
+.map-scroll {
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel) radial-gradient(var(--line) 1px, transparent 1px) 0 0 / 20px 20px;
+  max-height: calc(100vh - 230px);
+}
+.map-scroll svg {
+  display: block;
+  touch-action: none;
+  user-select: none;
+}
+.map-edge path {
+  fill: none;
+  stroke-width: 2;
+}
+.map-edge-jump path {
+  stroke: #5545a8;
+}
+.map-edge-choice path {
+  stroke: #c27a3a;
+  stroke-dasharray: 6 4;
+}
+.map-arrow-jump {
+  fill: #5545a8;
+}
+.map-arrow-choice {
+  fill: #c27a3a;
+}
+.map-edge rect {
+  fill: #fff;
+  stroke: #c27a3a66;
+}
+.map-edge text {
+  font-size: 12px;
+  fill: #8a4f1c;
+}
+.map-node {
+  cursor: grab;
+  outline: none;
+}
+.map-node rect {
+  fill: #fff;
+  stroke: var(--line);
+  stroke-width: 1.5;
+  filter: drop-shadow(0 2px 4px #0001);
+}
+.map-node:hover rect,
+.map-node:focus-visible rect {
+  stroke: var(--accent);
+}
+.map-node.selected rect {
+  stroke: var(--accent);
+  stroke-width: 2.5;
+  fill: var(--accent-soft);
+}
+.map-node.start rect {
+  stroke-width: 2.5;
+}
+.map-node.dragging {
+  cursor: grabbing;
+  opacity: 0.85;
+}
+.map-node-name {
+  font-size: 15px;
+  font-weight: 600;
+  fill: var(--text);
+}
+.map-node-meta {
+  font-size: 12px;
+  fill: var(--muted);
+}
+.map-node-error {
+  fill: var(--danger);
+}
+
 /* ---------------- Notices, dialogs, crash screen ---------------- */
 .notice {
   position: fixed;
@@ -1060,6 +1179,9 @@ input.invalid {
 }
 
 @media (max-width: 1000px) {
+  .editor.no-preview {
+    grid-template-columns: minmax(0, 1fr);
+  }
   .editor {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto auto auto auto;

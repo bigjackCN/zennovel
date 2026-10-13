@@ -21,6 +21,13 @@ export interface PlayerOptions {
    * Defaults to 'always'.
    */
   wheelRollback?: 'always' | 'whenFocused' | 'never';
+  /** Buttons on the end screen. Defaults to a single "Play again". */
+  endActions?: EndAction[];
+}
+
+export interface EndAction {
+  label: string;
+  onClick: () => void;
 }
 
 /** Wheel events closer together than this belong to one scroll gesture. */
@@ -70,6 +77,8 @@ export class Player {
   private startCommandId: string | undefined;
   private lastWheelAt = 0;
   private wheelGestureUsed = false;
+  /** While a menu is open on top of the story, the story ignores input. */
+  private paused = false;
 
   constructor(container: HTMLElement, project: Project, options: PlayerOptions = {}) {
     ensureStyles();
@@ -129,6 +138,47 @@ export class Player {
     this.engine.start(this.startSceneId, this.startCommandId);
   }
 
+  /** Continue from a save made with `engine.save()`. */
+  loadState(state: EngineState): void {
+    this.lastBgKey = '';
+    this.lastDialogue = null;
+    this.engine.load(state);
+  }
+
+  /** Ignore clicks, keys and scrolling (e.g. while a menu is open). */
+  setPaused(paused: boolean): void {
+    this.paused = paused;
+  }
+
+  /** The focusable outer element, for adding key handlers (game menus). */
+  get element(): HTMLElement {
+    return this.root;
+  }
+
+  /** Add a full-stage layer above the story (title screen, menus). It scales with the stage. */
+  addLayer(className: string): HTMLElement {
+    return el('div', className, this.stage);
+  }
+
+  /** Resolve an asset id to a URL the browser can load. */
+  assetUrl(assetId: string): string | null {
+    const asset = this.project.assets.find((a) => a.id === assetId);
+    if (!asset) return null;
+    try {
+      return new URL(asset.src, this.options.assetBase ?? document.baseURI).href;
+    } catch {
+      return asset.src;
+    }
+  }
+
+  /** CSS `background` value for a background command. */
+  backgroundCss(bg: Background | null): string {
+    if (!bg) return '#000';
+    if (bg.kind === 'color') return bg.value;
+    const url = this.assetUrl(bg.assetId);
+    return url ? `center / cover no-repeat url("${url}")` : '#000';
+  }
+
   focus(): void {
     this.root.focus();
   }
@@ -144,11 +194,12 @@ export class Player {
   // Input
 
   private onClick = (e: MouseEvent) => {
-    if ((e.target as HTMLElement).closest('.zn-choice, .zn-overlay button')) return;
+    if (this.paused || (e.target as HTMLElement).closest('.zn-choice, .zn-overlay button')) return;
     this.next();
   };
 
   private onKey = (e: KeyboardEvent) => {
+    if (this.paused) return;
     const onButton = (e.target as HTMLElement).closest('button');
     if (e.key === ' ' || e.key === 'Enter') {
       // Let a focused choice / "Play again" button activate itself.
@@ -170,7 +221,7 @@ export class Player {
   /** One rollback per scroll gesture, so a trackpad flick doesn't rewind ten lines. */
   private onWheel = (e: WheelEvent) => {
     const mode = this.options.wheelRollback ?? 'always';
-    if (mode === 'never') return;
+    if (mode === 'never' || this.paused) return;
     if (mode === 'whenFocused' && !this.root.contains(document.activeElement)) return;
     const now = performance.now();
     if (now - this.lastWheelAt > WHEEL_GESTURE_GAP_MS) this.wheelGestureUsed = false;
@@ -230,23 +281,6 @@ export class Player {
       this.dialogueBox.style.borderImage = '';
       this.dialogueBox.style.borderStyle = '';
     }
-  }
-
-  private assetUrl(assetId: string): string | null {
-    const asset = this.project.assets.find((a) => a.id === assetId);
-    if (!asset) return null;
-    try {
-      return new URL(asset.src, this.options.assetBase ?? document.baseURI).href;
-    } catch {
-      return asset.src;
-    }
-  }
-
-  private backgroundCss(bg: Background | null): string {
-    if (!bg) return '#000';
-    if (bg.kind === 'color') return bg.value;
-    const url = this.assetUrl(bg.assetId);
-    return url ? `center / cover no-repeat url("${url}")` : '#000';
   }
 
   private render(s: Readonly<EngineState>) {
@@ -318,10 +352,13 @@ export class Player {
       const strings = playerStrings[this.options.locale ?? this.project.meta.locale ?? 'en'] ?? playerStrings.en;
       const msg = el('div', s.error ? 'zn-overlay-error' : 'zn-overlay-title', this.overlay);
       msg.textContent = s.error ? strings.error(s.error) : strings.theEnd;
-      const again = el('button', '', this.overlay);
-      again.type = 'button';
-      again.textContent = strings.playAgain;
-      again.addEventListener('click', () => this.restart());
+      const actions = this.options.endActions ?? [{ label: strings.playAgain, onClick: () => this.restart() }];
+      for (const action of actions) {
+        const button = el('button', '', this.overlay);
+        button.type = 'button';
+        button.textContent = action.label;
+        button.addEventListener('click', action.onClick);
+      }
     }
 
     // Keep keyboard focus in the player, but never move it onto a choice or

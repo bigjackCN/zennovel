@@ -3,6 +3,7 @@ import { navigate } from '../router';
 import { normalizeProject } from '@zennovel/core';
 import { storage, type ProjectSummary } from '../storage';
 import { onSavedElsewhere } from '../storage/sync';
+import { backupStatus, requestPersistentStorage } from '../storage/backups';
 import { createFromTemplate, downloadProject, readProjectFile, templateIds, type TemplateId } from '../state/templates';
 import { useDialogs } from './Dialogs';
 import { LanguageSwitcher, useI18n } from '../i18n';
@@ -31,6 +32,7 @@ export function ProjectList() {
     try {
       const project = await createFromTemplate(templateId, name, locale, t);
       await storage.saveProject(project);
+      void requestPersistentStorage();
       navigate(`/p/${project.meta.id}`);
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
@@ -49,6 +51,7 @@ export function ProjectList() {
     const raw = await storage.loadProject(id);
     const result = raw && normalizeProject(raw);
     if (result?.ok) downloadProject(result.project);
+    await refresh(); // update the backup badge
   }
 
   async function importFile(file: File | undefined) {
@@ -56,6 +59,7 @@ export function ProjectList() {
     try {
       const project = await readProjectFile(file, t);
       await storage.saveProject(project);
+      void requestPersistentStorage();
       await refresh();
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
@@ -96,7 +100,7 @@ export function ProjectList() {
           <input
             ref={fileInput}
             type="file"
-            accept="application/json,.json"
+            accept="application/json,.json,text/html,.html"
             hidden
             onChange={(e) => {
               void importFile(e.target.files?.[0]);
@@ -112,22 +116,35 @@ export function ProjectList() {
         {projects === null ? null : projects.length === 0 ? (
           <p className="muted">{t.home.empty}</p>
         ) : (
-          <ul className="project-list">
-            {projects.map((p) => (
-              <li key={p.id} className="project-row">
-                <button className="project-open" onClick={() => navigate(`/p/${p.id}`)}>
-                  <strong>{p.name}</strong>
-                  <span className="muted">{t.home.summary(p.sceneCount, formatDate(p.updatedAt))}</span>
-                </button>
-                <button className="btn" onClick={() => void exportOne(p.id)}>
-                  {t.home.export}
-                </button>
-                <button className="btn danger" onClick={() => void remove(p)}>
-                  {t.home.delete}
-                </button>
-              </li>
-            ))}
-          </ul>
+          <>
+            <p className="hint backup-hint">{t.home.backupHint}</p>
+            <ul className="project-list">
+              {projects.map((p) => {
+                const backup = backupStatus(p.id, p.updatedAt);
+                return (
+                  <li key={p.id} className="project-row">
+                    <button className="project-open" onClick={() => navigate(`/p/${p.id}`)}>
+                      <strong>
+                        {p.name}
+                        {backup !== 'backedUp' && (
+                          <span className="backup-badge" title={t.home.exportHint}>
+                            {backup === 'never' ? t.home.neverBackedUp : t.home.changedSinceBackup}
+                          </span>
+                        )}
+                      </strong>
+                      <span className="muted">{t.home.summary(p.sceneCount, formatDate(p.updatedAt))}</span>
+                    </button>
+                    <button className="btn" onClick={() => void exportOne(p.id)} title={t.home.exportHint}>
+                      {t.home.export}
+                    </button>
+                    <button className="btn danger" onClick={() => void remove(p)}>
+                      {t.home.delete}
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </>
         )}
       </section>
     </div>

@@ -179,6 +179,14 @@ export const actions = {
     return touch({ ...p, scenes: [...p.scenes, scene] });
   },
 
+  /** Save story-map positions for some or all scenes. */
+  setScenePositions(p: Project, positions: Record<string, { x: number; y: number }>): Project {
+    return touch({
+      ...p,
+      scenes: p.scenes.map((s) => (positions[s.id] ? { ...s, position: { ...positions[s.id]! } } : s)),
+    });
+  },
+
   renameScene(p: Project, sceneId: string, name: string): Project {
     return mapScene(p, sceneId, (s) => ({ ...s, name }));
   },

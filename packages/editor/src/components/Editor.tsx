@@ -6,6 +6,7 @@ import { onSavedElsewhere } from '../storage/sync';
 import { actions } from '../state/projectActions';
 import { canRedo, canUndo, createHistory, record, redo, undo, type History } from '../state/history';
 import { downloadProject, loadErrorMessage } from '../state/templates';
+import { exportGameZip, playGameInNewTab } from '../export/exportGame';
 import { repairTemplateAssets } from '../state/assets';
 import { SceneList } from './SceneList';
 import { CommandList, revealCommand } from './CommandList';
@@ -13,14 +14,15 @@ import { Preview } from './Preview';
 import { IssuesPanel } from './IssuesPanel';
 import { ThemePanel } from './ThemePanel';
 import { CastPanel } from './CastPanel';
+import { StoryMap } from './StoryMap';
 import { VariablesPanel } from './VariablesPanel';
 import { AssetsPanel } from './AssetsPanel';
 import { useDialogs } from './Dialogs';
 import { CHARACTER_COLORS, EditorApiContext, type EditFn, type EditorApi } from './EditorApi';
 import { LanguageSwitcher, useI18n } from '../i18n';
 
-type Section = 'story' | 'cast' | 'variables' | 'assets';
-const SECTIONS: Section[] = ['story', 'cast', 'variables', 'assets'];
+type Section = 'story' | 'map' | 'cast' | 'variables' | 'assets';
+const SECTIONS: Section[] = ['story', 'map', 'cast', 'variables', 'assets'];
 
 const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform);
 
@@ -228,13 +230,33 @@ export function Editor({ projectId }: { projectId: string }) {
     if (c.id === cursor) cursorInScene = cursor;
   });
 
+  async function playGame() {
+    try {
+      await playGameInNewTab(project!);
+    } catch (e) {
+      await dialogs.alert(t.editor.exportFailed(e instanceof Error ? e.message : String(e)));
+    }
+  }
+
+  async function exportGame() {
+    const errors = issues.filter((i) => i.level === 'error').length;
+    if (errors > 0 && !(await dialogs.confirm(t.editor.exportWithErrors(errors), { okLabel: t.editor.exportAnyway }))) {
+      return;
+    }
+    try {
+      await exportGameZip(project!);
+    } catch (e) {
+      await dialogs.alert(t.editor.exportFailed(e instanceof Error ? e.message : String(e)));
+    }
+  }
+
   function selectIssue(issue: StoryIssue) {
     setSection('story');
     setSceneId(issue.sceneId);
     if (issue.commandId) revealCommand(issue.commandId);
   }
 
-  const counts: Record<Section, number> = {
+  const counts: Partial<Record<Section, number>> = {
     story: project.scenes.length,
     cast: project.characters.length,
     variables: project.variables.length,
@@ -244,7 +266,7 @@ export function Editor({ projectId }: { projectId: string }) {
 
   return (
     <EditorApiContext.Provider value={api}>
-      <div className="editor">
+      <div className={section === 'map' ? 'editor no-preview' : 'editor'}>
         <header className="editor-header">
           <button className="btn ghost" onClick={() => navigate('/')} title={t.editor.backToProjects}>
             {t.editor.projects}
@@ -288,7 +310,13 @@ export function Editor({ projectId }: { projectId: string }) {
           </div>
           <div className="spacer" />
           <LanguageSwitcher />
-          <button className="btn" onClick={() => downloadProject(project)}>
+          <button className="btn" onClick={() => void playGame()} title={t.editor.playGameHint}>
+            {t.editor.playGame}
+          </button>
+          <button className="btn primary" onClick={() => void exportGame()} title={t.editor.exportGameHint}>
+            {t.editor.exportGame}
+          </button>
+          <button className="btn" onClick={() => downloadProject(project)} title={t.editor.exportProjectHint}>
             {t.editor.exportProject}
           </button>
         </header>
@@ -303,7 +331,7 @@ export function Editor({ projectId }: { projectId: string }) {
                 aria-current={section === s}
               >
                 <span>{t.editor.sections[s]}</span>
-                <span className="count">{counts[s]}</span>
+                {counts[s] !== undefined && <span className="count">{counts[s]}</span>}
               </button>
             ))}
           </nav>
@@ -335,31 +363,45 @@ export function Editor({ projectId }: { projectId: string }) {
               <CommandList project={project} scene={scene} commands={scene.commands} parent={null} onEdit={edit} />
             </>
           )}
+          {section === 'map' && (
+            <StoryMap
+              project={project}
+              selectedId={scene.id}
+              issues={issues}
+              onEdit={edit}
+              onOpenScene={(id) => {
+                setSection('story');
+                setSceneId(id);
+              }}
+            />
+          )}
           {section === 'cast' && <CastPanel project={project} onEdit={edit} />}
           {section === 'variables' && <VariablesPanel project={project} onEdit={edit} />}
           {section === 'assets' && <AssetsPanel project={project} onEdit={edit} />}
         </main>
 
-        <aside className="panel right">
-          <div className="tabs">
-            <button className={rightTab === 'preview' ? 'active' : ''} onClick={() => setRightTab('preview')}>
-              {t.editor.preview}
-            </button>
-            <button className={rightTab === 'theme' ? 'active' : ''} onClick={() => setRightTab('theme')}>
-              {t.editor.appearance}
-            </button>
-          </div>
-          <Preview project={project} sceneId={scene.id} commandId={cursorInScene} />
-          {rightTab === 'theme' && (
-            <ThemePanel
-              theme={project.theme}
-              onChange={(theme) => edit((p) => actions.updateTheme(p, theme), 'theme')}
-              gameLocale={project.meta.locale ?? 'en'}
-              onGameLocaleChange={(locale) => edit((p) => actions.setGameLocale(p, locale))}
-            />
-          )}
-          {rightTab === 'preview' && <p className="hint">{t.editor.previewHint}</p>}
-        </aside>
+        {section !== 'map' && (
+          <aside className="panel right">
+            <div className="tabs">
+              <button className={rightTab === 'preview' ? 'active' : ''} onClick={() => setRightTab('preview')}>
+                {t.editor.preview}
+              </button>
+              <button className={rightTab === 'theme' ? 'active' : ''} onClick={() => setRightTab('theme')}>
+                {t.editor.appearance}
+              </button>
+            </div>
+            <Preview project={project} sceneId={scene.id} commandId={cursorInScene} />
+            {rightTab === 'theme' && (
+              <ThemePanel
+                theme={project.theme}
+                onChange={(theme) => edit((p) => actions.updateTheme(p, theme), 'theme')}
+                gameLocale={project.meta.locale ?? 'en'}
+                onGameLocaleChange={(locale) => edit((p) => actions.setGameLocale(p, locale))}
+              />
+            )}
+            {rightTab === 'preview' && <p className="hint">{t.editor.previewHint}</p>}
+          </aside>
+        )}
 
         {changedElsewhere && (
           <div className="notice warning" role="alert">

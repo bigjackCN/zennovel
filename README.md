@@ -17,6 +17,9 @@ ZenNovel is a visual novel maker that runs in the browser. It is inspired by Ren
 - 🎨 **Custom look**: dialogue box color, opacity, font size, corner radius, typing speed
 - ▶️ **Live preview**: the editor preview uses the same player as exported games, with rollback; start from the line you're editing, the scene, or the beginning
 - 🩺 **Story check**: finds broken jumps, unreachable scenes, scenes with no ending and variables used the wrong way; click an issue to jump to it
+- 🗺️ **Story map**: every scene and where it leads, as a flowchart; drag scenes to arrange them, click one to edit it
+- 📦 **Export a game**: one self-contained `index.html` (zipped, ready to upload to itch.io as an HTML game) with a title screen, save/load slots, autosave, a history of past lines and an Esc / right-click menu. "▶ Play" opens the same game in a new tab
+- 💾 **Backups**: projects are marked when they have changes that haven't been exported; an exported game can be imported back as a project
 - 🌐 **English / 中文**: switch the editor language any time; the sample story and the player's built-in buttons come in both languages
 
 ## Getting started
@@ -36,11 +39,16 @@ pnpm build        # build to packages/editor/dist
 ```
 packages/
   core/      Project format (types), defaults, variable/condition logic, story checker (pure TS, no deps)
-  runtime/   Story Engine (no DOM) + web Player, shared by the editor preview and exported games
+  runtime/   Story Engine (no DOM) + web Player, shared by the editor preview and exported games;
+             game.ts adds the title screen / menus / saves, standalone.ts is an exported game's entry point
   editor/    React editor
     src/i18n/           UI text (en.ts is the source of truth, zh.ts must match it)
     public/templates/   Templates for new projects (one project.<lang>.json per language, shared assets)
 ```
+
+### How "Export game" works
+
+`packages/editor/vite.config.ts` has a small plugin: the first time the editor imports `virtual:zennovel-player`, it builds `packages/runtime/src/standalone.ts` (the player only, no React) into one minified script in memory. Export pastes that script, the project JSON and its images (already `data:` URLs) into a single `index.html`, so a game has no other files and works opened straight from disk.
 
 ### Design principles
 
@@ -60,10 +68,10 @@ packages/
 ## Roadmap
 
 - [x] Panels for managing characters, assets and variables (upload your own images)
-- [ ] Story map: view and edit scene connections as a flowchart
+- [x] Story map: view and edit scene connections as a flowchart
 - [x] Undo / redo
-- [ ] Save / load screens and dialogue history (the engine's save data already survives story edits)
-- [ ] Export as a standalone web game (zip, ready for itch.io)
+- [x] Save / load screens and dialogue history
+- [x] Export as a standalone web game (zip, ready for itch.io)
 - [ ] Music and sound effects
 - [ ] 9-slice frame images for the dialogue box
 - [x] IndexedDB storage (for large assets)

@@ -22,7 +22,7 @@ export const zh: Messages = {
   home: {
     newStory: '新建故事',
     importProject: '导入项目',
-    importHint: '打开之前导出的 .json 项目文件',
+    importHint: '打开导出的项目文件（.json）或游戏（index.html）',
     myStories: '我的故事',
     empty: '还没有项目。从上面的示例开始试试吧。',
     namePrompt: '给新故事起个名字：',
@@ -30,6 +30,10 @@ export const zh: Messages = {
     deleteConfirm: (name) => `确定删除「${name}」吗？这个操作不能撤销。`,
     summary: (scenes, date) => `${scenes} 个场景 · 修改于 ${date}`,
     export: '导出',
+    exportHint: '下载一份可以再导入的备份（.json）',
+    backupHint: '作品只保存在这个浏览器里，清除浏览器数据会把它们删掉。记得时不时导出一份备份。',
+    neverBackedUp: '还没备份',
+    changedSinceBackup: '备份后有修改',
     delete: '删除',
   },
 
@@ -58,6 +62,14 @@ export const zh: Messages = {
     saveFailedDetail: (reason) =>
       `最新的修改没能保存到浏览器里（${reason}）。可能是浏览器存储空间满了：请先导出项目文件留一份备份，再删掉不需要的项目。`,
     exportProject: '导出项目文件',
+    exportProjectHint: '把项目下载成 .json 文件，以后可以再导入（相当于备份）',
+    playGame: '▶ 试玩',
+    playGameHint: '在新标签页里试玩完整游戏（标题画面、菜单、存档），和玩家看到的一模一样',
+    exportGame: '导出游戏',
+    exportGameHint: '下载一个只含 index.html 的 .zip：可以直接用浏览器打开，或作为 HTML 游戏上传到 itch.io',
+    exportWithErrors: (n) => `故事检查发现 ${n} 个错误，玩家可能会遇到跳转失效或图片缺失。仍然导出吗？`,
+    exportAnyway: '仍然导出',
+    exportFailed: (reason) => `生成游戏失败：${reason}`,
     sceneName: '场景名称',
     startScene: '起始场景',
     preview: '预览',
@@ -67,7 +79,7 @@ export const zh: Messages = {
     redo: '重做',
     deleted: '已删除。',
     sectionsLabel: '项目内容',
-    sections: { story: '故事', cast: '角色', variables: '变量', assets: '图片' },
+    sections: { story: '故事', map: '流程图', cast: '角色', variables: '变量', assets: '图片' },
     changedElsewhere: '这个项目在另一个标签页或窗口里被修改了。',
     loadTheirs: '载入那边的版本',
     keepMine: '保留我这边的',
@@ -176,6 +188,15 @@ export const zh: Messages = {
     playLineHint: '从正在编辑的卡片开始播放，上面的背景和角色会先摆好',
     playScene: '本场景',
     playFromStart: '⟲ 从头播放',
+  },
+
+  map: {
+    title: '流程图',
+    autoArrange: '自动排列',
+    hint: '所有场景以及它们通向哪里。拖动场景来摆放位置，点击场景进入编辑。',
+    jump: '跳转',
+    choice: '选项',
+    lines: (n) => `${n} 句台词`,
   },
 
   cast: {
