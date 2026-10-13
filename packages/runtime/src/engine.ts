@@ -63,6 +63,14 @@ export interface EngineState {
   music: MusicState | null;
   /** The most recent sound effect. Players play it when `id` is higher than the last one they played. */
   sfx: SoundCue | null;
+  /** The most recent achievement unlocked, reported like `sfx` (once per `id`). */
+  achievement: AchievementCue | null;
+}
+
+export interface AchievementCue {
+  achievementId: string;
+  name: string;
+  id: number;
 }
 
 export interface MusicState {
@@ -102,6 +110,7 @@ function emptyState(project: Project): EngineState {
     error: null,
     music: null,
     sfx: null,
+    achievement: null,
   };
 }
 
@@ -116,6 +125,7 @@ export class Engine {
   private history: EngineState[] = [];
   private listeners = new Set<EngineListener>();
   private sfxCounter = 0;
+  private achievementCounter = 0;
 
   constructor(project: Project) {
     this.project = project;
@@ -208,7 +218,9 @@ export class Engine {
     // Saves from before music existed lack these fields.
     state.music ??= null;
     state.sfx ??= null;
+    state.achievement ??= null;
     this.sfxCounter = Math.max(this.sfxCounter, state.sfx?.id ?? 0);
+    this.achievementCounter = Math.max(this.achievementCounter, state.achievement?.id ?? 0);
     state.variables = { ...initialVariables(this.project.variables), ...state.variables };
     for (const frame of state.stack) {
       const list = this.commandsFor(frame);
@@ -328,6 +340,15 @@ export class Engine {
         return true;
       case 'sound':
         if (!skipping) s.sfx = { assetId: cmd.assetId, volume: cmd.volume ?? 1, id: ++this.sfxCounter };
+        return true;
+      case 'achievement':
+        if (!skipping && cmd.achievementId) {
+          s.achievement = {
+            achievementId: cmd.achievementId,
+            name: cmd.name || cmd.achievementId,
+            id: ++this.achievementCounter,
+          };
+        }
         return true;
       default:
         return false;

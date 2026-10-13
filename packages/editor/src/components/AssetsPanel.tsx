@@ -5,6 +5,7 @@ import { isMediaReadError, readMediaFile, type MediaKind, type MediaReadError } 
 import { useDialogs } from './Dialogs';
 import { useEditorApi, type EditFn } from './EditorApi';
 import { useI18n, type Messages } from '../i18n';
+import { desktop, type MediaImport } from '../desktop';
 
 /** Open the browser's file picker. Resolves to [] if the picker is cancelled. */
 function chooseFiles(kinds: MediaKind[], multiple: boolean): Promise<File[]> {
@@ -46,17 +47,59 @@ function useReadMedia() {
 }
 
 /**
+ * Adding media. In the browser files are read into data: URLs (with a size
+ * limit). In the desktop app they are copied into the project's assets/
+ * folder as they are, whatever their size.
+ */
+function useMedia() {
+  const { t } = useI18n();
+  const dialogs = useDialogs();
+  const { projectId } = useEditorApi();
+  const readMedia = useReadMedia();
+  const fromDesktop = useCallback(
+    async (kinds: MediaKind[], get: () => Promise<MediaImport>): Promise<Asset[]> => {
+      try {
+        const { assets, rejected } = await get();
+        if (rejected.length) {
+          await dialogs.alert(
+            rejected.map((n) => readErrorMessage(n, { code: 'unsupported', accepted: kinds }, t)).join('\n'),
+          );
+        }
+        return assets;
+      } catch (e) {
+        await dialogs.alert(e instanceof Error ? e.message : String(e));
+        return [];
+      }
+    },
+    [dialogs, t],
+  );
+  const pick = useCallback(
+    (kinds: MediaKind[], multiple: boolean): Promise<Asset[]> =>
+      desktop
+        ? fromDesktop(kinds, () => desktop!.pickMedia(projectId, kinds, multiple))
+        : chooseFiles(kinds, multiple).then((files) => readMedia(files, kinds)),
+    [fromDesktop, projectId, readMedia],
+  );
+  const fromFiles = useCallback(
+    (files: File[], kinds: MediaKind[]): Promise<Asset[]> =>
+      desktop ? fromDesktop(kinds, () => desktop!.importFiles(projectId, files, kinds)) : readMedia(files, kinds),
+    [fromDesktop, projectId, readMedia],
+  );
+  return { pick, fromFiles };
+}
+
+/**
  * Pick one image or audio file from the computer and add it to the
  * project's assets. Used by the "Upload…" options on cards and in the cast panel.
  */
 export function usePickAsset(onEdit: EditFn, kind: MediaKind): () => Promise<Asset | null> {
-  const readMedia = useReadMedia();
+  const { pick } = useMedia();
   return useCallback(async () => {
-    const [asset] = await readMedia(await chooseFiles([kind], false), [kind]);
+    const [asset] = await pick([kind], false);
     if (!asset) return null;
     onEdit((p) => actions.addAssets(p, [asset]));
     return asset;
-  }, [onEdit, readMedia, kind]);
+  }, [onEdit, pick, kind]);
 }
 
 export const usePickImage = (onEdit: EditFn) => usePickAsset(onEdit, 'image');
@@ -122,18 +165,17 @@ export function AssetsPanel({ project, onEdit }: { project: Project; onEdit: Edi
   const { t } = useI18n();
   const dialogs = useDialogs();
   const api = useEditorApi();
-  const readMedia = useReadMedia();
+  const media = useMedia();
   const usage = useMemo(() => findUsages(project).assets, [project]);
   const [dragging, setDragging] = useState(false);
 
-  async function add(files: File[]) {
-    const assets = await readMedia(files, ['image', 'audio']);
+  function addAll(assets: Asset[]) {
     if (assets.length) onEdit((p) => actions.addAssets(p, assets));
   }
 
   async function replace(asset: Asset) {
     const kind: MediaKind = asset.kind === 'audio' ? 'audio' : 'image';
-    const [next] = await readMedia(await chooseFiles([kind], false), [kind]);
+    const [next] = await media.pick([kind], false);
     if (next) onEdit((p) => actions.updateAsset(p, { ...asset, src: next.src }));
   }
 
@@ -162,16 +204,16 @@ export function AssetsPanel({ project, onEdit }: { project: Project; onEdit: Edi
       onDrop={(e) => {
         e.preventDefault();
         setDragging(false);
-        void add(Array.from(e.dataTransfer.files));
+        void media.fromFiles(Array.from(e.dataTransfer.files), ['image', 'audio']).then(addAll);
       }}
     >
       <div className="manager-head">
         <h2>{t.assets.title}</h2>
-        <button className="btn primary" onClick={async () => void add(await chooseFiles(['image', 'audio'], true))}>
+        <button className="btn primary" onClick={() => void media.pick(['image', 'audio'], true).then(addAll)}>
           {t.assets.upload}
         </button>
       </div>
-      <p className="hint">{t.assets.hint(projectMegabytes(project))}</p>
+      <p className="hint">{desktop ? t.assets.hintDesktop : t.assets.hint(projectMegabytes(project))}</p>
 
       {project.assets.length === 0 ? (
         <p className="muted empty-state">{t.assets.empty}</p>

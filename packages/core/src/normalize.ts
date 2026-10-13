@@ -313,6 +313,13 @@ function normalizeCommand(c: Obj, ids: Minters): Command | undefined {
         assetId: str(c.assetId, ''),
         ...(typeof c.volume === 'number' && { volume: clamp01(c.volume) }),
       };
+    case 'achievement':
+      return {
+        id: id(),
+        type: 'achievement',
+        achievementId: str(c.achievementId, ''),
+        ...(typeof c.name === 'string' && c.name && { name: c.name }),
+      };
     default:
       return undefined;
   }

@@ -4,7 +4,7 @@
  * sample's folder rather than being embedded.
  */
 import { normalizeProject, type Locale } from '@zennovel/core';
-import { mountGame } from '@zennovel/runtime';
+import { detectHost, mountGame } from '@zennovel/runtime';
 import { isSampleId, sampleUrl } from './state/samples';
 
 const params = new URLSearchParams(window.location.search);
@@ -38,7 +38,7 @@ async function boot() {
     if (!result.ok) throw new Error(result.error.code);
     document.title = result.project.meta.name || document.title;
     document.documentElement.lang = result.project.meta.locale === 'zh' ? 'zh-CN' : 'en';
-    mountGame(container, result.project, { assetBase: url.href });
+    mountGame(container, result.project, { assetBase: url.href, host: detectHost() });
   } catch (e) {
     message(
       (locale === 'zh' ? '故事加载失败：' : 'The story could not be loaded: ') +

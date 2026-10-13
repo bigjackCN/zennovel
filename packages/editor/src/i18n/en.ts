@@ -1,4 +1,5 @@
 import type { CommandType, EffectOp, IssueCode, StagePosition, ValueType } from '@zennovel/core';
+import type { ExportProgress, ExportTarget } from '../desktop';
 
 type Params = Record<string, string> | undefined;
 
@@ -18,6 +19,60 @@ export const en = {
   dialog: {
     ok: 'OK',
     cancel: 'Cancel',
+  },
+
+  exportDialog: {
+    title: 'Export game',
+    web: 'Web',
+    webTarget: 'Website / itch.io',
+    webHint: 'Played in the browser: upload the web .zip to itch.io (HTML project) or put the folder on your site.',
+    webFolder: 'Folder (index.html + assets): best for larger games',
+    webSingle: 'One HTML file: easy to send around',
+    desktopGroup: 'Windows and Linux',
+    desktopOnly: 'Windows and Linux games are exported from the ZenNovel desktop app.',
+    windows: 'Windows',
+    linux: 'Linux',
+    standard: 'Standard',
+    standardHint: 'Electron, about 100 MB. Looks the same on every computer. Needed for Steam.',
+    small: 'Small',
+    smallHint: 'Tauri, about 10 MB. Uses the web view that comes with the system.',
+    zip: 'Also pack each build as a .zip (for itch.io and downloads)',
+    steam: 'Prepare for Steam',
+    steamHint:
+      'Adds Steam achievements and the Steam overlay to the standard builds. Saves are files in the player’s app data folder, which Steam Cloud can sync (see docs/STEAM.md).',
+    steamNeedsStandard: 'Choose a standard build first: Steam support is added to those.',
+    steamAppId: 'Steam App ID',
+    steamUnavailable: 'Steam support needs the steamworks.js package, which is not installed in this copy of ZenNovel.',
+    nothing: 'Choose at least one build.',
+    export: 'Export…',
+    exporting: 'Exporting…',
+    cancel: 'Cancel',
+    close: 'Done',
+    openFolder: 'Open folder',
+    done: 'Your game is ready:',
+    targetName: {
+      web: 'Web',
+      'windows-electron': 'Windows',
+      'linux-electron': 'Linux',
+      'windows-tauri': 'Windows (small)',
+      'linux-tauri': 'Linux (small)',
+    } as Record<ExportTarget, string>,
+    step: (step: ExportProgress['step'], target?: string) =>
+      ({
+        game: 'Writing the game files…',
+        download: `Downloading the ${target ?? ''} player (only the first time)…`,
+        unpack: `Unpacking the ${target ?? ''} player…`,
+        package: `Building ${target ?? ''}…`,
+        zip: `Packing ${target ?? ''} into a .zip…`,
+        done: 'Done.',
+      })[step],
+    errors: {
+      download: 'The player could not be downloaded. Check your internet connection and try again.',
+      checksum: 'The downloaded player was damaged. Try again.',
+      steamworks: 'Steam support needs the steamworks.js package.',
+      tauriMissing: 'The small (Tauri) player has not been published yet. Use the standard build for now.',
+      tooLarge: 'The game is too large for a .zip file. Export without “Also pack as .zip”.',
+    } as Record<string, string>,
   },
 
   crash: {
@@ -45,6 +100,16 @@ export const en = {
     changedSinceBackup: 'changed since backup',
     delete: 'Delete',
     playNow: 'Play a sample as a finished game: ',
+    openFolder: 'Open project folder…',
+    openFolderHint: 'Open a project folder from anywhere: a USB stick, a shared drive, a git repository',
+    projectsRoot: (dir: string) => `New stories are saved in ${dir}`,
+    changeRoot: 'Change…',
+    reveal: 'Show in folder',
+    trash: 'Move to trash',
+    trashConfirm: (name: string) => `Move "${name}" to the trash? You can restore it from there.`,
+    notAProject: 'That folder has no ZenNovel project in it (project.json).',
+    alreadyOpen: 'This project is already in your list, from another folder.',
+    desktopHint: 'Each story is a folder with project.json and its pictures and music.',
   },
 
   templates: {
@@ -84,8 +149,7 @@ export const en = {
     playGame: '▶ Play',
     playGameHint: 'Play the whole game in a new tab, with title screen, menu and saves, exactly as players will see it',
     exportGame: 'Export game',
-    exportGameHint:
-      'Download a .zip with a single index.html: open it in a browser, or upload it to itch.io as an HTML game',
+    exportGameHint: 'Make a game players can download or play online: website / itch.io, Windows, Linux, Steam',
     exportWithErrors: (n: number) =>
       `The story check found ${plural(n, 'error', 'errors')}. Players may hit a broken jump or a missing picture. Export anyway?`,
     exportAnyway: 'Export anyway',
@@ -132,6 +196,7 @@ export const en = {
         `"${p?.variable}" is used in a way that doesn't fit its kind (number / yes-no / text)`,
       missingBackground: () => 'The background image is missing',
       missingAudio: () => 'The music or sound file is missing',
+      badAchievementId: () => 'The achievement needs a Steam API name: letters, digits and _ only',
       missingShowCharacter: () => 'The character to show does not exist',
       missingExpression: (p: Params) => `${p?.character} has no "${p?.expression}" expression`,
       missingHideCharacter: () => 'The character to hide does not exist',
@@ -158,6 +223,7 @@ export const en = {
       end: 'End',
       music: 'Music',
       sound: 'Sound',
+      achievement: 'Achievement',
     } as Record<CommandType, string>,
     add: 'Add:',
     emptyScene: 'This scene is empty. Add the first step below.',
@@ -199,6 +265,10 @@ export const en = {
     musicPlay: 'Play music',
     musicStop: 'Stop music',
     musicFadesOut: 'The music fades out',
+    achievementName: 'Name players see, e.g. True ending',
+    achievementId: 'Steam API name, e.g. ENDING_TRUE',
+    achievementHint:
+      'Unlocks a Steam achievement in Steam builds (use the API name from Steamworks). Elsewhere, players see a small notice.',
     loop: 'Loop',
     volume: 'Volume',
     audioFile: 'Audio file',
@@ -286,6 +356,8 @@ export const en = {
     upload: '+ Upload files',
     hint: (mb: string) =>
       `Backgrounds, character pictures, music and sound effects. Files are stored inside the project, so an exported file contains everything. Drag files here to add them. Project size: about ${mb} MB.`,
+    hintDesktop:
+      'Backgrounds, character pictures, music and sound effects. Each one is a file in the project’s assets folder, with no size limit. Drag files here to add them.',
     empty: 'Nothing here yet. Upload backgrounds, character pictures, music or sound effects, or drop files here.',
     listen: 'Listen',
     stopListening: 'Stop',

@@ -176,6 +176,19 @@ export interface SoundCommand {
   volume?: number;
 }
 
+/**
+ * Unlock an achievement. On Steam this is a Steam achievement (its API name);
+ * elsewhere players see a small notice with `name`.
+ */
+export interface AchievementCommand {
+  id: string;
+  type: 'achievement';
+  /** The achievement's API name in Steamworks, e.g. "ENDING_TRUE". */
+  achievementId: string;
+  /** What players see when it isn't shown by Steam. */
+  name?: string;
+}
+
 export type Command =
   | BgCommand
   | ShowCommand
@@ -187,7 +200,8 @@ export type Command =
   | IfCommand
   | EndCommand
   | MusicCommand
-  | SoundCommand;
+  | SoundCommand
+  | AchievementCommand;
 
 export type CommandType = Command['type'];
 

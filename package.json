@@ -18,7 +18,10 @@
     "format:check": "prettier --check .",
     "lint": "eslint .",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "desktop": "pnpm --filter @zennovel/desktop start",
+    "desktop:dev": "pnpm --filter @zennovel/desktop dev",
+    "desktop:dist": "pnpm --filter @zennovel/desktop dist"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -32,6 +35,7 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
+      "electron",
       "esbuild"
     ]
   }

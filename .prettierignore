@@ -2,5 +2,9 @@
 pnpm-lock.yaml
 dist/
 coverage/
+packages/desktop/build/
+packages/desktop/editor/
+packages/desktop/release/
+packages/shell-tauri/
 # Sample assets (SVG art) — data, not source
 packages/editor/public/templates/**/*.svg

@@ -6,6 +6,8 @@ export interface ProjectSummary {
   description?: string;
   updatedAt: string;
   sceneCount: number;
+  /** The project's folder (desktop app only). */
+  dir?: string;
 }
 
 /**

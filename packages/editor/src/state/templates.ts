@@ -11,6 +11,7 @@ import { inlineAssets } from './assets';
 import { markBackedUp } from '../storage/backups';
 import { projectJsonFromGameHtml, safeFileName } from '../export/gameHtml';
 import { sampleIds, sampleUrl } from './samples';
+import { desktop } from '../desktop';
 
 /** Template ids; display names come from the i18n messages (t.templates[id]). */
 export const templateIds = [...sampleIds, 'blank'] as const;
@@ -55,8 +56,13 @@ export async function createFromTemplate(
   return freshMeta(project, name);
 }
 
-export function downloadProject(project: Project) {
-  const blob = new Blob([JSON.stringify(project, null, 2)], { type: 'application/json' });
+/**
+ * Download the project as one .json file that opens anywhere. In the desktop
+ * app its pictures and music are read from the project folder and embedded.
+ */
+export async function downloadProject(project: Project) {
+  const portable = desktop ? { ...project, assets: await inlineAssets(project.assets, window.location.href) } : project;
+  const blob = new Blob([JSON.stringify(portable, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = `${safeFileName(project.meta.name, 'zennovel-project')}.json`;

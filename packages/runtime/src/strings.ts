@@ -30,6 +30,9 @@ export interface PlayerStrings {
   settings: string;
   musicVolume: string;
   soundVolume: string;
+  fullscreen: string;
+  quit: string;
+  achievement: (name: string) => string;
 }
 
 export const playerStrings: Record<Locale, PlayerStrings> = {
@@ -63,6 +66,9 @@ export const playerStrings: Record<Locale, PlayerStrings> = {
     settings: 'Settings',
     musicVolume: 'Music',
     soundVolume: 'Sound effects',
+    fullscreen: 'Fullscreen',
+    quit: 'Quit',
+    achievement: (name) => `🏆 Achievement unlocked: ${name}`,
   },
   zh: {
     theEnd: '— 完 —',
@@ -92,5 +98,8 @@ export const playerStrings: Record<Locale, PlayerStrings> = {
     settings: '设置',
     musicVolume: '音乐音量',
     soundVolume: '音效音量',
+    fullscreen: '全屏',
+    quit: '退出游戏',
+    achievement: (name) => `🏆 解锁成就：${name}`,
   },
 };

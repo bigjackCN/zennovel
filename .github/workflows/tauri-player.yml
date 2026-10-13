@@ -1,0 +1,64 @@
+name: Tauri player
+
+# Builds the small game player (packages/shell-tauri) that "Export game →
+# Small" downloads. Push the tag shell-tauri-v1 to publish it; the desktop
+# app looks for it in that release (DEFAULT_TAURI_RELEASE in
+# packages/desktop/src/export.ts).
+on:
+  workflow_dispatch:
+  push:
+    tags: ['shell-tauri-v*']
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            binary: zennovel-player.exe
+            asset: zennovel-player-windows-x64.exe
+          - os: ubuntu-22.04
+            binary: zennovel-player
+            asset: zennovel-player-linux-x64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Linux libraries
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: packages/shell-tauri
+      - run: cargo build --release
+        working-directory: packages/shell-tauri
+      - name: Rename
+        shell: bash
+        run: |
+          mkdir -p out
+          cp packages/shell-tauri/target/release/${{ matrix.binary }} out/${{ matrix.asset }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.asset }}
+          path: out/${{ matrix.asset }}
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: out
+          merge-multiple: true
+      - name: Checksums
+        run: cd out && sha256sum zennovel-player-* > SHA256SUMS.txt && cat SHA256SUMS.txt
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: out/*

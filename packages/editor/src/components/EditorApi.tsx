@@ -6,6 +6,8 @@ export type EditFn = (fn: (p: Project) => Project, key?: string) => void;
 
 /** Editor-wide helpers that deep components (cards, selects) need without prop drilling. */
 export interface EditorApi {
+  /** The open project (the desktop app copies uploads into its folder). */
+  projectId: string;
   /** Ask for a name, create a variable, and resolve to its id (null if cancelled). */
   createVariable(): Promise<string | null>;
   /** Ask for a name, create a character, and resolve to its id (null if cancelled). */

@@ -6,7 +6,15 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default defineConfig(
-  globalIgnores(['**/dist/', '**/node_modules/', 'coverage/']),
+  globalIgnores([
+    '**/dist/',
+    '**/node_modules/',
+    'coverage/',
+    'packages/desktop/build/',
+    'packages/desktop/editor/',
+    'packages/desktop/release/',
+    'packages/shell-tauri/',
+  ]),
   js.configs.recommended,
   tseslint.configs.recommended,
   {
@@ -19,8 +27,13 @@ export default defineConfig(
     extends: [reactHooks.configs.flat.recommended],
   },
   {
-    files: ['*.config.{js,ts}', 'packages/*/*.config.{js,ts}'],
+    files: ['*.config.{js,ts}', 'packages/*/*.config.{js,ts}', 'packages/desktop/**/*.{ts,cts,mjs}'],
     languageOptions: { globals: globals.node },
+  },
+  {
+    // Electron preload scripts are CommonJS: `import x = require('electron')`.
+    files: ['packages/desktop/src/**/*.cts'],
+    rules: { '@typescript-eslint/no-require-imports': 'off' },
   },
   {
     rules: {

@@ -341,6 +341,35 @@ export function CommandCard({ project, scene, command, isFirst, isLast, onEdit }
         </div>
       );
       break;
+
+    case 'achievement':
+      body = (
+        <div className="achievement">
+          <div className="row">
+            <input
+              className="wide"
+              value={command.name ?? ''}
+              placeholder={t.card.achievementName}
+              aria-label={t.card.achievementName}
+              onChange={(e) => update({ ...command, name: e.target.value }, `achievement-name:${command.id}`)}
+            />
+            <input
+              value={command.achievementId}
+              placeholder={t.card.achievementId}
+              aria-label={t.card.achievementId}
+              spellCheck={false}
+              onChange={(e) =>
+                update(
+                  { ...command, achievementId: e.target.value.replace(/\s+/g, '_') },
+                  `achievement-id:${command.id}`,
+                )
+              }
+            />
+          </div>
+          <div className="muted">{t.card.achievementHint}</div>
+        </div>
+      );
+      break;
   }
 
   return (

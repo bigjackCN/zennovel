@@ -6,3 +6,8 @@ dist/
 !.vscode/extensions.json
 *.log
 coverage/
+packages/desktop/build/
+packages/desktop/editor/
+packages/desktop/release/
+packages/shell-tauri/target/
+packages/shell-tauri/gen/

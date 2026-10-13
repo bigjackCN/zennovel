@@ -9,6 +9,7 @@
  */
 import { normalizeProject } from '@zennovel/core';
 import { mountGame } from './game';
+import { detectHost } from './host';
 
 function fail(message: string) {
   document.body.textContent = message;
@@ -28,7 +29,7 @@ function boot() {
   const result = normalizeProject(raw);
   if (!result.ok) return fail('ZenNovel: this game was made with a newer version of ZenNovel.');
   document.title = result.project.meta.name || document.title;
-  mountGame(container, result.project);
+  mountGame(container, result.project, { host: detectHost() });
 }
 
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

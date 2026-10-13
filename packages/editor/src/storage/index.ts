@@ -3,6 +3,8 @@ import type { ProjectStorage, ProjectSummary } from './ProjectStorage';
 import { IndexedDbProjectStorage } from './IndexedDbProjectStorage';
 import { LocalProjectStorage } from './LocalProjectStorage';
 import { announceSaved } from './sync';
+import { DesktopProjectStorage } from './DesktopProjectStorage';
+import { desktop } from '../desktop';
 
 export type { ProjectStorage, ProjectSummary };
 
@@ -35,4 +37,5 @@ class BrowserProjectStorage implements ProjectStorage {
   }
 }
 
-export const storage: ProjectStorage = new BrowserProjectStorage();
+/** Folders on disk in the desktop app, browser storage on the web. */
+export const storage: ProjectStorage = desktop ? new DesktopProjectStorage(desktop) : new BrowserProjectStorage();

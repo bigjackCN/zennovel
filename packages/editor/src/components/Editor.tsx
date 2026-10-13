@@ -14,7 +14,8 @@ import { onSavedElsewhere } from '../storage/sync';
 import { actions } from '../state/projectActions';
 import { canRedo, canUndo, createHistory, record, redo, undo, type History } from '../state/history';
 import { downloadProject, loadErrorMessage } from '../state/templates';
-import { exportGameZip, playGameInNewTab } from '../export/exportGame';
+import { playGameInNewTab } from '../export/exportGame';
+import { ExportDialog } from './ExportDialog';
 import { repairTemplateAssets } from '../state/assets';
 import { SceneList } from './SceneList';
 import { CommandList, revealCommand } from './CommandList';
@@ -50,6 +51,7 @@ export function Editor({ projectId }: { projectId: string }) {
   const [saveError, setSaveError] = useState<string | null>(null);
   const [changedElsewhere, setChangedElsewhere] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
+  const [exporting, setExporting] = useState(false);
   /** Set before replacing the project from storage, so that version isn't saved straight back. */
   const skipSave = useRef(true);
   /** Latest edit not yet written to storage. */
@@ -207,6 +209,7 @@ export function Editor({ projectId }: { projectId: string }) {
 
   const api = useMemo<EditorApi>(
     () => ({
+      projectId,
       async createVariable() {
         const count = latestProject.current?.variables.length ?? 0;
         const name = await dialogs.prompt(t.variables.newPrompt, t.variables.defaultName(count + 1));
@@ -226,7 +229,7 @@ export function Editor({ projectId }: { projectId: string }) {
       },
       notifyDeleted: () => setToast(t.editor.deleted),
     }),
-    [dialogs, edit, t],
+    [dialogs, edit, t, projectId],
   );
 
   const issues = useMemo(() => (project ? checkProject(project) : []), [project]);
@@ -262,11 +265,7 @@ export function Editor({ projectId }: { projectId: string }) {
     if (errors > 0 && !(await dialogs.confirm(t.editor.exportWithErrors(errors), { okLabel: t.editor.exportAnyway }))) {
       return;
     }
-    try {
-      await exportGameZip(project!);
-    } catch (e) {
-      await dialogs.alert(t.editor.exportFailed(e instanceof Error ? e.message : String(e)));
-    }
+    setExporting(true);
   }
 
   function selectIssue(issue: StoryIssue) {
@@ -335,7 +334,7 @@ export function Editor({ projectId }: { projectId: string }) {
           <button className="btn primary" onClick={() => void exportGame()} title={t.editor.exportGameHint}>
             {t.editor.exportGame}
           </button>
-          <button className="btn" onClick={() => downloadProject(project)} title={t.editor.exportProjectHint}>
+          <button className="btn" onClick={() => void downloadProject(project)} title={t.editor.exportProjectHint}>
             {t.editor.exportProject}
           </button>
         </header>
@@ -448,6 +447,7 @@ export function Editor({ projectId }: { projectId: string }) {
           </div>
         )}
       </div>
+      {exporting && <ExportDialog project={project} onClose={() => setExporting(false)} />}
     </EditorApiContext.Provider>
   );
 }

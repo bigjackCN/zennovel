@@ -1,10 +1,11 @@
 import type { Project } from '@zennovel/core';
 import { buildGameHtml, safeFileName } from './gameHtml';
-import { createZip } from './zip';
+import { createZip, type ZipEntry } from './zip';
+import { dataUrlBytes, gameFolder } from './gameFolder';
 import { markBackedUp } from '../storage/backups';
 
 /** The game player script, built on first use (see vite.config.ts). */
-async function playerScript(): Promise<string> {
+export async function playerScript(): Promise<string> {
   return (await import('virtual:zennovel-player')).default;
 }
 
@@ -22,6 +23,20 @@ export async function exportGameZip(project: Project): Promise<void> {
   const zip = createZip([{ name: 'index.html', data: new TextEncoder().encode(html) }]);
   download(zip, `${safeFileName(project.meta.name)}.zip`, 'application/zip');
   // The game's index.html can be imported back into ZenNovel, so it is a backup too.
+  markBackedUp(project.meta.id);
+}
+
+/**
+ * Download `<name>-web.zip`: index.html plus an assets folder. For websites
+ * and itch.io ("HTML" project); loads faster than one big file for larger games.
+ */
+export async function exportWebFolderZip(project: Project): Promise<void> {
+  const { html, files } = gameFolder(project, await playerScript());
+  const entries: ZipEntry[] = [{ name: 'index.html', data: new TextEncoder().encode(html) }];
+  for (const f of files) {
+    if ('dataUrl' in f.from) entries.push({ name: f.path, data: dataUrlBytes(f.from.dataUrl) });
+  }
+  download(createZip(entries), `${safeFileName(project.meta.name)}-web.zip`, 'application/zip');
   markBackedUp(project.meta.id);
 }
 

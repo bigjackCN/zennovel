@@ -1,0 +1,79 @@
+{
+  "name": "@zennovel/desktop",
+  "productName": "ZenNovel",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ZenNovel for Windows, macOS and Linux: projects as folders, export to desktop games.",
+  "author": "ZenNovel",
+  "license": "MIT",
+  "type": "module",
+  "main": "build/main.js",
+  "scripts": {
+    "typecheck": "tsc -p .",
+    "build:editor": "pnpm --filter @zennovel/editor exec vite build --base ./ --outDir ../desktop/editor --emptyOutDir",
+    "build:main": "tsc -p tsconfig.build.json",
+    "build": "pnpm build:editor && pnpm build:main",
+    "start": "pnpm build && electron .",
+    "dev": "node scripts/dev.mjs",
+    "dist": "pnpm build && electron-builder --publish never"
+  },
+  "optionalDependencies": {
+    "steamworks.js": "^0.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "electron": "44.7.1",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "io.github.bigjackcn.zennovel",
+    "productName": "ZenNovel",
+    "artifactName": "ZenNovel-${version}-${os}-${arch}.${ext}",
+    "directories": {
+      "output": "release",
+      "buildResources": "resources"
+    },
+    "files": [
+      "build/**/*",
+      "!build/**/*.test.js",
+      "editor/**/*",
+      "package.json"
+    ],
+    "asarUnpack": [
+      "build/shell/**",
+      "node_modules/steamworks.js/**"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ],
+      "category": "public.app-category.developer-tools"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Development"
+    }
+  }
+}

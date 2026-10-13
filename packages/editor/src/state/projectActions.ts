@@ -119,6 +119,8 @@ export function newCommand(
       const assetId = project.assets.find((a) => a.kind === 'audio')?.id ?? '';
       return type === 'music' ? { id, type, action: 'play', assetId } : { id, type, assetId };
     }
+    case 'achievement':
+      return { id, type, achievementId: '' };
   }
 }
 

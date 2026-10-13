@@ -7,6 +7,7 @@ import { backupStatus, requestPersistentStorage } from '../storage/backups';
 import { createFromTemplate, downloadProject, readProjectFile, templateIds, type TemplateId } from '../state/templates';
 import { playUrl, sampleIds } from '../state/samples';
 import { preloadSamples } from '../state/seed';
+import { desktop } from '../desktop';
 import { useDialogs } from './Dialogs';
 import { LanguageSwitcher, useI18n } from '../i18n';
 
@@ -17,9 +18,12 @@ export function ProjectList() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const fileInput = useRef<HTMLInputElement>(null);
+  /** Desktop: the folder new stories go in. */
+  const [root, setRoot] = useState<string | null>(null);
 
   const refresh = () => storage.listProjects().then(setProjects);
   useEffect(() => {
+    void desktop?.info().then((i) => setRoot(i.projectsRoot));
     void refresh();
     // A first visit finds the sample story already here.
     void preloadSamples(locale, t).then((added) => {
@@ -50,7 +54,9 @@ export function ProjectList() {
   }
 
   async function remove(p: ProjectSummary) {
-    if (!(await dialogs.confirm(t.home.deleteConfirm(p.name), { okLabel: t.home.delete, danger: true }))) return;
+    const question = desktop ? t.home.trashConfirm(p.name) : t.home.deleteConfirm(p.name);
+    const okLabel = desktop ? t.home.trash : t.home.delete;
+    if (!(await dialogs.confirm(question, { okLabel, danger: true }))) return;
     await storage.deleteProject(p.id);
     await refresh();
   }
@@ -58,8 +64,29 @@ export function ProjectList() {
   async function exportOne(id: string) {
     const raw = await storage.loadProject(id);
     const result = raw && normalizeProject(raw);
-    if (result?.ok) downloadProject(result.project);
+    if (result?.ok) await downloadProject(result.project);
     await refresh(); // update the backup badge
+  }
+
+  async function openFolder() {
+    if (!desktop) return;
+    setError(null);
+    const res = await desktop.openProjectFolder();
+    if (!res) return;
+    if ('error' in res) {
+      if (res.error === 'alreadyOpen' && res.id) navigate(`/p/${res.id}`);
+      else setError(t.home.notAProject);
+      return;
+    }
+    navigate(`/p/${res.id}`);
+  }
+
+  async function changeRoot() {
+    const dir = await desktop?.chooseProjectsRoot();
+    if (dir) {
+      setRoot(dir);
+      await refresh();
+    }
   }
 
   async function importFile(file: File | undefined) {
@@ -105,6 +132,12 @@ export function ProjectList() {
             <strong>{t.home.importProject}</strong>
             <span>{t.home.importHint}</span>
           </button>
+          {desktop && (
+            <button className="template-card ghost" onClick={() => void openFolder()}>
+              <strong>{t.home.openFolder}</strong>
+              <span>{t.home.openFolderHint}</span>
+            </button>
+          )}
           <input
             ref={fileInput}
             type="file"
@@ -136,10 +169,22 @@ export function ProjectList() {
           <p className="muted">{t.home.empty}</p>
         ) : (
           <>
-            <p className="hint backup-hint">{t.home.backupHint}</p>
+            <p className="hint backup-hint">
+              {desktop ? t.home.desktopHint : t.home.backupHint}
+              {desktop && root && (
+                <>
+                  {' '}
+                  {t.home.projectsRoot(root)}{' '}
+                  <button className="link" onClick={() => void changeRoot()}>
+                    {t.home.changeRoot}
+                  </button>
+                </>
+              )}
+            </p>
             <ul className="project-list">
               {projects.map((p) => {
-                const backup = backupStatus(p.id, p.updatedAt);
+                // On disk, a project is its own backup.
+                const backup = desktop ? 'backedUp' : backupStatus(p.id, p.updatedAt);
                 return (
                   <li key={p.id} className="project-row">
                     <button className="project-open" onClick={() => navigate(`/p/${p.id}`)}>
@@ -153,11 +198,16 @@ export function ProjectList() {
                       </strong>
                       <span className="muted">{t.home.summary(p.sceneCount, formatDate(p.updatedAt))}</span>
                     </button>
+                    {desktop && (
+                      <button className="btn" onClick={() => void desktop!.revealProject(p.id)}>
+                        {t.home.reveal}
+                      </button>
+                    )}
                     <button className="btn" onClick={() => void exportOne(p.id)} title={t.home.exportHint}>
                       {t.home.export}
                     </button>
                     <button className="btn danger" onClick={() => void remove(p)}>
-                      {t.home.delete}
+                      {desktop ? t.home.trash : t.home.delete}
                     </button>
                   </li>
                 );

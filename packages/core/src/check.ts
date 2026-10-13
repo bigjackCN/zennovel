@@ -22,7 +22,8 @@ export type IssueCode =
   | 'missingOptionTarget'
   | 'missingJumpTarget'
   | 'noEnding'
-  | 'unreachable';
+  | 'unreachable'
+  | 'badAchievementId';
 
 export interface StoryIssue {
   level: IssueLevel;
@@ -174,6 +175,9 @@ export function checkProject(project: Project): StoryIssue[] {
         case 'sound':
           if (cmd.type === 'music' && cmd.action === 'stop') break;
           if (!audioIds.has(cmd.assetId)) add('error', 'missingAudio', cmd.id);
+          break;
+        case 'achievement':
+          if (!/^[A-Za-z0-9_]+$/.test(cmd.achievementId)) add('warning', 'badAchievementId', cmd.id);
           break;
       }
     });

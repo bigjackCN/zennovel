@@ -12,13 +12,33 @@ import {
 } from './saves';
 import { playerStrings, type PlayerStrings } from './strings';
 
+/**
+ * What the program around the game offers beyond a web page: the desktop
+ * builds (Electron, Tauri) provide one as `window.zennovelHost`; on the web
+ * standalone.ts builds one from the Fullscreen API.
+ */
+export interface GameHost {
+  /** "electron", "tauri" or "web". */
+  kind?: string;
+  /** Saves as files instead of localStorage. */
+  saveBackend?: SaveBackend;
+  /** Shown as "Quit" on the title screen when present. */
+  quit?(): unknown;
+  /** Toggle (no argument) or set fullscreen; resolves to the new state. */
+  setFullscreen?(on?: boolean): Promise<boolean> | boolean;
+  isFullscreen?(): boolean;
+  /** Unlock a platform achievement (Steam). Resolves to false when it couldn't. */
+  unlockAchievement?(achievementId: string): Promise<boolean> | boolean;
+}
+
 export interface GameOptions {
   /** Base URL for relative asset paths. Defaults to document.baseURI. */
   assetBase?: string;
   /** UI language. Defaults to the project's meta.locale, then English. */
   locale?: Locale;
-  /** Where saves go. Defaults to localStorage; null disables saving. */
+  /** Where saves go. Defaults to the host's, then localStorage; null disables saving. */
   saveBackend?: SaveBackend | null;
+  host?: GameHost | null;
 }
 
 type Screen = 'title' | 'playing' | 'menu' | 'save' | 'load' | 'history' | 'settings' | 'confirm';
@@ -68,14 +88,18 @@ export class Game {
   private ui: HTMLElement;
   private hud: HTMLElement;
   private toastTimer = 0;
+  private host: GameHost | null;
+  /** Id of the last achievement reported (see EngineState.achievement). */
+  private lastAchievementId = 0;
 
   constructor(container: HTMLElement, project: Project, options: GameOptions = {}) {
     this.project = project;
+    this.host = options.host ?? null;
     this.locale = options.locale ?? project.meta.locale ?? 'en';
     this.strings = playerStrings[this.locale] ?? playerStrings.en;
     this.saves = new SaveStore(
       project.meta.id,
-      options.saveBackend === undefined ? browserSaveBackend() : options.saveBackend,
+      options.saveBackend !== undefined ? options.saveBackend : (this.host?.saveBackend ?? browserSaveBackend()),
     );
     this.player = new Player(container, project, {
       assetBase: options.assetBase,
@@ -84,7 +108,10 @@ export class Game {
         { label: this.strings.backToTitle, onClick: () => this.showTitle() },
         { label: this.strings.playAgain, onClick: () => this.startNew() },
       ],
-      onStateChange: (state) => this.autosave(state),
+      onStateChange: (state) => {
+        this.reportAchievement(state);
+        this.autosave(state);
+      },
       // The story (and its music) starts from the title screen.
       autoStart: false,
     });
@@ -128,6 +155,8 @@ export class Game {
     button(buttons, this.strings.start, () => this.startNew());
     if (this.saves.hasManualSaves()) button(buttons, this.strings.load, () => this.showSlots('load', 'title'));
     button(buttons, this.strings.settings, () => this.showSettings('title'));
+    const host = this.host;
+    if (host?.quit) button(buttons, this.strings.quit, () => void host.quit!());
     this.focusFirst();
   }
 
@@ -155,6 +184,18 @@ export class Game {
 
   // ---------------------------------------------------------------- saves
 
+  private reportAchievement(state: Readonly<EngineState>) {
+    const cue = state.achievement;
+    if (!cue || cue.id <= this.lastAchievementId) return;
+    this.lastAchievementId = cue.id;
+    // Steam shows its own notice; elsewhere (or when Steam isn't there) the game does.
+    void Promise.resolve(this.host?.unlockAchievement?.(cue.achievementId) ?? false)
+      .catch(() => false)
+      .then((shownByPlatform) => {
+        if (!shownByPlatform) this.toast(this.strings.achievement(cue.name), 3500, 'zn-toast-top');
+      });
+  }
+
   private autosave(state: Readonly<EngineState>) {
     if (this.screen !== 'playing' || state.error) return;
     if (state.ended) {
@@ -168,6 +209,8 @@ export class Game {
   private load(slot: string) {
     const record = this.saves.read(slot);
     if (!record) return;
+    // Achievements already reported when the game was saved aren't announced again.
+    this.lastAchievementId = Math.max(this.lastAchievementId, record.state.achievement?.id ?? 0);
     this.setScreen('playing');
     this.player.loadState(record.state);
   }
@@ -275,6 +318,17 @@ export class Game {
     };
     slider(this.strings.musicVolume, 'music');
     slider(this.strings.soundVolume, 'sfx');
+    const host = this.host;
+    if (host?.setFullscreen) {
+      const row = el('label', 'zn-setting zn-setting-check', list);
+      el('span', 'zn-setting-label', row, this.strings.fullscreen);
+      const box = el('input', 'zn-check', row);
+      box.type = 'checkbox';
+      box.checked = host.isFullscreen?.() ?? false;
+      box.addEventListener('change', async () => {
+        box.checked = await host.setFullscreen!(box.checked);
+      });
+    }
     button(panel, this.strings.close, () => this.back(), 'zn-btn zn-close');
     this.focusFirst('input');
   }
@@ -326,10 +380,10 @@ export class Game {
     requestAnimationFrame(() => this.ui.querySelector<HTMLElement>(selector)?.focus({ preventScroll: true }));
   }
 
-  private toast(message: string) {
-    const t = el('div', 'zn-toast', this.ui, message);
+  private toast(message: string, ms = 1800, className = '') {
+    const t = el('div', `zn-toast ${className}`.trim(), this.ui, message);
     window.clearTimeout(this.toastTimer);
-    this.toastTimer = window.setTimeout(() => t.remove(), 1800);
+    this.toastTimer = window.setTimeout(() => t.remove(), ms);
   }
 }
 

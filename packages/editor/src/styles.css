@@ -582,6 +582,15 @@ h3 {
   background: #eee;
   color: #555;
 }
+.achievement {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.chip-achievement {
+  background: #fdf0c8;
+  color: #8a5a00;
+}
 .add-bar {
   display: flex;
   flex-wrap: wrap;
@@ -1158,6 +1167,78 @@ input.invalid {
   display: flex;
   justify-content: flex-end;
   gap: 8px;
+}
+
+.export-dialog {
+  width: min(600px, calc(100vw - 32px));
+}
+.export-dialog h2 {
+  margin: 0 0 14px;
+  font-size: 18px;
+}
+.export-group {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 14px 12px;
+  margin: 0 0 12px;
+  display: grid;
+  gap: 8px;
+}
+.export-group legend {
+  padding: 0 6px;
+  font-weight: 600;
+}
+.export-group:disabled {
+  opacity: 0.6;
+}
+.export-option {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  line-height: 1.45;
+}
+.export-option input {
+  margin-top: 3px;
+}
+.export-option small {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+}
+.export-row {
+  display: grid;
+  grid-template-columns: 70px 1fr 1fr;
+  gap: 10px;
+  align-items: start;
+}
+.export-row > strong {
+  padding-top: 1px;
+}
+.export-sub {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  padding-left: 24px;
+}
+.export-progress {
+  margin: 0 0 10px;
+  color: var(--muted);
+}
+.export-path {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--bg);
+  word-break: break-all;
+  margin-bottom: 10px;
+}
+.export-outputs {
+  margin: 0 0 16px;
+  padding-left: 18px;
+  display: grid;
+  gap: 4px;
+  font-size: 13px;
+  word-break: break-all;
 }
 
 .crash {
