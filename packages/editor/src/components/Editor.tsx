@@ -1,5 +1,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { checkProject, createId, normalizeProject, walkCommands, type Project, type StoryIssue } from '@zennovel/core';
+import {
+  checkProject,
+  createId,
+  normalizeProject,
+  walkCommands,
+  type Project,
+  type ProjectLoadError,
+  type StoryIssue,
+} from '@zennovel/core';
 import { navigate } from '../router';
 import { storage } from '../storage';
 import { onSavedElsewhere } from '../storage/sync';
@@ -30,7 +38,8 @@ export function Editor({ projectId }: { projectId: string }) {
   const { t } = useI18n();
   const dialogs = useDialogs();
   const [history, setHistory] = useState<History<Project> | null | undefined>(undefined);
-  const [loadError, setLoadError] = useState<string | null>(null);
+  /** Why the project couldn't be opened (worded at render time, so it follows the language switch). */
+  const [loadError, setLoadError] = useState<ProjectLoadError | null>(null);
   const project = history?.present;
   const [sceneId, setSceneId] = useState<string>('');
   const [section, setSection] = useState<Section>('story');
@@ -46,27 +55,31 @@ export function Editor({ projectId }: { projectId: string }) {
   /** Latest edit not yet written to storage. */
   const pending = useRef<Project | null>(null);
 
-  const loadFromStorage = useCallback(async () => {
+  /** Read, check and repair the project. `error: null` means there is no such project. */
+  const loadFromStorage = useCallback(async (): Promise<
+    { ok: true; project: Project } | { ok: false; error: ProjectLoadError | null }
+  > => {
     const raw = await storage.loadProject(projectId);
-    if (!raw) return null;
+    if (!raw) return { ok: false, error: null };
     const result = normalizeProject(raw);
-    if (!result.ok) {
-      setLoadError(loadErrorMessage(result.error, t));
-      return null;
-    }
+    if (!result.ok) return { ok: false, error: result.error };
     const repaired = await repairTemplateAssets(result.project);
     if (repaired !== result.project) await storage.saveProject(repaired).catch(() => {});
-    return repaired;
-    // `t` only words the error message: switching language must not reload the project.
+    return { ok: true, project: repaired };
   }, [projectId]);
 
   useEffect(() => {
     let cancelled = false;
-    void loadFromStorage().then((p) => {
+    void loadFromStorage().then((loaded) => {
       if (cancelled) return;
       skipSave.current = true;
-      setHistory(p ? createHistory(p) : null);
-      if (p) setSceneId(p.startSceneId);
+      if (loaded.ok) {
+        setHistory(createHistory(loaded.project));
+        setSceneId(loaded.project.startSceneId);
+      } else {
+        setLoadError(loaded.error);
+        setHistory(null);
+      }
     });
     return () => {
       cancelled = true;
@@ -133,14 +146,14 @@ export function Editor({ projectId }: { projectId: string }) {
 
   async function reloadFromStorage() {
     pending.current = null;
-    const p = await loadFromStorage();
+    const loaded = await loadFromStorage();
     setChangedElsewhere(false);
-    if (!p) {
+    if (!loaded.ok) {
       navigate('/');
       return;
     }
     skipSave.current = true;
-    setHistory(createHistory(p));
+    setHistory(createHistory(loaded.project));
     setSaveState('saved');
   }
 
@@ -186,10 +199,16 @@ export function Editor({ projectId }: { projectId: string }) {
     return () => window.clearTimeout(timer);
   }, [toast]);
 
+  // Editor helpers are created once but run later (after a dialog), so they read the project from here.
+  const latestProject = useRef<Project | null | undefined>(undefined);
+  useEffect(() => {
+    latestProject.current = history?.present;
+  });
+
   const api = useMemo<EditorApi>(
     () => ({
       async createVariable() {
-        const count = history?.present.variables.length ?? 0;
+        const count = latestProject.current?.variables.length ?? 0;
         const name = await dialogs.prompt(t.variables.newPrompt, t.variables.defaultName(count + 1));
         if (!name) return null;
         const id = createId('var');
@@ -197,7 +216,7 @@ export function Editor({ projectId }: { projectId: string }) {
         return id;
       },
       async createCharacter() {
-        const count = history?.present.characters.length ?? 0;
+        const count = latestProject.current?.characters.length ?? 0;
         const name = await dialogs.prompt(t.cast.newPrompt, t.cast.defaultName(count + 1));
         if (!name) return null;
         const id = createId('chr');
@@ -207,7 +226,7 @@ export function Editor({ projectId }: { projectId: string }) {
       },
       notifyDeleted: () => setToast(t.editor.deleted),
     }),
-    [dialogs, edit, history?.present.variables.length, history?.present.characters.length, t],
+    [dialogs, edit, t],
   );
 
   const issues = useMemo(() => (project ? checkProject(project) : []), [project]);
@@ -216,7 +235,7 @@ export function Editor({ projectId }: { projectId: string }) {
   if (!history || !project) {
     return (
       <div className="loading">
-        <p>{loadError ?? t.editor.notFound}</p>
+        <p>{loadError ? loadErrorMessage(loadError, t) : t.editor.notFound}</p>
         <button className="btn" onClick={() => navigate('/')}>
           {t.editor.backToProjects}
         </button>

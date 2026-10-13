@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { findUsages, type Character, type Project } from '@zennovel/core';
 import { actions } from '../state/projectActions';
 import { useDialogs } from './Dialogs';
@@ -169,8 +169,8 @@ function CharacterCard({
 /** Expression names are renamed on blur/Enter, so half-typed names never clash or rewrite the story. */
 function ExpressionName({ name, taken, onRename }: { name: string; taken: string[]; onRename: (to: string) => void }) {
   const { t } = useI18n();
+  // The parent keys each expression by name, so a rename (or undoing one) gives this a fresh draft.
   const [draft, setDraft] = useState(name);
-  useEffect(() => setDraft(name), [name]);
   const trimmed = draft.trim();
   const invalid = trimmed !== name && (!trimmed || taken.includes(trimmed));
   const commit = () => {

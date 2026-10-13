@@ -33,35 +33,37 @@ export function Preview({ project, sceneId, commandId }: Props) {
   // Without a card to start from, "this line" means the top of the scene.
   const effective: Mode = mode === 'line' && !commandId ? 'scene' : mode;
 
-  const from = (): [string, string | undefined] =>
-    effective === 'start' ? [project.startSceneId, undefined] : [sceneId, effective === 'line' ? commandId : undefined];
+  const startScene = effective === 'start' ? project.startSceneId : sceneId;
+  const startCommand = effective === 'line' ? commandId : undefined;
 
+  // Create the player on the first run; afterwards push edits in, debounced so
+  // typing doesn't restart the preview on every keystroke.
   useEffect(() => {
     if (!host.current) return;
-    const [scene, command] = from();
-    player.current = new Player(host.current, project, {
-      startSceneId: scene,
-      startCommandId: command,
-      wheelRollback: 'whenFocused',
-      muted: !sound,
-    });
-    return () => {
+    if (!player.current) {
+      player.current = new Player(host.current, project, {
+        startSceneId: startScene,
+        startCommandId: startCommand,
+        wheelRollback: 'whenFocused',
+        muted: true, // the effect below applies the writer's choice
+      });
+      return;
+    }
+    const timer = window.setTimeout(() => player.current?.setProject(project, startScene, startCommand), 350);
+    return () => window.clearTimeout(timer);
+  }, [project, startScene, startCommand]);
+
+  useEffect(() => {
+    player.current?.setMuted(!sound);
+  }, [sound]);
+
+  useEffect(
+    () => () => {
       player.current?.destroy();
       player.current = null;
-    };
-    // Mount once; later edits are pushed in by the effect below.
-    // (Intentionally no dependencies.)
-  }, []);
-
-  // Debounce edits so typing doesn't restart the preview on every keystroke.
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      const [scene, command] = from();
-      player.current?.setProject(project, scene, command);
-    }, 350);
-    return () => window.clearTimeout(timer);
-    // `from` is derived from exactly these values.
-  }, [project, sceneId, commandId, effective]);
+    },
+    [],
+  );
 
   const play = (next: Mode) => {
     setMode(next);
@@ -98,7 +100,6 @@ export function Preview({ project, sceneId, commandId }: Props) {
           onClick={() => {
             const next = !sound;
             setSound(next);
-            player.current?.setMuted(!next);
             try {
               localStorage.setItem(SOUND_KEY, next ? 'on' : 'off');
             } catch {

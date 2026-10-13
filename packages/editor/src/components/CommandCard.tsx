@@ -1,4 +1,4 @@
-import { useEffect, useState, type CSSProperties, type ReactNode } from 'react';
+import { useState, type CSSProperties, type ReactNode } from 'react';
 import {
   coerceValue,
   createId,
@@ -580,11 +580,14 @@ export function NumberInput({
   className?: string;
 }) {
   const [draft, setDraft] = useState(String(value));
-  useEffect(() => {
-    // Resync only when the value changes from outside (undo, another field),
-    // not on every keystroke: that would wipe a half-typed "-" or "1.".
+  // Resync when the value changes from outside (undo, another field), but not
+  // on every keystroke: that would wipe a half-typed "-" or "1.". Adjusting
+  // state during render (not in an effect) avoids an extra render.
+  const [seen, setSeen] = useState(value);
+  if (value !== seen) {
+    setSeen(value);
     if (Number(draft) !== value) setDraft(String(value));
-  }, [value]);
+  }
   return (
     <input
       className={className}

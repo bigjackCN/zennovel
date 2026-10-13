@@ -38,8 +38,8 @@ export function projectJsonFromGameHtml(html: string): string | null {
 
 /** A file name that works on Windows, macOS and Linux. */
 export function safeFileName(name: string, fallback = 'zennovel-game'): string {
-  const cleaned = name
-    .replace(/[\\/:*?"<>|\u0000-\u001f]+/g, ' ')
+  const cleaned = Array.from(name, (c) => (c.charCodeAt(0) < 32 || '\\/:*?"<>|'.includes(c) ? ' ' : c))
+    .join('')
     .replace(/\s+/g, ' ')
     .trim()
     .replace(/^\.+/, '');
