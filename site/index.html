@@ -17,7 +17,8 @@
         --dim: #a79e93;
         --amber: #e6a95c;
         --brand: #c8553d;
-        --serif: 'Songti SC', 'Noto Serif CJK SC', 'Source Han Serif SC', 'STSong', 'SimSun', serif;
+        --serif:
+          'Iowan Old Style', Georgia, 'Songti SC', 'Noto Serif CJK SC', 'Source Han Serif SC', 'STSong', 'SimSun', serif;
         --sans: system-ui, -apple-system, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif;
       }
       * {
@@ -80,8 +81,17 @@
         text-decoration: none;
         color: var(--dim);
       }
-      .top nav a:hover {
+      .top nav a:hover,
+      .lang:hover {
         color: var(--paper);
+      }
+      .lang {
+        padding: 0;
+        border: 0;
+        background: none;
+        color: var(--dim);
+        font: inherit;
+        cursor: pointer;
       }
 
       /* The hero is a visual novel scene: click to read on. */
@@ -285,27 +295,30 @@
           ZenNovel
         </a>
         <nav>
-          <a href="#download">下载</a>
-          <a href="#games">作品</a>
+          <a href="#download" data-i18n="navDownload">下载</a>
+          <a href="#games" data-i18n="navGames">作品</a>
           <a href="https://github.com/bigjackCN/zennovel">GitHub</a>
+          <button class="lang" id="lang" type="button" lang="en">English</button>
         </nav>
       </header>
 
       <main>
-        <h1 class="sr">ZenNovel：给写作者的视觉小说制作器</h1>
-        <div class="stage" id="stage" role="button" tabindex="0" aria-label="点击继续阅读">
+        <h1 class="sr" data-i18n="h1">ZenNovel：给写作者的视觉小说制作器</h1>
+        <div class="stage" id="stage" role="button" tabindex="0" aria-label="点击继续阅读" data-i18n-aria="stageLabel">
           <div class="box">
             <span class="name">ZenNovel</span>
             <p class="line" id="line" aria-live="polite">写故事，不写代码。</p>
             <span class="more" id="more" aria-hidden="true">▼</span>
           </div>
         </div>
-        <p class="hint">点击画面继续</p>
+        <p class="hint" data-i18n="hint">点击画面继续</p>
 
         <div class="download" id="download">
           <div>
-            <h2>免费下载</h2>
-            <p>开源（MIT）。安装包暂未签名：Windows 上点「更多信息 → 仍要运行」，macOS 上右键选「打开」。</p>
+            <h2 data-i18n="downloadTitle">免费下载</h2>
+            <p data-i18n="downloadNote">
+              开源（MIT）。安装包暂未签名：Windows 上点「更多信息 → 仍要运行」，macOS 上右键选「打开」。
+            </p>
           </div>
           <div class="buttons" id="buttons">
             <a
@@ -319,6 +332,7 @@
               data-os="mac"
               href="https://github.com/bigjackCN/zennovel/releases/latest/download/ZenNovel-mac-arm64.dmg"
               title="Apple 芯片。Intel 芯片的 Mac 请在「所有版本」里下载 x64 版。"
+              data-i18n-title="macTitle"
               >macOS</a
             >
             <a
@@ -327,82 +341,180 @@
               href="https://github.com/bigjackCN/zennovel/releases/latest/download/ZenNovel-linux-x86_64.AppImage"
               >Linux</a
             >
-            <a class="btn" href="https://github.com/bigjackCN/zennovel/releases">所有版本</a>
+            <a class="btn" href="https://github.com/bigjackCN/zennovel/releases" data-i18n="allReleases">所有版本</a>
           </div>
         </div>
 
         <section>
-          <h2>能做什么</h2>
+          <h2 data-i18n="featuresTitle">能做什么</h2>
           <ul class="features">
             <li>
-              <strong>像写小说一样写</strong>
-              <span>一句台词一张卡片，回车写下一句。不用学脚本语言。</span>
+              <strong data-i18n="f1">像写小说一样写</strong>
+              <span data-i18n="f1d">一句台词一张卡片，回车写下一句。不用学脚本语言。</span>
             </li>
             <li>
-              <strong>分支和变量</strong>
-              <span>选项跳转、好感度、条件分支，都从下拉框里选。</span>
+              <strong data-i18n="f2">分支和变量</strong>
+              <span data-i18n="f2d">选项跳转、好感度、条件分支，都从下拉框里选。</span>
             </li>
             <li>
-              <strong>边写边看</strong>
-              <span>右边的预览就是玩家看到的游戏，改一句，马上看到效果。</span>
+              <strong data-i18n="f3">边写边看</strong>
+              <span data-i18n="f3d">右边的预览就是玩家看到的游戏，改一句，马上看到效果。</span>
             </li>
             <li>
-              <strong>画面和声音</strong>
-              <span>背景、立绘、配乐、音效，拖进来就能用，没有大小限制。</span>
+              <strong data-i18n="f4">画面和声音</strong>
+              <span data-i18n="f4d">背景、立绘、配乐、音效，拖进来就能用，没有大小限制。</span>
             </li>
             <li>
-              <strong>导出到任何地方</strong>
-              <span>网页、itch.io、Windows、Linux；Steam 版支持成就和云存档。</span>
+              <strong data-i18n="f5">导出到任何地方</strong>
+              <span data-i18n="f5d">网页、itch.io、Windows、Linux；Steam 版支持成就和云存档。</span>
             </li>
             <li>
-              <strong>作品是你的</strong>
-              <span>每个故事就是电脑上的一个文件夹，可以备份、可以放进 git。</span>
+              <strong data-i18n="f6">作品是你的</strong>
+              <span data-i18n="f6d">每个故事就是电脑上的一个文件夹，可以备份、可以放进 git。</span>
             </li>
           </ul>
           <img
             class="shot"
             src="editor.webp"
+            data-i18n-src="shotSrc"
             width="1440"
             height="860"
             alt="ZenNovel 编辑器：左边是场景和台词卡片，右边是游戏预览"
+            data-i18n-alt="shotAlt"
             loading="lazy"
           />
         </section>
 
         <section id="games">
-          <h2>用 ZenNovel 做的作品</h2>
+          <h2 data-i18n="gamesTitle">用 ZenNovel 做的作品</h2>
           <a class="game" href="play/?story=dalie">
             <img
               src="dalie.webp"
               width="1280"
               height="720"
               alt="《大裂》游戏画面：丁炜阳穿着盔甲站在火光里"
+              data-i18n-alt="dalieAlt"
               loading="lazy"
             />
             <div>
-              <h3>大裂</h3>
-              <p>根据胡迁中篇小说改编的互动故事。荒原上的大学、一张藏宝图、一个越挖越深的洞。八章，四个结局。</p>
-              <span class="btn">在浏览器里玩</span>
+              <h3 data-i18n="dalieTitle">大裂</h3>
+              <p data-i18n="dalieDesc">
+                根据胡迁中篇小说改编的互动故事。荒原上的大学、一张藏宝图、一个越挖越深的洞。八章，四个结局。
+              </p>
+              <span class="btn" data-i18n="dalieAlsoPlay">在浏览器里玩</span>
             </div>
           </a>
         </section>
       </main>
 
       <footer>
-        <span>ZenNovel，MIT 许可</span>
+        <span data-i18n="license">ZenNovel，MIT 许可</span>
         <a href="https://github.com/bigjackCN/zennovel">GitHub</a>
-        <a href="https://github.com/bigjackCN/zennovel/blob/main/docs/STEAM.md">发布到 Steam</a>
+        <a href="https://github.com/bigjackCN/zennovel/blob/main/docs/STEAM.md" data-i18n="steam">发布到 Steam</a>
       </footer>
     </div>
 
     <script>
+      const text = {
+        zh: {
+          title: 'ZenNovel：写故事，不写代码',
+          lines: [
+            '写故事，不写代码。',
+            'ZenNovel 是给写作者的视觉小说制作器。台词、选项、分支，都填在卡片里。',
+            '写完了，导出成网页、Windows 或 Linux 游戏，放到 itch.io 或 Steam 上。',
+            '下面就可以下载。',
+          ],
+        },
+        en: {
+          title: 'ZenNovel: write stories, not code',
+          lines: [
+            'Write stories, not code.',
+            'ZenNovel is a visual novel maker for writers. Lines, choices and branches all go in simple cards.',
+            'When you’re done, export a game for the web, Windows or Linux, and put it on itch.io or Steam.',
+            'Downloads are just below.',
+          ],
+          navDownload: 'Download',
+          navGames: 'Games',
+          h1: 'ZenNovel: a visual novel maker for writers',
+          stageLabel: 'Click to keep reading',
+          hint: 'Click the scene to continue',
+          downloadTitle: 'Free download',
+          downloadNote:
+            'Open source (MIT). The installers aren’t signed yet: on Windows choose “More info → Run anyway”, on macOS right-click and choose “Open”.',
+          macTitle: 'For Apple silicon. Intel Macs: get the x64 version from “All releases”.',
+          allReleases: 'All releases',
+          featuresTitle: 'What it does',
+          f1: 'Write like you write prose',
+          f1d: 'One card per line; press Enter for the next. No scripting language to learn.',
+          f2: 'Branches and variables',
+          f2d: 'Choices, affection points and conditions are picked from menus.',
+          f3: 'See it as you write',
+          f3d: 'The preview is the game players get. Change a line and watch it play.',
+          f4: 'Pictures and sound',
+          f4d: 'Backgrounds, characters, music and sound effects: drag them in, any size.',
+          f5: 'Export anywhere',
+          f5d: 'Web, itch.io, Windows and Linux. Steam builds get achievements and cloud saves.',
+          f6: 'Your work stays yours',
+          f6d: 'Every story is a folder on your computer. Back it up, put it in git.',
+          shotSrc: 'editor-en.webp',
+          shotAlt: 'The ZenNovel editor: scenes and line cards on the left, the game preview on the right',
+          gamesTitle: 'Made with ZenNovel',
+          dalieAlt: 'A scene from The Great Rift: Ding Weiyang in bronze armour, lit by fire',
+          dalieTitle: 'The Great Rift (大裂)',
+          dalieDesc:
+            'An interactive adaptation of Hu Qian’s novella: a college in the wasteland, a treasure map, and a hole that only gets deeper. Eight chapters, four endings. In Chinese.',
+          dalieAlsoPlay: 'Play in your browser',
+          license: 'ZenNovel, MIT license',
+          steam: 'Publishing on Steam',
+        },
+      };
+
+      // Chinese text is in the page; English replaces it. The choice is remembered.
+      for (const el of document.querySelectorAll('[data-i18n]')) text.zh[el.dataset.i18n] = el.textContent;
+      for (const el of document.querySelectorAll('[data-i18n-alt]')) text.zh[el.dataset.i18nAlt] = el.alt;
+      for (const el of document.querySelectorAll('[data-i18n-title]')) text.zh[el.dataset.i18nTitle] = el.title;
+      for (const el of document.querySelectorAll('[data-i18n-aria]')) text.zh[el.dataset.i18nAria] = el.ariaLabel;
+      for (const el of document.querySelectorAll('[data-i18n-src]'))
+        text.zh[el.dataset.i18nSrc] = el.getAttribute('src');
+
+      let lang = 'zh';
+      try {
+        lang = localStorage.getItem('zennovel-site-lang') || '';
+      } catch {
+        lang = '';
+      }
+      if (lang !== 'zh' && lang !== 'en') lang = navigator.language.startsWith('zh') ? 'zh' : 'en';
+      let lines = text[lang].lines;
+
+      function applyLanguage() {
+        const t = text[lang];
+        document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+        document.title = t.title;
+        for (const el of document.querySelectorAll('[data-i18n]')) el.textContent = t[el.dataset.i18n];
+        for (const el of document.querySelectorAll('[data-i18n-alt]')) el.alt = t[el.dataset.i18nAlt];
+        for (const el of document.querySelectorAll('[data-i18n-title]')) el.title = t[el.dataset.i18nTitle];
+        for (const el of document.querySelectorAll('[data-i18n-aria]')) el.ariaLabel = t[el.dataset.i18nAria];
+        for (const el of document.querySelectorAll('[data-i18n-src]')) el.setAttribute('src', t[el.dataset.i18nSrc]);
+        const toggle = document.getElementById('lang');
+        toggle.textContent = lang === 'zh' ? 'English' : '中文';
+        toggle.lang = lang === 'zh' ? 'en' : 'zh-CN';
+        lines = t.lines;
+      }
+
+      document.getElementById('lang').addEventListener('click', () => {
+        lang = lang === 'zh' ? 'en' : 'zh';
+        try {
+          localStorage.setItem('zennovel-site-lang', lang);
+        } catch {
+          // Not remembered.
+        }
+        applyLanguage();
+        at = 0;
+        more.textContent = '▼';
+        show(lines[0]);
+      });
+
       // The hero reads like a visual novel: click (or Enter / Space) for the next line.
-      const lines = [
-        '写故事，不写代码。',
-        'ZenNovel 是给写作者的视觉小说制作器。台词、选项、分支，都填在卡片里。',
-        '写完了，导出成网页、Windows 或 Linux 游戏，放到 itch.io 或 Steam 上。',
-        '下面就可以下载。',
-      ];
       const stage = document.getElementById('stage');
       const line = document.getElementById('line');
       const more = document.getElementById('more');
@@ -443,6 +555,7 @@
           next();
         }
       });
+      applyLanguage();
       show(lines[0]);
 
       // Put the visitor's own system first.
