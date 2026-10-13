@@ -21,7 +21,8 @@ ZenNovel is a visual novel maker that runs in the browser. It is inspired by Ren
 - 🗺️ **Story map**: every scene and where it leads, as a flowchart; drag scenes to arrange them, click one to edit it
 - 📦 **Export a game**: one self-contained `index.html` (zipped, ready to upload to itch.io as an HTML game) with a title screen, save/load slots, autosave, a history of past lines and an Esc / right-click menu. "▶ Play" opens the same game in a new tab
 - 💾 **Backups**: projects are marked when they have changes that haven't been exported; an exported game can be imported back as a project
-- 🌐 **English / 中文**: switch the editor language any time; the sample story and the player's built-in buttons come in both languages
+- 🌐 **English / 中文**: switch the editor language any time; the short sample story and the player's built-in buttons come in both languages
+- 📖 **Two samples to start from**: a short bilingual demo, and 大裂, a longer branching adaptation in Chinese (44 scenes, four endings, original score) that shows variables, conditions and music at scale
 
 ## Getting started
 

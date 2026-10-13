@@ -39,6 +39,7 @@ export const zh: Messages = {
 
   templates: {
     demo: { name: '樱花坡道（示例）', description: '带背景、角色、选项和两个结局的小故事' },
+    dalie: { name: '大裂（互动改编）', description: '根据胡迁中篇小说改编的分支故事：八章、四个结局，带配乐' },
     blank: { name: '空白项目', description: '从一张白纸开始' },
     loadFailed: (status) => `模板加载失败（HTTP ${status}）`,
     notAProject: '这不是一个 ZenNovel 项目文件',

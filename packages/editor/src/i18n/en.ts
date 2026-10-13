@@ -51,6 +51,10 @@ export const en = {
       name: 'Cherry Blossom Hill (sample)',
       description: 'A short story with backgrounds, characters, choices and two endings',
     },
+    dalie: {
+      name: 'The Great Rift (in Chinese)',
+      description: 'A branching adaptation of Hu Qian’s novella: eight chapters, four endings, with music',
+    },
     blank: { name: 'Blank project', description: 'Start from a blank page' },
     loadFailed: (status: number) => `Could not load template (HTTP ${status})`,
     notAProject: "This isn't a ZenNovel project file",

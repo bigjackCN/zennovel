@@ -12,8 +12,23 @@ import { markBackedUp } from '../storage/backups';
 import { projectJsonFromGameHtml, safeFileName } from '../export/gameHtml';
 
 /** Template ids; display names come from the i18n messages (t.templates[id]). */
-export const templateIds = ['demo', 'blank'] as const;
+export const templateIds = ['demo', 'dalie', 'blank'] as const;
 export type TemplateId = (typeof templateIds)[number];
+
+/**
+ * Languages each sample ships in (one project.<locale>.json per language).
+ * A sample written in only one language opens in that language whatever the UI language is.
+ */
+const templateLocales: Record<Exclude<TemplateId, 'blank'>, readonly [Locale, ...Locale[]]> = {
+  demo: ['en', 'zh'],
+  dalie: ['zh'],
+};
+
+/** The project file to load for a sample: the UI language if the sample has it, else its first language. */
+export function templateFileLocale(templateId: Exclude<TemplateId, 'blank'>, locale: Locale): Locale {
+  const available = templateLocales[templateId];
+  return available.includes(locale) ? locale : available[0];
+}
 
 function freshMeta(project: Project, name: string): Project {
   const now = new Date().toISOString();
@@ -44,8 +59,9 @@ export async function createFromTemplate(
     });
   }
 
+  const fileLocale = templateFileLocale(templateId, locale);
   const url = new URL(
-    `${import.meta.env.BASE_URL}templates/${templateId}/project.${locale}.json`,
+    `${import.meta.env.BASE_URL}templates/${templateId}/project.${fileLocale}.json`,
     window.location.href,
   );
   const res = await fetch(url);
