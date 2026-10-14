@@ -1011,15 +1011,18 @@ input.invalid {
   border-top: 1px solid var(--line);
   vertical-align: middle;
 }
-.var-table td:first-child input {
+.var-table tr:not(.var-extra) td:first-child input {
   width: 100%;
   min-width: 120px;
 }
 .var-actions {
   display: flex;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: 4px 12px;
   align-items: center;
   justify-content: flex-end;
+}
+.var-actions > * {
   white-space: nowrap;
 }
 

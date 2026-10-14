@@ -24,6 +24,8 @@ export interface GameHost {
   saveBackend?: SaveBackend;
   /** Shown as "Quit" on the title screen when present. */
   quit?(): unknown;
+  /** What the quit button says instead of "Quit" (a web page might go back to its site). */
+  quitLabel?: string;
   /** Toggle (no argument) or set fullscreen; resolves to the new state. */
   setFullscreen?(on?: boolean): Promise<boolean> | boolean;
   isFullscreen?(): boolean;
@@ -156,7 +158,7 @@ export class Game {
     if (this.saves.hasManualSaves()) button(buttons, this.strings.load, () => this.showSlots('load', 'title'));
     button(buttons, this.strings.settings, () => this.showSettings('title'));
     const host = this.host;
-    if (host?.quit) button(buttons, this.strings.quit, () => void host.quit!());
+    if (host?.quit) button(buttons, host.quitLabel ?? this.strings.quit, () => void host.quit!());
     this.focusFirst();
   }
 

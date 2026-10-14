@@ -1,0 +1,1292 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>快速上手 · ZenNovel</title>
+    <meta
+      name="description"
+      content="ZenNovel 快速上手：从第一句台词，到分支、变量、点画面选择和实时玩法，再到导出发布。"
+    />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <style>
+      :root {
+        --ink: #1f1c24;
+        --ink-2: #2b2732;
+        --paper: #efe6d6;
+        --dim: #a79e93;
+        --amber: #e6a95c;
+        --brand: #c8553d;
+        --line: #ffffff1a;
+        --serif:
+          'Iowan Old Style', Georgia, 'Songti SC', 'Noto Serif CJK SC', 'Source Han Serif SC', 'STSong', 'SimSun', serif;
+        --sans: system-ui, -apple-system, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        background: var(--ink);
+        color: var(--paper);
+        font: 16px/1.8 var(--sans);
+        scroll-padding-top: 24px;
+      }
+      body {
+        margin: 0;
+      }
+      a {
+        color: inherit;
+      }
+      a:focus-visible,
+      button:focus-visible,
+      summary:focus-visible {
+        outline: 2px solid var(--amber);
+        outline-offset: 3px;
+      }
+      .wrap {
+        width: min(1120px, 100% - 32px);
+        margin: 0 auto;
+      }
+
+      /* Top bar (same as the home page) */
+      .top {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        padding: 18px 0;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+      .logo svg {
+        width: 28px;
+        height: 28px;
+      }
+      .top nav {
+        margin-left: auto;
+        display: flex;
+        gap: 22px;
+        font-size: 15px;
+        white-space: nowrap;
+      }
+      .top nav a {
+        text-decoration: none;
+        color: var(--dim);
+      }
+      .top nav a[aria-current] {
+        color: var(--paper);
+      }
+      .top nav a:hover,
+      .lang:hover {
+        color: var(--paper);
+      }
+      .lang {
+        padding: 0;
+        border: 0;
+        background: none;
+        color: var(--dim);
+        font: inherit;
+        cursor: pointer;
+      }
+
+      /* One language at a time */
+      .doc {
+        display: grid;
+        grid-template-columns: 220px minmax(0, 1fr);
+        gap: 56px;
+        padding: 40px 0 0;
+      }
+      .doc[hidden] {
+        display: none;
+      }
+
+      /* Table of contents */
+      .toc {
+        position: sticky;
+        top: 24px;
+        align-self: start;
+        max-height: calc(100vh - 48px);
+        overflow: auto;
+        font-size: 14px;
+      }
+      .toc summary {
+        display: none;
+      }
+      .toc p {
+        margin: 18px 0 4px;
+        color: var(--dim);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .toc p:first-of-type {
+        margin-top: 0;
+      }
+      .toc ol {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      .toc a {
+        display: block;
+        padding: 3px 0 3px 12px;
+        border-left: 2px solid var(--line);
+        color: var(--dim);
+        text-decoration: none;
+        line-height: 1.5;
+      }
+      .toc a:hover {
+        color: var(--paper);
+      }
+      .toc a.here {
+        color: var(--paper);
+        border-left-color: var(--amber);
+      }
+
+      /* Article */
+      article {
+        max-width: 760px;
+      }
+      article h1 {
+        margin: 0;
+        font: 600 clamp(30px, 4.4vw, 42px) / 1.25 var(--serif);
+      }
+      .lead {
+        margin: 14px 0 0;
+        color: var(--dim);
+        font-size: 17px;
+      }
+      .part {
+        margin: 72px 0 0;
+        padding-top: 20px;
+        border-top: 1px solid var(--line);
+        color: var(--amber);
+        font: 600 13px/1.4 var(--sans);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      article h2 {
+        margin: 44px 0 10px;
+        font: 600 clamp(22px, 2.8vw, 26px) / 1.35 var(--serif);
+      }
+      .part + h2 {
+        margin-top: 18px;
+      }
+      article h3 {
+        margin: 28px 0 6px;
+        font-size: 17px;
+      }
+      article p,
+      article li {
+        color: #e3dacb;
+      }
+      article p {
+        margin: 10px 0;
+      }
+      article ul,
+      article ol {
+        margin: 10px 0;
+        padding-left: 1.3em;
+      }
+      article li {
+        margin: 6px 0;
+      }
+      article li::marker {
+        color: var(--dim);
+      }
+      /* A label from the editor's screen */
+      .ui {
+        display: inline-block;
+        padding: 0 7px;
+        border-radius: 4px;
+        background: #ffffff14;
+        color: var(--paper);
+        font-weight: 600;
+        font-size: 0.94em;
+        line-height: 1.6;
+        white-space: nowrap;
+      }
+      kbd {
+        display: inline-block;
+        padding: 0 6px;
+        border: 1px solid #ffffff38;
+        border-bottom-width: 2px;
+        border-radius: 4px;
+        font: 600 0.85em/1.6 var(--sans);
+        white-space: nowrap;
+      }
+      code {
+        padding: 0 5px;
+        border-radius: 4px;
+        background: #ffffff14;
+        font-size: 0.92em;
+      }
+      .tip {
+        margin: 18px 0;
+        padding: 12px 18px;
+        border-left: 3px solid var(--amber);
+        border-radius: 0 6px 6px 0;
+        background: #ffffff0a;
+      }
+      .tip p {
+        margin: 4px 0;
+      }
+      figure {
+        margin: 20px 0;
+      }
+      figure img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        border: 1px solid var(--line);
+      }
+      figure.card img {
+        width: auto;
+        max-width: min(100%, 570px);
+      }
+      figcaption {
+        margin-top: 8px;
+        color: var(--dim);
+        font-size: 13px;
+      }
+      .steps {
+        counter-reset: step;
+        list-style: none;
+        padding-left: 0;
+      }
+      .steps > li {
+        counter-increment: step;
+        position: relative;
+        padding-left: 36px;
+      }
+      .steps > li::before {
+        content: counter(step);
+        position: absolute;
+        left: 0;
+        top: 3px;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: var(--ink-2);
+        border: 1px solid #ffffff2e;
+        color: var(--amber);
+        font: 600 13px/22px var(--sans);
+        text-align: center;
+      }
+      .next {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 22px 0;
+      }
+      .btn {
+        display: inline-block;
+        padding: 8px 18px;
+        border: 1px solid #ffffff2e;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .btn:hover {
+        border-color: var(--amber);
+      }
+      .btn.primary {
+        background: var(--amber);
+        border-color: var(--amber);
+        color: var(--ink);
+      }
+      footer {
+        margin: 96px 0 40px;
+        padding-top: 20px;
+        border-top: 1px solid var(--line);
+        color: var(--dim);
+        font-size: 14px;
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      @media (max-width: 900px) {
+        .doc {
+          grid-template-columns: 1fr;
+          gap: 8px;
+          padding-top: 16px;
+        }
+        /* Phones and narrow windows: the contents fold up above the article. */
+        .toc {
+          position: static;
+          max-height: none;
+          border: 1px solid var(--line);
+          border-radius: 8px;
+          padding: 10px 16px;
+        }
+        .toc summary {
+          display: list-item;
+          cursor: pointer;
+          font-weight: 600;
+        }
+        .toc[open] summary {
+          margin-bottom: 8px;
+        }
+        .toc:not([open]) > :not(summary) {
+          display: none;
+        }
+        article h1 {
+          margin-top: 24px;
+        }
+      }
+      @media (max-width: 480px) {
+        .top,
+        .top nav {
+          gap: 10px;
+        }
+        .nav-github {
+          display: none;
+        }
+        .top nav {
+          font-size: 13.5px;
+        }
+      }
+      /* The smallest phones: the mark alone, so the menu fits on one line. */
+      @media (max-width: 420px) {
+        .logo-word {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="top">
+        <a class="logo" href="../" aria-label="ZenNovel">
+          <svg viewBox="0 0 64 64" aria-hidden="true">
+            <rect width="64" height="64" rx="14" fill="#c8553d" />
+            <path
+              d="M18 20h28L20 44h26"
+              stroke="#fff"
+              stroke-width="6"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <span class="logo-word">ZenNovel</span>
+        </a>
+        <nav>
+          <a href="../#download" data-zh="下载" data-en="Download">下载</a>
+          <a href="./" aria-current="page" data-zh="快速上手" data-en="Quick start">快速上手</a>
+          <a href="../#games" data-zh="作品" data-en="Games">作品</a>
+          <a class="nav-github" href="https://github.com/bigjackCN/zennovel">GitHub</a>
+          <button class="lang" id="lang" type="button" lang="en">English</button>
+        </nav>
+      </header>
+
+      <!-- ============================================================ 中文 -->
+      <div class="doc" data-lang="zh" lang="zh-CN">
+        <details class="toc" open>
+          <summary>目录</summary>
+          <p>入门</p>
+          <ol>
+            <li><a href="#zh-install">1. 安装，新建故事</a></li>
+            <li><a href="#zh-lines">2. 写台词</a></li>
+            <li><a href="#zh-stage">3. 背景、角色和声音</a></li>
+            <li><a href="#zh-branch">4. 选项和多个场景</a></li>
+            <li><a href="#zh-play">5. 试玩、外观和故事检查</a></li>
+          </ol>
+          <p>进阶</p>
+          <ol>
+            <li><a href="#zh-vars">6. 变量和条件</a></li>
+            <li><a href="#zh-endings">7. 多结局和成就</a></li>
+            <li><a href="#zh-picture">8. 在画面上点选</a></li>
+            <li><a href="#zh-realtime">9. 实时玩法</a></li>
+          </ol>
+          <p>发布</p>
+          <ol>
+            <li><a href="#zh-export">10. 导出游戏</a></li>
+            <li><a href="#zh-files">11. 保存、备份和协作</a></li>
+          </ol>
+        </details>
+
+        <article>
+          <h1>快速上手</h1>
+          <p class="lead">
+            从第一句台词，到分支、变量、点画面选择和带倒计时的实时玩法，再到导出发布。入门五节十分钟就能走完，后面的按需要看。
+          </p>
+          <div class="tip">
+            <p>
+              <strong>最快的学法：</strong
+              >新建故事时选一个模板——《樱花坡道》（分支和变量）、《一张照片》（点画面选择）、《夜班》（实时玩法）——打开看它是怎么搭的，再改成你自己的。
+            </p>
+          </div>
+
+          <p class="part">入门</p>
+          <h2 id="zh-install">1. 安装，新建故事</h2>
+          <ol class="steps">
+            <li>
+              在<a href="../#download">首页</a>下载 Windows、macOS 或 Linux 版。安装包暂未签名：Windows 上点「更多信息 →
+              仍要运行」，macOS 上右键选「打开」。
+            </li>
+            <li>打开 ZenNovel，首先看到的是项目列表。</li>
+            <li>
+              点 <span class="ui">新建故事</span> 下面的
+              <span class="ui">空白项目</span>，起个名字。也可以选一个模板，从现成的故事开始。
+            </li>
+          </ol>
+          <p>
+            每个故事都是电脑上的一个文件夹，里面是
+            <code>project.json</code> 和它用到的图片、音乐。新故事存在哪里，写在项目列表上方，可以点
+            <span class="ui">更改…</span> 换位置。
+          </p>
+
+          <h2 id="zh-lines">2. 写台词</h2>
+          <p>
+            编辑器分三栏：左边是场景列表和项目内容（<span class="ui">故事</span> <span class="ui">流程图</span>
+            <span class="ui">角色</span> <span class="ui">变量</span>
+            <span class="ui">素材</span>），中间是当前场景的卡片，右边是预览。
+          </p>
+          <figure>
+            <img
+              src="zh_overview.webp"
+              width="1800"
+              height="1125"
+              alt="编辑器全貌：左边场景列表，中间卡片，右边预览"
+              loading="lazy"
+            />
+            <figcaption>《樱花坡道》模板的第一个场景。</figcaption>
+          </figure>
+          <ul>
+            <li>
+              一句台词就是一张 <span class="ui">台词</span> 卡片。打完一句按
+              <kbd>回车</kbd> 会自动写下一句；<kbd>Shift</kbd>+<kbd>回车</kbd> 是换行。
+            </li>
+            <li>卡片左边选说话的人：<span class="ui">旁白</span> 或某个角色。</li>
+            <li>
+              场景最下面的 <span class="ui">添加：</span> 一排按钮，用来加入其他种类的卡片：背景、角色登场、选项、音乐……
+            </li>
+            <li>
+              卡片右上角可以上移、下移、删除。<kbd>Ctrl</kbd>+<kbd>Z</kbd> 撤销，<kbd>Ctrl</kbd>+<kbd>Y</kbd> 重做（Mac
+              上是 <kbd>⌘</kbd>+<kbd>Z</kbd> 和 <kbd>⌘</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd>）。
+            </li>
+            <li>所有修改自动保存，标题栏会显示 <span class="ui">已保存</span>。</li>
+          </ul>
+
+          <h2 id="zh-stage">3. 背景、角色和声音</h2>
+          <h3>背景</h3>
+          <p>
+            加一张 <span class="ui">背景</span> 卡片，从下拉框里选图片（或 <span class="ui">上传图片…</span>），也可以用
+            <span class="ui">纯色</span>。勾上 <span class="ui">淡入</span>，换背景时会慢慢过渡。
+          </p>
+          <h3>角色和立绘</h3>
+          <p>
+            左边点 <span class="ui">角色</span> → <span class="ui">+ 新角色</span>：填名字、选名字颜色，然后
+            <span class="ui">添加立绘</span>。每张立绘有一个表情名，比如「开心」「难过」。
+          </p>
+          <figure>
+            <img
+              src="zh_cast.webp"
+              width="1800"
+              height="1125"
+              alt="角色面板：每个角色的名字、颜色和立绘"
+              loading="lazy"
+            />
+          </figure>
+          <ul>
+            <li>
+              <span class="ui">角色登场</span>：选角色、表情和位置（左边 / 中间 /
+              右边）。同一个角色再登场一次，就是换表情或换位置。
+            </li>
+            <li><span class="ui">角色退场</span>：让他离开画面。</li>
+          </ul>
+          <h3>音乐和音效</h3>
+          <ul>
+            <li>
+              <span class="ui">音乐</span>：<span class="ui">播放音乐</span>（可以设循环和音量）或
+              <span class="ui">停止音乐</span>（当前音乐会淡出）。换一首音乐也是再放一张音乐卡。
+            </li>
+            <li><span class="ui">音效</span>：播放一次，比如关门声、快门声。</li>
+          </ul>
+          <p>
+            图片和声音都在
+            <span class="ui">素材</span>
+            里。可以把文件直接拖进来，大小不限；每个素材旁边写着它用在几处，也可以一键替换。
+          </p>
+
+          <h2 id="zh-branch">4. 选项和多个场景</h2>
+          <p>左边点 <span class="ui">+ 新场景</span> 新建场景。场景之间用三种卡片连起来：</p>
+          <ul>
+            <li>
+              <span class="ui">选项</span>：上面是提问文字（可以不写），下面每一行是一个选项和它的去向——某个场景，或
+              <span class="ui">继续往下</span>。
+            </li>
+            <li><span class="ui">跳转</span>：不问玩家，直接去另一个场景。</li>
+            <li><span class="ui">结束</span>：故事在这里结束。</li>
+          </ul>
+          <figure class="card">
+            <img
+              src="zh_choice.webp"
+              width="1140"
+              height="604"
+              alt="选项卡片：两个选项，各自去往不同的场景"
+              loading="lazy"
+            />
+            <figcaption>选第一个，去「图书馆」，同时让「勇气」加 1（变量见第 6 节）。</figcaption>
+          </figure>
+          <p>
+            <span class="ui">流程图</span>
+            里能看到所有场景和它们通向哪里：实线是跳转，虚线是选项。拖动场景摆放位置，或点
+            <span class="ui">自动排列</span>；点一个场景就进去编辑。
+          </p>
+          <figure>
+            <img
+              src="zh_map.webp"
+              width="1800"
+              height="1284"
+              alt="流程图：起点场景分成两条路，最后汇到结局"
+              loading="lazy"
+            />
+          </figure>
+          <p>故事从带 ★ 的场景开始。想换起点，选中场景后点 <span class="ui">设为起点</span>。</p>
+
+          <h2 id="zh-play">5. 试玩、外观和故事检查</h2>
+          <ul>
+            <li>
+              <strong>预览</strong>：点画面或按 <kbd>空格</kbd> 继续，按 <kbd>←</kbd> 回退，用 <kbd>↑</kbd>
+              <kbd>↓</kbd> 和 <kbd>回车</kbd> 选选项。预览下面三个按钮：<span class="ui">▶ 从这一句</span
+              >（从正在编辑的卡片开始，上面的背景和角色会先摆好）、<span class="ui">本场景</span>、<span class="ui"
+                >⟲ 从头播放</span
+              >。
+            </li>
+            <li>
+              <strong>外观</strong>：预览旁边的
+              <span class="ui">外观</span
+              >，调对话框的颜色、透明度、字号、圆角和高度，打字速度，选项按钮的颜色，以及播放器自带按钮的语言。
+            </li>
+            <li>
+              <strong>完整试玩</strong>：右上角
+              <span class="ui">▶ 试玩</span>，在新窗口里玩和玩家一模一样的游戏：标题画面、菜单（右键或
+              ☰）、存档读档、自动存档、历史记录。
+            </li>
+            <li>
+              <strong>故事检查</strong
+              >：左下角随时列出问题——跳转去了不存在的场景、图片丢失、场景结尾没有去向、有场景永远走不到……点
+              <span class="ui">定位到这里</span> 跳到出问题的卡片。
+            </li>
+          </ul>
+          <div class="tip">
+            <p>到这里，你已经能做一个完整的分支故事了。下面是让它更像“游戏”的部分。</p>
+          </div>
+
+          <p class="part">进阶</p>
+          <h2 id="zh-vars">6. 变量和条件</h2>
+          <p>变量用来记住玩家这一路的经历：好感度、有没有拿到钥匙、走过哪些地方。</p>
+          <ol class="steps">
+            <li>
+              左边 <span class="ui">变量</span> → <span class="ui">+ 新变量</span>，选类型（<span class="ui">数字</span>
+              / <span class="ui">是 / 否</span> / <span class="ui">文字</span>）和初始值。
+            </li>
+            <li>
+              改变它：在选项下面点 <span class="ui">+ 改变变量</span>（选了以后：勇气 加上 1），或者在任何地方放一张
+              <span class="ui">变量</span> 卡片。可以加上、减去、设为、切换。
+            </li>
+            <li>
+              读取它：<span class="ui">条件分支</span> 卡片——如果……那么……否则……。点
+              <span class="ui">+ 且 / 或</span> 可以组合多个条件（以下全部成立 / 以下任一成立）。
+            </li>
+            <li>选项也可以 <span class="ui">+ 出现条件</span>：只有条件成立时，这个选项才会出现。</li>
+          </ol>
+          <figure class="card">
+            <img
+              src="zh_if.webp"
+              width="1140"
+              height="1314"
+              alt="条件分支卡片：如果勇气大于等于 1，就走好结局"
+              loading="lazy"
+            />
+            <figcaption>《樱花坡道》的结局：勇气 ≥ 1 时是好结局，否则是普通结局。</figcaption>
+          </figure>
+
+          <h2 id="zh-endings">7. 多结局和成就</h2>
+          <ul>
+            <li>
+              每个结局一个场景，最后放一张
+              <span class="ui">结束</span>；或者像上图那样，在同一个场景里用条件分支分出不同的结尾。
+            </li>
+            <li>
+              <span class="ui">成就</span> 卡片：填玩家看到的名字（例如「真结局」）和 Steam API 名称（例如
+              <code>ENDING_TRUE</code>）。Steam 版会解锁对应的 Steam 成就，其他版本会在画面上弹出一个小提示。
+            </li>
+          </ul>
+
+          <h2 id="zh-picture">8. 在画面上点选（《一张照片》的玩法）</h2>
+          <p>不想用按钮？可以让玩家直接点画面里的东西。</p>
+          <ul>
+            <li>
+              在选项下面点
+              <span class="ui">+ 在画面上点选</span
+              >，会打开一张大图：在画面上拖出一块区域，玩家点这里就选这一项。拖动方框移动，拖四个角改大小；之后点
+              <span class="ui">调整</span> 可以再改。
+            </li>
+            <li>
+              <span class="ui">角色登场</span> 的位置选
+              <span class="ui">自定义位置…</span>，把图片拖到任意地方，拖右上角的圆点改大小，或者
+              <span class="ui">铺满画面</span
+              >。把一个画面拆成几张同样大小的图层（照片里的每个人一层），就能按玩家的选择一层层替换。
+            </li>
+            <li>游戏菜单里的「保存画面」，可以让玩家把当前画面存成一张图片。</li>
+          </ul>
+          <figure>
+            <img
+              src="zh_area.webp"
+              width="1800"
+              height="1180"
+              alt="在画面上拖出一块区域：钟下面的姑娘"
+              loading="lazy"
+            />
+            <figcaption>《一张照片》：三个人各是一块可以点的区域。</figcaption>
+          </figure>
+
+          <h2 id="zh-realtime">9. 实时玩法（《夜班》的玩法）</h2>
+          <p>倒计时、手电筒、追着人跑的光……这些都只是普通卡片上的几个选项，不用写代码。</p>
+          <h3>停顿</h3>
+          <p>
+            <span class="ui">停顿</span> 卡片：等几秒后故事自动继续，玩家不能跳过。用来留出时间，让画面里的事情发生。
+          </p>
+          <h3>限时选项</h3>
+          <p>
+            在选项卡片上点 <span class="ui">+ 限时</span>，填秒数。会多出一行
+            <span class="ui">⏱ 时间到了</span>，决定时间到了去哪里；不选去向，就继续往下。画面顶部有一条倒计时进度条。
+          </p>
+          <h3>移动</h3>
+          <p>
+            <span class="ui">角色登场</span> 卡片上点 <span class="ui">+ 移动</span>：设移动用时和起点（<span class="ui"
+              >当前位置</span
+            >
+            或
+            <span class="ui">自定义起点</span>）。人走过马路、车从远处开过来，都是这样做的。移动的时候故事照常往下走。
+          </p>
+          <figure class="card">
+            <img
+              src="zh_move.webp"
+              width="1140"
+              height="258"
+              alt="角色登场卡片：老奶奶用 13 秒从起点走到终点"
+              loading="lazy"
+            />
+          </figure>
+          <h3>天黑和手电</h3>
+          <p>
+            <span class="ui">背景</span> 卡片勾上 <span class="ui">天黑：只有鼠标附近被照亮</span>，调
+            <span class="ui">暗度</span> 和 <span class="ui">光圈</span>，还可以
+            <span class="ui">闪烁</span>。鼠标（手机上是手指）就是手电。角色勾上
+            <span class="ui">发光（不被黑暗遮住）</span>，就会在黑暗里亮着：路灯、车灯、亮着的窗户。
+          </p>
+          <figure class="card">
+            <img src="zh_dark.webp" width="988" height="286" alt="背景卡片：天黑，暗度和光圈" loading="lazy" />
+          </figure>
+          <h3>点角色、一直照着</h3>
+          <p>
+            选项上点 <span class="ui">+ 点某个角色</span>：可点的区域会一直跟着这个角色的图片走，哪怕他在移动。再点
+            <span class="ui">+ 要一直照着</span>：玩家要把光（鼠标）在他身上停够几秒才算选中，中途移开不清零。
+          </p>
+          <figure class="card">
+            <img
+              src="zh_hold.webp"
+              width="1140"
+              height="686"
+              alt="选项卡片：限时 6 秒，要把光在老奶奶身上停 3.5 秒"
+              loading="lazy"
+            />
+            <figcaption>《夜班》：6 秒内把光在老奶奶身上停够 3.5 秒，车就会刹住；时间到了就去「太晚了」。</figcaption>
+          </figure>
+          <h3>画面上的数字：电量、倒计时</h3>
+          <p>
+            数字变量旁边点
+            <span class="ui">画面显示与计时…</span>：显示成进度条、数字或倒计时（分:秒），放在左上角或右上角；填
+            <span class="ui">每秒减少</span>，它就会随时间自己往下走（减到 0 为止，游戏暂停时不动）。进度条和倒计时为 0
+            时不显示，所以初始值设成 0，等到需要时再设值，它才会出现。
+          </p>
+          <figure>
+            <img
+              src="zh_vars.webp"
+              width="1228"
+              height="1060"
+              alt="变量面板：电量是进度条，每秒减少；离天亮是倒计时"
+              loading="lazy"
+            />
+          </figure>
+          <h3>把它们串成一个游戏</h3>
+          <p>《夜班》一分钟里的四件事，是靠一个叫「巡逻」的场景排出来的。它一直做三件事：</p>
+          <ol>
+            <li>
+              用
+              <span class="ui">条件分支</span>
+              看倒计时：时间到了就跳去「天亮」；到了某件事的时间、这件事还没发生过，就跳去那件事的场景。
+            </li>
+            <li><span class="ui">停顿</span> 0.5 秒。</li>
+            <li><span class="ui">跳转</span> 回「巡逻」自己。</li>
+          </ol>
+          <p>
+            每件事的场景结束时跳回「巡逻」。新建一个《夜班》模板，打开 <span class="ui">流程图</span> 就能看到整个结构。
+          </p>
+
+          <p class="part">发布</p>
+          <h2 id="zh-export">10. 导出游戏</h2>
+          <p>点右上角 <span class="ui">导出游戏</span>，选要哪些版本：</p>
+          <ul>
+            <li>
+              <strong>网页</strong>：<span class="ui">文件夹（index.html + assets）</span> 适合体积较大的作品；<span
+                class="ui"
+                >单个 HTML 文件</span
+              >
+              方便直接发给别人。上传到 itch.io 时，把网页版打包成 .zip，作为 HTML 项目上传。
+            </li>
+            <li>
+              <strong>Windows 和 Linux</strong>：<span class="ui">标准版</span>（约 100
+              MB，每台电脑上显示都一样）。可以勾上同时打包成 .zip，方便上传 itch.io 或提供下载。
+            </li>
+            <li>
+              <strong>Steam</strong>：勾 <span class="ui">为 Steam 准备</span>，填 Steam App ID。会加上 Steam
+              成就和游戏内界面，存档可以用 Steam 云存档同步。详见
+              <a href="https://github.com/bigjackCN/zennovel/blob/main/docs/STEAM.md">发布到 Steam</a>。
+            </li>
+          </ul>
+          <p>如果故事检查里还有错误，导出前会提醒你。</p>
+
+          <h2 id="zh-files">11. 保存、备份和协作</h2>
+          <ul>
+            <li>
+              每个故事就是一个文件夹：可以复制、放进网盘，或者放进 git 仓库和别人一起改。项目列表里的
+              <span class="ui">在文件夹中显示</span> 能直接打开它。
+            </li>
+            <li><span class="ui">打开项目文件夹…</span>：打开任意位置的项目，U 盘、共享盘、git 仓库都可以。</li>
+            <li>
+              <span class="ui">导出项目文件</span>：把整个项目存成一个 .json 文件，相当于一份备份；在项目列表点
+              <span class="ui">导入项目</span> 就能打开。导出的网页游戏（index.html）也可以导入回来。
+            </li>
+          </ul>
+
+          <div class="next">
+            <a class="btn primary" href="../#download">下载 ZenNovel</a>
+            <a class="btn" href="../play/?story=night&amp;lang=zh">先玩一下《夜班》</a>
+          </div>
+        </article>
+      </div>
+
+      <!-- ============================================================ English -->
+      <div class="doc" data-lang="en" lang="en" hidden>
+        <details class="toc" open>
+          <summary>Contents</summary>
+          <p>Basics</p>
+          <ol>
+            <li><a href="#en-install">1. Install, start a story</a></li>
+            <li><a href="#en-lines">2. Write lines</a></li>
+            <li><a href="#en-stage">3. Backgrounds, characters, sound</a></li>
+            <li><a href="#en-branch">4. Choices and scenes</a></li>
+            <li><a href="#en-play">5. Play, appearance, story check</a></li>
+          </ol>
+          <p>Going further</p>
+          <ol>
+            <li><a href="#en-vars">6. Variables and conditions</a></li>
+            <li><a href="#en-endings">7. Endings and achievements</a></li>
+            <li><a href="#en-picture">8. Picking on the picture</a></li>
+            <li><a href="#en-realtime">9. Real-time play</a></li>
+          </ol>
+          <p>Publishing</p>
+          <ol>
+            <li><a href="#en-export">10. Export the game</a></li>
+            <li><a href="#en-files">11. Saving, backups, teamwork</a></li>
+          </ol>
+        </details>
+
+        <article>
+          <h1>Quick start</h1>
+          <p class="lead">
+            From your first line to branches, variables, picking things on the picture and real-time play with a
+            countdown, then exporting. The basics take ten minutes; read the rest when you need it.
+          </p>
+          <div class="tip">
+            <p>
+              <strong>The fastest way to learn:</strong> when you create a story, pick a template — Cherry Blossom Hill
+              (branches and variables), One Photograph (picking on the picture), Night Shift (real-time play) — see how
+              it's built, then make it your own.
+            </p>
+          </div>
+
+          <p class="part">Basics</p>
+          <h2 id="en-install">1. Install, start a story</h2>
+          <ol class="steps">
+            <li>
+              Download the Windows, macOS or Linux version from the <a href="../#download">home page</a>. The installers
+              aren't signed yet: on Windows click “More info → Run anyway”; on macOS right-click and choose “Open”.
+            </li>
+            <li>Open ZenNovel. You start on the list of projects.</li>
+            <li>
+              Under <span class="ui">New story</span>, click <span class="ui">Blank project</span> and give it a name.
+              Or pick a template and start from a finished story.
+            </li>
+          </ol>
+          <p>
+            Every story is a folder on your computer: <code>project.json</code> plus the pictures and music it uses.
+            Where new stories go is shown above the list; click <span class="ui">Change…</span> to move it.
+          </p>
+
+          <h2 id="en-lines">2. Write lines</h2>
+          <p>
+            The editor has three columns: on the left the scenes and the parts of the project (<span class="ui"
+              >Story</span
+            >
+            <span class="ui">Story map</span> <span class="ui">Characters</span> <span class="ui">Variables</span>
+            <span class="ui">Media</span>), in the middle the cards of the current scene, on the right the preview.
+          </p>
+          <figure>
+            <img
+              src="en_overview.webp"
+              width="1800"
+              height="1125"
+              alt="The editor: scenes on the left, cards in the middle, the preview on the right"
+              loading="lazy"
+            />
+            <figcaption>The first scene of the Cherry Blossom Hill template.</figcaption>
+          </figure>
+          <ul>
+            <li>
+              Each line is a <span class="ui">Line</span> card. Press <kbd>Enter</kbd> at the end of a line to start the
+              next one; <kbd>Shift</kbd>+<kbd>Enter</kbd> is a line break.
+            </li>
+            <li>
+              Pick who speaks on the left of the card: <span class="ui">Narrator</span> or one of your characters.
+            </li>
+            <li>
+              The <span class="ui">Add:</span> row at the bottom of the scene adds other kinds of card: background, show
+              character, choice, music…
+            </li>
+            <li>
+              The top right of each card moves it up or down or deletes it. <kbd>Ctrl</kbd>+<kbd>Z</kbd> undoes,
+              <kbd>Ctrl</kbd>+<kbd>Y</kbd> redoes (on a Mac, <kbd>⌘</kbd>+<kbd>Z</kbd> and
+              <kbd>⌘</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd>).
+            </li>
+            <li>Everything saves by itself; the title bar says <span class="ui">Saved</span>.</li>
+          </ul>
+
+          <h2 id="en-stage">3. Backgrounds, characters, sound</h2>
+          <h3>Backgrounds</h3>
+          <p>
+            Add a <span class="ui">Background</span> card and pick a picture from the list (or
+            <span class="ui">Upload image…</span>), or use a <span class="ui">Solid color</span>. Tick
+            <span class="ui">Fade in</span> for a gentle change.
+          </p>
+          <h3>Characters and their pictures</h3>
+          <p>
+            Click <span class="ui">Characters</span> → <span class="ui">+ New character</span> on the left: a name, a
+            name colour, then <span class="ui">Add picture</span>. Each picture has an expression name, like “happy” or
+            “sad”.
+          </p>
+          <figure>
+            <img
+              src="en_cast.webp"
+              width="1800"
+              height="1125"
+              alt="The characters panel: each character's name, colour and pictures"
+              loading="lazy"
+            />
+          </figure>
+          <ul>
+            <li>
+              <span class="ui">Show character</span>: pick the character, the expression and where they stand (left /
+              center / right). Showing the same character again changes their expression or spot.
+            </li>
+            <li><span class="ui">Hide character</span>: they leave the stage.</li>
+          </ul>
+          <h3>Music and sound</h3>
+          <ul>
+            <li>
+              <span class="ui">Music</span>: <span class="ui">Play music</span> (with loop and volume) or
+              <span class="ui">Stop music</span> (the current music fades out). To change the music, add another music
+              card.
+            </li>
+            <li><span class="ui">Sound</span>: plays once — a door, a camera shutter.</li>
+          </ul>
+          <p>
+            All pictures and sounds live in <span class="ui">Media</span>. Drag files straight in, any size; each one
+            shows where it's used and can be replaced in one go.
+          </p>
+
+          <h2 id="en-branch">4. Choices and scenes</h2>
+          <p>
+            Click <span class="ui">+ New scene</span> on the left to add a scene. Three kinds of card connect scenes:
+          </p>
+          <ul>
+            <li>
+              <span class="ui">Choice</span>: an optional question on top, then one row per option with where it goes —
+              a scene, or <span class="ui">Continue below</span>.
+            </li>
+            <li><span class="ui">Jump</span>: go straight to another scene without asking.</li>
+            <li><span class="ui">End</span>: the story ends here.</li>
+          </ul>
+          <figure class="card">
+            <img
+              src="en_choice.webp"
+              width="1140"
+              height="580"
+              alt="A choice card: two options, each going to a different scene"
+              loading="lazy"
+            />
+            <figcaption>
+              The first option goes to “Library” and adds 1 to “Courage” (variables are in section 6).
+            </figcaption>
+          </figure>
+          <p>
+            The <span class="ui">Story map</span> shows every scene and where it leads: solid lines are jumps, dashed
+            lines are choice options. Drag scenes around or click <span class="ui">Arrange automatically</span>; click a
+            scene to edit it.
+          </p>
+          <figure>
+            <img
+              src="en_map.webp"
+              width="1800"
+              height="1287"
+              alt="The story map: the opening scene splits into two paths that meet at the ending"
+              loading="lazy"
+            />
+          </figure>
+          <p>
+            The story starts at the scene marked ★. To change it, select a scene and click
+            <span class="ui">Set as start</span>.
+          </p>
+
+          <h2 id="en-play">5. Play, appearance, story check</h2>
+          <ul>
+            <li>
+              <strong>Preview</strong>: click the picture or press <kbd>Space</kbd> to go on, <kbd>←</kbd> to go back,
+              <kbd>↑</kbd> <kbd>↓</kbd> and <kbd>Enter</kbd> to pick options. Under the preview:
+              <span class="ui">▶ From this line</span> (starts at the card you're editing, with the background and
+              characters already in place), <span class="ui">This scene</span>,
+              <span class="ui">⟲ From the start</span>.
+            </li>
+            <li>
+              <strong>Appearance</strong>: next to the preview, set the dialogue box's colour, opacity, text size,
+              corners and height, the typing speed, the choice buttons' colours, and the language of the player's own
+              buttons.
+            </li>
+            <li>
+              <strong>The whole game</strong>: <span class="ui">▶ Play</span> at the top right plays exactly what
+              players get, in a new window: title screen, menu (right-click or ☰), saves, autosave, history.
+            </li>
+            <li>
+              <strong>Story check</strong>: the bottom left always lists problems — a jump to a scene that doesn't
+              exist, a missing picture, a scene that ends without going anywhere, a scene nobody can reach… Click
+              <span class="ui">Show me</span> to go to the card.
+            </li>
+          </ul>
+          <div class="tip">
+            <p>That's enough for a complete branching story. What follows makes it play more like a game.</p>
+          </div>
+
+          <p class="part">Going further</p>
+          <h2 id="en-vars">6. Variables and conditions</h2>
+          <p>
+            Variables remember the player's journey: affection points, whether they found the key, where they've been.
+          </p>
+          <ol class="steps">
+            <li>
+              <span class="ui">Variables</span> → <span class="ui">+ New variable</span>, then choose a kind (<span
+                class="ui"
+                >Number</span
+              >
+              / <span class="ui">Yes / no</span> / <span class="ui">Text</span>) and a starting value.
+            </li>
+            <li>
+              Change it: under an option, click <span class="ui">+ Change a variable</span> (when picked: Courage add
+              1), or put a <span class="ui">Variable</span> card anywhere. You can add, subtract, set or toggle.
+            </li>
+            <li>
+              Read it: an <span class="ui">If / else</span> card — if… then… otherwise….
+              <span class="ui">+ and / or</span> combines conditions (all of these are true / any of these is true).
+            </li>
+            <li>
+              Options can have a <span class="ui">+ Show condition</span> too: the option only appears when it's true.
+            </li>
+          </ol>
+          <figure class="card">
+            <img
+              src="en_if.webp"
+              width="1140"
+              height="1424"
+              alt="An If / else card: with Courage at 1 or more, the good ending"
+              loading="lazy"
+            />
+            <figcaption>
+              Cherry Blossom Hill's ending: Courage ≥ 1 gives the good ending, otherwise the normal one.
+            </figcaption>
+          </figure>
+
+          <h2 id="en-endings">7. Endings and achievements</h2>
+          <ul>
+            <li>
+              Give each ending its own scene, finishing with an <span class="ui">End</span> card — or, as above, split
+              one scene into different endings with If / else.
+            </li>
+            <li>
+              <span class="ui">Achievement</span> card: the name players see (e.g. “True ending”) and the Steam API name
+              (e.g. <code>ENDING_TRUE</code>). The Steam build unlocks that Steam achievement; other builds show a small
+              notice on screen.
+            </li>
+          </ul>
+
+          <h2 id="en-picture">8. Picking on the picture (as in One Photograph)</h2>
+          <p>Rather than buttons, players can click things in the picture.</p>
+          <ul>
+            <li>
+              Under an option, click <span class="ui">+ Pick on the picture</span>. A large view of the stage opens:
+              drag out an area, and clicking there picks the option. Drag the box to move it, drag its corners to
+              resize; <span class="ui">Adjust</span> changes it later.
+            </li>
+            <li>
+              In <span class="ui">Show character</span>, choose <span class="ui">a spot of my own…</span> as the
+              position, drag the picture anywhere, resize it with the dot at its top right, or
+              <span class="ui">Fill the stage</span>. Split a picture into layers of the same size (one per person in
+              the photograph) and you can swap them one by one as players choose.
+            </li>
+            <li>“Save picture” in the game menu lets players keep what's on screen as an image.</li>
+          </ul>
+          <figure>
+            <img
+              src="en_area.webp"
+              width="1800"
+              height="1170"
+              alt="Dragging out an area on the picture: the girl under the clock"
+              loading="lazy"
+            />
+            <figcaption>One Photograph: each of the three people is an area you can click.</figcaption>
+          </figure>
+
+          <h2 id="en-realtime">9. Real-time play (as in Night Shift)</h2>
+          <p>Countdowns, a torch, a light that follows people — each is just a setting on an ordinary card. No code.</p>
+          <h3>Pauses</h3>
+          <p>
+            A <span class="ui">Pause</span> card waits a few seconds, then the story carries on by itself; players can't
+            skip it. Use it to give things on screen time to happen.
+          </p>
+          <h3>Time limits</h3>
+          <p>
+            Click <span class="ui">+ Time limit</span> on a choice card and set the seconds. A
+            <span class="ui">⏱ Time runs out</span> row appears: where to go when time is up (with no destination, the
+            story continues below). A bar along the top of the screen counts down.
+          </p>
+          <h3>Movement</h3>
+          <p>
+            On a <span class="ui">Show character</span> card, click <span class="ui">+ Move</span>: how long it takes
+            and where it starts (<span class="ui">where it stands</span> or <span class="ui">a spot of my own</span>).
+            That's how people cross the road and cars drive up the street. The story keeps going while things move.
+          </p>
+          <figure class="card">
+            <img
+              src="en_move.webp"
+              width="1140"
+              height="312"
+              alt="A Show character card: the old lady walks across in 13 seconds"
+              loading="lazy"
+            />
+          </figure>
+          <h3>Darkness and a torch</h3>
+          <p>
+            Tick <span class="ui">Dark: lit only around the pointer</span> on a <span class="ui">Background</span> card
+            and set the <span class="ui">Darkness</span> and the <span class="ui">Light</span> size; it can
+            <span class="ui">Flicker</span> too. The mouse (a finger on phones) is the torch. Characters with
+            <span class="ui">Glows (shows through the dark)</span> stay lit in the dark: street lamps, headlights,
+            windows.
+          </p>
+          <figure class="card">
+            <img
+              src="en_dark.webp"
+              width="988"
+              height="284"
+              alt="A Background card: dark, with darkness and light size"
+              loading="lazy"
+            />
+          </figure>
+          <h3>Click a character, keep the light on it</h3>
+          <p>
+            On an option, <span class="ui">+ Click a character</span> makes the clickable area follow that character's
+            picture, even while it moves. Add <span class="ui">+ Keep the light on it</span> and players must keep the
+            light (the pointer) on it for a number of seconds to pick it; moving away pauses the count rather than
+            resetting it.
+          </p>
+          <figure class="card">
+            <img
+              src="en_hold.webp"
+              width="1140"
+              height="666"
+              alt="A choice card: 6 seconds to keep the light on the old lady for 3.5 seconds"
+              loading="lazy"
+            />
+            <figcaption>
+              Night Shift: keep the light on the old lady for 3.5 seconds within 6 and the car stops; otherwise it goes
+              to “Too late”.
+            </figcaption>
+          </figure>
+          <h3>Numbers on screen: batteries and countdowns</h3>
+          <p>
+            Next to a number variable, click <span class="ui">On screen &amp; countdown…</span>: show it as a bar, a
+            number or a countdown (min:sec), top left or top right. Set
+            <span class="ui">Goes down per second by</span> and it runs down by itself (stopping at 0, and holding still
+            while the game is paused). Bars and countdowns at 0 are hidden, so start at 0 and set a value when you want
+            one to appear.
+          </p>
+          <figure>
+            <img
+              src="en_vars.webp"
+              width="1228"
+              height="1060"
+              alt="The variables panel: the battery is a bar that goes down every second; Until dawn is a countdown"
+              loading="lazy"
+            />
+          </figure>
+          <h3>Putting it together</h3>
+          <p>
+            Night Shift's four events in one minute are scheduled by a scene called “On patrol” that keeps doing three
+            things:
+          </p>
+          <ol>
+            <li>
+              An <span class="ui">If / else</span> checks the countdown: at zero, jump to “Dawn”; when it's time for an
+              event that hasn't happened yet, jump to that event's scene.
+            </li>
+            <li><span class="ui">Pause</span> for 0.5 seconds.</li>
+            <li><span class="ui">Jump</span> back to “On patrol”.</li>
+          </ol>
+          <p>
+            Each event's scene jumps back to “On patrol” when it's done. Create a story from the Night Shift template
+            and open the <span class="ui">Story map</span> to see the whole shape.
+          </p>
+
+          <p class="part">Publishing</p>
+          <h2 id="en-export">10. Export the game</h2>
+          <p>Click <span class="ui">Export game</span> at the top right and choose the builds you want:</p>
+          <ul>
+            <li>
+              <strong>Web</strong>: a <span class="ui">Folder (index.html + assets)</span> for larger games, or
+              <span class="ui">One HTML file</span> that's easy to send around. For itch.io, zip the web build and
+              upload it as an HTML project.
+            </li>
+            <li>
+              <strong>Windows and Linux</strong>: the <span class="ui">Standard</span> build (about 100 MB; looks the
+              same on every computer). You can also have each build packed as a .zip for itch.io and downloads.
+            </li>
+            <li>
+              <strong>Steam</strong>: tick <span class="ui">Prepare for Steam</span> and enter your Steam App ID. This
+              adds Steam achievements and the Steam overlay; saves can sync with Steam Cloud. See
+              <a href="https://github.com/bigjackCN/zennovel/blob/main/docs/STEAM.md">Publishing on Steam</a>.
+            </li>
+          </ul>
+          <p>If the story check still has errors, you'll be asked before exporting.</p>
+
+          <h2 id="en-files">11. Saving, backups, teamwork</h2>
+          <ul>
+            <li>
+              Every story is a folder: copy it, keep it in cloud storage, or put it in a git repository and work on it
+              with others. <span class="ui">Show in folder</span> in the project list opens it.
+            </li>
+            <li>
+              <span class="ui">Open project folder…</span> opens a project from anywhere: a USB stick, a shared drive, a
+              git repository.
+            </li>
+            <li>
+              <span class="ui">Export project file</span> saves the whole project as one .json file, a backup you can
+              open again with <span class="ui">Import project</span>. An exported web game (index.html) can be imported
+              back too.
+            </li>
+          </ul>
+
+          <div class="next">
+            <a class="btn primary" href="../#download">Download ZenNovel</a>
+            <a class="btn" href="../play/?story=night&amp;lang=en">Play Night Shift first</a>
+          </div>
+        </article>
+      </div>
+
+      <footer>
+        <span data-zh="ZenNovel，MIT 许可" data-en="ZenNovel, MIT license">ZenNovel，MIT 许可</span>
+        <a href="https://github.com/bigjackCN/zennovel">GitHub</a>
+        <a
+          href="https://github.com/bigjackCN/zennovel/blob/main/docs/STEAM.md"
+          data-zh="发布到 Steam"
+          data-en="Publishing on Steam"
+          >发布到 Steam</a
+        >
+      </footer>
+    </div>
+
+    <script>
+      // Same language switch as the home page (and the same remembered choice).
+      const titles = { zh: '快速上手 · ZenNovel', en: 'Quick start · ZenNovel' };
+      let lang = '';
+      try {
+        lang = localStorage.getItem('zennovel-site-lang') || '';
+      } catch {
+        lang = '';
+      }
+      if (lang !== 'zh' && lang !== 'en') lang = navigator.language.startsWith('zh') ? 'zh' : 'en';
+      // A link to a section (#en-vars) picks its language.
+      const fromHash = location.hash.match(/^#(zh|en)-/);
+      if (fromHash) lang = fromHash[1];
+
+      const toggle = document.getElementById('lang');
+      function applyLanguage() {
+        document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+        document.title = titles[lang];
+        for (const doc of document.querySelectorAll('.doc')) doc.hidden = doc.dataset.lang !== lang;
+        for (const el of document.querySelectorAll('[data-zh]')) el.textContent = el.dataset[lang];
+        toggle.textContent = lang === 'zh' ? 'English' : '中文';
+        toggle.lang = lang === 'zh' ? 'en' : 'zh-CN';
+      }
+      toggle.addEventListener('click', () => {
+        lang = lang === 'zh' ? 'en' : 'zh';
+        try {
+          localStorage.setItem('zennovel-site-lang', lang);
+        } catch {
+          // Not remembered.
+        }
+        applyLanguage();
+        history.replaceState(null, '', location.pathname);
+        window.scrollTo(0, 0);
+      });
+      applyLanguage();
+      if (fromHash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
+
+      // Narrow screens: the contents start folded, and fold again after a jump.
+      const narrow = matchMedia('(max-width: 900px)');
+      for (const toc of document.querySelectorAll('.toc')) {
+        if (narrow.matches) toc.open = false;
+        toc.addEventListener('click', (e) => {
+          if (e.target.closest('a') && narrow.matches) toc.open = false;
+        });
+      }
+
+      // Highlight the section being read.
+      const links = new Map([...document.querySelectorAll('.toc a')].map((a) => [a.getAttribute('href').slice(1), a]));
+      const seen = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (!e.isIntersecting) continue;
+            const a = links.get(e.target.id);
+            if (!a) continue;
+            for (const other of a.closest('.toc').querySelectorAll('a')) other.classList.toggle('here', other === a);
+          }
+        },
+        { rootMargin: '0px 0px -70% 0px' },
+      );
+      for (const id of links.keys()) {
+        const h = document.getElementById(id);
+        if (h) seen.observe(h);
+      }
+    </script>
+  </body>
+</html>

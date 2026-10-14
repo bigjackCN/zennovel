@@ -213,6 +213,17 @@
         color: var(--dim);
         font-size: 15px;
       }
+      .guide-link {
+        margin: 28px 0 0;
+      }
+      .guide-link a {
+        color: var(--amber);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .guide-link a:hover {
+        text-decoration: underline;
+      }
       .shot {
         display: block;
         width: 100%;
@@ -325,6 +336,15 @@
           .top nav {
             gap: 10px;
           }
+          .top nav {
+            font-size: 13.5px;
+          }
+        }
+      }
+      /* The smallest phones: the mark alone, so the menu fits on one line. */
+      @media (max-width: 420px) {
+        .logo-word {
+          display: none;
         }
       }
       @media (prefers-reduced-motion: reduce) {
@@ -349,10 +369,11 @@
               stroke-linejoin="round"
             />
           </svg>
-          ZenNovel
+          <span class="logo-word">ZenNovel</span>
         </a>
         <nav>
           <a href="#download" data-i18n="navDownload">下载</a>
+          <a href="guide/" data-i18n="navGuide">快速上手</a>
           <a href="#games" data-i18n="navGames">作品</a>
           <a class="nav-github" href="https://github.com/bigjackCN/zennovel">GitHub</a>
           <button class="lang" id="lang" type="button" lang="en">English</button>
@@ -430,6 +451,9 @@
               <span data-i18n="f6d">每个故事就是电脑上的一个文件夹，可以备份、可以放进 git。</span>
             </li>
           </ul>
+          <p class="guide-link">
+            <a href="guide/" data-i18n="guideLink">快速上手：从第一句台词到导出发布 →</a>
+          </p>
           <img
             class="shot"
             src="editor.webp"
@@ -510,6 +534,7 @@
             'Downloads are just below.',
           ],
           navDownload: 'Download',
+          navGuide: 'Quick start',
           navGames: 'Games',
           h1: 'ZenNovel: a visual novel maker for writers',
           stageLabel: 'Click to keep reading',
@@ -532,6 +557,7 @@
           f5d: 'Web, itch.io, Windows and Linux. Steam builds get achievements and cloud saves.',
           f6: 'Your work stays yours',
           f6d: 'Every story is a folder on your computer. Back it up, put it in git.',
+          guideLink: 'Quick start: from your first line to a published game →',
           shotSrc: 'editor-en.webp',
           shotAlt: 'The ZenNovel editor: scenes and line cards on the left, the game preview on the right',
           gamesTitle: 'Made with ZenNovel',

@@ -1,5 +1,5 @@
 /**
- * The "play" page (play/?story=dalie): a sample story as a finished game,
+ * The "play" page (play/?story=night): a sample story as a finished game,
  * straight from the site, without opening the editor. Assets load from the
  * sample's folder rather than being embedded.
  */
@@ -27,7 +27,7 @@ function message(text: string) {
 }
 
 async function boot() {
-  const id = params.get('story') ?? 'dalie';
+  const id = params.get('story') ?? 'night';
   if (!isSampleId(id))
     return message(locale === 'zh' ? `没有叫「${id}」的示例故事。` : `There is no sample story called "${id}".`);
   const url = sampleUrl(id, locale);
@@ -38,7 +38,13 @@ async function boot() {
     if (!result.ok) throw new Error(result.error.code);
     document.title = result.project.meta.name || document.title;
     document.documentElement.lang = result.project.meta.locale === 'zh' ? 'zh-CN' : 'en';
-    mountGame(container, result.project, { assetBase: url.href, host: detectHost() });
+    // The title screen offers a way back to the site, where the player came from.
+    const host = {
+      ...detectHost(),
+      quit: () => window.location.assign(`${import.meta.env.BASE_URL}#games`),
+      quitLabel: locale === 'zh' ? '返回 ZenNovel 网站' : 'Back to the ZenNovel site',
+    };
+    mountGame(container, result.project, { assetBase: url.href, host });
   } catch (e) {
     message(
       (locale === 'zh' ? '故事加载失败：' : 'The story could not be loaded: ') +
