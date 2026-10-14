@@ -154,7 +154,7 @@ export function ProjectList() {
           {sampleIds.map((id, i) => (
             <span key={id}>
               {i > 0 && ' · '}
-              <a className="link" href={playUrl(id)} target="_blank" rel="noreferrer">
+              <a className="link" href={playUrl(id, locale)} target="_blank" rel="noreferrer">
                 {t.templates[id].name}
               </a>
             </span>

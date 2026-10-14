@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { checkProject, normalizeProject, type Project } from '@zennovel/core';
+import { checkProject, normalizeProject, type Command, type Project } from '@zennovel/core';
 import { Engine } from './engine';
 import dalieJson from '../../editor/public/templates/dalie/project.zh.json';
+import dalieEnJson from '../../editor/public/templates/dalie/project.en.json';
 
 const project = dalieJson as Project;
+const projectEn = dalieEnJson as Project;
 
 /**
  * Plays until the end, picking each choice by the start of its text.
@@ -15,8 +17,8 @@ interface Seen {
   sprites: string[];
 }
 
-function play(picks: string[]): { lines: string[]; seen: Seen[]; engine: Engine } {
-  const engine = new Engine(project);
+function play(picks: string[], story = project): { lines: string[]; seen: Seen[]; engine: Engine } {
+  const engine = new Engine(story);
   engine.start();
   const lines: string[] = [];
   const seen: Seen[] = [];
@@ -126,5 +128,82 @@ describe('大裂 sample', () => {
     const yard = seen.find((s) => s.text === '我偷了你的洋镐。');
     expect(yard?.background).toBe('bg_yard');
     expect(yard?.sprites).toEqual(['pick:平常@center']);
+  });
+});
+
+/** The story with every word taken out: what happens, in what order, and where each choice leads. */
+function shape(commands: Command[]): unknown[] {
+  return commands.map((c) => {
+    switch (c.type) {
+      case 'say':
+        return { type: c.type, characterId: c.characterId };
+      case 'show':
+        return { type: c.type, characterId: c.characterId, position: c.position };
+      case 'choice':
+        return c.options.map(({ text: _t, id: _i, ...rest }) => rest);
+      case 'if':
+        return { condition: c.condition, then: shape(c.then), else: shape(c.else) };
+      default:
+        return { ...c, id: undefined };
+    }
+  });
+}
+
+describe('大裂 sample in English', () => {
+  it('loads cleanly and the story checker finds nothing', () => {
+    expect(normalizeProject(dalieEnJson).ok).toBe(true);
+    expect(checkProject(projectEn)).toEqual([]);
+    expect(projectEn.meta.locale).toBe('en');
+  });
+
+  it('is the Chinese story line for line: same scenes, branches, effects and pictures', () => {
+    expect(projectEn.scenes.map((s) => s.id)).toEqual(project.scenes.map((s) => s.id));
+    for (const [i, scene] of projectEn.scenes.entries()) {
+      expect([scene.id, shape(scene.commands)]).toEqual([scene.id, shape(project.scenes[i]!.commands)]);
+    }
+    expect(projectEn.assets.map((a) => [a.id, a.src])).toEqual(project.assets.map((a) => [a.id, a.src]));
+    expect(projectEn.variables.map((v) => [v.id, v.initial])).toEqual(project.variables.map((v) => [v.id, v.initial]));
+  });
+
+  it('the route closest to the novel reaches “I Stole Your Pickaxe”', () => {
+    const { lines, seen } = play(
+      [
+        'Wedge a chair',
+        'Look away',
+        'Take it',
+        'Say nothing',
+        'Like everyone else',
+        'Get everyone out',
+        'Heave it over',
+        'Tell the people',
+        '"No."',
+        '"There\'s no point',
+        '"…I don\'t know."',
+        '"I\'m staying to dig."',
+        'Say nothing and keep digging',
+        'Take a drag',
+        'Quietly help him',
+        '"Do you want to come',
+        'Wait for the key',
+        'Hold Guo Zhonghan back',
+        'Go after him',
+        'Go to the village',
+      ],
+      projectEn,
+    );
+    expect(lines.at(-1)).toBe('【Ending: I Stole Your Pickaxe】');
+    expect(lines).toContain(
+      'Not a scrap of armour left. We agreed it was the funniest thing any of us had heard that year.',
+    );
+    const armour = seen.find((s) => s.text.startsWith("There's no gold at all"));
+    expect(armour?.sprites).toEqual(['ding:armour@center']);
+  });
+
+  it('leaving the stone unturned ends early', () => {
+    const { lines } = play(
+      ['Wedge a chair', 'Charge in', 'Take it', 'Tell the truth', 'Read it properly', 'Get everyone out', 'Forget it'],
+      projectEn,
+    );
+    expect(lines.at(-1)).toBe('【Ending: The Last Five Percent】');
   });
 });

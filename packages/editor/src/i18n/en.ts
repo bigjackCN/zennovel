@@ -118,7 +118,7 @@ export const en = {
       description: 'A short story with backgrounds, characters, choices and two endings',
     },
     dalie: {
-      name: 'The Great Rift (in Chinese)',
+      name: 'The Great Rift',
       description: 'A branching adaptation of Hu Qian’s novella: eight chapters, four endings, with art and music',
     },
     blank: { name: 'Blank project', description: 'Start from a blank page' },

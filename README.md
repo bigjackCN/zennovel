@@ -2,7 +2,7 @@
 
 Write stories, not code. A visual novel maker for writers.
 
-**[Website](https://bigjackcn.github.io/zennovel/)** · **[Download](https://github.com/bigjackCN/zennovel/releases/latest)** · **[Play 大裂 in your browser](https://bigjackcn.github.io/zennovel/play/?story=dalie)**
+**[Website](https://bigjackcn.github.io/zennovel/)** · **[Download](https://github.com/bigjackCN/zennovel/releases/latest)** · **[Play The Great Rift (大裂) in your browser](https://bigjackcn.github.io/zennovel/play/?story=dalie&lang=en)**
 
 ## Features
 

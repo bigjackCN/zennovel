@@ -387,9 +387,10 @@
 
         <section id="games">
           <h2 data-i18n="gamesTitle">用 ZenNovel 做的作品</h2>
-          <a class="game" href="play/?story=dalie">
+          <a class="game" href="play/?story=dalie&amp;lang=zh" data-i18n-href="dalieHref">
             <img
               src="dalie.webp"
+              data-i18n-src="dalieSrc"
               width="1280"
               height="720"
               alt="《大裂》游戏画面：丁炜阳穿着盔甲站在火光里"
@@ -462,7 +463,9 @@
           dalieAlt: 'A scene from The Great Rift: Ding Weiyang in bronze armour, lit by fire',
           dalieTitle: 'The Great Rift (大裂)',
           dalieDesc:
-            'An interactive adaptation of Hu Qian’s novella: a college in the wasteland, a treasure map, and a hole that only gets deeper. Eight chapters, four endings. In Chinese.',
+            'An interactive adaptation of Hu Qian’s novella: a college in the wasteland, a treasure map, and a hole that only gets deeper. Eight chapters, four endings.',
+          dalieHref: 'play/?story=dalie&lang=en',
+          dalieSrc: 'dalie-en.webp',
           dalieAlsoPlay: 'Play in your browser',
           license: 'ZenNovel, MIT license',
           steam: 'Publishing on Steam',
@@ -476,6 +479,8 @@
       for (const el of document.querySelectorAll('[data-i18n-aria]')) text.zh[el.dataset.i18nAria] = el.ariaLabel;
       for (const el of document.querySelectorAll('[data-i18n-src]'))
         text.zh[el.dataset.i18nSrc] = el.getAttribute('src');
+      for (const el of document.querySelectorAll('[data-i18n-href]'))
+        text.zh[el.dataset.i18nHref] = el.getAttribute('href');
 
       let lang = 'zh';
       try {
@@ -495,6 +500,7 @@
         for (const el of document.querySelectorAll('[data-i18n-title]')) el.title = t[el.dataset.i18nTitle];
         for (const el of document.querySelectorAll('[data-i18n-aria]')) el.ariaLabel = t[el.dataset.i18nAria];
         for (const el of document.querySelectorAll('[data-i18n-src]')) el.setAttribute('src', t[el.dataset.i18nSrc]);
+        for (const el of document.querySelectorAll('[data-i18n-href]')) el.setAttribute('href', t[el.dataset.i18nHref]);
         const toggle = document.getElementById('lang');
         toggle.textContent = lang === 'zh' ? 'English' : '中文';
         toggle.lang = lang === 'zh' ? 'en' : 'zh-CN';

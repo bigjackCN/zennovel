@@ -12,7 +12,7 @@ export const isSampleId = (id: string | null): id is SampleId => sampleIds.inclu
  */
 const sampleLocales: Record<SampleId, readonly [Locale, ...Locale[]]> = {
   demo: ['en', 'zh'],
-  dalie: ['zh'],
+  dalie: ['zh', 'en'],
 };
 
 /** The project file to load for a sample: the UI language if the sample has it, else its first language. */
@@ -29,5 +29,6 @@ export function sampleUrl(id: SampleId, locale: Locale): URL {
   );
 }
 
-/** Link to the page that plays a sample straight away, without the editor. */
-export const playUrl = (id: SampleId) => `${import.meta.env.BASE_URL}play/?story=${id}`;
+/** Link to the page that plays a sample straight away, without the editor, in the given language. */
+export const playUrl = (id: SampleId, locale: Locale) =>
+  `${import.meta.env.BASE_URL}play/?story=${id}&lang=${sampleFileLocale(id, locale)}`;
