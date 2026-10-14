@@ -1,11 +1,10 @@
 {
   "name": "@zennovel/desktop",
   "productName": "ZenNovel",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "ZenNovel for Windows, macOS and Linux: projects as folders, export to desktop games.",
   "author": "ZenNovel",
-  "homepage": "https://bigjackcn.github.io/zennovel/",
   "license": "MIT",
   "type": "module",
   "main": "build/main.js",
@@ -74,7 +73,6 @@
       "target": [
         "AppImage"
       ],
-      "executableName": "zennovel",
       "category": "Development"
     }
   }

@@ -247,6 +247,25 @@
       .game:hover .btn {
         border-color: var(--amber);
       }
+      .game + .game {
+        margin-top: 56px;
+      }
+      .game.flip {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+      }
+      .game.flip img {
+        order: 2;
+      }
+      .tag {
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 6px;
+        padding: 2px 10px;
+        border: 1px solid #ffffff38;
+        border-radius: 999px;
+        color: var(--dim);
+        font: 500 13px/1.6 var(--sans);
+      }
 
       footer {
         margin: 96px 0 40px;
@@ -263,6 +282,12 @@
         .download,
         .game {
           grid-template-columns: 1fr;
+        }
+        .game.flip {
+          grid-template-columns: 1fr;
+        }
+        .game.flip img {
+          order: 0;
         }
         .top {
           gap: 12px;
@@ -437,6 +462,24 @@
               <span class="btn" data-i18n="dalieAlsoPlay">在浏览器里玩</span>
             </div>
           </a>
+          <a class="game flip" href="play/?story=photo&amp;lang=zh" data-i18n-href="photoHref">
+            <img
+              src="photo.webp"
+              data-i18n-src="photoSrc"
+              width="1280"
+              height="720"
+              alt="《一张照片》游戏画面：傍晚的街口，鼠标停在钟下面的姑娘身上"
+              data-i18n-alt="photoAlt"
+              loading="lazy"
+            />
+            <div>
+              <h3><span data-i18n="photoTitle">一张照片</span> <span class="tag" data-i18n="prototype">原型</span></h3>
+              <p data-i18n="photoDesc">
+                点照片里的人，走进快门按下前的几分钟。你的选择会改变这张照片，最后冲洗出只属于你的那一版。
+              </p>
+              <span class="btn" data-i18n="photoPlay">在浏览器里玩</span>
+            </div>
+          </a>
         </section>
       </main>
 
@@ -498,6 +541,14 @@
             'An interactive adaptation of Hu Qian’s novella: a college in the wasteland, a treasure map, and a hole that only gets deeper. Eight chapters, four endings.',
           dalieHref: 'play/?story=dalie&lang=en',
           dalieSrc: 'dalie-en.webp',
+          photoTitle: 'One Photograph',
+          prototype: 'Prototype',
+          photoDesc:
+            'Click the people in a photograph and step into the minutes before the shutter. Your choices change the picture, and in the end you develop a print of your own.',
+          photoPlay: 'Play in your browser',
+          photoHref: 'play/?story=photo&lang=en',
+          photoSrc: 'photo-en.webp',
+          photoAlt: 'A scene from One Photograph: a street at dusk, the pointer resting on the girl under the clock',
           dalieAlsoPlay: 'Play in your browser',
           license: 'ZenNovel, MIT license',
           steam: 'Publishing on Steam',
