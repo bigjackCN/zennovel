@@ -9,29 +9,32 @@ const en = nightEn as Project;
 
 /**
  * Plays the night the way the player would, minus the screen: pauses and time
- * limits run their course, `tool` is the button picked in the day, and
- * `keepLight` says whether the player keeps the torch on whoever needs it.
+ * limits run their course, `tool` is the torch picked in the day, and `good`
+ * says whether the player does the right thing in time (finds, follows,
+ * fixes, lights). Returns when each event started, in seconds of night.
  */
-function play(project: Project, tool: number, keepLight: boolean) {
+function play(project: Project, tool: number, good: boolean) {
   const engine = new Engine(project);
   engine.start();
   const lines: string[] = [];
+  const prompts: [string, number][] = [];
   let elapsed = 0;
   const pass = (seconds: number) => {
     elapsed += seconds;
     engine.tick(seconds);
   };
-  for (let i = 0; i < 5000; i++) {
+  for (let i = 0; i < 10000; i++) {
     const s = engine.getState();
     if (s.ended || s.error) break;
     if (s.waiting) {
       pass(s.waiting.seconds);
       engine.resume(s.waiting.id);
     } else if (s.choices && s.choiceTimer) {
-      const held = s.choices.find((c) => c.hold);
-      if (keepLight && held) {
-        pass(held.hold!);
-        engine.choose(held.id);
+      prompts.push([s.dialogue?.text ?? '', Math.round(elapsed)]);
+      const pick = s.choices[0]!;
+      if (good) {
+        pass(pick.hold ?? 0.5);
+        engine.choose(pick.id);
       } else {
         pass(s.choiceTimer.seconds);
         engine.timeUp(s.choiceTimer.id);
@@ -43,7 +46,7 @@ function play(project: Project, tool: number, keepLight: boolean) {
       engine.advance();
     }
   }
-  return { engine, lines, elapsed };
+  return { engine, lines, prompts, elapsed, vars: engine.getState().variables };
 }
 
 describe('“Night Shift” sample', () => {
@@ -68,27 +71,45 @@ describe('“Night Shift” sample', () => {
       }
       const s = engine.getState();
       expect(s.darkness?.radius).toBe(radius);
-      expect(s.variables.clock).toBe(22);
+      expect(s.variables.clock).toBe(60);
       // Each torch has its own battery; only the one you carry is charged (and shown).
       expect([s.variables.battery1, s.variables.battery2]).toEqual(tool === 1 ? [100, 0] : [0, 100]);
       expect(s.sprites.filter((sp) => sp.glow).map((sp) => sp.characterId)).toEqual(['windows', 'lamps']);
     }
   });
 
-  it('keeping the light on her gets her across; the night lasts until the clock runs out', () => {
-    const { engine, lines, elapsed } = play(zh, 2, true);
-    const s = engine.getState();
-    expect([s.ended, s.variables.saved, s.variables.hit]).toEqual([true, true, false]);
-    expect(lines).toContain('刚出笼的包子，趁热吃。');
-    expect(s.variables.clock).toBe(0);
-    expect(elapsed >= 22 && elapsed < 24).toBe(true);
+  it('a good night with either torch keeps all five things safe, and lasts one minute', () => {
+    for (const tool of [1, 2]) {
+      const { engine, lines, prompts, elapsed, vars } = play(zh, tool, true);
+      expect(engine.getState().ended).toBe(true);
+      expect([vars.safe, vars.hit, vars.bikeGone, vars.boySafe, vars.girlSafe]).toEqual([5, false, false, true, true]);
+      expect(lines).toContain('一件事都没出。行，这条街的夜里，以后归你了。');
+      expect(elapsed >= 60 && elapsed < 62).toBe(true);
+      // The four kinds of trouble come in order: search, follow, react, choose.
+      expect(prompts.map(([p]) => p.slice(0, 4))).toEqual([
+        '对面店门',
+        '路灯坏了',
+        '有车来了',
+        tool === 1 ? '手电没电' : '手电接触',
+        '两个人同',
+        '快！',
+      ]);
+    }
   });
 
-  it('losing her in the dark ends the night early, and the morning is different', () => {
-    const { engine, lines } = play(zh, 1, false);
-    const s = engine.getState();
-    expect([s.ended, s.variables.saved, s.variables.hit]).toEqual([true, false, true]);
-    expect(lines).toContain('司机说，他根本没看见路上有人。');
+  it('the big torch runs flat by itself; the old one acts up on schedule', () => {
+    const big = play(zh, 1, true).prompts.find(([p]) => p.startsWith('手电'))![1];
+    const old = play(zh, 2, true).prompts.find(([p]) => p.startsWith('手电'))![1];
+    expect(big >= 31 && big <= 33).toBe(true);
+    expect(old >= 30 && old <= 31).toBe(true);
+  });
+
+  it('a bad night: the bike is stolen, the old lady is hit, the torch stays broken', () => {
+    const { lines, vars, engine } = play(zh, 2, false);
+    expect([vars.safe, vars.hit, vars.bikeGone, vars.dim]).toEqual([0, true, true, true]);
+    expect(lines).toContain('修车铺老李的车让人偷了，在门口骂了一早上。');
+    expect(lines).toContain('【这一夜，5 件事一件也没守住。光要跟着人走——再守一夜？】');
+    expect(engine.getState().ended).toBe(true);
   });
 
   it('the English version is the same night, command for command', () => {
@@ -98,8 +119,8 @@ describe('“Night Shift” sample', () => {
         (k, v: unknown) => (k === 'text' || k === 'prompt' || k === 'expression' ? undefined : v),
       );
     expect(shape(en)).toEqual(shape(zh));
-    const run = play(en, 2, true);
-    expect(run.engine.getState().variables.saved).toBe(true);
-    expect(run.lines).toContain("Steamed buns, fresh out of the basket. Eat them while they're hot.");
+    const run = play(en, 1, true);
+    expect(run.vars.safe).toBe(5);
+    expect(run.lines).toContain('[Tonight you kept all 5 things safe. Take the other torch and guard another night?]');
   });
 });

@@ -2,7 +2,7 @@
 
 Write stories, not code. A visual novel maker for writers.
 
-**[Website](https://bigjackcn.github.io/zennovel/)** · **[Download](https://github.com/bigjackCN/zennovel/releases/latest)** · **[Play The Great Rift (大裂)](https://bigjackcn.github.io/zennovel/play/?story=dalie&lang=en)** · **[Play One Photograph](https://bigjackcn.github.io/zennovel/play/?story=photo&lang=en)**
+**[Website](https://bigjackcn.github.io/zennovel/)** · **[Download](https://github.com/bigjackCN/zennovel/releases/latest)** · **[Play Night Shift](https://bigjackcn.github.io/zennovel/play/?story=night&lang=en)** · **[Play One Photograph](https://bigjackcn.github.io/zennovel/play/?story=photo&lang=en)**
 
 ## Features
 

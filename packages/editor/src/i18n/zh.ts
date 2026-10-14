@@ -106,7 +106,7 @@ export const zh: Messages = {
     demo: { name: '樱花坡道（示例）', description: '带背景、角色、选项和两个结局的小故事' },
     dalie: { name: '大裂（互动改编）', description: '根据胡迁中篇小说改编的分支故事：八章、四个结局，带插画和配乐' },
     photo: { name: '一张照片', description: '点照片里的人，走进快门按下前的几分钟；你的选择会改变这张照片' },
-    night: { name: '夜班（原型）', description: '鼠标就是手电：天黑以后守住一条危险的街，把光照在要过马路的人身上' },
+    night: { name: '夜班', description: '一分钟的夜班：鼠标就是手电，找人、跟人、抢修、取舍，守住一条危险的街' },
     blank: { name: '空白项目', description: '从一张白纸开始' },
     loadFailed: (status) => `模板加载失败（HTTP ${status}）`,
     notAProject: '这不是一个 ZenNovel 项目文件',

@@ -5,7 +5,7 @@
     "name": "Night Shift",
     "locale": "en",
     "author": "ZenNovel",
-    "description": "A prototype: you guard a dangerous street through the night. Your mouse is the torch — keep the light on people so drivers can see them.",
+    "description": "One minute of night on a dangerous street. Your mouse is the torch: search the dark, follow people across, react when the torch fails, and choose who to light first.",
     "resolution": {
       "width": 1600,
       "height": 900
@@ -75,6 +75,54 @@
       "src": "assets/headlights.webp"
     },
     {
+      "id": "img_thief",
+      "kind": "image",
+      "name": "Thief (crouching)",
+      "src": "assets/thief.webp"
+    },
+    {
+      "id": "img_thief_run",
+      "kind": "image",
+      "name": "Thief (running)",
+      "src": "assets/thief_run.webp"
+    },
+    {
+      "id": "img_bike",
+      "kind": "image",
+      "name": "Bicycle",
+      "src": "assets/bike.webp"
+    },
+    {
+      "id": "img_boy_run",
+      "kind": "image",
+      "name": "Boy (running)",
+      "src": "assets/boy_run.webp"
+    },
+    {
+      "id": "img_boy_scared",
+      "kind": "image",
+      "name": "Boy (frozen)",
+      "src": "assets/boy_scared.webp"
+    },
+    {
+      "id": "img_girl_walk",
+      "kind": "image",
+      "name": "Young woman (walking, on her phone)",
+      "src": "assets/girl_walk.webp"
+    },
+    {
+      "id": "img_girl",
+      "kind": "image",
+      "name": "Young woman (stopped)",
+      "src": "assets/girl.webp"
+    },
+    {
+      "id": "img_ball",
+      "kind": "image",
+      "name": "Ball",
+      "src": "assets/ball.webp"
+    },
+    {
       "id": "snd_day",
       "kind": "audio",
       "name": "Ambience · Day",
@@ -121,6 +169,42 @@
       "kind": "audio",
       "name": "Sound · Torch switch",
       "src": "assets/click.mp3"
+    },
+    {
+      "id": "snd_clink",
+      "kind": "audio",
+      "name": "Sound · Picking a lock",
+      "src": "assets/clink.mp3"
+    },
+    {
+      "id": "snd_whistle",
+      "kind": "audio",
+      "name": "Sound · Whistle",
+      "src": "assets/whistle.mp3"
+    },
+    {
+      "id": "snd_horn",
+      "kind": "audio",
+      "name": "Sound · Horn and brakes",
+      "src": "assets/horn.mp3"
+    },
+    {
+      "id": "snd_ball",
+      "kind": "audio",
+      "name": "Sound · Bouncing ball",
+      "src": "assets/ball.mp3"
+    },
+    {
+      "id": "snd_fizz",
+      "kind": "audio",
+      "name": "Sound · Torch dying",
+      "src": "assets/fizz.mp3"
+    },
+    {
+      "id": "snd_tap",
+      "kind": "audio",
+      "name": "Sound · Knocking the torch",
+      "src": "assets/tap.mp3"
     }
   ],
   "characters": [
@@ -148,6 +232,49 @@
       }
     },
     {
+      "id": "thief",
+      "name": "Thief",
+      "color": "#3a3f52",
+      "sprites": {
+        "crouching": "img_thief",
+        "running": "img_thief_run"
+      }
+    },
+    {
+      "id": "bike",
+      "name": "Bicycle",
+      "color": "#2f7f86",
+      "sprites": {
+        "locked": "img_bike"
+      }
+    },
+    {
+      "id": "boy",
+      "name": "Boy",
+      "color": "#d9483b",
+      "sprites": {
+        "running": "img_boy_run",
+        "frozen": "img_boy_scared"
+      }
+    },
+    {
+      "id": "girl",
+      "name": "Young woman",
+      "color": "#6f8f8a",
+      "sprites": {
+        "on her phone": "img_girl_walk",
+        "stopped": "img_girl"
+      }
+    },
+    {
+      "id": "ball",
+      "name": "Ball",
+      "color": "#e04a3a",
+      "sprites": {
+        "rolling": "img_ball"
+      }
+    },
+    {
       "id": "lamps",
       "name": "Street lamps",
       "color": "#ffcf88",
@@ -170,7 +297,7 @@
       "id": "battery1",
       "name": "Battery",
       "initial": 0,
-      "perSecond": 2.5,
+      "perSecond": 3.2,
       "display": {
         "style": "bar",
         "corner": "top-left",
@@ -204,18 +331,58 @@
       "initial": 0
     },
     {
+      "id": "safe",
+      "name": "Things kept safe",
+      "initial": 0
+    },
+    {
+      "id": "thiefDone",
+      "name": "The lock-picking is over",
+      "initial": false
+    },
+    {
+      "id": "bikeGone",
+      "name": "The bike was stolen",
+      "initial": false
+    },
+    {
       "id": "grannyDone",
       "name": "The old lady’s crossing is over",
       "initial": false
     },
     {
-      "id": "saved",
-      "name": "The old lady got across",
+      "id": "hit",
+      "name": "The old lady was hit",
       "initial": false
     },
     {
-      "id": "hit",
-      "name": "Somebody got hurt",
+      "id": "fixDone",
+      "name": "The torch trouble is over",
+      "initial": false
+    },
+    {
+      "id": "dim",
+      "name": "The torch has gone dim",
+      "initial": false
+    },
+    {
+      "id": "kidsDone",
+      "name": "The two crossing is over",
+      "initial": false
+    },
+    {
+      "id": "boySafe",
+      "name": "The boy was seen",
+      "initial": false
+    },
+    {
+      "id": "girlSafe",
+      "name": "The young woman was seen",
+      "initial": false
+    },
+    {
+      "id": "predawn",
+      "name": "Nearly dawn",
       "initial": false
     }
   ],
@@ -272,33 +439,21 @@
           "id": "c0003",
           "type": "say",
           "characterId": "qin",
-          "text": "You're the new one? I'm Qin. The night shift on this street is mine."
+          "text": "You're the new one? Tonight the night shift on this street is yours."
         },
         {
           "id": "c0004",
           "type": "say",
           "characterId": "qin",
-          "text": "By day this street looks peaceful. After dark, half the lamps are out and the cars drive faster than they do in daylight."
+          "text": "After dark, half the lamps are out and the cars drive faster than in daylight. You've got one job: everyone gets through safe."
         },
         {
           "id": "c0005",
-          "type": "say",
-          "characterId": "qin",
-          "text": "You've got one job: once it's dark, everyone who comes through here gets across safely."
-        },
-        {
-          "id": "c0006",
-          "type": "say",
-          "characterId": "qin",
-          "text": "Tools are in the locker. Take one."
-        },
-        {
-          "id": "c0007",
           "type": "choice",
           "options": [
             {
-              "id": "c0008",
-              "text": "The big torch: reaches far, very bright, eats batteries.",
+              "id": "c0006",
+              "text": "The big torch: a wide beam, but it eats batteries.",
               "effects": [
                 {
                   "variableId": "tool",
@@ -308,8 +463,8 @@
               ]
             },
             {
-              "id": "c0009",
-              "text": "The old torch: a smaller circle of light, but it lasts the whole night.",
+              "id": "c0007",
+              "text": "The old torch: a narrow beam, but it lasts.",
               "effects": [
                 {
                   "variableId": "tool",
@@ -319,36 +474,10 @@
               ]
             }
           ],
-          "prompt": "What do you take out on the street?"
+          "prompt": "Which torch do you take?"
         },
         {
-          "id": "c0010",
-          "type": "if",
-          "condition": {
-            "kind": "compare",
-            "variableId": "tool",
-            "op": "==",
-            "value": 1
-          },
-          "then": [
-            {
-              "id": "c0011",
-              "type": "say",
-              "characterId": "qin",
-              "text": "The big one? Fine. Go easy on it. Nobody's bringing you batteries out there."
-            }
-          ],
-          "else": [
-            {
-              "id": "c0012",
-              "type": "say",
-              "characterId": "qin",
-              "text": "That one's been with me ten-odd years. Small light, but you can count on it."
-            }
-          ]
-        },
-        {
-          "id": "c0013",
+          "id": "c0008",
           "type": "bg",
           "background": {
             "kind": "image",
@@ -357,19 +486,13 @@
           "transition": "fade"
         },
         {
-          "id": "c0014",
+          "id": "c0009",
           "type": "say",
           "characterId": "qin",
-          "text": "It's getting dark. Remember: drivers only see what your light is on."
+          "text": "Your mouse is the torch. Drivers only see what your light is on, and nobody can hide in it. When you see someone, hold the light steady on them."
         },
         {
-          "id": "c0015",
-          "type": "say",
-          "characterId": "qin",
-          "text": "Your hand (the mouse) is the torch. When you see someone, keep the light steady on them."
-        },
-        {
-          "id": "c0016",
+          "id": "c0010",
           "type": "music",
           "action": "play",
           "assetId": "snd_night",
@@ -377,13 +500,13 @@
           "volume": 0.6
         },
         {
-          "id": "c0017",
+          "id": "c0011",
           "type": "sound",
           "assetId": "snd_click",
           "volume": 0.9
         },
         {
-          "id": "c0018",
+          "id": "c0012",
           "type": "if",
           "condition": {
             "kind": "compare",
@@ -393,7 +516,7 @@
           },
           "then": [
             {
-              "id": "c0019",
+              "id": "c0013",
               "type": "setVar",
               "effect": {
                 "variableId": "battery1",
@@ -404,7 +527,7 @@
           ],
           "else": [
             {
-              "id": "c0020",
+              "id": "c0014",
               "type": "setVar",
               "effect": {
                 "variableId": "battery2",
@@ -415,12 +538,12 @@
           ]
         },
         {
-          "id": "c0021",
+          "id": "c0015",
           "type": "setVar",
           "effect": {
             "variableId": "clock",
             "op": "set",
-            "value": 22
+            "value": 60
           }
         },
         {
@@ -434,7 +557,7 @@
           },
           "then": [
             {
-              "id": "c0023",
+              "id": "c0018",
               "type": "if",
               "condition": {
                 "kind": "compare",
@@ -444,7 +567,7 @@
               },
               "then": [
                 {
-                  "id": "c0024",
+                  "id": "c0016",
                   "type": "bg",
                   "background": {
                     "kind": "image",
@@ -453,14 +576,13 @@
                   "transition": "fade",
                   "dark": {
                     "level": 0.93,
-                    "radius": 0.06,
-                    "flicker": true
+                    "radius": 0.06
                   }
                 }
               ],
               "else": [
                 {
-                  "id": "c0025",
+                  "id": "c0017",
                   "type": "bg",
                   "background": {
                     "kind": "image",
@@ -477,17 +599,17 @@
           ],
           "else": [
             {
-              "id": "c0026",
+              "id": "c0021",
               "type": "if",
               "condition": {
                 "kind": "compare",
-                "variableId": "battery2",
-                "op": "<=",
-                "value": 0
+                "variableId": "dim",
+                "op": "==",
+                "value": true
               },
               "then": [
                 {
-                  "id": "c0027",
+                  "id": "c0019",
                   "type": "bg",
                   "background": {
                     "kind": "image",
@@ -496,14 +618,13 @@
                   "transition": "fade",
                   "dark": {
                     "level": 0.93,
-                    "radius": 0.06,
-                    "flicker": true
+                    "radius": 0.1
                   }
                 }
               ],
               "else": [
                 {
-                  "id": "c0028",
+                  "id": "c0020",
                   "type": "bg",
                   "background": {
                     "kind": "image",
@@ -520,7 +641,7 @@
           ]
         },
         {
-          "id": "c0029",
+          "id": "c0023",
           "type": "show",
           "characterId": "windows",
           "expression": "lit",
@@ -533,7 +654,7 @@
           "glow": true
         },
         {
-          "id": "c0030",
+          "id": "c0024",
           "type": "show",
           "characterId": "lamps",
           "expression": "on",
@@ -546,7 +667,19 @@
           "glow": true
         },
         {
-          "id": "c0031",
+          "id": "c0025",
+          "type": "show",
+          "characterId": "bike",
+          "expression": "locked",
+          "position": "center",
+          "place": {
+            "x": 0.47,
+            "y": 0.53,
+            "height": 0.09
+          }
+        },
+        {
+          "id": "c0026",
           "type": "jump",
           "targetSceneId": "patrol"
         }
@@ -561,7 +694,7 @@
       },
       "commands": [
         {
-          "id": "c0032",
+          "id": "c0027",
           "type": "if",
           "condition": {
             "kind": "compare",
@@ -571,7 +704,7 @@
           },
           "then": [
             {
-              "id": "c0033",
+              "id": "c0028",
               "type": "jump",
               "targetSceneId": "dawn"
             }
@@ -579,7 +712,7 @@
           "else": []
         },
         {
-          "id": "c0034",
+          "id": "c0029",
           "type": "if",
           "condition": {
             "kind": "all",
@@ -588,7 +721,36 @@
                 "kind": "compare",
                 "variableId": "clock",
                 "op": "<=",
-                "value": 18
+                "value": 57
+              },
+              {
+                "kind": "compare",
+                "variableId": "thiefDone",
+                "op": "==",
+                "value": false
+              }
+            ]
+          },
+          "then": [
+            {
+              "id": "c0030",
+              "type": "jump",
+              "targetSceneId": "thief"
+            }
+          ],
+          "else": []
+        },
+        {
+          "id": "c0031",
+          "type": "if",
+          "condition": {
+            "kind": "all",
+            "conditions": [
+              {
+                "kind": "compare",
+                "variableId": "clock",
+                "op": "<=",
+                "value": 48
               },
               {
                 "kind": "compare",
@@ -600,7 +762,7 @@
           },
           "then": [
             {
-              "id": "c0035",
+              "id": "c0032",
               "type": "jump",
               "targetSceneId": "granny"
             }
@@ -608,12 +770,383 @@
           "else": []
         },
         {
-          "id": "c0036",
+          "id": "c0033",
+          "type": "if",
+          "condition": {
+            "kind": "any",
+            "conditions": [
+              {
+                "kind": "all",
+                "conditions": [
+                  {
+                    "kind": "compare",
+                    "variableId": "fixDone",
+                    "op": "==",
+                    "value": false
+                  },
+                  {
+                    "kind": "compare",
+                    "variableId": "tool",
+                    "op": "==",
+                    "value": 1
+                  },
+                  {
+                    "kind": "compare",
+                    "variableId": "battery1",
+                    "op": "<=",
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "kind": "all",
+                "conditions": [
+                  {
+                    "kind": "compare",
+                    "variableId": "fixDone",
+                    "op": "==",
+                    "value": false
+                  },
+                  {
+                    "kind": "compare",
+                    "variableId": "tool",
+                    "op": "==",
+                    "value": 2
+                  },
+                  {
+                    "kind": "compare",
+                    "variableId": "clock",
+                    "op": "<=",
+                    "value": 30
+                  }
+                ]
+              }
+            ]
+          },
+          "then": [
+            {
+              "id": "c0034",
+              "type": "jump",
+              "targetSceneId": "fix"
+            }
+          ],
+          "else": []
+        },
+        {
+          "id": "c0035",
+          "type": "if",
+          "condition": {
+            "kind": "all",
+            "conditions": [
+              {
+                "kind": "compare",
+                "variableId": "clock",
+                "op": "<=",
+                "value": 21
+              },
+              {
+                "kind": "compare",
+                "variableId": "kidsDone",
+                "op": "==",
+                "value": false
+              }
+            ]
+          },
+          "then": [
+            {
+              "id": "c0036",
+              "type": "jump",
+              "targetSceneId": "kids"
+            }
+          ],
+          "else": []
+        },
+        {
+          "id": "c0037",
+          "type": "if",
+          "condition": {
+            "kind": "all",
+            "conditions": [
+              {
+                "kind": "compare",
+                "variableId": "clock",
+                "op": "<=",
+                "value": 7
+              },
+              {
+                "kind": "compare",
+                "variableId": "predawn",
+                "op": "==",
+                "value": false
+              }
+            ]
+          },
+          "then": [
+            {
+              "id": "c0038",
+              "type": "setVar",
+              "effect": {
+                "variableId": "predawn",
+                "op": "set",
+                "value": true
+              }
+            },
+            {
+              "id": "c0045",
+              "type": "if",
+              "condition": {
+                "kind": "compare",
+                "variableId": "tool",
+                "op": "==",
+                "value": 1
+              },
+              "then": [
+                {
+                  "id": "c0041",
+                  "type": "if",
+                  "condition": {
+                    "kind": "compare",
+                    "variableId": "battery1",
+                    "op": "<=",
+                    "value": 0
+                  },
+                  "then": [
+                    {
+                      "id": "c0039",
+                      "type": "bg",
+                      "background": {
+                        "kind": "image",
+                        "assetId": "bg_night"
+                      },
+                      "transition": "fade",
+                      "dark": {
+                        "level": 0.72,
+                        "radius": 0.06
+                      }
+                    }
+                  ],
+                  "else": [
+                    {
+                      "id": "c0040",
+                      "type": "bg",
+                      "background": {
+                        "kind": "image",
+                        "assetId": "bg_night"
+                      },
+                      "transition": "fade",
+                      "dark": {
+                        "level": 0.72,
+                        "radius": 0.3
+                      }
+                    }
+                  ]
+                }
+              ],
+              "else": [
+                {
+                  "id": "c0044",
+                  "type": "if",
+                  "condition": {
+                    "kind": "compare",
+                    "variableId": "dim",
+                    "op": "==",
+                    "value": true
+                  },
+                  "then": [
+                    {
+                      "id": "c0042",
+                      "type": "bg",
+                      "background": {
+                        "kind": "image",
+                        "assetId": "bg_night"
+                      },
+                      "transition": "fade",
+                      "dark": {
+                        "level": 0.72,
+                        "radius": 0.1
+                      }
+                    }
+                  ],
+                  "else": [
+                    {
+                      "id": "c0043",
+                      "type": "bg",
+                      "background": {
+                        "kind": "image",
+                        "assetId": "bg_night"
+                      },
+                      "transition": "fade",
+                      "dark": {
+                        "level": 0.72,
+                        "radius": 0.19
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "else": []
+        },
+        {
+          "id": "c0046",
           "type": "wait",
           "seconds": 0.5
         },
         {
-          "id": "c0037",
+          "id": "c0047",
+          "type": "jump",
+          "targetSceneId": "patrol"
+        }
+      ]
+    },
+    {
+      "id": "thief",
+      "name": "Search: the lock-picker",
+      "position": {
+        "x": 640,
+        "y": -360
+      },
+      "commands": [
+        {
+          "id": "c0048",
+          "type": "setVar",
+          "effect": {
+            "variableId": "thiefDone",
+            "op": "set",
+            "value": true
+          }
+        },
+        {
+          "id": "c0049",
+          "type": "show",
+          "characterId": "thief",
+          "expression": "crouching",
+          "position": "center",
+          "place": {
+            "x": 0.52,
+            "y": 0.545,
+            "height": 0.12
+          }
+        },
+        {
+          "id": "c0050",
+          "type": "sound",
+          "assetId": "snd_clink",
+          "volume": 1.0
+        },
+        {
+          "id": "c0051",
+          "type": "choice",
+          "options": [
+            {
+              "id": "c0052",
+              "text": "Catch him in the light",
+              "area": {
+                "x": 0.42,
+                "y": 0.39,
+                "width": 0.16,
+                "height": 0.17
+              },
+              "hold": 1.0,
+              "targetSceneId": "caught"
+            }
+          ],
+          "prompt": "Over by the shops, someone seems to be picking a bike lock…",
+          "timeLimit": 7.0
+        },
+        {
+          "id": "c0053",
+          "type": "setVar",
+          "effect": {
+            "variableId": "bikeGone",
+            "op": "set",
+            "value": true
+          }
+        },
+        {
+          "id": "c0054",
+          "type": "hide",
+          "characterId": "bike"
+        },
+        {
+          "id": "c0055",
+          "type": "show",
+          "characterId": "thief",
+          "expression": "running",
+          "position": "center",
+          "place": {
+            "x": -0.12,
+            "y": 0.62,
+            "height": 0.18
+          },
+          "duration": 2.5
+        },
+        {
+          "id": "c0056",
+          "type": "wait",
+          "seconds": 2.0
+        },
+        {
+          "id": "c0057",
+          "type": "hide",
+          "characterId": "thief"
+        },
+        {
+          "id": "c0058",
+          "type": "jump",
+          "targetSceneId": "patrol"
+        }
+      ]
+    },
+    {
+      "id": "caught",
+      "name": "Caught in the act",
+      "position": {
+        "x": 960,
+        "y": -440
+      },
+      "commands": [
+        {
+          "id": "c0059",
+          "type": "sound",
+          "assetId": "snd_whistle",
+          "volume": 1.0
+        },
+        {
+          "id": "c0060",
+          "type": "setVar",
+          "effect": {
+            "variableId": "safe",
+            "op": "add",
+            "value": 1
+          }
+        },
+        {
+          "id": "c0061",
+          "type": "show",
+          "characterId": "thief",
+          "expression": "running",
+          "position": "center",
+          "place": {
+            "x": -0.12,
+            "y": 0.62,
+            "height": 0.18
+          },
+          "duration": 1.8
+        },
+        {
+          "id": "c0062",
+          "type": "wait",
+          "seconds": 1.8
+        },
+        {
+          "id": "c0063",
+          "type": "hide",
+          "characterId": "thief"
+        },
+        {
+          "id": "c0064",
           "type": "jump",
           "targetSceneId": "patrol"
         }
@@ -621,14 +1154,14 @@
     },
     {
       "id": "granny",
-      "name": "The lamp shorts out",
+      "name": "Follow: the old lady crossing",
       "position": {
         "x": 640,
-        "y": 0
+        "y": -120
       },
       "commands": [
         {
-          "id": "c0038",
+          "id": "c0065",
           "type": "setVar",
           "effect": {
             "variableId": "grannyDone",
@@ -637,13 +1170,13 @@
           }
         },
         {
-          "id": "c0039",
+          "id": "c0066",
           "type": "sound",
           "assetId": "snd_buzz",
           "volume": 0.8
         },
         {
-          "id": "c0040",
+          "id": "c0067",
           "type": "show",
           "characterId": "lamps",
           "expression": "shorting",
@@ -656,12 +1189,12 @@
           "glow": true
         },
         {
-          "id": "c0041",
+          "id": "c0068",
           "type": "wait",
-          "seconds": 1.5
+          "seconds": 1.2
         },
         {
-          "id": "c0042",
+          "id": "c0069",
           "type": "show",
           "characterId": "granny",
           "expression": "standing",
@@ -673,21 +1206,21 @@
           }
         },
         {
-          "id": "c0043",
+          "id": "c0070",
           "type": "choice",
           "options": [
             {
-              "id": "c0044",
+              "id": "c0071",
               "text": "Light her up",
               "follow": "granny",
               "hold": 0.8
             }
           ],
           "prompt": "The lamp's gone. Someone seems to be standing under it.",
-          "timeLimit": 6.0
+          "timeLimit": 5.0
         },
         {
-          "id": "c0045",
+          "id": "c0072",
           "type": "show",
           "characterId": "granny",
           "expression": "walking",
@@ -702,16 +1235,16 @@
             "y": 0.79,
             "height": 0.28
           },
-          "duration": 16.0
+          "duration": 13.0
         },
         {
-          "id": "c0046",
+          "id": "c0073",
           "type": "sound",
           "assetId": "snd_car",
           "volume": 0.9
         },
         {
-          "id": "c0047",
+          "id": "c0074",
           "type": "show",
           "characterId": "car",
           "expression": "headlights",
@@ -730,18 +1263,18 @@
           "glow": true
         },
         {
-          "id": "c0048",
+          "id": "c0075",
           "type": "choice",
           "options": [
             {
-              "id": "c0049",
+              "id": "c0076",
               "text": "Keep the light on her",
               "follow": "granny",
               "hold": 3.5,
-              "targetSceneId": "safe"
+              "targetSceneId": "stopped"
             },
             {
-              "id": "c0050",
+              "id": "c0077",
               "text": "Too late",
               "timeout": true,
               "targetSceneId": "hit"
@@ -753,35 +1286,35 @@
       ]
     },
     {
-      "id": "safe",
+      "id": "stopped",
       "name": "It stopped",
       "position": {
         "x": 960,
-        "y": -140
+        "y": -200
       },
       "commands": [
         {
-          "id": "c0051",
+          "id": "c0078",
           "type": "sound",
           "assetId": "snd_brake",
           "volume": 0.9
         },
         {
-          "id": "c0052",
+          "id": "c0079",
           "type": "setVar",
           "effect": {
-            "variableId": "saved",
-            "op": "set",
-            "value": true
+            "variableId": "safe",
+            "op": "add",
+            "value": 1
           }
         },
         {
-          "id": "c0053",
+          "id": "c0080",
           "type": "wait",
-          "seconds": 4.5
+          "seconds": 4.0
         },
         {
-          "id": "c0054",
+          "id": "c0081",
           "type": "show",
           "characterId": "car",
           "expression": "headlights",
@@ -795,17 +1328,17 @@
           "glow": true
         },
         {
-          "id": "c0055",
+          "id": "c0082",
           "type": "wait",
           "seconds": 1.6
         },
         {
-          "id": "c0056",
+          "id": "c0083",
           "type": "hide",
           "characterId": "car"
         },
         {
-          "id": "c0057",
+          "id": "c0084",
           "type": "show",
           "characterId": "granny",
           "expression": "walking",
@@ -815,10 +1348,10 @@
             "y": 0.79,
             "height": 0.28
           },
-          "duration": 10.0
+          "duration": 6.0
         },
         {
-          "id": "c0058",
+          "id": "c0085",
           "type": "jump",
           "targetSceneId": "patrol"
         }
@@ -829,11 +1362,11 @@
       "name": "Too late",
       "position": {
         "x": 960,
-        "y": 140
+        "y": -40
       },
       "commands": [
         {
-          "id": "c0059",
+          "id": "c0086",
           "type": "setVar",
           "effect": {
             "variableId": "hit",
@@ -842,7 +1375,7 @@
           }
         },
         {
-          "id": "c0060",
+          "id": "c0087",
           "type": "show",
           "characterId": "car",
           "expression": "headlights",
@@ -856,38 +1389,43 @@
           "glow": true
         },
         {
-          "id": "c0061",
+          "id": "c0088",
           "type": "sound",
           "assetId": "snd_crash",
           "volume": 1.0
         },
         {
-          "id": "c0062",
+          "id": "c0089",
           "type": "wait",
           "seconds": 0.6
         },
         {
-          "id": "c0063",
+          "id": "c0090",
           "type": "hide",
           "characterId": "granny"
         },
         {
-          "id": "c0064",
+          "id": "c0091",
           "type": "hide",
           "characterId": "car"
         },
         {
-          "id": "c0065",
+          "id": "c0092",
           "type": "hide",
           "characterId": "lamps"
         },
         {
-          "id": "c0066",
+          "id": "c0093",
           "type": "hide",
           "characterId": "windows"
         },
         {
-          "id": "c0067",
+          "id": "c0094",
+          "type": "hide",
+          "characterId": "bike"
+        },
+        {
+          "id": "c0095",
           "type": "bg",
           "background": {
             "kind": "color",
@@ -895,19 +1433,967 @@
           }
         },
         {
-          "id": "c0068",
-          "type": "music",
-          "action": "stop"
+          "id": "c0096",
+          "type": "wait",
+          "seconds": 2.0
         },
         {
-          "id": "c0069",
+          "id": "c0103",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "tool",
+            "op": "==",
+            "value": 1
+          },
+          "then": [
+            {
+              "id": "c0099",
+              "type": "if",
+              "condition": {
+                "kind": "compare",
+                "variableId": "battery1",
+                "op": "<=",
+                "value": 0
+              },
+              "then": [
+                {
+                  "id": "c0097",
+                  "type": "bg",
+                  "background": {
+                    "kind": "image",
+                    "assetId": "bg_night"
+                  },
+                  "transition": "fade",
+                  "dark": {
+                    "level": 0.93,
+                    "radius": 0.06
+                  }
+                }
+              ],
+              "else": [
+                {
+                  "id": "c0098",
+                  "type": "bg",
+                  "background": {
+                    "kind": "image",
+                    "assetId": "bg_night"
+                  },
+                  "transition": "fade",
+                  "dark": {
+                    "level": 0.93,
+                    "radius": 0.3
+                  }
+                }
+              ]
+            }
+          ],
+          "else": [
+            {
+              "id": "c0102",
+              "type": "if",
+              "condition": {
+                "kind": "compare",
+                "variableId": "dim",
+                "op": "==",
+                "value": true
+              },
+              "then": [
+                {
+                  "id": "c0100",
+                  "type": "bg",
+                  "background": {
+                    "kind": "image",
+                    "assetId": "bg_night"
+                  },
+                  "transition": "fade",
+                  "dark": {
+                    "level": 0.93,
+                    "radius": 0.1
+                  }
+                }
+              ],
+              "else": [
+                {
+                  "id": "c0101",
+                  "type": "bg",
+                  "background": {
+                    "kind": "image",
+                    "assetId": "bg_night"
+                  },
+                  "transition": "fade",
+                  "dark": {
+                    "level": 0.93,
+                    "radius": 0.19
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c0104",
+          "type": "show",
+          "characterId": "windows",
+          "expression": "lit",
+          "position": "center",
+          "place": {
+            "x": 0.5,
+            "y": 1,
+            "height": 1
+          },
+          "glow": true
+        },
+        {
+          "id": "c0105",
+          "type": "show",
+          "characterId": "lamps",
+          "expression": "shorting",
+          "position": "center",
+          "place": {
+            "x": 0.5,
+            "y": 1,
+            "height": 1
+          },
+          "glow": true
+        },
+        {
+          "id": "c0106",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "bikeGone",
+            "op": "==",
+            "value": false
+          },
+          "then": [
+            {
+              "id": "c0107",
+              "type": "show",
+              "characterId": "bike",
+              "expression": "locked",
+              "position": "center",
+              "place": {
+                "x": 0.47,
+                "y": 0.53,
+                "height": 0.09
+              }
+            }
+          ],
+          "else": []
+        },
+        {
+          "id": "c0108",
+          "type": "jump",
+          "targetSceneId": "patrol"
+        }
+      ]
+    },
+    {
+      "id": "fix",
+      "name": "React: torch trouble",
+      "position": {
+        "x": 640,
+        "y": 120
+      },
+      "commands": [
+        {
+          "id": "c0109",
+          "type": "setVar",
+          "effect": {
+            "variableId": "fixDone",
+            "op": "set",
+            "value": true
+          }
+        },
+        {
+          "id": "c0110",
+          "type": "sound",
+          "assetId": "snd_fizz",
+          "volume": 1.0
+        },
+        {
+          "id": "c0111",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "tool",
+            "op": "==",
+            "value": 1
+          },
+          "then": [
+            {
+              "id": "c0118",
+              "type": "if",
+              "condition": {
+                "kind": "compare",
+                "variableId": "tool",
+                "op": "==",
+                "value": 1
+              },
+              "then": [
+                {
+                  "id": "c0114",
+                  "type": "if",
+                  "condition": {
+                    "kind": "compare",
+                    "variableId": "battery1",
+                    "op": "<=",
+                    "value": 0
+                  },
+                  "then": [
+                    {
+                      "id": "c0112",
+                      "type": "bg",
+                      "background": {
+                        "kind": "image",
+                        "assetId": "bg_night"
+                      },
+                      "dark": {
+                        "level": 0.93,
+                        "radius": 0.06
+                      }
+                    }
+                  ],
+                  "else": [
+                    {
+                      "id": "c0113",
+                      "type": "bg",
+                      "background": {
+                        "kind": "image",
+                        "assetId": "bg_night"
+                      },
+                      "dark": {
+                        "level": 0.93,
+                        "radius": 0.3
+                      }
+                    }
+                  ]
+                }
+              ],
+              "else": [
+                {
+                  "id": "c0117",
+                  "type": "if",
+                  "condition": {
+                    "kind": "compare",
+                    "variableId": "dim",
+                    "op": "==",
+                    "value": true
+                  },
+                  "then": [
+                    {
+                      "id": "c0115",
+                      "type": "bg",
+                      "background": {
+                        "kind": "image",
+                        "assetId": "bg_night"
+                      },
+                      "dark": {
+                        "level": 0.93,
+                        "radius": 0.1
+                      }
+                    }
+                  ],
+                  "else": [
+                    {
+                      "id": "c0116",
+                      "type": "bg",
+                      "background": {
+                        "kind": "image",
+                        "assetId": "bg_night"
+                      },
+                      "dark": {
+                        "level": 0.93,
+                        "radius": 0.19
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "c0119",
+              "type": "choice",
+              "options": [
+                {
+                  "id": "c0120",
+                  "text": "Change the battery",
+                  "targetSceneId": "fixed"
+                }
+              ],
+              "prompt": "The battery's dead!",
+              "timeLimit": 3.0
+            }
+          ],
+          "else": [
+            {
+              "id": "c0121",
+              "type": "setVar",
+              "effect": {
+                "variableId": "dim",
+                "op": "set",
+                "value": true
+              }
+            },
+            {
+              "id": "c0128",
+              "type": "if",
+              "condition": {
+                "kind": "compare",
+                "variableId": "tool",
+                "op": "==",
+                "value": 1
+              },
+              "then": [
+                {
+                  "id": "c0124",
+                  "type": "if",
+                  "condition": {
+                    "kind": "compare",
+                    "variableId": "battery1",
+                    "op": "<=",
+                    "value": 0
+                  },
+                  "then": [
+                    {
+                      "id": "c0122",
+                      "type": "bg",
+                      "background": {
+                        "kind": "image",
+                        "assetId": "bg_night"
+                      },
+                      "dark": {
+                        "level": 0.93,
+                        "radius": 0.06
+                      }
+                    }
+                  ],
+                  "else": [
+                    {
+                      "id": "c0123",
+                      "type": "bg",
+                      "background": {
+                        "kind": "image",
+                        "assetId": "bg_night"
+                      },
+                      "dark": {
+                        "level": 0.93,
+                        "radius": 0.3
+                      }
+                    }
+                  ]
+                }
+              ],
+              "else": [
+                {
+                  "id": "c0127",
+                  "type": "if",
+                  "condition": {
+                    "kind": "compare",
+                    "variableId": "dim",
+                    "op": "==",
+                    "value": true
+                  },
+                  "then": [
+                    {
+                      "id": "c0125",
+                      "type": "bg",
+                      "background": {
+                        "kind": "image",
+                        "assetId": "bg_night"
+                      },
+                      "dark": {
+                        "level": 0.93,
+                        "radius": 0.1
+                      }
+                    }
+                  ],
+                  "else": [
+                    {
+                      "id": "c0126",
+                      "type": "bg",
+                      "background": {
+                        "kind": "image",
+                        "assetId": "bg_night"
+                      },
+                      "dark": {
+                        "level": 0.93,
+                        "radius": 0.19
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "c0129",
+              "type": "choice",
+              "options": [
+                {
+                  "id": "c0130",
+                  "text": "Give it a smack",
+                  "targetSceneId": "fixed"
+                }
+              ],
+              "prompt": "Loose contact. It's getting dimmer!",
+              "timeLimit": 3.0
+            }
+          ]
+        },
+        {
+          "id": "c0131",
+          "type": "jump",
+          "targetSceneId": "patrol"
+        }
+      ]
+    },
+    {
+      "id": "fixed",
+      "name": "Light again",
+      "position": {
+        "x": 960,
+        "y": 120
+      },
+      "commands": [
+        {
+          "id": "c0132",
+          "type": "setVar",
+          "effect": {
+            "variableId": "safe",
+            "op": "add",
+            "value": 1
+          }
+        },
+        {
+          "id": "c0133",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "tool",
+            "op": "==",
+            "value": 1
+          },
+          "then": [
+            {
+              "id": "c0134",
+              "type": "sound",
+              "assetId": "snd_click",
+              "volume": 1.0
+            },
+            {
+              "id": "c0135",
+              "type": "setVar",
+              "effect": {
+                "variableId": "battery1",
+                "op": "set",
+                "value": 100
+              }
+            }
+          ],
+          "else": [
+            {
+              "id": "c0136",
+              "type": "sound",
+              "assetId": "snd_tap",
+              "volume": 1.0
+            },
+            {
+              "id": "c0137",
+              "type": "setVar",
+              "effect": {
+                "variableId": "dim",
+                "op": "set",
+                "value": false
+              }
+            }
+          ]
+        },
+        {
+          "id": "c0144",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "tool",
+            "op": "==",
+            "value": 1
+          },
+          "then": [
+            {
+              "id": "c0140",
+              "type": "if",
+              "condition": {
+                "kind": "compare",
+                "variableId": "battery1",
+                "op": "<=",
+                "value": 0
+              },
+              "then": [
+                {
+                  "id": "c0138",
+                  "type": "bg",
+                  "background": {
+                    "kind": "image",
+                    "assetId": "bg_night"
+                  },
+                  "dark": {
+                    "level": 0.93,
+                    "radius": 0.06
+                  }
+                }
+              ],
+              "else": [
+                {
+                  "id": "c0139",
+                  "type": "bg",
+                  "background": {
+                    "kind": "image",
+                    "assetId": "bg_night"
+                  },
+                  "dark": {
+                    "level": 0.93,
+                    "radius": 0.3
+                  }
+                }
+              ]
+            }
+          ],
+          "else": [
+            {
+              "id": "c0143",
+              "type": "if",
+              "condition": {
+                "kind": "compare",
+                "variableId": "dim",
+                "op": "==",
+                "value": true
+              },
+              "then": [
+                {
+                  "id": "c0141",
+                  "type": "bg",
+                  "background": {
+                    "kind": "image",
+                    "assetId": "bg_night"
+                  },
+                  "dark": {
+                    "level": 0.93,
+                    "radius": 0.1
+                  }
+                }
+              ],
+              "else": [
+                {
+                  "id": "c0142",
+                  "type": "bg",
+                  "background": {
+                    "kind": "image",
+                    "assetId": "bg_night"
+                  },
+                  "dark": {
+                    "level": 0.93,
+                    "radius": 0.19
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c0145",
+          "type": "jump",
+          "targetSceneId": "patrol"
+        }
+      ]
+    },
+    {
+      "id": "kids",
+      "name": "Choose: two people at once",
+      "position": {
+        "x": 640,
+        "y": 360
+      },
+      "commands": [
+        {
+          "id": "c0146",
+          "type": "setVar",
+          "effect": {
+            "variableId": "kidsDone",
+            "op": "set",
+            "value": true
+          }
+        },
+        {
+          "id": "c0147",
+          "type": "sound",
+          "assetId": "snd_ball",
+          "volume": 0.9
+        },
+        {
+          "id": "c0148",
+          "type": "show",
+          "characterId": "ball",
+          "expression": "rolling",
+          "position": "center",
+          "place": {
+            "x": 0.86,
+            "y": 0.885,
+            "height": 0.035
+          },
+          "from": {
+            "x": 0.06,
+            "y": 0.9,
+            "height": 0.035
+          },
+          "duration": 4.0
+        },
+        {
+          "id": "c0149",
+          "type": "show",
+          "characterId": "boy",
+          "expression": "running",
+          "position": "center",
+          "place": {
+            "x": 0.6,
+            "y": 0.9,
+            "height": 0.2
+          },
+          "from": {
+            "x": 0.02,
+            "y": 0.9,
+            "height": 0.2
+          },
+          "duration": 6.0
+        },
+        {
+          "id": "c0150",
+          "type": "wait",
+          "seconds": 0.8
+        },
+        {
+          "id": "c0151",
+          "type": "show",
+          "characterId": "girl",
+          "expression": "on her phone",
+          "position": "center",
+          "place": {
+            "x": 0.42,
+            "y": 0.765,
+            "height": 0.26
+          },
+          "from": {
+            "x": 0.98,
+            "y": 0.765,
+            "height": 0.26
+          },
+          "duration": 6.0
+        },
+        {
+          "id": "c0152",
+          "type": "sound",
+          "assetId": "snd_car",
+          "volume": 0.9
+        },
+        {
+          "id": "c0153",
+          "type": "show",
+          "characterId": "car",
+          "expression": "headlights",
+          "position": "center",
+          "place": {
+            "x": 0.5,
+            "y": 0.67,
+            "height": 0.22
+          },
+          "from": {
+            "x": 0.8,
+            "y": 0.38,
+            "height": 0.025
+          },
+          "duration": 5.2,
+          "glow": true
+        },
+        {
+          "id": "c0154",
+          "type": "choice",
+          "options": [
+            {
+              "id": "c0155",
+              "text": "Light the boy chasing the ball",
+              "follow": "boy",
+              "hold": 1.2,
+              "effects": [
+                {
+                  "variableId": "boySafe",
+                  "op": "set",
+                  "value": true
+                },
+                {
+                  "variableId": "safe",
+                  "op": "add",
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "id": "c0156",
+              "text": "Light the woman on her phone",
+              "follow": "girl",
+              "hold": 1.2,
+              "effects": [
+                {
+                  "variableId": "girlSafe",
+                  "op": "set",
+                  "value": true
+                },
+                {
+                  "variableId": "safe",
+                  "op": "add",
+                  "value": 1
+                }
+              ]
+            }
+          ],
+          "prompt": "Two people in the road at once! Who first?",
+          "timeLimit": 3.0
+        },
+        {
+          "id": "c0157",
+          "type": "choice",
+          "options": [
+            {
+              "id": "c0158",
+              "text": "Light the boy chasing the ball",
+              "follow": "boy",
+              "hold": 1.2,
+              "condition": {
+                "kind": "compare",
+                "variableId": "boySafe",
+                "op": "==",
+                "value": false
+              },
+              "effects": [
+                {
+                  "variableId": "boySafe",
+                  "op": "set",
+                  "value": true
+                },
+                {
+                  "variableId": "safe",
+                  "op": "add",
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "id": "c0159",
+              "text": "Light the woman on her phone",
+              "follow": "girl",
+              "hold": 1.2,
+              "condition": {
+                "kind": "compare",
+                "variableId": "girlSafe",
+                "op": "==",
+                "value": false
+              },
+              "effects": [
+                {
+                  "variableId": "girlSafe",
+                  "op": "set",
+                  "value": true
+                },
+                {
+                  "variableId": "safe",
+                  "op": "add",
+                  "value": 1
+                }
+              ]
+            }
+          ],
+          "prompt": "Quick!",
+          "timeLimit": 2.2
+        },
+        {
+          "id": "c0160",
+          "type": "if",
+          "condition": {
+            "kind": "all",
+            "conditions": [
+              {
+                "kind": "compare",
+                "variableId": "boySafe",
+                "op": "==",
+                "value": true
+              },
+              {
+                "kind": "compare",
+                "variableId": "girlSafe",
+                "op": "==",
+                "value": true
+              }
+            ]
+          },
+          "then": [
+            {
+              "id": "c0161",
+              "type": "sound",
+              "assetId": "snd_brake",
+              "volume": 0.8
+            }
+          ],
+          "else": [
+            {
+              "id": "c0162",
+              "type": "sound",
+              "assetId": "snd_horn",
+              "volume": 1.0
+            }
+          ]
+        },
+        {
+          "id": "c0163",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "boySafe",
+            "op": "==",
+            "value": false
+          },
+          "then": [
+            {
+              "id": "c0164",
+              "type": "show",
+              "characterId": "boy",
+              "expression": "frozen",
+              "position": "center",
+              "place": {
+                "x": 0.6,
+                "y": 0.9,
+                "height": 0.2
+              },
+              "duration": 0.4
+            }
+          ],
+          "else": []
+        },
+        {
+          "id": "c0165",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "girlSafe",
+            "op": "==",
+            "value": false
+          },
+          "then": [
+            {
+              "id": "c0166",
+              "type": "show",
+              "characterId": "girl",
+              "expression": "stopped",
+              "position": "center",
+              "place": {
+                "x": 0.42,
+                "y": 0.765,
+                "height": 0.26
+              },
+              "duration": 0.4
+            }
+          ],
+          "else": []
+        },
+        {
+          "id": "c0167",
           "type": "wait",
           "seconds": 2.5
         },
         {
-          "id": "c0070",
+          "id": "c0168",
+          "type": "show",
+          "characterId": "boy",
+          "expression": "running",
+          "position": "center",
+          "place": {
+            "x": 1.15,
+            "y": 0.9,
+            "height": 0.2
+          },
+          "duration": 2.5
+        },
+        {
+          "id": "c0169",
+          "type": "show",
+          "characterId": "ball",
+          "expression": "rolling",
+          "position": "center",
+          "place": {
+            "x": 1.1,
+            "y": 0.885,
+            "height": 0.035
+          },
+          "duration": 1.5
+        },
+        {
+          "id": "c0170",
+          "type": "show",
+          "characterId": "girl",
+          "expression": "on her phone",
+          "position": "center",
+          "place": {
+            "x": -0.15,
+            "y": 0.765,
+            "height": 0.26
+          },
+          "duration": 5.0
+        },
+        {
+          "id": "c0171",
+          "type": "wait",
+          "seconds": 3.0
+        },
+        {
+          "id": "c0172",
+          "type": "show",
+          "characterId": "car",
+          "expression": "headlights",
+          "position": "center",
+          "place": {
+            "x": 0.22,
+            "y": 1.5,
+            "height": 1.0
+          },
+          "duration": 1.6,
+          "glow": true
+        },
+        {
+          "id": "c0173",
+          "type": "wait",
+          "seconds": 1.6
+        },
+        {
+          "id": "c0174",
+          "type": "hide",
+          "characterId": "car"
+        },
+        {
+          "id": "c0175",
+          "type": "hide",
+          "characterId": "boy"
+        },
+        {
+          "id": "c0176",
+          "type": "hide",
+          "characterId": "ball"
+        },
+        {
+          "id": "c0177",
+          "type": "hide",
+          "characterId": "girl"
+        },
+        {
+          "id": "c0178",
           "type": "jump",
-          "targetSceneId": "dawn"
+          "targetSceneId": "patrol"
         }
       ]
     },
@@ -920,27 +2406,47 @@
       },
       "commands": [
         {
-          "id": "c0071",
+          "id": "c0179",
           "type": "hide",
           "characterId": "granny"
         },
         {
-          "id": "c0072",
+          "id": "c0180",
           "type": "hide",
           "characterId": "car"
         },
         {
-          "id": "c0073",
+          "id": "c0181",
           "type": "hide",
           "characterId": "lamps"
         },
         {
-          "id": "c0074",
+          "id": "c0182",
           "type": "hide",
           "characterId": "windows"
         },
         {
-          "id": "c0075",
+          "id": "c0183",
+          "type": "hide",
+          "characterId": "thief"
+        },
+        {
+          "id": "c0184",
+          "type": "hide",
+          "characterId": "boy"
+        },
+        {
+          "id": "c0185",
+          "type": "hide",
+          "characterId": "girl"
+        },
+        {
+          "id": "c0186",
+          "type": "hide",
+          "characterId": "ball"
+        },
+        {
+          "id": "c0187",
           "type": "setVar",
           "effect": {
             "variableId": "battery1",
@@ -949,7 +2455,7 @@
           }
         },
         {
-          "id": "c0076",
+          "id": "c0188",
           "type": "setVar",
           "effect": {
             "variableId": "battery2",
@@ -958,7 +2464,7 @@
           }
         },
         {
-          "id": "c0077",
+          "id": "c0189",
           "type": "setVar",
           "effect": {
             "variableId": "clock",
@@ -967,7 +2473,7 @@
           }
         },
         {
-          "id": "c0078",
+          "id": "c0190",
           "type": "bg",
           "background": {
             "kind": "image",
@@ -976,7 +2482,7 @@
           "transition": "fade"
         },
         {
-          "id": "c0079",
+          "id": "c0191",
           "type": "music",
           "action": "play",
           "assetId": "snd_dawn",
@@ -984,7 +2490,37 @@
           "volume": 0.5
         },
         {
-          "id": "c0080",
+          "id": "c0192",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "bikeGone",
+            "op": "==",
+            "value": false
+          },
+          "then": [
+            {
+              "id": "c0193",
+              "type": "show",
+              "characterId": "bike",
+              "expression": "locked",
+              "position": "center",
+              "place": {
+                "x": 0.47,
+                "y": 0.53,
+                "height": 0.09
+              }
+            }
+          ],
+          "else": []
+        },
+        {
+          "id": "c0194",
+          "type": "say",
+          "text": "Morning. The street lamps go out one by one."
+        },
+        {
+          "id": "c0195",
           "type": "if",
           "condition": {
             "kind": "compare",
@@ -994,47 +2530,15 @@
           },
           "then": [
             {
-              "id": "c0081",
-              "type": "say",
-              "text": "Morning."
-            },
-            {
-              "id": "c0082",
-              "type": "say",
-              "text": "There's a long black skid mark across the zebra crossing."
-            },
-            {
-              "id": "c0083",
+              "id": "c0196",
               "type": "say",
               "characterId": "qin",
-              "text": "She's alive. Broke her arm. She's in hospital, awake."
-            },
-            {
-              "id": "c0084",
-              "type": "say",
-              "characterId": "qin",
-              "text": "The driver says he never saw anyone in the road."
-            },
-            {
-              "id": "c0085",
-              "type": "say",
-              "characterId": "qin",
-              "text": "Where your light doesn't reach, as far as a driver's concerned, there's nobody there. Remember that."
-            },
-            {
-              "id": "c0086",
-              "type": "say",
-              "text": "[End of the prototype. Try again: keep the light on her until the car gets there.]"
+              "text": "That old lady last night broke her arm. She's in hospital. The driver says he never saw anyone in the road."
             }
           ],
           "else": [
             {
-              "id": "c0087",
-              "type": "say",
-              "text": "Morning. The street lamps go out one by one."
-            },
-            {
-              "id": "c0088",
+              "id": "c0197",
               "type": "show",
               "characterId": "granny",
               "expression": "standing",
@@ -1046,38 +2550,188 @@
               }
             },
             {
-              "id": "c0089",
+              "id": "c0198",
               "type": "say",
               "characterId": "granny",
-              "text": "Young one, that was you last night, wasn't it? When that light came on me, I knew somebody was watching out for me."
-            },
-            {
-              "id": "c0090",
-              "type": "say",
-              "characterId": "granny",
-              "text": "Steamed buns, fresh out of the basket. Eat them while they're hot."
-            },
-            {
-              "id": "c0091",
-              "type": "say",
-              "characterId": "qin",
-              "text": "Not bad for a first night."
-            },
-            {
-              "id": "c0092",
-              "type": "say",
-              "characterId": "qin",
-              "text": "Mind you, this street has more in its nights than one old lady crossing the road."
-            },
-            {
-              "id": "c0093",
-              "type": "say",
-              "text": "[End of the prototype. The full Night Shift is a whole two-minute night: seven or eight sudden events, different tools, different mornings.]"
+              "text": "Young one, that was you last night, wasn't it? When that light came on me, I knew somebody was watching out for me. Steamed buns, still hot."
             }
           ]
         },
         {
-          "id": "c0094",
+          "id": "c0199",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "bikeGone",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0200",
+              "type": "say",
+              "characterId": "qin",
+              "text": "Old Li at the repair shop had his bike stolen. He's been cursing on his doorstep all morning."
+            }
+          ],
+          "else": []
+        },
+        {
+          "id": "c0201",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "safe",
+            "op": ">=",
+            "value": 5
+          },
+          "then": [
+            {
+              "id": "c0202",
+              "type": "say",
+              "characterId": "qin",
+              "text": "Not one thing went wrong. All right. This street's nights are yours."
+            }
+          ],
+          "else": [
+            {
+              "id": "c0203",
+              "type": "if",
+              "condition": {
+                "kind": "compare",
+                "variableId": "safe",
+                "op": ">=",
+                "value": 3
+              },
+              "then": [
+                {
+                  "id": "c0204",
+                  "type": "say",
+                  "characterId": "qin",
+                  "text": "Not bad. Same time tomorrow."
+                }
+              ],
+              "else": [
+                {
+                  "id": "c0205",
+                  "type": "say",
+                  "characterId": "qin",
+                  "text": "This street's nights are longer than you think. Come back tomorrow."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c0206",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "safe",
+            "op": "==",
+            "value": 5
+          },
+          "then": [
+            {
+              "id": "c0207",
+              "type": "say",
+              "text": "[Tonight you kept all 5 things safe. Take the other torch and guard another night?]"
+            }
+          ],
+          "else": []
+        },
+        {
+          "id": "c0208",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "safe",
+            "op": "==",
+            "value": 4
+          },
+          "then": [
+            {
+              "id": "c0209",
+              "type": "say",
+              "text": "[Tonight you kept 4 of 5 things safe. Take the other torch and guard another night?]"
+            }
+          ],
+          "else": []
+        },
+        {
+          "id": "c0210",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "safe",
+            "op": "==",
+            "value": 3
+          },
+          "then": [
+            {
+              "id": "c0211",
+              "type": "say",
+              "text": "[Tonight you kept 3 of 5 things safe. Take the other torch and guard another night?]"
+            }
+          ],
+          "else": []
+        },
+        {
+          "id": "c0212",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "safe",
+            "op": "==",
+            "value": 2
+          },
+          "then": [
+            {
+              "id": "c0213",
+              "type": "say",
+              "text": "[Tonight you kept 2 of 5 things safe. Take the other torch and guard another night?]"
+            }
+          ],
+          "else": []
+        },
+        {
+          "id": "c0214",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "safe",
+            "op": "==",
+            "value": 1
+          },
+          "then": [
+            {
+              "id": "c0215",
+              "type": "say",
+              "text": "[Tonight you kept 1 of 5 things safe. Keep the light on people. Another night?]"
+            }
+          ],
+          "else": []
+        },
+        {
+          "id": "c0216",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "safe",
+            "op": "==",
+            "value": 0
+          },
+          "then": [
+            {
+              "id": "c0217",
+              "type": "say",
+              "text": "[Tonight nothing was kept safe. Keep the light on people. Another night?]"
+            }
+          ],
+          "else": []
+        },
+        {
+          "id": "c0218",
           "type": "end"
         }
       ]

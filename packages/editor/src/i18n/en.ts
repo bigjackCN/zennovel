@@ -127,8 +127,9 @@ export const en = {
         'Click the people in a photograph to live the minutes before the shutter; your choices change the picture',
     },
     night: {
-      name: 'Night Shift (prototype)',
-      description: 'Your mouse is the torch: guard a dangerous street after dark and keep the light on people crossing',
+      name: 'Night Shift',
+      description:
+        'One minute of night: your mouse is the torch — search, follow, react and choose to keep a dangerous street safe',
     },
     blank: { name: 'Blank project', description: 'Start from a blank page' },
     loadFailed: (status: number) => `Could not load template (HTTP ${status})`,

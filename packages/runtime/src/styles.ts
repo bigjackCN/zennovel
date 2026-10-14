@@ -59,6 +59,8 @@ export const PLAYER_CSS = /* css */ `
 .zn-is-dark .zn-hotspot-label { opacity: 0; }
 .zn-is-dark .zn-hotspot:hover, .zn-is-dark .zn-hotspot.zn-lit { box-shadow: none; }
 .zn-is-dark .zn-hotspot:hover::before, .zn-is-dark .zn-hotspot.zn-lit::before { opacity: 0.3; border-width: 1px; }
+/* Buttons stay findable in the dark. */
+.zn-is-dark .zn-choice { box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.3); }
 .zn-is-dark .zn-hotspot.zn-lit .zn-hotspot-label, .zn-is-dark .zn-hotspot:hover .zn-hotspot-label { opacity: 1; }
 
 /* A choice's time limit: a bar along the top that runs out. */
