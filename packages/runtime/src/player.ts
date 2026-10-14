@@ -1,5 +1,5 @@
 import type { Background, Locale, Project, Theme } from '@zennovel/core';
-import { Engine, type EngineState } from './engine';
+import { Engine, type EngineState, type SpriteState } from './engine';
 import { AudioController, type AudioVolumes } from './audio';
 import { PLAYER_CSS } from './styles';
 import { playerStrings } from './strings';
@@ -33,6 +33,18 @@ export interface PlayerOptions {
 export interface EndAction {
   label: string;
   onClick: () => void;
+}
+
+/** Horizontal centre of the preset stage positions (matches the CSS). */
+const POSITION_X = { left: 0.22, center: 0.5, right: 0.78 } as const;
+
+function loadImage(url: string): Promise<HTMLImageElement | null> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => resolve(null);
+    img.src = url;
+  });
 }
 
 /** Wheel events closer together than this belong to one scroll gesture. */
@@ -71,7 +83,13 @@ export class Player {
   private nameplate: HTMLElement;
   private textEl: HTMLElement;
   private choiceLayer: HTMLElement;
+  /** Choices picked by clicking part of the picture. */
+  private hotspotLayer: HTMLElement;
+  /** The question above a picture choice (the dialogue box would cover the picture). */
+  private caption: HTMLElement;
   private overlay: HTMLElement;
+  /** Sprites on stage by character, kept between renders so they only fade when they change. */
+  private spriteEls = new Map<string, { wrap: HTMLElement; url: string | null | undefined }>();
   private resizeObserver: ResizeObserver;
   private unsubscribe: () => void;
   private typing: { timer: number; full: string } | null = null;
@@ -105,6 +123,8 @@ export class Player {
     this.dialogueBox = el('div', 'zn-dialogue', this.stage);
     this.nameplate = el('div', 'zn-nameplate', this.dialogueBox);
     this.textEl = el('div', 'zn-text', this.dialogueBox);
+    this.hotspotLayer = el('div', 'zn-hotspots', this.stage);
+    this.caption = el('div', 'zn-caption', this.stage);
     this.choiceLayer = el('div', 'zn-choices', this.stage);
     this.overlay = el('div', 'zn-overlay', this.stage);
 
@@ -151,6 +171,7 @@ export class Player {
     }
     this.lastBgKey = '';
     this.lastDialogue = null;
+    this.clearSprites();
     this.engine.start(this.startSceneId, this.startCommandId);
   }
 
@@ -160,6 +181,7 @@ export class Player {
     this.lastDialogue = null;
     // Don't replay the sound effect that was playing when the game was saved.
     this.lastSfxId = Math.max(this.lastSfxId, state.sfx?.id ?? 0);
+    this.clearSprites();
     this.engine.load(state);
   }
 
@@ -214,6 +236,62 @@ export class Player {
     this.root.focus();
   }
 
+  /**
+   * The picture on stage — background and characters, without the text box
+   * or buttons — as a PNG at the story's resolution. Null when the browser
+   * refuses (pictures from another site taint the canvas).
+   */
+  async capturePicture(): Promise<Blob | null> {
+    const { width: W, height: H } = this.project.meta.resolution;
+    const canvas = document.createElement('canvas');
+    canvas.width = W;
+    canvas.height = H;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return null;
+    const s = this.engine.getState();
+    try {
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, W, H);
+      if (s.background?.kind === 'color') {
+        ctx.fillStyle = s.background.value;
+        ctx.fillRect(0, 0, W, H);
+      } else if (s.background?.kind === 'image') {
+        const url = this.assetUrl(s.background.assetId);
+        const img = url ? await loadImage(url) : null;
+        if (img) {
+          // Same as CSS `cover`, centred.
+          const iw = img.naturalWidth || W;
+          const ih = img.naturalHeight || H;
+          const scale = Math.max(W / iw, H / ih);
+          ctx.drawImage(img, (W - iw * scale) / 2, (H - ih * scale) / 2, iw * scale, ih * scale);
+        }
+      }
+      for (const sprite of s.sprites) {
+        const character = this.project.characters.find((c) => c.id === sprite.characterId);
+        const assetId = character?.sprites[sprite.expression];
+        const url = assetId ? this.assetUrl(assetId) : null;
+        const img = url ? await loadImage(url) : null;
+        if (!img) continue;
+        // Pictures without a size of their own (some SVGs) take their shape from the stage.
+        const shown = this.spriteEls.get(sprite.characterId)?.wrap.querySelector('img:last-child');
+        const box = shown?.getBoundingClientRect();
+        const aspect =
+          img.naturalWidth && img.naturalHeight
+            ? img.naturalWidth / img.naturalHeight
+            : box && box.height
+              ? box.width / box.height
+              : 1;
+        const place = sprite.place ?? { x: POSITION_X[sprite.position], y: 1, height: 0.88 };
+        const h = place.height * H;
+        const w = h * aspect;
+        ctx.drawImage(img, place.x * W - w / 2, place.y * H - h, w, h);
+      }
+      return await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/png'));
+    } catch {
+      return null;
+    }
+  }
+
   destroy(): void {
     this.stopTyping();
     this.audio.destroy();
@@ -226,7 +304,7 @@ export class Player {
   // Input
 
   private onClick = (e: MouseEvent) => {
-    if (this.paused || (e.target as HTMLElement).closest('.zn-choice, .zn-overlay button')) return;
+    if (this.paused || (e.target as HTMLElement).closest('.zn-choice, .zn-hotspot, .zn-overlay button')) return;
     this.next();
   };
 
@@ -240,9 +318,9 @@ export class Player {
       this.next();
     } else if (e.key === 'Backspace' || e.key === 'ArrowLeft') {
       this.engine.rollback();
-    } else if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && this.choiceLayer.childElementCount > 0) {
+    } else if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && this.engine.getState().choices) {
       e.preventDefault();
-      const buttons = Array.from(this.choiceLayer.querySelectorAll('button'));
+      const buttons = Array.from(this.stage.querySelectorAll<HTMLButtonElement>('.zn-hotspot, .zn-choice'));
       const i = onButton ? buttons.indexOf(onButton as HTMLButtonElement) : -1;
       const step = e.key === 'ArrowDown' ? 1 : -1;
       const next = i < 0 ? (step > 0 ? 0 : buttons.length - 1) : (i + step + buttons.length) % buttons.length;
@@ -331,29 +409,15 @@ export class Player {
       window.setTimeout(() => old.forEach((n) => n.remove()), s.backgroundTransition === 'fade' ? 600 : 0);
     }
 
-    // Sprites
-    this.spriteLayer.replaceChildren();
-    for (const sprite of s.sprites) {
-      const character = this.project.characters.find((c) => c.id === sprite.characterId);
-      const wrap = el('div', `zn-sprite zn-pos-${sprite.position}`, this.spriteLayer);
-      const assetId = character?.sprites[sprite.expression];
-      const url = assetId ? this.assetUrl(assetId) : null;
-      if (url) {
-        const img = el('img', '', wrap);
-        img.src = url;
-        img.alt = character?.name ?? '';
-        img.draggable = false;
-      } else {
-        const ph = el('div', 'zn-sprite-placeholder', wrap);
-        ph.textContent = character?.name ?? '?';
-        if (character) ph.style.borderColor = character.color;
-      }
-    }
+    this.renderSprites(s.sprites);
+
+    // A choice made on the picture: its question goes above it, not in the dialogue box.
+    const onPicture = !!s.choices?.length && s.choices.every((c) => c.area);
 
     // Dialogue
     if (s.dialogue !== this.lastDialogue) {
       this.lastDialogue = s.dialogue;
-      if (s.dialogue) {
+      if (s.dialogue && !onPicture) {
         const character = s.dialogue.characterId
           ? this.project.characters.find((c) => c.id === s.dialogue!.characterId)
           : undefined;
@@ -367,14 +431,33 @@ export class Player {
         this.dialogueBox.style.display = 'none';
       }
     }
+    const captionText = onPicture ? (s.dialogue?.text ?? '') : '';
+    if (this.caption.textContent !== captionText) this.caption.textContent = captionText;
+    this.caption.style.display = captionText ? '' : 'none';
 
-    // Choices
+    // Choices: buttons in the middle, or parts of the picture to click.
     this.choiceLayer.replaceChildren();
+    this.hotspotLayer.replaceChildren();
     for (const choice of s.choices ?? []) {
-      const btn = el('button', 'zn-choice', this.choiceLayer);
-      btn.type = 'button';
-      btn.textContent = choice.text;
-      btn.addEventListener('click', () => this.engine.choose(choice.id));
+      if (choice.area) {
+        const { x, y, width, height } = choice.area;
+        const spot = el('button', 'zn-hotspot', this.hotspotLayer);
+        spot.type = 'button';
+        spot.setAttribute('aria-label', choice.text);
+        spot.style.left = `${x * 100}%`;
+        spot.style.top = `${y * 100}%`;
+        spot.style.width = `${width * 100}%`;
+        spot.style.height = `${height * 100}%`;
+        // The label goes under the area, or above it near the bottom of the picture.
+        const label = el('span', y + height > 0.82 ? 'zn-hotspot-label zn-above' : 'zn-hotspot-label', spot);
+        label.textContent = choice.text;
+        spot.addEventListener('click', () => this.engine.choose(choice.id));
+      } else {
+        const btn = el('button', 'zn-choice', this.choiceLayer);
+        btn.type = 'button';
+        btn.textContent = choice.text;
+        btn.addEventListener('click', () => this.engine.choose(choice.id));
+      }
     }
 
     // Music and sound
@@ -406,6 +489,70 @@ export class Player {
     // "Play again" by itself: someone holding Space to skip text would pick
     // an option without meaning to. ↑ / ↓ move into the choices.
     if (hadFocus && !this.root.contains(document.activeElement)) this.root.focus({ preventScroll: true });
+  }
+
+  /**
+   * Keep sprite elements between renders: a sprite fades in when it appears,
+   * cross-fades when its picture changes, glides when it moves and fades out
+   * when hidden. Later-shown sprites are drawn in front.
+   */
+  private renderSprites(sprites: readonly SpriteState[]) {
+    const onStage = new Set<string>();
+    sprites.forEach((sprite, order) => {
+      onStage.add(sprite.characterId);
+      const character = this.project.characters.find((c) => c.id === sprite.characterId);
+      const assetId = character?.sprites[sprite.expression];
+      const url = assetId ? this.assetUrl(assetId) : null;
+
+      let entry = this.spriteEls.get(sprite.characterId);
+      if (!entry || entry.wrap.classList.contains('zn-leaving')) {
+        entry = { wrap: el('div', 'zn-sprite', this.spriteLayer), url: undefined };
+        this.spriteEls.set(sprite.characterId, entry);
+      }
+      const { wrap } = entry;
+      wrap.style.zIndex = String(order + 1);
+      if (sprite.place) {
+        wrap.className = 'zn-sprite zn-placed';
+        wrap.style.left = `${sprite.place.x * 100}%`;
+        wrap.style.bottom = `${(1 - sprite.place.y) * 100}%`;
+        wrap.style.height = `${sprite.place.height * 100}%`;
+      } else {
+        wrap.className = `zn-sprite zn-pos-${sprite.position}`;
+        wrap.style.left = wrap.style.bottom = wrap.style.height = '';
+      }
+
+      if (entry.url === url) return;
+      const changing = entry.url !== undefined;
+      entry.url = url;
+      const old = Array.from(wrap.children) as HTMLElement[];
+      if (url) {
+        const img = el('img', changing ? 'zn-sprite-in' : '', wrap);
+        img.src = url;
+        img.alt = character?.name ?? '';
+        img.draggable = false;
+      } else {
+        const ph = el('div', 'zn-sprite-placeholder', wrap);
+        ph.textContent = character?.name ?? '?';
+        if (character) ph.style.borderColor = character.color;
+      }
+      for (const node of old) {
+        node.classList.add('zn-sprite-out');
+        window.setTimeout(() => node.remove(), 400);
+      }
+    });
+
+    for (const [id, entry] of this.spriteEls) {
+      if (onStage.has(id)) continue;
+      this.spriteEls.delete(id);
+      entry.wrap.classList.add('zn-leaving');
+      window.setTimeout(() => entry.wrap.remove(), 400);
+    }
+  }
+
+  /** Drop every sprite at once (restart, load): nothing should fade over from before. */
+  private clearSprites() {
+    this.spriteEls.clear();
+    this.spriteLayer.replaceChildren();
   }
 
   private typeText(full: string) {

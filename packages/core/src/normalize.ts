@@ -1,6 +1,7 @@
 import { createId, defaultTheme } from './defaults';
 import {
   FORMAT_VERSION,
+  type Area,
   type Asset,
   type AssetKind,
   type Background,
@@ -12,6 +13,7 @@ import {
   type Effect,
   type EffectOp,
   type Locale,
+  type Placement,
   type Project,
   type Scene,
   type StagePosition,
@@ -42,6 +44,7 @@ const num = (v: unknown, fallback: number): number => (typeof v === 'number' && 
 const oneOf = <T extends string>(v: unknown, allowed: readonly T[], fallback: T): T =>
   allowed.includes(v as T) ? (v as T) : fallback;
 const clamp01 = (v: number) => (Number.isFinite(v) ? Math.min(1, Math.max(0, v)) : 1);
+const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
 const isValue = (v: unknown): v is VariableValue =>
   typeof v === 'boolean' || typeof v === 'string' || (typeof v === 'number' && Number.isFinite(v));
 
@@ -218,6 +221,27 @@ function normalizeEffect(raw: unknown): Effect | undefined {
   };
 }
 
+/** A custom spot on the stage; pictures may hang off the edges a little, never vanish entirely. */
+function normalizePlacement(raw: unknown): Placement | undefined {
+  if (!isObj(raw)) return undefined;
+  const x = num(raw.x, NaN);
+  const y = num(raw.y, NaN);
+  const height = num(raw.height, NaN);
+  if (![x, y, height].every(Number.isFinite) || height <= 0) return undefined;
+  return { x: clamp(x, -0.5, 1.5), y: clamp(y, 0, 2), height: clamp(height, 0.02, 4) };
+}
+
+/** A clickable part of the picture, kept inside the stage. */
+function normalizeArea(raw: unknown): Area | undefined {
+  if (!isObj(raw)) return undefined;
+  const x = clamp(num(raw.x, NaN), 0, 1);
+  const y = clamp(num(raw.y, NaN), 0, 1);
+  const width = Math.min(num(raw.width, NaN), 1 - x);
+  const height = Math.min(num(raw.height, NaN), 1 - y);
+  if (![x, y, width, height].every(Number.isFinite) || width < 0.005 || height < 0.005) return undefined;
+  return { x, y, width, height };
+}
+
 function normalizeCommands(raw: unknown, ids: Minters): Command[] {
   const out: Command[] = [];
   for (const c of list(raw)) {
@@ -252,6 +276,7 @@ function normalizeCommand(c: Obj, ids: Minters): Command | undefined {
         characterId: str(c.characterId, ''),
         expression: str(c.expression, 'normal'),
         position: oneOf(c.position, POSITIONS, 'center'),
+        ...(normalizePlacement(c.place) && { place: normalizePlacement(c.place) }),
       };
     case 'hide':
       return { id: id(), type: 'hide', characterId: str(c.characterId, '') };
@@ -267,6 +292,7 @@ function normalizeCommand(c: Obj, ids: Minters): Command | undefined {
           ...(condition && { condition }),
           ...(effects.length > 0 && { effects }),
           ...(typeof o.targetSceneId === 'string' && o.targetSceneId && { targetSceneId: o.targetSceneId }),
+          ...(normalizeArea(o.area) && { area: normalizeArea(o.area) }),
         };
       });
       return {

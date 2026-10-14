@@ -1339,3 +1339,162 @@ input.invalid {
 .sound-toggle.on {
   opacity: 1;
 }
+
+/* ---- Stage picker: mark part of the picture / place a picture by dragging ---- */
+.stage-picker {
+  width: min(1040px, calc(100vw - 32px));
+  padding: 18px;
+}
+.stage-picker-title {
+  margin: 0 0 12px;
+  font-weight: 600;
+}
+.stage-picker-stage {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #1d1b22 center / cover no-repeat;
+  user-select: none;
+  touch-action: none;
+}
+.stage-picker-stage.drawing {
+  cursor: crosshair;
+}
+.stage-picker-empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #fff9;
+  font-size: 14px;
+}
+.stage-picker-sprite,
+.stage-picker-placed {
+  position: absolute;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.stage-picker-sprite.context {
+  opacity: 0.45;
+}
+.stage-picker-placed {
+  pointer-events: auto;
+  cursor: grab;
+  display: flex;
+  align-items: flex-end;
+  outline: 1.5px dashed #fffc;
+  outline-offset: 2px;
+}
+.stage-picker-placed:active {
+  cursor: grabbing;
+}
+.stage-picker-placed img {
+  height: 100%;
+  width: auto;
+  pointer-events: none;
+}
+.stage-picker-missing {
+  width: 120px;
+  height: 100%;
+  border: 3px dashed #fff8;
+  border-radius: 60px 60px 8px 8px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 28px;
+}
+.stage-picker-area {
+  position: absolute;
+  box-sizing: border-box;
+  border-radius: 8px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+.stage-picker-area span {
+  flex-shrink: 0;
+  margin-top: -26px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  white-space: nowrap;
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #fff;
+  background: #000a;
+  pointer-events: none;
+}
+.stage-picker-area.other {
+  border: 1.5px dashed #fff8;
+  pointer-events: none;
+}
+.stage-picker-area.current {
+  border: 2px solid #fff;
+  background: color-mix(in srgb, var(--accent, #c8553d) 22%, transparent);
+  box-shadow: 0 0 0 3000px #0005;
+  cursor: move;
+}
+.stage-picker-area.current span {
+  background: var(--accent, #c8553d);
+}
+.stage-picker .handle {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--accent, #c8553d);
+  box-shadow: 0 1px 4px #0006;
+}
+.stage-picker .handle.nw {
+  left: -8px;
+  top: -8px;
+  cursor: nwse-resize;
+}
+.stage-picker .handle.ne {
+  right: -8px;
+  top: -8px;
+  cursor: nesw-resize;
+}
+.stage-picker .handle.sw {
+  left: -8px;
+  bottom: -8px;
+  cursor: nesw-resize;
+}
+.stage-picker .handle.se {
+  right: -8px;
+  bottom: -8px;
+  cursor: nwse-resize;
+}
+.stage-picker-placed .handle.ne {
+  cursor: ns-resize;
+}
+.stage-picker-guide {
+  position: absolute;
+  background: #ffd76a;
+  pointer-events: none;
+}
+.stage-picker-guide.vertical {
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+}
+.stage-picker-guide.horizontal {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+}
+.stage-picker-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+.stage-picker-hint {
+  flex: 1;
+  font-size: 13px;
+}

@@ -33,6 +33,9 @@ export interface PlayerStrings {
   fullscreen: string;
   quit: string;
   achievement: (name: string) => string;
+  savePicture: string;
+  pictureSaved: string;
+  pictureFailed: string;
 }
 
 export const playerStrings: Record<Locale, PlayerStrings> = {
@@ -69,6 +72,9 @@ export const playerStrings: Record<Locale, PlayerStrings> = {
     fullscreen: 'Fullscreen',
     quit: 'Quit',
     achievement: (name) => `🏆 Achievement unlocked: ${name}`,
+    savePicture: 'Save picture',
+    pictureSaved: 'Picture saved.',
+    pictureFailed: 'Could not save the picture.',
   },
   zh: {
     theEnd: '— 完 —',
@@ -101,5 +107,8 @@ export const playerStrings: Record<Locale, PlayerStrings> = {
     fullscreen: '全屏',
     quit: '退出游戏',
     achievement: (name) => `🏆 解锁成就：${name}`,
+    savePicture: '保存画面',
+    pictureSaved: '画面已保存。',
+    pictureFailed: '无法保存画面。',
   },
 };

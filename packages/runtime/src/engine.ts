@@ -5,7 +5,9 @@ import {
   walkCommands,
   type Background,
   type Command,
+  type Area,
   type IfCommand,
+  type Placement,
   type Project,
   type Scene,
   type StagePosition,
@@ -34,6 +36,8 @@ export interface SpriteState {
   characterId: string;
   expression: string;
   position: StagePosition;
+  /** Custom spot and size, used instead of `position` when set. */
+  place?: Placement;
 }
 
 export interface DialogueState {
@@ -44,6 +48,8 @@ export interface DialogueState {
 export interface VisibleChoice {
   id: string;
   text: string;
+  /** Picked by clicking this part of the picture. */
+  area?: Area;
 }
 
 export interface EngineState {
@@ -164,6 +170,23 @@ export class Engine {
     this.enterScene(sceneId);
     if (atCommandId && !this.state.error) this.fastForward(sceneId, atCommandId);
     this.run();
+  }
+
+  /**
+   * The stage just before `commandId` runs: the background and characters
+   * set up above it in its scene (what the editor draws when the writer
+   * places a picture or marks part of it). Leaves the engine's own state alone.
+   */
+  stageAt(sceneId: string, commandId: string): { background: Background | null; sprites: SpriteState[] } {
+    const saved = this.state;
+    try {
+      this.state = emptyState(this.project);
+      this.enterScene(sceneId);
+      if (!this.state.error) this.fastForward(sceneId, commandId);
+      return structuredClone({ background: this.state.background, sprites: this.state.sprites });
+    } finally {
+      this.state = saved;
+    }
   }
 
   /** Move past the current line. Does nothing while a choice is open. */
@@ -292,7 +315,7 @@ export class Engine {
     const stack: Frame[] = [{ sceneId, index: 0 }];
     let list = scene.commands;
     path.forEach((step, depth) => {
-      for (let i = 0; i < step.index; i++) this.applyInstant(list[i]!, true);
+      for (let i = 0; i < step.index; i++) this.applySetup(list[i]!);
       const frame = stack[stack.length - 1]!;
       if (depth === path.length - 1 || !step.branch) {
         frame.index = step.index;
@@ -310,6 +333,20 @@ export class Engine {
   }
 
   /**
+   * Set up the stage for a command above the starting point: like
+   * applyInstant, but an `if` takes the branch its condition picks with the
+   * variables so far, so pictures shown inside branches appear too.
+   */
+  private applySetup(cmd: Command) {
+    if (cmd.type === 'if') {
+      const branch = evaluateCondition(cmd.condition, this.state.variables) ? cmd.then : cmd.else;
+      for (const inner of branch) this.applySetup(inner);
+      return;
+    }
+    this.applyInstant(cmd, true);
+  }
+
+  /**
    * Apply a command that changes the stage, music or variables without
    * pausing. Returns false for anything else. `skipping` is set while
    * fast-forwarding to a line: sound effects passed over stay silent.
@@ -322,7 +359,12 @@ export class Engine {
         s.backgroundTransition = cmd.transition ?? 'none';
         return true;
       case 'show': {
-        const sprite = { characterId: cmd.characterId, expression: cmd.expression, position: cmd.position };
+        const sprite: SpriteState = {
+          characterId: cmd.characterId,
+          expression: cmd.expression,
+          position: cmd.position,
+          ...(cmd.place && { place: { ...cmd.place } }),
+        };
         const i = s.sprites.findIndex((sp) => sp.characterId === cmd.characterId);
         if (i >= 0) s.sprites[i] = sprite;
         else s.sprites.push(sprite);
@@ -399,7 +441,7 @@ export class Engine {
       case 'choice': {
         const visible = cmd.options
           .filter((o) => !o.condition || evaluateCondition(o.condition, s.variables))
-          .map((o) => ({ id: o.id, text: o.text }));
+          .map((o) => ({ id: o.id, text: o.text, ...(o.area && { area: { ...o.area } }) }));
         if (visible.length === 0) return false;
         s.choices = visible;
         s.pendingChoiceId = cmd.id;

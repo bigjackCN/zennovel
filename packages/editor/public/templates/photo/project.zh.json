@@ -1,0 +1,1487 @@
+{
+  "formatVersion": 1,
+  "meta": {
+    "id": "proj_template_photo",
+    "name": "一张照片",
+    "locale": "zh",
+    "author": "ZenNovel",
+    "description": "原型：点照片里的人，走进快门按下之前的那几分钟。你的选择会改变这张照片。",
+    "resolution": {
+      "width": 1280,
+      "height": 720
+    },
+    "createdAt": "2026-10-14T00:00:00.000Z",
+    "updatedAt": "2026-10-14T00:00:00.000Z"
+  },
+  "assets": [
+    {
+      "id": "bg_photo",
+      "kind": "image",
+      "name": "背景 · 照片",
+      "src": "assets/base.webp"
+    },
+    {
+      "id": "bg_title",
+      "kind": "image",
+      "name": "背景 · 照片（虚焦）",
+      "src": "assets/title.webp"
+    },
+    {
+      "id": "bg_near_boy",
+      "kind": "image",
+      "name": "背景 · 走近小满",
+      "src": "assets/near_boy.webp"
+    },
+    {
+      "id": "bg_near_post",
+      "kind": "image",
+      "name": "背景 · 走近老周",
+      "src": "assets/near_post.webp"
+    },
+    {
+      "id": "bg_near_girl",
+      "kind": "image",
+      "name": "背景 · 走近林秀",
+      "src": "assets/near_girl.webp"
+    },
+    {
+      "id": "bg_darkroom",
+      "kind": "image",
+      "name": "背景 · 暗房",
+      "src": "assets/darkroom.webp"
+    },
+    {
+      "id": "img_boy_there",
+      "kind": "image",
+      "name": "照片里 · 小满（在）",
+      "src": "assets/boy_there.webp"
+    },
+    {
+      "id": "img_boy_gone",
+      "kind": "image",
+      "name": "照片里 · 小满（走了）",
+      "src": "assets/boy_gone.webp"
+    },
+    {
+      "id": "img_post_riding",
+      "kind": "image",
+      "name": "照片里 · 老周（骑车经过）",
+      "src": "assets/post_riding.webp"
+    },
+    {
+      "id": "img_post_stopped",
+      "kind": "image",
+      "name": "照片里 · 老周（停下）",
+      "src": "assets/post_stopped.webp"
+    },
+    {
+      "id": "img_girl_waiting",
+      "kind": "image",
+      "name": "照片里 · 林秀（等着）",
+      "src": "assets/girl_waiting.webp"
+    },
+    {
+      "id": "img_girl_leaving",
+      "kind": "image",
+      "name": "照片里 · 林秀（走了）",
+      "src": "assets/girl_leaving.webp"
+    },
+    {
+      "id": "img_film",
+      "kind": "image",
+      "name": "胶片颗粒",
+      "src": "assets/film.webp"
+    },
+    {
+      "id": "snd_street",
+      "kind": "audio",
+      "name": "配乐 · 街口",
+      "src": "assets/street.mp3"
+    },
+    {
+      "id": "snd_darkroom",
+      "kind": "audio",
+      "name": "配乐 · 暗房",
+      "src": "assets/darkroom.mp3"
+    },
+    {
+      "id": "snd_shutter",
+      "kind": "audio",
+      "name": "音效 · 快门",
+      "src": "assets/shutter.mp3"
+    }
+  ],
+  "characters": [
+    {
+      "id": "boy",
+      "name": "小满",
+      "color": "#b07a3a",
+      "sprites": {
+        "在": "img_boy_there",
+        "走了": "img_boy_gone"
+      }
+    },
+    {
+      "id": "post",
+      "name": "老周",
+      "color": "#4f7a5a",
+      "sprites": {
+        "骑车经过": "img_post_riding",
+        "停下": "img_post_stopped"
+      }
+    },
+    {
+      "id": "girl",
+      "name": "林秀",
+      "color": "#a0566e",
+      "sprites": {
+        "等着": "img_girl_waiting",
+        "走了": "img_girl_leaving"
+      }
+    },
+    {
+      "id": "film",
+      "name": "胶片",
+      "color": "#6e6e6e",
+      "sprites": {
+        "颗粒": "img_film"
+      }
+    },
+    {
+      "id": "me",
+      "name": "我",
+      "color": "#5e6f86",
+      "sprites": {}
+    },
+    {
+      "id": "buyer",
+      "name": "买报的人",
+      "color": "#7a6a5a",
+      "sprites": {}
+    }
+  ],
+  "variables": [
+    {
+      "id": "seenBoy",
+      "name": "看过小满",
+      "initial": false
+    },
+    {
+      "id": "seenPost",
+      "name": "看过老周",
+      "initial": false
+    },
+    {
+      "id": "seenGirl",
+      "name": "看过林秀",
+      "initial": false
+    },
+    {
+      "id": "boyStayed",
+      "name": "小满留下了",
+      "initial": true
+    },
+    {
+      "id": "letterGiven",
+      "name": "信送到了",
+      "initial": false
+    },
+    {
+      "id": "girlLeft",
+      "name": "林秀走了",
+      "initial": false
+    }
+  ],
+  "theme": {
+    "fontFamily": "\"Noto Serif SC\", \"Source Han Serif SC\", \"Songti SC\", \"SimSun\", serif",
+    "textSpeed": 30,
+    "dialogue": {
+      "background": "rgba(16, 14, 12, 0.82)",
+      "textColor": "#ece6da",
+      "fontSize": 26,
+      "borderRadius": 4,
+      "padding": 28,
+      "height": 0.28,
+      "margin": 26
+    },
+    "nameplate": {
+      "background": "#3a332b",
+      "textColor": "#f1ebdf",
+      "fontSize": 21
+    },
+    "choice": {
+      "background": "rgba(16, 14, 12, 0.86)",
+      "hoverBackground": "rgba(120, 96, 64, 0.95)",
+      "textColor": "#ece6da",
+      "borderRadius": 4
+    }
+  },
+  "scenes": [
+    {
+      "id": "intro",
+      "name": "序",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "commands": [
+        {
+          "id": "c0001",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_title"
+          }
+        },
+        {
+          "id": "c0002",
+          "type": "music",
+          "action": "play",
+          "assetId": "snd_street",
+          "loop": true,
+          "volume": 0.5
+        },
+        {
+          "id": "c0003",
+          "type": "say",
+          "text": "这张照片在我的抽屉里放了三十年。"
+        },
+        {
+          "id": "c0004",
+          "type": "say",
+          "text": "它从来没有被登出来过。"
+        },
+        {
+          "id": "c0005",
+          "type": "say",
+          "text": "拍下它的那一刻，是傍晚六点十二分。街口那只钟可以作证。"
+        },
+        {
+          "id": "c0006",
+          "type": "say",
+          "text": "按下快门之前，照片里的每一个人，都还有几分钟。"
+        },
+        {
+          "id": "c0007",
+          "type": "sound",
+          "assetId": "snd_shutter",
+          "volume": 0.9
+        },
+        {
+          "id": "c0008",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_photo"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "c0009",
+          "type": "show",
+          "characterId": "boy",
+          "expression": "在",
+          "position": "center",
+          "place": {
+            "x": 0.5,
+            "y": 1,
+            "height": 1
+          }
+        },
+        {
+          "id": "c0010",
+          "type": "show",
+          "characterId": "post",
+          "expression": "骑车经过",
+          "position": "center",
+          "place": {
+            "x": 0.5,
+            "y": 1,
+            "height": 1
+          }
+        },
+        {
+          "id": "c0011",
+          "type": "show",
+          "characterId": "girl",
+          "expression": "等着",
+          "position": "center",
+          "place": {
+            "x": 0.5,
+            "y": 1,
+            "height": 1
+          }
+        },
+        {
+          "id": "c0012",
+          "type": "show",
+          "characterId": "film",
+          "expression": "颗粒",
+          "position": "center",
+          "place": {
+            "x": 0.5,
+            "y": 1,
+            "height": 1
+          }
+        },
+        {
+          "id": "c0013",
+          "type": "say",
+          "text": "你可以走进其中任何一个人的那几分钟。"
+        },
+        {
+          "id": "c0014",
+          "type": "jump",
+          "targetSceneId": "photo"
+        }
+      ]
+    },
+    {
+      "id": "photo",
+      "name": "照片",
+      "position": {
+        "x": 300,
+        "y": 0
+      },
+      "commands": [
+        {
+          "id": "c0015",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_photo"
+          }
+        },
+        {
+          "id": "c0016",
+          "type": "hide",
+          "characterId": "film"
+        },
+        {
+          "id": "c0017",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "boyStayed",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0018",
+              "type": "show",
+              "characterId": "boy",
+              "expression": "在",
+              "position": "center",
+              "place": {
+                "x": 0.5,
+                "y": 1,
+                "height": 1
+              }
+            }
+          ],
+          "else": [
+            {
+              "id": "c0019",
+              "type": "show",
+              "characterId": "boy",
+              "expression": "走了",
+              "position": "center",
+              "place": {
+                "x": 0.5,
+                "y": 1,
+                "height": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "c0020",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "letterGiven",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0021",
+              "type": "show",
+              "characterId": "post",
+              "expression": "停下",
+              "position": "center",
+              "place": {
+                "x": 0.5,
+                "y": 1,
+                "height": 1
+              }
+            }
+          ],
+          "else": [
+            {
+              "id": "c0022",
+              "type": "show",
+              "characterId": "post",
+              "expression": "骑车经过",
+              "position": "center",
+              "place": {
+                "x": 0.5,
+                "y": 1,
+                "height": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "c0023",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "girlLeft",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0024",
+              "type": "show",
+              "characterId": "girl",
+              "expression": "走了",
+              "position": "center",
+              "place": {
+                "x": 0.5,
+                "y": 1,
+                "height": 1
+              }
+            }
+          ],
+          "else": [
+            {
+              "id": "c0025",
+              "type": "show",
+              "characterId": "girl",
+              "expression": "等着",
+              "position": "center",
+              "place": {
+                "x": 0.5,
+                "y": 1,
+                "height": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "c0026",
+          "type": "show",
+          "characterId": "film",
+          "expression": "颗粒",
+          "position": "center",
+          "place": {
+            "x": 0.5,
+            "y": 1,
+            "height": 1
+          }
+        },
+        {
+          "id": "c0027",
+          "type": "if",
+          "condition": {
+            "kind": "all",
+            "conditions": [
+              {
+                "kind": "compare",
+                "variableId": "seenBoy",
+                "op": "==",
+                "value": true
+              },
+              {
+                "kind": "compare",
+                "variableId": "seenPost",
+                "op": "==",
+                "value": true
+              },
+              {
+                "kind": "compare",
+                "variableId": "seenGirl",
+                "op": "==",
+                "value": true
+              }
+            ]
+          },
+          "then": [
+            {
+              "id": "c0028",
+              "type": "jump",
+              "targetSceneId": "develop"
+            }
+          ],
+          "else": []
+        },
+        {
+          "id": "c0029",
+          "type": "choice",
+          "options": [
+            {
+              "id": "c0030",
+              "text": "举着报纸的孩子",
+              "condition": {
+                "kind": "compare",
+                "variableId": "seenBoy",
+                "op": "==",
+                "value": false
+              },
+              "area": {
+                "x": 0.14,
+                "y": 0.36,
+                "width": 0.15,
+                "height": 0.625
+              },
+              "targetSceneId": "boy1"
+            },
+            {
+              "id": "c0031",
+              "text": "骑车经过的邮递员",
+              "condition": {
+                "kind": "compare",
+                "variableId": "seenPost",
+                "op": "==",
+                "value": false
+              },
+              "area": {
+                "x": 0.485,
+                "y": 0.49,
+                "width": 0.15,
+                "height": 0.39
+              },
+              "targetSceneId": "post1"
+            },
+            {
+              "id": "c0032",
+              "text": "钟下面的姑娘",
+              "condition": {
+                "kind": "compare",
+                "variableId": "seenGirl",
+                "op": "==",
+                "value": false
+              },
+              "area": {
+                "x": 0.748,
+                "y": 0.425,
+                "width": 0.088,
+                "height": 0.49
+              },
+              "targetSceneId": "girl1"
+            }
+          ],
+          "prompt": "点照片里的一个人。"
+        },
+        {
+          "id": "c0033",
+          "type": "jump",
+          "targetSceneId": "develop"
+        }
+      ]
+    },
+    {
+      "id": "boy1",
+      "name": "小满",
+      "position": {
+        "x": 600,
+        "y": -220
+      },
+      "commands": [
+        {
+          "id": "c0034",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_near_boy"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "c0035",
+          "type": "hide",
+          "characterId": "boy"
+        },
+        {
+          "id": "c0036",
+          "type": "hide",
+          "characterId": "post"
+        },
+        {
+          "id": "c0037",
+          "type": "hide",
+          "characterId": "girl"
+        },
+        {
+          "id": "c0038",
+          "type": "say",
+          "text": "五点四十分。"
+        },
+        {
+          "id": "c0039",
+          "type": "say",
+          "text": "小满的帆布包里还剩十二份晚报。"
+        },
+        {
+          "id": "c0040",
+          "type": "say",
+          "text": "娘说，路灯亮之前要回家。路灯已经亮了。"
+        },
+        {
+          "id": "c0041",
+          "type": "say",
+          "characterId": "buyer",
+          "text": "小孩，今天有什么新闻？"
+        },
+        {
+          "id": "c0042",
+          "type": "say",
+          "characterId": "boy",
+          "text": "都一样。一毛钱一份。"
+        },
+        {
+          "id": "c0043",
+          "type": "say",
+          "text": "那人笑了，给了他两毛，说不用找了。小满把钱捏在手心里，捏出了汗。"
+        },
+        {
+          "id": "c0044",
+          "type": "say",
+          "text": "还剩十一份。卖完它们，够给娘抓两服药。"
+        },
+        {
+          "id": "c0045",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "letterGiven",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0046",
+              "type": "say",
+              "text": "街对面，那个邮递员把车停在钟底下，递给一个姑娘一封信。小满想：谁会在大街上收信呢？"
+            }
+          ],
+          "else": []
+        },
+        {
+          "id": "c0047",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "girlLeft",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0048",
+              "type": "say",
+              "text": "钟底下那个穿长大衣的姑娘刚刚走了。她走得很快，好像什么都没看见。"
+            }
+          ],
+          "else": []
+        },
+        {
+          "id": "c0049",
+          "type": "say",
+          "text": "天越来越暗。风把报纸的一角掀起来，啪啪地响。"
+        },
+        {
+          "id": "c0050",
+          "type": "choice",
+          "options": [
+            {
+              "id": "c0051",
+              "text": "再卖一会儿，还剩十一份。",
+              "effects": [
+                {
+                  "variableId": "boyStayed",
+                  "op": "set",
+                  "value": true
+                }
+              ]
+            },
+            {
+              "id": "c0052",
+              "text": "回家，娘在等。",
+              "effects": [
+                {
+                  "variableId": "boyStayed",
+                  "op": "set",
+                  "value": false
+                }
+              ]
+            }
+          ],
+          "prompt": "路灯已经亮了。"
+        },
+        {
+          "id": "c0053",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "boyStayed",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0054",
+              "type": "say",
+              "text": "他把一份报纸高高地举过头顶，朝着下班的人群喊："
+            },
+            {
+              "id": "c0055",
+              "type": "say",
+              "characterId": "boy",
+              "text": "晚报——晚报——"
+            },
+            {
+              "id": "c0056",
+              "type": "say",
+              "text": "照片上，他的嘴张着。他喊的是什么，看照片的人谁也听不见。"
+            }
+          ],
+          "else": [
+            {
+              "id": "c0057",
+              "type": "say",
+              "text": "他背起包就跑。跑过街口的时候，一份报纸从包里滑出来，落在湿漉漉的地上。"
+            },
+            {
+              "id": "c0058",
+              "type": "say",
+              "text": "他没有回头。那天晚上，娘问他今天卖得好不好，他说好。"
+            },
+            {
+              "id": "c0059",
+              "type": "say",
+              "text": "照片上，他站过的地方只剩下那一份报纸。"
+            }
+          ]
+        },
+        {
+          "id": "c0060",
+          "type": "setVar",
+          "effect": {
+            "variableId": "seenBoy",
+            "op": "set",
+            "value": true
+          }
+        },
+        {
+          "id": "c0061",
+          "type": "jump",
+          "targetSceneId": "photo"
+        }
+      ]
+    },
+    {
+      "id": "post1",
+      "name": "老周",
+      "position": {
+        "x": 600,
+        "y": 0
+      },
+      "commands": [
+        {
+          "id": "c0062",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_near_post"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "c0063",
+          "type": "hide",
+          "characterId": "boy"
+        },
+        {
+          "id": "c0064",
+          "type": "hide",
+          "characterId": "post"
+        },
+        {
+          "id": "c0065",
+          "type": "hide",
+          "characterId": "girl"
+        },
+        {
+          "id": "c0066",
+          "type": "say",
+          "text": "五点五十分。"
+        },
+        {
+          "id": "c0067",
+          "type": "say",
+          "text": "老周的邮包里只剩最后一封信。"
+        },
+        {
+          "id": "c0068",
+          "type": "say",
+          "text": "信封上没有门牌号，只写着：本街，钟下，林秀收。"
+        },
+        {
+          "id": "c0069",
+          "type": "say",
+          "text": "背面还有一行小字：她六点会在钟下面等。请务必在六点以前交给她。"
+        },
+        {
+          "id": "c0070",
+          "type": "say",
+          "characterId": "post",
+          "text": "在钟下面收信？"
+        },
+        {
+          "id": "c0071",
+          "type": "say",
+          "text": "他送了二十年信，头一回见到这样的地址。"
+        },
+        {
+          "id": "c0072",
+          "type": "say",
+          "text": "邮局六点半关门。今天是他闺女的生日，他答应过早点回家。"
+        },
+        {
+          "id": "c0073",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "girlLeft",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0074",
+              "type": "say",
+              "text": "可等他骑到街口，钟底下已经没有人了。"
+            },
+            {
+              "id": "c0075",
+              "type": "choice",
+              "options": [
+                {
+                  "id": "c0076",
+                  "text": "把信放回邮包，回家。",
+                  "effects": [
+                    {
+                      "variableId": "letterGiven",
+                      "op": "set",
+                      "value": false
+                    }
+                  ]
+                }
+              ],
+              "prompt": "钟下面空着。"
+            },
+            {
+              "id": "c0077",
+              "type": "say",
+              "text": "第二天，他把信退回了邮局，在“无法投递”那一栏打了个勾。"
+            },
+            {
+              "id": "c0078",
+              "type": "say",
+              "text": "照片上，他只是一团骑车经过的模糊影子。"
+            }
+          ],
+          "else": [
+            {
+              "id": "c0079",
+              "type": "say",
+              "text": "钟底下站着一个穿长大衣的姑娘，围巾拉到了下巴。她一次又一次地抬头看钟。"
+            },
+            {
+              "id": "c0080",
+              "type": "choice",
+              "options": [
+                {
+                  "id": "c0081",
+                  "text": "停下来，把信交给她。",
+                  "effects": [
+                    {
+                      "variableId": "letterGiven",
+                      "op": "set",
+                      "value": true
+                    }
+                  ]
+                },
+                {
+                  "id": "c0082",
+                  "text": "先回家，明天再送。",
+                  "effects": [
+                    {
+                      "variableId": "letterGiven",
+                      "op": "set",
+                      "value": false
+                    }
+                  ]
+                }
+              ],
+              "prompt": "六点十分。"
+            },
+            {
+              "id": "c0083",
+              "type": "if",
+              "condition": {
+                "kind": "compare",
+                "variableId": "letterGiven",
+                "op": "==",
+                "value": true
+              },
+              "then": [
+                {
+                  "id": "c0084",
+                  "type": "say",
+                  "text": "他把车停在路边，从邮包里掏出那封信。"
+                },
+                {
+                  "id": "c0085",
+                  "type": "say",
+                  "characterId": "post",
+                  "text": "是林秀吗？你的信。"
+                },
+                {
+                  "id": "c0086",
+                  "type": "say",
+                  "text": "姑娘愣了一下，接过去，没有马上拆开。"
+                },
+                {
+                  "id": "c0087",
+                  "type": "say",
+                  "text": "照片上，他的手还伸着，那封信刚刚离开他的手指。"
+                }
+              ],
+              "else": [
+                {
+                  "id": "c0088",
+                  "type": "say",
+                  "text": "他从她身边骑了过去，车铃响了一声。他想，明天她还会来的。在大街上等人的人，总会再来。"
+                },
+                {
+                  "id": "c0089",
+                  "type": "say",
+                  "text": "照片上，他只是一团骑车经过的模糊影子。"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c0090",
+          "type": "setVar",
+          "effect": {
+            "variableId": "seenPost",
+            "op": "set",
+            "value": true
+          }
+        },
+        {
+          "id": "c0091",
+          "type": "jump",
+          "targetSceneId": "photo"
+        }
+      ]
+    },
+    {
+      "id": "girl1",
+      "name": "林秀",
+      "position": {
+        "x": 600,
+        "y": 220
+      },
+      "commands": [
+        {
+          "id": "c0092",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_near_girl"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "c0093",
+          "type": "hide",
+          "characterId": "boy"
+        },
+        {
+          "id": "c0094",
+          "type": "hide",
+          "characterId": "post"
+        },
+        {
+          "id": "c0095",
+          "type": "hide",
+          "characterId": "girl"
+        },
+        {
+          "id": "c0096",
+          "type": "say",
+          "text": "六点。"
+        },
+        {
+          "id": "c0097",
+          "type": "say",
+          "text": "林秀把手插在大衣口袋里。口袋里有一张今晚七点的火车票。"
+        },
+        {
+          "id": "c0098",
+          "type": "say",
+          "text": "他说过：六点，钟下面，我来送你。"
+        },
+        {
+          "id": "c0099",
+          "type": "say",
+          "text": "她已经在这里站了二十分钟。钟走得很慢，又好像很快。"
+        },
+        {
+          "id": "c0100",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "letterGiven",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0101",
+              "type": "say",
+              "text": "刚才一个邮递员停下车，递给她一封信。信上只有一行字："
+            },
+            {
+              "id": "c0102",
+              "type": "say",
+              "text": "“别等我了。我在街对面看着你走。”"
+            },
+            {
+              "id": "c0103",
+              "type": "say",
+              "text": "她抬头往街对面看。人太多，路灯又刺眼，她什么也看不清。"
+            }
+          ],
+          "else": [
+            {
+              "id": "c0104",
+              "type": "if",
+              "condition": {
+                "kind": "compare",
+                "variableId": "seenPost",
+                "op": "==",
+                "value": true
+              },
+              "then": [
+                {
+                  "id": "c0105",
+                  "type": "say",
+                  "text": "一个邮递员骑车从她身边经过，车铃响了一声，没有停。"
+                }
+              ],
+              "else": []
+            },
+            {
+              "id": "c0106",
+              "type": "say",
+              "text": "她不知道他会不会来。她只知道，火车不会等。"
+            }
+          ]
+        },
+        {
+          "id": "c0107",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "boyStayed",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0108",
+              "type": "say",
+              "text": "不远处，一个卖报的孩子在喊：晚报——晚报——。她想，这座城的晚报，以后就看不到了。"
+            }
+          ],
+          "else": []
+        },
+        {
+          "id": "c0109",
+          "type": "choice",
+          "options": [
+            {
+              "id": "c0110",
+              "text": "再等一会儿。",
+              "effects": [
+                {
+                  "variableId": "girlLeft",
+                  "op": "set",
+                  "value": false
+                }
+              ]
+            },
+            {
+              "id": "c0111",
+              "text": "转身，去火车站。",
+              "effects": [
+                {
+                  "variableId": "girlLeft",
+                  "op": "set",
+                  "value": true
+                }
+              ]
+            }
+          ],
+          "prompt": "六点十二分。"
+        },
+        {
+          "id": "c0112",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "girlLeft",
+            "op": "==",
+            "value": false
+          },
+          "then": [
+            {
+              "id": "c0113",
+              "type": "say",
+              "text": "她又抬头看了一眼钟。"
+            },
+            {
+              "id": "c0114",
+              "type": "say",
+              "text": "照片上，她仰着脸，像在等那只钟替她做决定。"
+            }
+          ],
+          "else": [
+            {
+              "id": "c0115",
+              "type": "say",
+              "text": "她转过身，往车站的方向走。走出去好几步，她没有回头。"
+            },
+            {
+              "id": "c0116",
+              "type": "say",
+              "text": "照片上，她已经快走出画面了，只剩一个模糊的背影。"
+            }
+          ]
+        },
+        {
+          "id": "c0117",
+          "type": "setVar",
+          "effect": {
+            "variableId": "seenGirl",
+            "op": "set",
+            "value": true
+          }
+        },
+        {
+          "id": "c0118",
+          "type": "jump",
+          "targetSceneId": "photo"
+        }
+      ]
+    },
+    {
+      "id": "develop",
+      "name": "暗房",
+      "position": {
+        "x": 900,
+        "y": 0
+      },
+      "commands": [
+        {
+          "id": "c0119",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_darkroom"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "c0120",
+          "type": "hide",
+          "characterId": "boy"
+        },
+        {
+          "id": "c0121",
+          "type": "hide",
+          "characterId": "post"
+        },
+        {
+          "id": "c0122",
+          "type": "hide",
+          "characterId": "girl"
+        },
+        {
+          "id": "c0123",
+          "type": "hide",
+          "characterId": "film"
+        },
+        {
+          "id": "c0124",
+          "type": "music",
+          "action": "play",
+          "assetId": "snd_darkroom",
+          "loop": true,
+          "volume": 0.5
+        },
+        {
+          "id": "c0125",
+          "type": "say",
+          "text": "那天晚上，我在暗房里把这张底片冲了出来。"
+        },
+        {
+          "id": "c0126",
+          "type": "say",
+          "text": "相纸泡在显影液里，起初什么也没有。然后，一点一点地——"
+        },
+        {
+          "id": "c0127",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_photo"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "c0128",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "boyStayed",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0129",
+              "type": "show",
+              "characterId": "boy",
+              "expression": "在",
+              "position": "center",
+              "place": {
+                "x": 0.5,
+                "y": 1,
+                "height": 1
+              }
+            }
+          ],
+          "else": [
+            {
+              "id": "c0130",
+              "type": "show",
+              "characterId": "boy",
+              "expression": "走了",
+              "position": "center",
+              "place": {
+                "x": 0.5,
+                "y": 1,
+                "height": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "c0131",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "letterGiven",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0132",
+              "type": "show",
+              "characterId": "post",
+              "expression": "停下",
+              "position": "center",
+              "place": {
+                "x": 0.5,
+                "y": 1,
+                "height": 1
+              }
+            }
+          ],
+          "else": [
+            {
+              "id": "c0133",
+              "type": "show",
+              "characterId": "post",
+              "expression": "骑车经过",
+              "position": "center",
+              "place": {
+                "x": 0.5,
+                "y": 1,
+                "height": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "c0134",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "girlLeft",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0135",
+              "type": "show",
+              "characterId": "girl",
+              "expression": "走了",
+              "position": "center",
+              "place": {
+                "x": 0.5,
+                "y": 1,
+                "height": 1
+              }
+            }
+          ],
+          "else": [
+            {
+              "id": "c0136",
+              "type": "show",
+              "characterId": "girl",
+              "expression": "等着",
+              "position": "center",
+              "place": {
+                "x": 0.5,
+                "y": 1,
+                "height": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "c0137",
+          "type": "show",
+          "characterId": "film",
+          "expression": "颗粒",
+          "position": "center",
+          "place": {
+            "x": 0.5,
+            "y": 1,
+            "height": 1
+          }
+        },
+        {
+          "id": "c0138",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "letterGiven",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0139",
+              "type": "say",
+              "text": "那封信是我写的。我托邮局把它送到钟下面，因为我没有勇气自己走过去。"
+            }
+          ],
+          "else": [
+            {
+              "id": "c0140",
+              "type": "say",
+              "text": "我写过一封信，托邮局在六点以前送到钟下面。它没有送到。"
+            }
+          ]
+        },
+        {
+          "id": "c0141",
+          "type": "say",
+          "text": "那天傍晚，我就站在街对面。我举着相机，假装在拍街景。"
+        },
+        {
+          "id": "c0142",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "girlLeft",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0143",
+              "type": "say",
+              "text": "她走了，没有回头。我按下快门的时候，她已经快走出画面了。"
+            }
+          ],
+          "else": [
+            {
+              "id": "c0144",
+              "type": "say",
+              "text": "她一直在等。我只要穿过这条街，就能走到她面前。我没有过去。我只是按下了快门。"
+            }
+          ]
+        },
+        {
+          "id": "c0145",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "boyStayed",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0146",
+              "type": "say",
+              "text": "那个卖报的孩子在我的取景框里喊了一声“晚报”。那是那天傍晚，我记得的唯一的声音。"
+            }
+          ],
+          "else": [
+            {
+              "id": "c0147",
+              "type": "say",
+              "text": "那个卖报的孩子，只留下了一份报纸。我捡起来，那天的新闻和往常一样。"
+            }
+          ]
+        },
+        {
+          "id": "c0148",
+          "type": "say",
+          "text": "这张照片，我一直没有拿去登。"
+        },
+        {
+          "id": "c0149",
+          "type": "say",
+          "text": "照片里的每一个人，都还停在那一秒。只有我，从那一秒里走了出来。"
+        },
+        {
+          "id": "c0150",
+          "type": "say",
+          "text": "【这是你冲洗出来的那一版。在菜单里选“保存画面”，可以把它留下来。】"
+        },
+        {
+          "id": "c0151",
+          "type": "end"
+        }
+      ]
+    }
+  ],
+  "startSceneId": "intro"
+}

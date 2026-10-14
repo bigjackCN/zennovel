@@ -79,6 +79,25 @@ export type Background = { kind: 'color'; value: string } | { kind: 'image'; ass
 
 export type StagePosition = 'left' | 'center' | 'right';
 
+/**
+ * A picture placed anywhere on the stage, in fractions of the stage size:
+ * `x` is its horizontal centre, `y` its bottom edge (from the top), `height`
+ * its height. { x: 0.5, y: 1, height: 1 } fills the stage from top to bottom.
+ */
+export interface Placement {
+  x: number;
+  y: number;
+  height: number;
+}
+
+/** A rectangle on the stage, in fractions of the stage size, from its top-left corner. */
+export interface Area {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
 export interface BgCommand {
   id: string;
   type: 'bg';
@@ -92,6 +111,8 @@ export interface ShowCommand {
   characterId: string;
   expression: string;
   position: StagePosition;
+  /** Custom spot and size; when set it is used instead of `position`. */
+  place?: Placement;
 }
 
 export interface HideCommand {
@@ -117,6 +138,8 @@ export interface ChoiceOption {
   effects?: Effect[];
   /** Scene to jump to; omitted means continue after the choice. */
   targetSceneId?: string;
+  /** Picked by clicking this part of the picture instead of a button. */
+  area?: Area;
 }
 
 export interface ChoiceCommand {

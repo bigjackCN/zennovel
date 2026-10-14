@@ -201,4 +201,59 @@ describe('checkProject', () => {
     ];
     expect(checkProject(p).map((i) => i.code)).not.toContain('noEnding');
   });
+
+  it('carries custom placements and clickable areas to the stage, and shows the stage before a step', () => {
+    const p = createEmptyProject('photo');
+    p.characters.push({ id: 'boy', name: 'Boy', color: '#000', sprites: { there: 'img1', gone: 'img2' } });
+    p.scenes[0]!.commands = [
+      { id: 'bg', type: 'bg', background: { kind: 'color', value: '#111111' } },
+      {
+        id: 'show',
+        type: 'show',
+        characterId: 'boy',
+        expression: 'there',
+        position: 'center',
+        place: { x: 0.3, y: 0.9, height: 0.4 },
+      },
+      {
+        id: 'pick',
+        type: 'choice',
+        prompt: 'Who?',
+        options: [
+          { id: 'o1', text: 'The boy', area: { x: 0.2, y: 0.5, width: 0.2, height: 0.4 } },
+          { id: 'o2', text: 'Nobody' },
+        ],
+      },
+      { id: 'end', type: 'end' },
+    ];
+    const engine = new Engine(p);
+    engine.start();
+    const s = engine.getState();
+    expect(s.sprites).toEqual([
+      { characterId: 'boy', expression: 'there', position: 'center', place: { x: 0.3, y: 0.9, height: 0.4 } },
+    ]);
+    expect(s.choices).toEqual([
+      { id: 'o1', text: 'The boy', area: { x: 0.2, y: 0.5, width: 0.2, height: 0.4 } },
+      { id: 'o2', text: 'Nobody' },
+    ]);
+
+    // The stage just before the choice, without disturbing the running story.
+    const stage = engine.stageAt(p.startSceneId, 'pick');
+    expect(stage.background).toEqual({ kind: 'color', value: '#111111' });
+    expect(stage.sprites.map((sp) => sp.characterId)).toEqual(['boy']);
+    expect(engine.stageAt(p.startSceneId, 'show').sprites).toEqual([]);
+
+    // Pictures shown inside an `if` above count too, following the branch the variables pick.
+    p.variables.push({ id: 'away', name: 'Away', initial: true });
+    p.scenes[0]!.commands.splice(2, 0, {
+      id: 'branch',
+      type: 'if',
+      condition: { kind: 'compare', variableId: 'away', op: '==', value: true },
+      then: [{ id: 'gone', type: 'show', characterId: 'boy', expression: 'gone', position: 'left' }],
+      else: [],
+    });
+    engine.setProject(p);
+    expect(engine.stageAt(p.startSceneId, 'pick').sprites.map((sp) => sp.expression)).toEqual(['gone']);
+    expect(engine.getState().pendingChoiceId).toBe('pick');
+  });
 });

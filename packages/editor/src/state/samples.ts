@@ -1,7 +1,7 @@
 import type { Locale } from '@zennovel/core';
 
 /** The sample stories shipped in public/templates/<id>/. */
-export const sampleIds = ['demo', 'dalie'] as const;
+export const sampleIds = ['demo', 'dalie', 'photo'] as const;
 export type SampleId = (typeof sampleIds)[number];
 
 export const isSampleId = (id: string | null): id is SampleId => sampleIds.includes(id as SampleId);
@@ -13,6 +13,7 @@ export const isSampleId = (id: string | null): id is SampleId => sampleIds.inclu
 const sampleLocales: Record<SampleId, readonly [Locale, ...Locale[]]> = {
   demo: ['en', 'zh'],
   dalie: ['zh', 'en'],
+  photo: ['zh', 'en'],
 };
 
 /** The project file to load for a sample: the UI language if the sample has it, else its first language. */

@@ -1,0 +1,1487 @@
+{
+  "formatVersion": 1,
+  "meta": {
+    "id": "proj_template_photo_en",
+    "name": "One Photograph",
+    "locale": "en",
+    "author": "ZenNovel",
+    "description": "A prototype: click the people in a photograph and live the minutes before the shutter. What you choose changes the picture.",
+    "resolution": {
+      "width": 1280,
+      "height": 720
+    },
+    "createdAt": "2026-10-14T00:00:00.000Z",
+    "updatedAt": "2026-10-14T00:00:00.000Z"
+  },
+  "assets": [
+    {
+      "id": "bg_photo",
+      "kind": "image",
+      "name": "Background · The photograph",
+      "src": "assets/base.webp"
+    },
+    {
+      "id": "bg_title",
+      "kind": "image",
+      "name": "Background · The photograph (out of focus)",
+      "src": "assets/title.webp"
+    },
+    {
+      "id": "bg_near_boy",
+      "kind": "image",
+      "name": "Background · Close to Xiaoman",
+      "src": "assets/near_boy.webp"
+    },
+    {
+      "id": "bg_near_post",
+      "kind": "image",
+      "name": "Background · Close to Old Zhou",
+      "src": "assets/near_post.webp"
+    },
+    {
+      "id": "bg_near_girl",
+      "kind": "image",
+      "name": "Background · Close to Lin Xiu",
+      "src": "assets/near_girl.webp"
+    },
+    {
+      "id": "bg_darkroom",
+      "kind": "image",
+      "name": "Background · The darkroom",
+      "src": "assets/darkroom.webp"
+    },
+    {
+      "id": "img_boy_there",
+      "kind": "image",
+      "name": "In the photo · Xiaoman (there)",
+      "src": "assets/boy_there.webp"
+    },
+    {
+      "id": "img_boy_gone",
+      "kind": "image",
+      "name": "In the photo · Xiaoman (gone)",
+      "src": "assets/boy_gone.webp"
+    },
+    {
+      "id": "img_post_riding",
+      "kind": "image",
+      "name": "In the photo · Old Zhou (riding past)",
+      "src": "assets/post_riding.webp"
+    },
+    {
+      "id": "img_post_stopped",
+      "kind": "image",
+      "name": "In the photo · Old Zhou (stopped)",
+      "src": "assets/post_stopped.webp"
+    },
+    {
+      "id": "img_girl_waiting",
+      "kind": "image",
+      "name": "In the photo · Lin Xiu (waiting)",
+      "src": "assets/girl_waiting.webp"
+    },
+    {
+      "id": "img_girl_leaving",
+      "kind": "image",
+      "name": "In the photo · Lin Xiu (leaving)",
+      "src": "assets/girl_leaving.webp"
+    },
+    {
+      "id": "img_film",
+      "kind": "image",
+      "name": "Film grain",
+      "src": "assets/film.webp"
+    },
+    {
+      "id": "snd_street",
+      "kind": "audio",
+      "name": "Music · The street",
+      "src": "assets/street.mp3"
+    },
+    {
+      "id": "snd_darkroom",
+      "kind": "audio",
+      "name": "Music · The darkroom",
+      "src": "assets/darkroom.mp3"
+    },
+    {
+      "id": "snd_shutter",
+      "kind": "audio",
+      "name": "Sound · Shutter",
+      "src": "assets/shutter.mp3"
+    }
+  ],
+  "characters": [
+    {
+      "id": "boy",
+      "name": "Xiaoman",
+      "color": "#b07a3a",
+      "sprites": {
+        "there": "img_boy_there",
+        "gone": "img_boy_gone"
+      }
+    },
+    {
+      "id": "post",
+      "name": "Old Zhou",
+      "color": "#4f7a5a",
+      "sprites": {
+        "riding past": "img_post_riding",
+        "stopped": "img_post_stopped"
+      }
+    },
+    {
+      "id": "girl",
+      "name": "Lin Xiu",
+      "color": "#a0566e",
+      "sprites": {
+        "waiting": "img_girl_waiting",
+        "leaving": "img_girl_leaving"
+      }
+    },
+    {
+      "id": "film",
+      "name": "Film",
+      "color": "#6e6e6e",
+      "sprites": {
+        "grain": "img_film"
+      }
+    },
+    {
+      "id": "me",
+      "name": "Me",
+      "color": "#5e6f86",
+      "sprites": {}
+    },
+    {
+      "id": "buyer",
+      "name": "A man buying a paper",
+      "color": "#7a6a5a",
+      "sprites": {}
+    }
+  ],
+  "variables": [
+    {
+      "id": "seenBoy",
+      "name": "Saw Xiaoman",
+      "initial": false
+    },
+    {
+      "id": "seenPost",
+      "name": "Saw Old Zhou",
+      "initial": false
+    },
+    {
+      "id": "seenGirl",
+      "name": "Saw Lin Xiu",
+      "initial": false
+    },
+    {
+      "id": "boyStayed",
+      "name": "Xiaoman stayed",
+      "initial": true
+    },
+    {
+      "id": "letterGiven",
+      "name": "The letter was delivered",
+      "initial": false
+    },
+    {
+      "id": "girlLeft",
+      "name": "Lin Xiu left",
+      "initial": false
+    }
+  ],
+  "theme": {
+    "fontFamily": "Georgia, \"Times New Roman\", serif",
+    "textSpeed": 30,
+    "dialogue": {
+      "background": "rgba(16, 14, 12, 0.82)",
+      "textColor": "#ece6da",
+      "fontSize": 23,
+      "borderRadius": 4,
+      "padding": 28,
+      "height": 0.28,
+      "margin": 26
+    },
+    "nameplate": {
+      "background": "#3a332b",
+      "textColor": "#f1ebdf",
+      "fontSize": 21
+    },
+    "choice": {
+      "background": "rgba(16, 14, 12, 0.86)",
+      "hoverBackground": "rgba(120, 96, 64, 0.95)",
+      "textColor": "#ece6da",
+      "borderRadius": 4
+    }
+  },
+  "scenes": [
+    {
+      "id": "intro",
+      "name": "Prologue",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "commands": [
+        {
+          "id": "c0001",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_title"
+          }
+        },
+        {
+          "id": "c0002",
+          "type": "music",
+          "action": "play",
+          "assetId": "snd_street",
+          "loop": true,
+          "volume": 0.5
+        },
+        {
+          "id": "c0003",
+          "type": "say",
+          "text": "This photograph has been in my drawer for thirty years."
+        },
+        {
+          "id": "c0004",
+          "type": "say",
+          "text": "It was never printed in any paper."
+        },
+        {
+          "id": "c0005",
+          "type": "say",
+          "text": "It was taken at twelve minutes past six in the evening. The clock on the corner can vouch for that."
+        },
+        {
+          "id": "c0006",
+          "type": "say",
+          "text": "Before the shutter clicked, everyone in it still had a few minutes."
+        },
+        {
+          "id": "c0007",
+          "type": "sound",
+          "assetId": "snd_shutter",
+          "volume": 0.9
+        },
+        {
+          "id": "c0008",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_photo"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "c0009",
+          "type": "show",
+          "characterId": "boy",
+          "expression": "there",
+          "position": "center",
+          "place": {
+            "x": 0.5,
+            "y": 1,
+            "height": 1
+          }
+        },
+        {
+          "id": "c0010",
+          "type": "show",
+          "characterId": "post",
+          "expression": "riding past",
+          "position": "center",
+          "place": {
+            "x": 0.5,
+            "y": 1,
+            "height": 1
+          }
+        },
+        {
+          "id": "c0011",
+          "type": "show",
+          "characterId": "girl",
+          "expression": "waiting",
+          "position": "center",
+          "place": {
+            "x": 0.5,
+            "y": 1,
+            "height": 1
+          }
+        },
+        {
+          "id": "c0012",
+          "type": "show",
+          "characterId": "film",
+          "expression": "grain",
+          "position": "center",
+          "place": {
+            "x": 0.5,
+            "y": 1,
+            "height": 1
+          }
+        },
+        {
+          "id": "c0013",
+          "type": "say",
+          "text": "You can step into those minutes, for any one of them."
+        },
+        {
+          "id": "c0014",
+          "type": "jump",
+          "targetSceneId": "photo"
+        }
+      ]
+    },
+    {
+      "id": "photo",
+      "name": "The Photograph",
+      "position": {
+        "x": 300,
+        "y": 0
+      },
+      "commands": [
+        {
+          "id": "c0015",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_photo"
+          }
+        },
+        {
+          "id": "c0016",
+          "type": "hide",
+          "characterId": "film"
+        },
+        {
+          "id": "c0017",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "boyStayed",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0018",
+              "type": "show",
+              "characterId": "boy",
+              "expression": "there",
+              "position": "center",
+              "place": {
+                "x": 0.5,
+                "y": 1,
+                "height": 1
+              }
+            }
+          ],
+          "else": [
+            {
+              "id": "c0019",
+              "type": "show",
+              "characterId": "boy",
+              "expression": "gone",
+              "position": "center",
+              "place": {
+                "x": 0.5,
+                "y": 1,
+                "height": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "c0020",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "letterGiven",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0021",
+              "type": "show",
+              "characterId": "post",
+              "expression": "stopped",
+              "position": "center",
+              "place": {
+                "x": 0.5,
+                "y": 1,
+                "height": 1
+              }
+            }
+          ],
+          "else": [
+            {
+              "id": "c0022",
+              "type": "show",
+              "characterId": "post",
+              "expression": "riding past",
+              "position": "center",
+              "place": {
+                "x": 0.5,
+                "y": 1,
+                "height": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "c0023",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "girlLeft",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0024",
+              "type": "show",
+              "characterId": "girl",
+              "expression": "leaving",
+              "position": "center",
+              "place": {
+                "x": 0.5,
+                "y": 1,
+                "height": 1
+              }
+            }
+          ],
+          "else": [
+            {
+              "id": "c0025",
+              "type": "show",
+              "characterId": "girl",
+              "expression": "waiting",
+              "position": "center",
+              "place": {
+                "x": 0.5,
+                "y": 1,
+                "height": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "c0026",
+          "type": "show",
+          "characterId": "film",
+          "expression": "grain",
+          "position": "center",
+          "place": {
+            "x": 0.5,
+            "y": 1,
+            "height": 1
+          }
+        },
+        {
+          "id": "c0027",
+          "type": "if",
+          "condition": {
+            "kind": "all",
+            "conditions": [
+              {
+                "kind": "compare",
+                "variableId": "seenBoy",
+                "op": "==",
+                "value": true
+              },
+              {
+                "kind": "compare",
+                "variableId": "seenPost",
+                "op": "==",
+                "value": true
+              },
+              {
+                "kind": "compare",
+                "variableId": "seenGirl",
+                "op": "==",
+                "value": true
+              }
+            ]
+          },
+          "then": [
+            {
+              "id": "c0028",
+              "type": "jump",
+              "targetSceneId": "develop"
+            }
+          ],
+          "else": []
+        },
+        {
+          "id": "c0029",
+          "type": "choice",
+          "options": [
+            {
+              "id": "c0030",
+              "text": "The boy holding up a newspaper",
+              "condition": {
+                "kind": "compare",
+                "variableId": "seenBoy",
+                "op": "==",
+                "value": false
+              },
+              "area": {
+                "x": 0.14,
+                "y": 0.36,
+                "width": 0.15,
+                "height": 0.625
+              },
+              "targetSceneId": "boy1"
+            },
+            {
+              "id": "c0031",
+              "text": "The postman riding past",
+              "condition": {
+                "kind": "compare",
+                "variableId": "seenPost",
+                "op": "==",
+                "value": false
+              },
+              "area": {
+                "x": 0.485,
+                "y": 0.49,
+                "width": 0.15,
+                "height": 0.39
+              },
+              "targetSceneId": "post1"
+            },
+            {
+              "id": "c0032",
+              "text": "The girl under the clock",
+              "condition": {
+                "kind": "compare",
+                "variableId": "seenGirl",
+                "op": "==",
+                "value": false
+              },
+              "area": {
+                "x": 0.748,
+                "y": 0.425,
+                "width": 0.088,
+                "height": 0.49
+              },
+              "targetSceneId": "girl1"
+            }
+          ],
+          "prompt": "Click someone in the photograph."
+        },
+        {
+          "id": "c0033",
+          "type": "jump",
+          "targetSceneId": "develop"
+        }
+      ]
+    },
+    {
+      "id": "boy1",
+      "name": "Xiaoman",
+      "position": {
+        "x": 600,
+        "y": -220
+      },
+      "commands": [
+        {
+          "id": "c0034",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_near_boy"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "c0035",
+          "type": "hide",
+          "characterId": "boy"
+        },
+        {
+          "id": "c0036",
+          "type": "hide",
+          "characterId": "post"
+        },
+        {
+          "id": "c0037",
+          "type": "hide",
+          "characterId": "girl"
+        },
+        {
+          "id": "c0038",
+          "type": "say",
+          "text": "5:40."
+        },
+        {
+          "id": "c0039",
+          "type": "say",
+          "text": "Xiaoman had twelve evening papers left in his canvas bag."
+        },
+        {
+          "id": "c0040",
+          "type": "say",
+          "text": "His mother had said: be home before the street lamps come on. The street lamps were on."
+        },
+        {
+          "id": "c0041",
+          "type": "say",
+          "characterId": "buyer",
+          "text": "Anything in the news today, kid?"
+        },
+        {
+          "id": "c0042",
+          "type": "say",
+          "characterId": "boy",
+          "text": "Same as always. Ten fen a copy."
+        },
+        {
+          "id": "c0043",
+          "type": "say",
+          "text": "The man laughed, gave him twenty, and told him to keep the change. Xiaoman squeezed the coins until his palm was wet."
+        },
+        {
+          "id": "c0044",
+          "type": "say",
+          "text": "Eleven left. Sell those, and there'd be enough for two doses of his mother's medicine."
+        },
+        {
+          "id": "c0045",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "letterGiven",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0046",
+              "type": "say",
+              "text": "Across the street, the postman had stopped his bike under the clock and was handing a girl a letter. Who gets their post in the middle of the street, Xiaoman wondered."
+            }
+          ],
+          "else": []
+        },
+        {
+          "id": "c0047",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "girlLeft",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0048",
+              "type": "say",
+              "text": "The girl in the long coat under the clock had just walked off. She walked fast, as if she didn't see anything."
+            }
+          ],
+          "else": []
+        },
+        {
+          "id": "c0049",
+          "type": "say",
+          "text": "It was getting darker. The wind lifted the corner of a paper and made it snap."
+        },
+        {
+          "id": "c0050",
+          "type": "choice",
+          "options": [
+            {
+              "id": "c0051",
+              "text": "Sell a while longer. Eleven left.",
+              "effects": [
+                {
+                  "variableId": "boyStayed",
+                  "op": "set",
+                  "value": true
+                }
+              ]
+            },
+            {
+              "id": "c0052",
+              "text": "Go home. Mother is waiting.",
+              "effects": [
+                {
+                  "variableId": "boyStayed",
+                  "op": "set",
+                  "value": false
+                }
+              ]
+            }
+          ],
+          "prompt": "The street lamps are on."
+        },
+        {
+          "id": "c0053",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "boyStayed",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0054",
+              "type": "say",
+              "text": "He held a paper high over his head and called out to the crowd going home from work:"
+            },
+            {
+              "id": "c0055",
+              "type": "say",
+              "characterId": "boy",
+              "text": "Evening paper! Evening paper!"
+            },
+            {
+              "id": "c0056",
+              "type": "say",
+              "text": "In the photograph his mouth is open. Whatever he is calling, nobody who looks at it can hear."
+            }
+          ],
+          "else": [
+            {
+              "id": "c0057",
+              "type": "say",
+              "text": "He swung the bag onto his back and ran. As he ran past the corner, a paper slid out of the bag onto the wet ground."
+            },
+            {
+              "id": "c0058",
+              "type": "say",
+              "text": "He didn't look back. That night his mother asked if he'd sold well. He said yes."
+            },
+            {
+              "id": "c0059",
+              "type": "say",
+              "text": "In the photograph, all that's left where he stood is that one newspaper."
+            }
+          ]
+        },
+        {
+          "id": "c0060",
+          "type": "setVar",
+          "effect": {
+            "variableId": "seenBoy",
+            "op": "set",
+            "value": true
+          }
+        },
+        {
+          "id": "c0061",
+          "type": "jump",
+          "targetSceneId": "photo"
+        }
+      ]
+    },
+    {
+      "id": "post1",
+      "name": "Old Zhou",
+      "position": {
+        "x": 600,
+        "y": 0
+      },
+      "commands": [
+        {
+          "id": "c0062",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_near_post"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "c0063",
+          "type": "hide",
+          "characterId": "boy"
+        },
+        {
+          "id": "c0064",
+          "type": "hide",
+          "characterId": "post"
+        },
+        {
+          "id": "c0065",
+          "type": "hide",
+          "characterId": "girl"
+        },
+        {
+          "id": "c0066",
+          "type": "say",
+          "text": "5:50."
+        },
+        {
+          "id": "c0067",
+          "type": "say",
+          "text": "There was one letter left in Old Zhou's bag."
+        },
+        {
+          "id": "c0068",
+          "type": "say",
+          "text": "No house number on the envelope. Just: This street. Under the clock. For Lin Xiu."
+        },
+        {
+          "id": "c0069",
+          "type": "say",
+          "text": "And on the back, in small writing: She'll be waiting under the clock at six. Please give it to her before six."
+        },
+        {
+          "id": "c0070",
+          "type": "say",
+          "characterId": "post",
+          "text": "Under the clock?"
+        },
+        {
+          "id": "c0071",
+          "type": "say",
+          "text": "Twenty years he'd been delivering letters. He had never seen an address like it."
+        },
+        {
+          "id": "c0072",
+          "type": "say",
+          "text": "The post office closed at half past six. It was his daughter's birthday; he'd promised to be home early."
+        },
+        {
+          "id": "c0073",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "girlLeft",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0074",
+              "type": "say",
+              "text": "But when he reached the corner, there was nobody under the clock."
+            },
+            {
+              "id": "c0075",
+              "type": "choice",
+              "options": [
+                {
+                  "id": "c0076",
+                  "text": "Put the letter back in the bag and go home.",
+                  "effects": [
+                    {
+                      "variableId": "letterGiven",
+                      "op": "set",
+                      "value": false
+                    }
+                  ]
+                }
+              ],
+              "prompt": "There's nobody under the clock."
+            },
+            {
+              "id": "c0077",
+              "type": "say",
+              "text": "The next day he took it back to the post office and ticked the box that said Undeliverable."
+            },
+            {
+              "id": "c0078",
+              "type": "say",
+              "text": "In the photograph he's only a blur on a bicycle, passing."
+            }
+          ],
+          "else": [
+            {
+              "id": "c0079",
+              "type": "say",
+              "text": "A girl in a long coat stood under the clock, her scarf pulled up to her chin. She kept looking up at the clock."
+            },
+            {
+              "id": "c0080",
+              "type": "choice",
+              "options": [
+                {
+                  "id": "c0081",
+                  "text": "Stop and give her the letter.",
+                  "effects": [
+                    {
+                      "variableId": "letterGiven",
+                      "op": "set",
+                      "value": true
+                    }
+                  ]
+                },
+                {
+                  "id": "c0082",
+                  "text": "Go home. Deliver it tomorrow.",
+                  "effects": [
+                    {
+                      "variableId": "letterGiven",
+                      "op": "set",
+                      "value": false
+                    }
+                  ]
+                }
+              ],
+              "prompt": "Ten past six."
+            },
+            {
+              "id": "c0083",
+              "type": "if",
+              "condition": {
+                "kind": "compare",
+                "variableId": "letterGiven",
+                "op": "==",
+                "value": true
+              },
+              "then": [
+                {
+                  "id": "c0084",
+                  "type": "say",
+                  "text": "He pulled over and took the letter out of his bag."
+                },
+                {
+                  "id": "c0085",
+                  "type": "say",
+                  "characterId": "post",
+                  "text": "Lin Xiu? This is for you."
+                },
+                {
+                  "id": "c0086",
+                  "type": "say",
+                  "text": "The girl hesitated, then took it. She didn't open it straight away."
+                },
+                {
+                  "id": "c0087",
+                  "type": "say",
+                  "text": "In the photograph his hand is still held out; the letter has only just left his fingers."
+                }
+              ],
+              "else": [
+                {
+                  "id": "c0088",
+                  "type": "say",
+                  "text": "He rode past her and rang his bell once. She'll be here again tomorrow, he thought. People who wait in the street always come back."
+                },
+                {
+                  "id": "c0089",
+                  "type": "say",
+                  "text": "In the photograph he's only a blur on a bicycle, passing."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c0090",
+          "type": "setVar",
+          "effect": {
+            "variableId": "seenPost",
+            "op": "set",
+            "value": true
+          }
+        },
+        {
+          "id": "c0091",
+          "type": "jump",
+          "targetSceneId": "photo"
+        }
+      ]
+    },
+    {
+      "id": "girl1",
+      "name": "Lin Xiu",
+      "position": {
+        "x": 600,
+        "y": 220
+      },
+      "commands": [
+        {
+          "id": "c0092",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_near_girl"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "c0093",
+          "type": "hide",
+          "characterId": "boy"
+        },
+        {
+          "id": "c0094",
+          "type": "hide",
+          "characterId": "post"
+        },
+        {
+          "id": "c0095",
+          "type": "hide",
+          "characterId": "girl"
+        },
+        {
+          "id": "c0096",
+          "type": "say",
+          "text": "6:00."
+        },
+        {
+          "id": "c0097",
+          "type": "say",
+          "text": "Lin Xiu kept her hands in her coat pockets. In one of them was a ticket for the seven o'clock train."
+        },
+        {
+          "id": "c0098",
+          "type": "say",
+          "text": "He had said: six o'clock, under the clock. I'll see you off."
+        },
+        {
+          "id": "c0099",
+          "type": "say",
+          "text": "She had been standing here twenty minutes. The clock moved very slowly, and also very fast."
+        },
+        {
+          "id": "c0100",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "letterGiven",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0101",
+              "type": "say",
+              "text": "A postman had just stopped and handed her a letter. There was only one line in it:"
+            },
+            {
+              "id": "c0102",
+              "type": "say",
+              "text": "\"Don't wait for me. I'll be across the street, watching you go.\""
+            },
+            {
+              "id": "c0103",
+              "type": "say",
+              "text": "She looked across the street. Too many people, and the lamps too bright. She couldn't make anyone out."
+            }
+          ],
+          "else": [
+            {
+              "id": "c0104",
+              "type": "if",
+              "condition": {
+                "kind": "compare",
+                "variableId": "seenPost",
+                "op": "==",
+                "value": true
+              },
+              "then": [
+                {
+                  "id": "c0105",
+                  "type": "say",
+                  "text": "A postman rode past her, rang his bell once, and didn't stop."
+                }
+              ],
+              "else": []
+            },
+            {
+              "id": "c0106",
+              "type": "say",
+              "text": "She didn't know whether he'd come. She only knew the train wouldn't wait."
+            }
+          ]
+        },
+        {
+          "id": "c0107",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "boyStayed",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0108",
+              "type": "say",
+              "text": "Not far off, a newspaper boy was calling: Evening paper! Evening paper! She thought: after tonight, I won't read this city's evening paper again."
+            }
+          ],
+          "else": []
+        },
+        {
+          "id": "c0109",
+          "type": "choice",
+          "options": [
+            {
+              "id": "c0110",
+              "text": "Wait a little longer.",
+              "effects": [
+                {
+                  "variableId": "girlLeft",
+                  "op": "set",
+                  "value": false
+                }
+              ]
+            },
+            {
+              "id": "c0111",
+              "text": "Turn around and go to the station.",
+              "effects": [
+                {
+                  "variableId": "girlLeft",
+                  "op": "set",
+                  "value": true
+                }
+              ]
+            }
+          ],
+          "prompt": "Twelve minutes past six."
+        },
+        {
+          "id": "c0112",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "girlLeft",
+            "op": "==",
+            "value": false
+          },
+          "then": [
+            {
+              "id": "c0113",
+              "type": "say",
+              "text": "She looked up at the clock once more."
+            },
+            {
+              "id": "c0114",
+              "type": "say",
+              "text": "In the photograph her face is turned up, as if she were waiting for the clock to decide for her."
+            }
+          ],
+          "else": [
+            {
+              "id": "c0115",
+              "type": "say",
+              "text": "She turned and walked towards the station. She was several steps away before she knew she wasn't going to look back."
+            },
+            {
+              "id": "c0116",
+              "type": "say",
+              "text": "In the photograph she's almost out of the frame, just a blurred back."
+            }
+          ]
+        },
+        {
+          "id": "c0117",
+          "type": "setVar",
+          "effect": {
+            "variableId": "seenGirl",
+            "op": "set",
+            "value": true
+          }
+        },
+        {
+          "id": "c0118",
+          "type": "jump",
+          "targetSceneId": "photo"
+        }
+      ]
+    },
+    {
+      "id": "develop",
+      "name": "The Darkroom",
+      "position": {
+        "x": 900,
+        "y": 0
+      },
+      "commands": [
+        {
+          "id": "c0119",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_darkroom"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "c0120",
+          "type": "hide",
+          "characterId": "boy"
+        },
+        {
+          "id": "c0121",
+          "type": "hide",
+          "characterId": "post"
+        },
+        {
+          "id": "c0122",
+          "type": "hide",
+          "characterId": "girl"
+        },
+        {
+          "id": "c0123",
+          "type": "hide",
+          "characterId": "film"
+        },
+        {
+          "id": "c0124",
+          "type": "music",
+          "action": "play",
+          "assetId": "snd_darkroom",
+          "loop": true,
+          "volume": 0.5
+        },
+        {
+          "id": "c0125",
+          "type": "say",
+          "text": "That night I developed the negative in the darkroom."
+        },
+        {
+          "id": "c0126",
+          "type": "say",
+          "text": "The paper lay in the developer, blank at first. Then, little by little —"
+        },
+        {
+          "id": "c0127",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_photo"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "c0128",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "boyStayed",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0129",
+              "type": "show",
+              "characterId": "boy",
+              "expression": "there",
+              "position": "center",
+              "place": {
+                "x": 0.5,
+                "y": 1,
+                "height": 1
+              }
+            }
+          ],
+          "else": [
+            {
+              "id": "c0130",
+              "type": "show",
+              "characterId": "boy",
+              "expression": "gone",
+              "position": "center",
+              "place": {
+                "x": 0.5,
+                "y": 1,
+                "height": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "c0131",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "letterGiven",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0132",
+              "type": "show",
+              "characterId": "post",
+              "expression": "stopped",
+              "position": "center",
+              "place": {
+                "x": 0.5,
+                "y": 1,
+                "height": 1
+              }
+            }
+          ],
+          "else": [
+            {
+              "id": "c0133",
+              "type": "show",
+              "characterId": "post",
+              "expression": "riding past",
+              "position": "center",
+              "place": {
+                "x": 0.5,
+                "y": 1,
+                "height": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "c0134",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "girlLeft",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0135",
+              "type": "show",
+              "characterId": "girl",
+              "expression": "leaving",
+              "position": "center",
+              "place": {
+                "x": 0.5,
+                "y": 1,
+                "height": 1
+              }
+            }
+          ],
+          "else": [
+            {
+              "id": "c0136",
+              "type": "show",
+              "characterId": "girl",
+              "expression": "waiting",
+              "position": "center",
+              "place": {
+                "x": 0.5,
+                "y": 1,
+                "height": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "c0137",
+          "type": "show",
+          "characterId": "film",
+          "expression": "grain",
+          "position": "center",
+          "place": {
+            "x": 0.5,
+            "y": 1,
+            "height": 1
+          }
+        },
+        {
+          "id": "c0138",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "letterGiven",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0139",
+              "type": "say",
+              "text": "I wrote that letter. I had the post office take it to the clock, because I didn't have the courage to walk over myself."
+            }
+          ],
+          "else": [
+            {
+              "id": "c0140",
+              "type": "say",
+              "text": "I wrote a letter and asked the post office to get it to the clock before six. It never arrived."
+            }
+          ]
+        },
+        {
+          "id": "c0141",
+          "type": "say",
+          "text": "That evening I was standing across the street, holding a camera, pretending to photograph the street."
+        },
+        {
+          "id": "c0142",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "girlLeft",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0143",
+              "type": "say",
+              "text": "She left, and she didn't look back. By the time I pressed the shutter she was nearly out of the frame."
+            }
+          ],
+          "else": [
+            {
+              "id": "c0144",
+              "type": "say",
+              "text": "She kept waiting. All I had to do was cross the street to be in front of her. I didn't. I just pressed the shutter."
+            }
+          ]
+        },
+        {
+          "id": "c0145",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "boyStayed",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0146",
+              "type": "say",
+              "text": "The newspaper boy shouted \"Evening paper!\" inside my viewfinder. It's the only sound I remember from that evening."
+            }
+          ],
+          "else": [
+            {
+              "id": "c0147",
+              "type": "say",
+              "text": "All the newspaper boy left behind was one newspaper. I picked it up. The news that day was the same as always."
+            }
+          ]
+        },
+        {
+          "id": "c0148",
+          "type": "say",
+          "text": "I never took this photograph to any paper."
+        },
+        {
+          "id": "c0149",
+          "type": "say",
+          "text": "Everyone in it is still standing in that one second. I'm the only one who walked out of it."
+        },
+        {
+          "id": "c0150",
+          "type": "say",
+          "text": "[This is the print you developed. Choose \"Save picture\" in the menu to keep it.]"
+        },
+        {
+          "id": "c0151",
+          "type": "end"
+        }
+      ]
+    }
+  ],
+  "startSceneId": "intro"
+}

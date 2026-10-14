@@ -22,6 +22,7 @@ import { actions } from '../state/projectActions';
 import { CommandList, focusLater } from './CommandList';
 import { useEditorApi, type EditFn } from './EditorApi';
 import { ListenButton, usePickAsset, usePickImage } from './AssetsPanel';
+import { StagePicker } from './StagePicker';
 import { useI18n } from '../i18n';
 
 interface Props {
@@ -47,6 +48,9 @@ const EFFECT_OPS: Record<ValueType, EffectOp[]> = {
 };
 
 const NEW = '__new';
+const CUSTOM = '__custom';
+/** Where the preset positions put a picture's centre (matches the player). */
+const PRESET_X: Record<StagePosition, number> = { left: 0.22, center: 0.5, right: 0.78 };
 const UPLOAD = '__upload';
 const COLOR = '__color';
 
@@ -66,6 +70,8 @@ export function CommandCard({ project, scene, command, isFirst, isLast, onEdit }
   const pickImage = usePickImage(onEdit);
   /** `key` groups continuous typing into one undo step. */
   const update = (next: Command, key?: string) => onEdit((p) => actions.updateCommand(p, scene.id, next), key);
+  /** The stage view for placing a character's picture is open. */
+  const [placing, setPlacing] = useState(false);
 
   let body: ReactNode = null;
   switch (command.type) {
@@ -192,15 +198,40 @@ export function CommandCard({ project, scene, command, isFirst, isLast, onEdit }
           )}
           <span className="muted">{t.card.at}</span>
           <select
-            value={command.position}
-            onChange={(e) => update({ ...command, position: e.target.value as StagePosition })}
+            value={command.place ? CUSTOM : command.position}
+            onChange={(e) => {
+              if (e.target.value === CUSTOM) setPlacing(true);
+              else update({ ...command, position: e.target.value as StagePosition, place: undefined });
+            }}
           >
             {Object.entries(t.card.positions).map(([k, v]) => (
               <option key={k} value={k}>
                 {v}
               </option>
             ))}
+            <option value={CUSTOM}>{t.card.positionCustom}</option>
           </select>
+          {command.place && (
+            <button className="link" onClick={() => setPlacing(true)}>
+              {t.card.adjust}
+            </button>
+          )}
+          {placing && (
+            <StagePicker
+              mode="place"
+              project={project}
+              scene={scene}
+              commandId={command.id}
+              characterId={command.characterId}
+              expression={command.expression}
+              initial={command.place ?? { x: PRESET_X[command.position], y: 1, height: 0.88 }}
+              onDone={(place) => {
+                setPlacing(false);
+                update({ ...command, place });
+              }}
+              onCancel={() => setPlacing(false)}
+            />
+          )}
         </div>
       );
       break;
@@ -220,7 +251,7 @@ export function CommandCard({ project, scene, command, isFirst, isLast, onEdit }
       break;
 
     case 'choice':
-      body = <ChoiceEditor project={project} command={command} onChange={update} />;
+      body = <ChoiceEditor project={project} scene={scene} command={command} onChange={update} />;
       break;
 
     case 'jump':
@@ -776,15 +807,20 @@ function ConditionEditor({
 
 function ChoiceEditor({
   project,
+  scene,
   command,
   onChange,
 }: {
   project: Project;
+  scene: Scene;
   command: ChoiceCommand;
   onChange: (c: ChoiceCommand, key?: string) => void;
 }) {
   const { t } = useI18n();
   const api = useEditorApi();
+  /** Option whose clickable part of the picture is being marked. */
+  const [picking, setPicking] = useState<string | null>(null);
+  const pickingOption = command.options.find((o) => o.id === picking);
   const setOption = (id: string, patch: Partial<ChoiceOption>, key?: string) =>
     onChange(
       { ...command, options: command.options.map((o) => (o.id === id ? { ...o, ...patch } : o)) },
@@ -868,6 +904,17 @@ function ChoiceEditor({
                 </button>
               </div>
             )}
+            {o.area && (
+              <div className="row">
+                <span className="muted">{t.card.pickedOnPicture}</span>
+                <button className="link" onClick={() => setPicking(o.id)}>
+                  {t.card.adjust}
+                </button>
+                <button className="icon" title={t.card.remove} onClick={() => setOption(o.id, { area: undefined })}>
+                  ✕
+                </button>
+              </div>
+            )}
             <div className="row">
               <button
                 className="link"
@@ -900,6 +947,11 @@ function ChoiceEditor({
                   {t.card.showCondition}
                 </button>
               )}
+              {!o.area && (
+                <button className="link" onClick={() => setPicking(o.id)}>
+                  {t.card.pickOnPicture}
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -912,6 +964,24 @@ function ChoiceEditor({
       >
         {t.card.addOption}
       </button>
+      {pickingOption && (
+        <StagePicker
+          mode="area"
+          project={project}
+          scene={scene}
+          commandId={command.id}
+          label={pickingOption.text}
+          initial={pickingOption.area}
+          others={command.options
+            .filter((x) => x.id !== pickingOption.id && x.area)
+            .map((x) => ({ area: x.area!, label: x.text }))}
+          onDone={(area) => {
+            setPicking(null);
+            setOption(pickingOption.id, { area });
+          }}
+          onCancel={() => setPicking(null)}
+        />
+      )}
     </div>
   );
 }

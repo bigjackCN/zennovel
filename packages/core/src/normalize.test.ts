@@ -83,4 +83,35 @@ describe('normalizeProject', () => {
     expect(p.scenes[0]!.id).toBe('park');
     expect(p.assets[0]!.id).toBe('park');
   });
+
+  it('keeps custom placements and clickable areas, inside sensible bounds', () => {
+    const p = ok({
+      scenes: [
+        {
+          id: 's',
+          commands: [
+            { type: 'show', characterId: 'a', expression: 'x', position: 'left', place: { x: 0.3, y: 1, height: 1 } },
+            { type: 'show', characterId: 'b', expression: 'x', place: { x: 9, y: -1, height: 50 } },
+            { type: 'show', characterId: 'c', expression: 'x', place: { x: 'no', y: 1, height: 1 } },
+            {
+              type: 'choice',
+              options: [
+                { text: 'door', area: { x: 0.1, y: 0.2, width: 0.3, height: 0.4 } },
+                { text: 'edge', area: { x: 0.9, y: 0.9, width: 0.5, height: 0.5 } },
+                { text: 'tiny', area: { x: 0.5, y: 0.5, width: 0, height: 0.1 } },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+    const [a, b, c, choice] = p.scenes[0]!.commands;
+    expect(a?.type === 'show' && [a.position, a.place]).toEqual(['left', { x: 0.3, y: 1, height: 1 }]);
+    expect(b?.type === 'show' && b.place).toEqual({ x: 1.5, y: 0, height: 4 });
+    expect(c && 'place' in c).toBe(false);
+    if (choice?.type !== 'choice') throw new Error('expected a choice');
+    expect(choice.options[0]!.area).toEqual({ x: 0.1, y: 0.2, width: 0.3, height: 0.4 });
+    expect(Math.round(choice.options[1]!.area!.width * 100)).toBe(10);
+    expect('area' in choice.options[2]!).toBe(false);
+  });
 });

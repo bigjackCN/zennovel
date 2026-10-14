@@ -121,6 +121,11 @@ export const en = {
       name: 'The Great Rift',
       description: 'A branching adaptation of Hu Qian’s novella: eight chapters, four endings, with art and music',
     },
+    photo: {
+      name: 'One Photograph',
+      description:
+        'Click the people in a photograph to live the minutes before the shutter; your choices change the picture',
+    },
     blank: { name: 'Blank project', description: 'Start from a blank page' },
     loadFailed: (status: number) => `Could not load template (HTTP ${status})`,
     notAProject: "This isn't a ZenNovel project file",
@@ -240,6 +245,10 @@ export const en = {
     fadeIn: 'Fade in',
     at: 'at',
     positions: { left: 'left', center: 'center', right: 'right' } as Record<StagePosition, string>,
+    positionCustom: 'a spot of my own…',
+    adjust: 'Adjust',
+    pickOnPicture: '+ Pick on the picture',
+    pickedOnPicture: 'Players pick this by clicking part of the picture.',
     leavesStage: 'leaves the stage',
     goTo: 'Go to',
     if: 'If',
@@ -286,6 +295,17 @@ export const en = {
     newOption: 'New option',
     optionN: (n: number) => `Option ${n}`,
     effectOps: { add: 'add', subtract: 'subtract', set: 'set to', toggle: 'toggle' } as Record<EffectOp, string>,
+  },
+
+  picker: {
+    areaTitle: 'Drag over the part of the picture players click to pick this option',
+    areaHint: 'Drag the box to move it, its corners to resize it.',
+    placeTitle: 'Drag the picture where it should stand',
+    placeHint: 'Drag the corner handle up or down to resize. It snaps to the centre and the bottom edge.',
+    done: 'Done',
+    fill: 'Fill the stage',
+    resize: 'Drag to resize',
+    noBackground: 'No background is set above this step yet.',
   },
 
   preview: {

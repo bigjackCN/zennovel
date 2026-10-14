@@ -105,6 +105,7 @@ export const zh: Messages = {
   templates: {
     demo: { name: '樱花坡道（示例）', description: '带背景、角色、选项和两个结局的小故事' },
     dalie: { name: '大裂（互动改编）', description: '根据胡迁中篇小说改编的分支故事：八章、四个结局，带插画和配乐' },
+    photo: { name: '一张照片', description: '点照片里的人，走进快门按下前的几分钟；你的选择会改变这张照片' },
     blank: { name: '空白项目', description: '从一张白纸开始' },
     loadFailed: (status) => `模板加载失败（HTTP ${status}）`,
     notAProject: '这不是一个 ZenNovel 项目文件',
@@ -220,6 +221,10 @@ export const zh: Messages = {
     fadeIn: '淡入',
     at: '站在',
     positions: { left: '左边', center: '中间', right: '右边' },
+    positionCustom: '自定义位置…',
+    adjust: '调整',
+    pickOnPicture: '+ 在画面上点选',
+    pickedOnPicture: '玩家点画面上的一块区域来选这一项。',
     leavesStage: '离开画面',
     goTo: '前往',
     if: '如果',
@@ -266,6 +271,17 @@ export const zh: Messages = {
     newOption: '新选项',
     optionN: (n) => `选项${'一二三四五六七八九十'[n - 1] ?? n}`,
     effectOps: { add: '加上', subtract: '减去', set: '设为', toggle: '切换' },
+  },
+
+  picker: {
+    areaTitle: '在画面上拖出一块区域，玩家点这里就选这一项',
+    areaHint: '拖动方框可以移动，拖四个角可以改变大小。',
+    placeTitle: '把图片拖到要站的位置',
+    placeHint: '上下拖右上角的圆点改变大小。靠近中线和底边时会自动对齐。',
+    done: '完成',
+    fill: '铺满画面',
+    resize: '拖动改变大小',
+    noBackground: '这一步之前还没有设置背景。',
   },
 
   preview: {

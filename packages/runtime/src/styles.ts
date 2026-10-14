@@ -6,10 +6,17 @@ export const PLAYER_CSS = /* css */ `
 .zn-fade-in { animation: zn-fade 0.6s ease both; }
 @keyframes zn-fade { from { opacity: 0; } to { opacity: 1; } }
 
-.zn-sprites { pointer-events: none; }
-.zn-sprite { position: absolute; bottom: 0; height: 88%; transform: translateX(-50%); display: flex; align-items: flex-end; animation: zn-fade 0.3s ease both; }
+.zn-sprites { pointer-events: none; z-index: 0; } /* a layer of its own: sprite order stays inside it */
+.zn-sprite {
+  position: absolute; bottom: 0; height: 88%; transform: translateX(-50%); display: flex; align-items: flex-end;
+  animation: zn-fade 0.3s ease both; transition: left 0.45s ease, bottom 0.45s ease, height 0.45s ease;
+}
 .zn-sprite img { height: 100%; width: auto; }
 .zn-pos-left { left: 22%; } .zn-pos-center { left: 50%; } .zn-pos-right { left: 78%; }
+.zn-sprite-in { animation: zn-fade 0.35s ease both; }
+.zn-sprite-out { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); animation: zn-fade-out 0.35s ease both; }
+.zn-leaving { animation: zn-fade-out 0.35s ease both; }
+@keyframes zn-fade-out { from { opacity: 1; } to { opacity: 0; } }
 .zn-sprite-placeholder { width: 240px; height: 70%; border: 4px dashed #fff8; border-radius: 120px 120px 12px 12px; background: #ffffff22; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 28px; }
 
 .zn-dialogue {
@@ -32,6 +39,33 @@ export const PLAYER_CSS = /* css */ `
   font: inherit; font-size: 26px; transition: background 0.15s, transform 0.15s;
 }
 .zn-choice:hover, .zn-choice:focus-visible { background: var(--zn-choice-hover); transform: scale(1.02); outline: none; }
+
+/* Choices made by clicking part of the picture. */
+.zn-hotspots { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.zn-hotspot {
+  pointer-events: auto; position: absolute; padding: 0; border: none; border-radius: 14px; background: transparent;
+  cursor: pointer; font: inherit; transition: box-shadow 0.3s ease;
+}
+.zn-hotspot::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; border: 2px solid #fff;
+  opacity: 0; animation: zn-hint 4s ease-in-out 1.2s infinite;
+}
+.zn-hotspot:hover, .zn-hotspot:focus-visible { z-index: 1; outline: none; box-shadow: 0 0 0 4000px #0000008c; }
+.zn-hotspot:hover::before, .zn-hotspot:focus-visible::before { animation: none; opacity: 0.85; }
+@keyframes zn-hint { 0%, 70%, 100% { opacity: 0; } 82% { opacity: 0.45; } }
+.zn-hotspot-label {
+  position: absolute; left: 50%; top: calc(100% + 12px); transform: translateX(-50%); white-space: nowrap;
+  padding: 8px 20px; border-radius: 999px; background: var(--zn-choice-bg); color: var(--zn-choice-color);
+  font-size: 24px; pointer-events: none; opacity: 0; transition: opacity 0.2s ease;
+}
+.zn-hotspot-label.zn-above { top: auto; bottom: calc(100% + 12px); }
+.zn-hotspot:hover .zn-hotspot-label, .zn-hotspot:focus-visible .zn-hotspot-label { opacity: 1; }
+@media (hover: none) { .zn-hotspot-label { opacity: 0.92; } }
+.zn-caption {
+  position: absolute; left: 50%; top: 32px; transform: translateX(-50%); max-width: 80%; text-align: center;
+  padding: 10px 28px; border-radius: 999px; background: var(--zn-dlg-bg); color: var(--zn-dlg-color);
+  font-size: var(--zn-dlg-size); line-height: 1.5; pointer-events: none; animation: zn-fade 0.4s ease both;
+}
 
 .zn-overlay { background: #000b; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; color: #fff; cursor: default; }
 .zn-overlay-title { font-size: 48px; letter-spacing: 0.3em; }

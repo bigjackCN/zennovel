@@ -173,6 +173,7 @@ export class Game {
     button(list, this.strings.save, () => this.showSlots('save'));
     button(list, this.strings.load, () => this.showSlots('load', 'menu'));
     button(list, this.strings.history, () => this.showHistory());
+    button(list, this.strings.savePicture, () => void this.savePicture());
     button(list, this.strings.settings, () => this.showSettings('menu'));
     button(list, this.strings.backToTitle, () => this.confirmTitle());
     this.focusFirst();
@@ -180,6 +181,21 @@ export class Game {
 
   resume(): void {
     this.setScreen('playing');
+  }
+
+  /** Download the picture on stage (without the text box) as a PNG. */
+  async savePicture(): Promise<void> {
+    const blob = await this.player.capturePicture();
+    if (!blob) {
+      this.toast(this.strings.pictureFailed);
+      return;
+    }
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `${this.project.meta.name.replace(/[\\/:*?"<>|]+/g, ' ').trim() || 'picture'}.png`;
+    a.click();
+    window.setTimeout(() => URL.revokeObjectURL(a.href), 10_000);
+    this.toast(this.strings.pictureSaved);
   }
 
   // ---------------------------------------------------------------- saves
