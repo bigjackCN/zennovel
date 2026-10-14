@@ -114,4 +114,66 @@ describe('normalizeProject', () => {
     expect(Math.round(choice.options[1]!.area!.width * 100)).toBe(10);
     expect('area' in choice.options[2]!).toBe(false);
   });
+
+  it('keeps the real-time fields, inside sensible bounds', () => {
+    const p = ok({
+      variables: [
+        {
+          id: 'battery',
+          name: 'Battery',
+          initial: 100,
+          perSecond: 2,
+          display: { style: 'bar', corner: 'top-left', max: 100 },
+        },
+        { id: 'flag', name: 'Flag', initial: true, perSecond: 2, display: { style: 'sparkles' } },
+      ],
+      scenes: [
+        {
+          id: 's',
+          commands: [
+            { type: 'bg', background: { kind: 'color', value: '#000' }, dark: { level: 3, radius: -1, flicker: true } },
+            { type: 'bg', background: { kind: 'color', value: '#000' }, dark: {} },
+            {
+              type: 'show',
+              characterId: 'a',
+              expression: 'x',
+              duration: 4,
+              from: { x: 0, y: 1, height: 1 },
+              glow: true,
+            },
+            { type: 'show', characterId: 'a', expression: 'x', duration: -4, glow: 'yes' },
+            { type: 'wait', seconds: 0 },
+            {
+              type: 'choice',
+              timeLimit: 5,
+              options: [
+                { text: 'light', follow: 'a', hold: 2 },
+                { text: 'late', timeout: true, hold: 'long' },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+    expect(p.variables.map((v) => [v.perSecond, v.display])).toEqual([
+      [2, { style: 'bar', corner: 'top-left', max: 100 }],
+      [undefined, undefined],
+    ]);
+    const [dark, dim, glide, still, wait, choice] = p.scenes[0]!.commands;
+    expect(dark?.type === 'bg' && dark.dark).toEqual({ level: 1, radius: 0, flicker: true });
+    expect(dim?.type === 'bg' && dim.dark).toEqual({ level: 0.85, radius: 0.22 });
+    expect(glide?.type === 'show' && [glide.duration, glide.from, glide.glow]).toEqual([
+      4,
+      { x: 0, y: 1, height: 1 },
+      true,
+    ]);
+    expect(still?.type === 'show' && [still.duration, still.glow]).toEqual([undefined, undefined]);
+    expect(wait?.type === 'wait' && wait.seconds).toBe(1);
+    if (choice?.type !== 'choice') throw new Error('expected a choice');
+    expect(choice.timeLimit).toBe(5);
+    expect(choice.options.map((o) => [o.follow, o.hold, o.timeout])).toEqual([
+      ['a', 2, undefined],
+      [undefined, undefined, true],
+    ]);
+  });
 });

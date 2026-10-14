@@ -33,6 +33,8 @@ type Props =
     }
   | {
       mode: 'place';
+      /** Heading over the stage (defaults to "drag the picture where it should stand"). */
+      title?: string;
       project: Project;
       scene: Scene;
       commandId: string;
@@ -178,7 +180,9 @@ export function StagePicker(props: Props) {
         cancel();
       }}
     >
-      <p className="stage-picker-title">{props.mode === 'area' ? t.picker.areaTitle : t.picker.placeTitle}</p>
+      <p className="stage-picker-title">
+        {props.mode === 'area' ? t.picker.areaTitle : (props.title ?? t.picker.placeTitle)}
+      </p>
       <div
         ref={stageRef}
         className={`stage-picker-stage${props.mode === 'area' ? ' drawing' : ''}`}

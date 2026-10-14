@@ -40,6 +40,55 @@ export const PLAYER_CSS = /* css */ `
 }
 .zn-choice:hover, .zn-choice:focus-visible { background: var(--zn-choice-hover); transform: scale(1.02); outline: none; }
 
+/* Darkness, lit only around the pointer; things that glow sit above it. */
+.zn-dark {
+  position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.8s ease;
+  background:
+    radial-gradient(circle at var(--zn-lx, 50%) var(--zn-ly, 50%), rgba(255, 226, 170, 0.12) 0, rgba(255, 226, 170, 0) var(--zn-lr, 0px)),
+    radial-gradient(circle at var(--zn-lx, 50%) var(--zn-ly, 50%), rgba(3, 5, 12, 0) 0, rgba(3, 5, 12, 0) calc(var(--zn-lr, 0px) * 0.45), rgba(3, 5, 12, var(--zn-dl, 0.85)) var(--zn-lr, 0px));
+}
+.zn-dark.zn-on { opacity: 1; }
+.zn-dark.zn-flicker { animation: zn-flicker 2.6s steps(1, end) infinite; }
+@keyframes zn-flicker {
+  0%, 100% { opacity: 1; } 6% { opacity: 0.35; } 8% { opacity: 1; } 31% { opacity: 1; } 33% { opacity: 0.5; }
+  34% { opacity: 1; } 36% { opacity: 0.25; } 39% { opacity: 1; } 71% { opacity: 1; } 73% { opacity: 0.6; } 76% { opacity: 1; }
+}
+.zn-glow { mix-blend-mode: screen; }
+.zn-is-dark, .zn-is-dark .zn-hotspot { touch-action: none; cursor: none; }
+.zn-is-dark .zn-hotspot::before { animation: none; }
+.zn-is-dark .zn-hotspot-label { opacity: 0; }
+.zn-is-dark .zn-hotspot:hover, .zn-is-dark .zn-hotspot.zn-lit { box-shadow: none; }
+.zn-is-dark .zn-hotspot:hover::before, .zn-is-dark .zn-hotspot.zn-lit::before { opacity: 0.3; border-width: 1px; }
+.zn-is-dark .zn-hotspot.zn-lit .zn-hotspot-label, .zn-is-dark .zn-hotspot:hover .zn-hotspot-label { opacity: 1; }
+
+/* A choice's time limit: a bar along the top that runs out. */
+.zn-countdown {
+  position: absolute; left: 0; right: 0; top: 0; height: 6px; pointer-events: none;
+  background: linear-gradient(90deg, var(--zn-choice-hover) calc(var(--zn-left, 1) * 100%), transparent 0);
+}
+
+/* Variables shown on screen (a battery, a countdown). */
+.zn-vars { position: absolute; inset: 0; pointer-events: none; }
+.zn-vars-corner { position: absolute; top: 22px; display: grid; gap: 10px; }
+.zn-vars-corner.zn-left { left: 26px; justify-items: start; }
+.zn-vars-corner.zn-right { right: 90px; justify-items: end; }
+.zn-var {
+  display: flex; align-items: center; gap: 10px; padding: 7px 14px; border-radius: 10px;
+  background: #0009; color: #fff; font-size: 20px; font-variant-numeric: tabular-nums; backdrop-filter: blur(4px);
+}
+.zn-var-name { opacity: 0.8; font-size: 17px; }
+.zn-var-track { width: 120px; height: 12px; border-radius: 3px; border: 2px solid #fffc; padding: 1px; box-sizing: content-box; }
+.zn-var-fill { display: block; height: 100%; background: #9be37a; border-radius: 1px; transition: width 0.3s linear; }
+.zn-var.zn-low .zn-var-fill { background: #ff6b5a; }
+.zn-var-timer .zn-var-value { font-size: 26px; font-weight: 600; letter-spacing: 0.04em; }
+.zn-var-timer.zn-low .zn-var-value { color: #ff6b5a; }
+
+/* Held options: a little bar fills while the light rests on them. */
+.zn-hold-bar {
+  position: absolute; left: 0; bottom: -10px; height: 4px; width: 0; border-radius: 2px;
+  background: var(--zn-choice-hover); pointer-events: none;
+}
+
 /* Choices made by clicking part of the picture. */
 .zn-hotspots { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
 .zn-hotspot {

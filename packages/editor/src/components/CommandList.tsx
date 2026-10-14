@@ -15,6 +15,7 @@ const ADD_ORDER: CommandType[] = [
   'jump',
   'setVar',
   'if',
+  'wait',
   'achievement',
   'end',
 ];

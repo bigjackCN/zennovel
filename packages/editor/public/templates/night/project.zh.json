@@ -1,0 +1,1087 @@
+{
+  "formatVersion": 1,
+  "meta": {
+    "id": "proj_template_night",
+    "name": "夜班",
+    "locale": "zh",
+    "author": "ZenNovel",
+    "description": "原型：你守着一条危险的街过夜。鼠标就是手电——把光照在人身上，司机才看得见他们。",
+    "resolution": {
+      "width": 1600,
+      "height": 900
+    },
+    "createdAt": "2026-10-14T00:00:00.000Z",
+    "updatedAt": "2026-10-14T00:00:00.000Z"
+  },
+  "assets": [
+    {
+      "id": "bg_day",
+      "kind": "image",
+      "name": "背景 · 街口（白天）",
+      "src": "assets/street_day.webp"
+    },
+    {
+      "id": "bg_dusk",
+      "kind": "image",
+      "name": "背景 · 街口（傍晚）",
+      "src": "assets/street_dusk.webp"
+    },
+    {
+      "id": "bg_night",
+      "kind": "image",
+      "name": "背景 · 街口（夜里）",
+      "src": "assets/street_night.webp"
+    },
+    {
+      "id": "bg_dawn",
+      "kind": "image",
+      "name": "背景 · 街口（天亮）",
+      "src": "assets/street_dawn.webp"
+    },
+    {
+      "id": "img_lamps",
+      "kind": "image",
+      "name": "路灯的光",
+      "src": "assets/glow_lamps.webp"
+    },
+    {
+      "id": "img_lamps_short",
+      "kind": "image",
+      "name": "路灯的光（短路）",
+      "src": "assets/glow_lamps_flicker.webp"
+    },
+    {
+      "id": "img_windows",
+      "kind": "image",
+      "name": "窗户的光",
+      "src": "assets/glow_windows.webp"
+    },
+    {
+      "id": "img_granny",
+      "kind": "image",
+      "name": "老奶奶（站着）",
+      "src": "assets/granny.webp"
+    },
+    {
+      "id": "img_granny_walk",
+      "kind": "image",
+      "name": "老奶奶（走路）",
+      "src": "assets/granny_walk.webp"
+    },
+    {
+      "id": "img_car",
+      "kind": "image",
+      "name": "车灯",
+      "src": "assets/headlights.webp"
+    },
+    {
+      "id": "snd_day",
+      "kind": "audio",
+      "name": "环境声 · 白天",
+      "src": "assets/day.mp3"
+    },
+    {
+      "id": "snd_night",
+      "kind": "audio",
+      "name": "配乐 · 夜里",
+      "src": "assets/night.mp3"
+    },
+    {
+      "id": "snd_dawn",
+      "kind": "audio",
+      "name": "配乐 · 天亮",
+      "src": "assets/dawn.mp3"
+    },
+    {
+      "id": "snd_buzz",
+      "kind": "audio",
+      "name": "音效 · 短路",
+      "src": "assets/buzz.mp3"
+    },
+    {
+      "id": "snd_car",
+      "kind": "audio",
+      "name": "音效 · 来车",
+      "src": "assets/car.mp3"
+    },
+    {
+      "id": "snd_brake",
+      "kind": "audio",
+      "name": "音效 · 刹车",
+      "src": "assets/brake.mp3"
+    },
+    {
+      "id": "snd_crash",
+      "kind": "audio",
+      "name": "音效 · 撞上",
+      "src": "assets/crash.mp3"
+    },
+    {
+      "id": "snd_click",
+      "kind": "audio",
+      "name": "音效 · 手电开关",
+      "src": "assets/click.mp3"
+    }
+  ],
+  "characters": [
+    {
+      "id": "qin",
+      "name": "老秦",
+      "color": "#c08a3e",
+      "sprites": {}
+    },
+    {
+      "id": "granny",
+      "name": "老奶奶",
+      "color": "#a0566e",
+      "sprites": {
+        "站着": "img_granny",
+        "走路": "img_granny_walk"
+      }
+    },
+    {
+      "id": "car",
+      "name": "车",
+      "color": "#e8d9a0",
+      "sprites": {
+        "车灯": "img_car"
+      }
+    },
+    {
+      "id": "lamps",
+      "name": "路灯",
+      "color": "#ffcf88",
+      "sprites": {
+        "亮着": "img_lamps",
+        "短路": "img_lamps_short"
+      }
+    },
+    {
+      "id": "windows",
+      "name": "窗户",
+      "color": "#ffd27f",
+      "sprites": {
+        "亮着": "img_windows"
+      }
+    }
+  ],
+  "variables": [
+    {
+      "id": "battery1",
+      "name": "电量",
+      "initial": 0,
+      "perSecond": 2.5,
+      "display": {
+        "style": "bar",
+        "corner": "top-left",
+        "max": 100
+      }
+    },
+    {
+      "id": "battery2",
+      "name": "电量",
+      "initial": 0,
+      "perSecond": 0.8,
+      "display": {
+        "style": "bar",
+        "corner": "top-left",
+        "max": 100
+      }
+    },
+    {
+      "id": "clock",
+      "name": "离天亮",
+      "initial": 0,
+      "perSecond": 1,
+      "display": {
+        "style": "timer",
+        "corner": "top-right"
+      }
+    },
+    {
+      "id": "tool",
+      "name": "带的工具",
+      "initial": 0
+    },
+    {
+      "id": "grannyDone",
+      "name": "老奶奶的事过去了",
+      "initial": false
+    },
+    {
+      "id": "saved",
+      "name": "老奶奶平安过街",
+      "initial": false
+    },
+    {
+      "id": "hit",
+      "name": "出了事",
+      "initial": false
+    }
+  ],
+  "theme": {
+    "fontFamily": "\"PingFang SC\", \"Noto Sans SC\", \"Source Han Sans SC\", \"Microsoft YaHei\", sans-serif",
+    "textSpeed": 32,
+    "dialogue": {
+      "background": "rgba(10, 12, 22, 0.86)",
+      "textColor": "#e6e8f0",
+      "fontSize": 28,
+      "borderRadius": 6,
+      "padding": 28,
+      "height": 0.21,
+      "margin": 24
+    },
+    "nameplate": {
+      "background": "#c08a3e",
+      "textColor": "#16130e",
+      "fontSize": 22
+    },
+    "choice": {
+      "background": "rgba(10, 12, 22, 0.88)",
+      "hoverBackground": "rgba(192, 138, 62, 0.95)",
+      "textColor": "#e6e8f0",
+      "borderRadius": 6
+    }
+  },
+  "scenes": [
+    {
+      "id": "day",
+      "name": "白天",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "commands": [
+        {
+          "id": "c0001",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_day"
+          }
+        },
+        {
+          "id": "c0002",
+          "type": "music",
+          "action": "play",
+          "assetId": "snd_day",
+          "loop": true,
+          "volume": 0.5
+        },
+        {
+          "id": "c0003",
+          "type": "say",
+          "characterId": "qin",
+          "text": "新来的？我姓秦，这条街的夜班归我管。"
+        },
+        {
+          "id": "c0004",
+          "type": "say",
+          "characterId": "qin",
+          "text": "这条街白天看着太平。天一黑，路灯坏一半，车开得比白天还快。"
+        },
+        {
+          "id": "c0005",
+          "type": "say",
+          "characterId": "qin",
+          "text": "你的活儿就一件：天黑以后，让每一个从这儿过的人，都平平安安地走过去。"
+        },
+        {
+          "id": "c0006",
+          "type": "say",
+          "characterId": "qin",
+          "text": "工具在柜子里，挑一样。"
+        },
+        {
+          "id": "c0007",
+          "type": "choice",
+          "options": [
+            {
+              "id": "c0008",
+              "text": "强光手电：照得远、照得亮，就是费电。",
+              "effects": [
+                {
+                  "variableId": "tool",
+                  "op": "set",
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "id": "c0009",
+              "text": "老式手电：光圈小一点，电池撑得住一整夜。",
+              "effects": [
+                {
+                  "variableId": "tool",
+                  "op": "set",
+                  "value": 2
+                }
+              ]
+            }
+          ],
+          "prompt": "带哪一样上街？"
+        },
+        {
+          "id": "c0010",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "tool",
+            "op": "==",
+            "value": 1
+          },
+          "then": [
+            {
+              "id": "c0011",
+              "type": "say",
+              "characterId": "qin",
+              "text": "强光的？行。省着点用，电没了可没人给你送。"
+            }
+          ],
+          "else": [
+            {
+              "id": "c0012",
+              "type": "say",
+              "characterId": "qin",
+              "text": "这把跟了我十几年了。光小，可靠得住。"
+            }
+          ]
+        },
+        {
+          "id": "c0013",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_dusk"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "c0014",
+          "type": "say",
+          "characterId": "qin",
+          "text": "天要黑了。记住：光照到哪儿，司机才看得见哪儿。"
+        },
+        {
+          "id": "c0015",
+          "type": "say",
+          "characterId": "qin",
+          "text": "你的手（鼠标）就是手电。看见有人，就把光稳稳地照在他身上。"
+        },
+        {
+          "id": "c0016",
+          "type": "music",
+          "action": "play",
+          "assetId": "snd_night",
+          "loop": true,
+          "volume": 0.6
+        },
+        {
+          "id": "c0017",
+          "type": "sound",
+          "assetId": "snd_click",
+          "volume": 0.9
+        },
+        {
+          "id": "c0018",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "tool",
+            "op": "==",
+            "value": 1
+          },
+          "then": [
+            {
+              "id": "c0019",
+              "type": "setVar",
+              "effect": {
+                "variableId": "battery1",
+                "op": "set",
+                "value": 100
+              }
+            }
+          ],
+          "else": [
+            {
+              "id": "c0020",
+              "type": "setVar",
+              "effect": {
+                "variableId": "battery2",
+                "op": "set",
+                "value": 100
+              }
+            }
+          ]
+        },
+        {
+          "id": "c0021",
+          "type": "setVar",
+          "effect": {
+            "variableId": "clock",
+            "op": "set",
+            "value": 22
+          }
+        },
+        {
+          "id": "c0022",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "tool",
+            "op": "==",
+            "value": 1
+          },
+          "then": [
+            {
+              "id": "c0023",
+              "type": "if",
+              "condition": {
+                "kind": "compare",
+                "variableId": "battery1",
+                "op": "<=",
+                "value": 0
+              },
+              "then": [
+                {
+                  "id": "c0024",
+                  "type": "bg",
+                  "background": {
+                    "kind": "image",
+                    "assetId": "bg_night"
+                  },
+                  "transition": "fade",
+                  "dark": {
+                    "level": 0.93,
+                    "radius": 0.06,
+                    "flicker": true
+                  }
+                }
+              ],
+              "else": [
+                {
+                  "id": "c0025",
+                  "type": "bg",
+                  "background": {
+                    "kind": "image",
+                    "assetId": "bg_night"
+                  },
+                  "transition": "fade",
+                  "dark": {
+                    "level": 0.93,
+                    "radius": 0.3
+                  }
+                }
+              ]
+            }
+          ],
+          "else": [
+            {
+              "id": "c0026",
+              "type": "if",
+              "condition": {
+                "kind": "compare",
+                "variableId": "battery2",
+                "op": "<=",
+                "value": 0
+              },
+              "then": [
+                {
+                  "id": "c0027",
+                  "type": "bg",
+                  "background": {
+                    "kind": "image",
+                    "assetId": "bg_night"
+                  },
+                  "transition": "fade",
+                  "dark": {
+                    "level": 0.93,
+                    "radius": 0.06,
+                    "flicker": true
+                  }
+                }
+              ],
+              "else": [
+                {
+                  "id": "c0028",
+                  "type": "bg",
+                  "background": {
+                    "kind": "image",
+                    "assetId": "bg_night"
+                  },
+                  "transition": "fade",
+                  "dark": {
+                    "level": 0.93,
+                    "radius": 0.19
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c0029",
+          "type": "show",
+          "characterId": "windows",
+          "expression": "亮着",
+          "position": "center",
+          "place": {
+            "x": 0.5,
+            "y": 1,
+            "height": 1
+          },
+          "glow": true
+        },
+        {
+          "id": "c0030",
+          "type": "show",
+          "characterId": "lamps",
+          "expression": "亮着",
+          "position": "center",
+          "place": {
+            "x": 0.5,
+            "y": 1,
+            "height": 1
+          },
+          "glow": true
+        },
+        {
+          "id": "c0031",
+          "type": "jump",
+          "targetSceneId": "patrol"
+        }
+      ]
+    },
+    {
+      "id": "patrol",
+      "name": "巡逻",
+      "position": {
+        "x": 320,
+        "y": 0
+      },
+      "commands": [
+        {
+          "id": "c0032",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "clock",
+            "op": "<=",
+            "value": 0
+          },
+          "then": [
+            {
+              "id": "c0033",
+              "type": "jump",
+              "targetSceneId": "dawn"
+            }
+          ],
+          "else": []
+        },
+        {
+          "id": "c0034",
+          "type": "if",
+          "condition": {
+            "kind": "all",
+            "conditions": [
+              {
+                "kind": "compare",
+                "variableId": "clock",
+                "op": "<=",
+                "value": 18
+              },
+              {
+                "kind": "compare",
+                "variableId": "grannyDone",
+                "op": "==",
+                "value": false
+              }
+            ]
+          },
+          "then": [
+            {
+              "id": "c0035",
+              "type": "jump",
+              "targetSceneId": "granny"
+            }
+          ],
+          "else": []
+        },
+        {
+          "id": "c0036",
+          "type": "wait",
+          "seconds": 0.5
+        },
+        {
+          "id": "c0037",
+          "type": "jump",
+          "targetSceneId": "patrol"
+        }
+      ]
+    },
+    {
+      "id": "granny",
+      "name": "路灯短路",
+      "position": {
+        "x": 640,
+        "y": 0
+      },
+      "commands": [
+        {
+          "id": "c0038",
+          "type": "setVar",
+          "effect": {
+            "variableId": "grannyDone",
+            "op": "set",
+            "value": true
+          }
+        },
+        {
+          "id": "c0039",
+          "type": "sound",
+          "assetId": "snd_buzz",
+          "volume": 0.8
+        },
+        {
+          "id": "c0040",
+          "type": "show",
+          "characterId": "lamps",
+          "expression": "短路",
+          "position": "center",
+          "place": {
+            "x": 0.5,
+            "y": 1,
+            "height": 1
+          },
+          "glow": true
+        },
+        {
+          "id": "c0041",
+          "type": "wait",
+          "seconds": 1.5
+        },
+        {
+          "id": "c0042",
+          "type": "show",
+          "characterId": "granny",
+          "expression": "站着",
+          "position": "center",
+          "place": {
+            "x": 0.19,
+            "y": 0.79,
+            "height": 0.28
+          }
+        },
+        {
+          "id": "c0043",
+          "type": "choice",
+          "options": [
+            {
+              "id": "c0044",
+              "text": "照亮她",
+              "follow": "granny",
+              "hold": 0.8
+            }
+          ],
+          "prompt": "路灯坏了。灯底下好像站着一个人。",
+          "timeLimit": 6.0
+        },
+        {
+          "id": "c0045",
+          "type": "show",
+          "characterId": "granny",
+          "expression": "走路",
+          "position": "center",
+          "place": {
+            "x": 0.95,
+            "y": 0.79,
+            "height": 0.28
+          },
+          "from": {
+            "x": 0.19,
+            "y": 0.79,
+            "height": 0.28
+          },
+          "duration": 16.0
+        },
+        {
+          "id": "c0046",
+          "type": "sound",
+          "assetId": "snd_car",
+          "volume": 0.9
+        },
+        {
+          "id": "c0047",
+          "type": "show",
+          "characterId": "car",
+          "expression": "车灯",
+          "position": "center",
+          "place": {
+            "x": 0.5,
+            "y": 0.67,
+            "height": 0.22
+          },
+          "from": {
+            "x": 0.8,
+            "y": 0.38,
+            "height": 0.025
+          },
+          "duration": 6.0,
+          "glow": true
+        },
+        {
+          "id": "c0048",
+          "type": "choice",
+          "options": [
+            {
+              "id": "c0049",
+              "text": "一直照着她",
+              "follow": "granny",
+              "hold": 3.5,
+              "targetSceneId": "safe"
+            },
+            {
+              "id": "c0050",
+              "text": "来不及了",
+              "timeout": true,
+              "targetSceneId": "hit"
+            }
+          ],
+          "prompt": "有车来了！照着她，让司机看见她！",
+          "timeLimit": 6.0
+        }
+      ]
+    },
+    {
+      "id": "safe",
+      "name": "刹住了",
+      "position": {
+        "x": 960,
+        "y": -140
+      },
+      "commands": [
+        {
+          "id": "c0051",
+          "type": "sound",
+          "assetId": "snd_brake",
+          "volume": 0.9
+        },
+        {
+          "id": "c0052",
+          "type": "setVar",
+          "effect": {
+            "variableId": "saved",
+            "op": "set",
+            "value": true
+          }
+        },
+        {
+          "id": "c0053",
+          "type": "wait",
+          "seconds": 4.5
+        },
+        {
+          "id": "c0054",
+          "type": "show",
+          "characterId": "car",
+          "expression": "车灯",
+          "position": "center",
+          "place": {
+            "x": 0.22,
+            "y": 1.5,
+            "height": 1.0
+          },
+          "duration": 1.6,
+          "glow": true
+        },
+        {
+          "id": "c0055",
+          "type": "wait",
+          "seconds": 1.6
+        },
+        {
+          "id": "c0056",
+          "type": "hide",
+          "characterId": "car"
+        },
+        {
+          "id": "c0057",
+          "type": "show",
+          "characterId": "granny",
+          "expression": "走路",
+          "position": "center",
+          "place": {
+            "x": 1.15,
+            "y": 0.79,
+            "height": 0.28
+          },
+          "duration": 10.0
+        },
+        {
+          "id": "c0058",
+          "type": "jump",
+          "targetSceneId": "patrol"
+        }
+      ]
+    },
+    {
+      "id": "hit",
+      "name": "太晚了",
+      "position": {
+        "x": 960,
+        "y": 140
+      },
+      "commands": [
+        {
+          "id": "c0059",
+          "type": "setVar",
+          "effect": {
+            "variableId": "hit",
+            "op": "set",
+            "value": true
+          }
+        },
+        {
+          "id": "c0060",
+          "type": "show",
+          "characterId": "car",
+          "expression": "车灯",
+          "position": "center",
+          "place": {
+            "x": 0.4,
+            "y": 1.25,
+            "height": 0.9
+          },
+          "duration": 0.7,
+          "glow": true
+        },
+        {
+          "id": "c0061",
+          "type": "sound",
+          "assetId": "snd_crash",
+          "volume": 1.0
+        },
+        {
+          "id": "c0062",
+          "type": "wait",
+          "seconds": 0.6
+        },
+        {
+          "id": "c0063",
+          "type": "hide",
+          "characterId": "granny"
+        },
+        {
+          "id": "c0064",
+          "type": "hide",
+          "characterId": "car"
+        },
+        {
+          "id": "c0065",
+          "type": "hide",
+          "characterId": "lamps"
+        },
+        {
+          "id": "c0066",
+          "type": "hide",
+          "characterId": "windows"
+        },
+        {
+          "id": "c0067",
+          "type": "bg",
+          "background": {
+            "kind": "color",
+            "value": "#000000"
+          }
+        },
+        {
+          "id": "c0068",
+          "type": "music",
+          "action": "stop"
+        },
+        {
+          "id": "c0069",
+          "type": "wait",
+          "seconds": 2.5
+        },
+        {
+          "id": "c0070",
+          "type": "jump",
+          "targetSceneId": "dawn"
+        }
+      ]
+    },
+    {
+      "id": "dawn",
+      "name": "天亮",
+      "position": {
+        "x": 1280,
+        "y": 0
+      },
+      "commands": [
+        {
+          "id": "c0071",
+          "type": "hide",
+          "characterId": "granny"
+        },
+        {
+          "id": "c0072",
+          "type": "hide",
+          "characterId": "car"
+        },
+        {
+          "id": "c0073",
+          "type": "hide",
+          "characterId": "lamps"
+        },
+        {
+          "id": "c0074",
+          "type": "hide",
+          "characterId": "windows"
+        },
+        {
+          "id": "c0075",
+          "type": "setVar",
+          "effect": {
+            "variableId": "battery1",
+            "op": "set",
+            "value": 0
+          }
+        },
+        {
+          "id": "c0076",
+          "type": "setVar",
+          "effect": {
+            "variableId": "battery2",
+            "op": "set",
+            "value": 0
+          }
+        },
+        {
+          "id": "c0077",
+          "type": "setVar",
+          "effect": {
+            "variableId": "clock",
+            "op": "set",
+            "value": 0
+          }
+        },
+        {
+          "id": "c0078",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_dawn"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "c0079",
+          "type": "music",
+          "action": "play",
+          "assetId": "snd_dawn",
+          "loop": true,
+          "volume": 0.5
+        },
+        {
+          "id": "c0080",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "hit",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0081",
+              "type": "say",
+              "text": "天亮了。"
+            },
+            {
+              "id": "c0082",
+              "type": "say",
+              "text": "斑马线上留着一道长长的黑色刹车印。"
+            },
+            {
+              "id": "c0083",
+              "type": "say",
+              "characterId": "qin",
+              "text": "人没事。胳膊摔断了，在医院，醒着呢。"
+            },
+            {
+              "id": "c0084",
+              "type": "say",
+              "characterId": "qin",
+              "text": "司机说，他根本没看见路上有人。"
+            },
+            {
+              "id": "c0085",
+              "type": "say",
+              "characterId": "qin",
+              "text": "光照不到的地方，在开车的人眼里，就是没有人。记住这个。"
+            },
+            {
+              "id": "c0086",
+              "type": "say",
+              "text": "【原型到此结束。再来一次：车到之前，把光一直照在她身上。】"
+            }
+          ],
+          "else": [
+            {
+              "id": "c0087",
+              "type": "say",
+              "text": "天亮了。路灯一盏一盏地灭了。"
+            },
+            {
+              "id": "c0088",
+              "type": "show",
+              "characterId": "granny",
+              "expression": "站着",
+              "position": "center",
+              "place": {
+                "x": 0.3,
+                "y": 0.75,
+                "height": 0.3
+              }
+            },
+            {
+              "id": "c0089",
+              "type": "say",
+              "characterId": "granny",
+              "text": "年轻人，昨天夜里是你吧？那个灯一照过来，我就知道有人看着我呢。"
+            },
+            {
+              "id": "c0090",
+              "type": "say",
+              "characterId": "granny",
+              "text": "刚出笼的包子，趁热吃。"
+            },
+            {
+              "id": "c0091",
+              "type": "say",
+              "characterId": "qin",
+              "text": "头一个晚上，过得去。"
+            },
+            {
+              "id": "c0092",
+              "type": "say",
+              "characterId": "qin",
+              "text": "不过这条街的夜里，可不只有一个过马路的老太太。"
+            },
+            {
+              "id": "c0093",
+              "type": "say",
+              "text": "【原型到此结束。完整版《夜班》是两分钟的一整夜：七八件突发的事，不同的工具，不同的天亮。】"
+            }
+          ]
+        },
+        {
+          "id": "c0094",
+          "type": "end"
+        }
+      ]
+    }
+  ],
+  "startSceneId": "day"
+}

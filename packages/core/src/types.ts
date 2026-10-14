@@ -59,6 +59,21 @@ export interface Variable {
   id: string;
   name: string;
   initial: VariableValue;
+  /**
+   * Numbers only: goes down by this much every second while the story is
+   * playing, stopping at 0 (a countdown, a torch battery).
+   */
+  perSecond?: number;
+  /** Shown on screen while the story plays. */
+  display?: VariableDisplay;
+}
+
+export interface VariableDisplay {
+  /** A filling bar, the plain number, or minutes:seconds. Bars and timers are shown only while above 0. */
+  style: 'bar' | 'number' | 'timer';
+  corner: 'top-left' | 'top-right';
+  /** The value that fills a bar. */
+  max?: number;
 }
 
 export interface Scene {
@@ -103,6 +118,17 @@ export interface BgCommand {
   type: 'bg';
   background: Background;
   transition?: Transition;
+  /** Darkness over the picture, lit only around the pointer (a torch). */
+  dark?: Darkness;
+}
+
+export interface Darkness {
+  /** How dark it is away from the light, 0–1. */
+  level: number;
+  /** Radius of the light around the pointer, as a fraction of the stage height. 0: no light at all. */
+  radius: number;
+  /** The darkness stutters, like a failing street lamp. */
+  flicker?: boolean;
 }
 
 export interface ShowCommand {
@@ -113,6 +139,12 @@ export interface ShowCommand {
   position: StagePosition;
   /** Custom spot and size; when set it is used instead of `position`. */
   place?: Placement;
+  /** Glide to the new spot over this many seconds (from `from`, or from where it stands). */
+  duration?: number;
+  /** Where the glide starts. */
+  from?: Placement;
+  /** Gives off light: drawn above the darkness (lamps, headlights, lit windows). */
+  glow?: boolean;
 }
 
 export interface HideCommand {
@@ -140,6 +172,12 @@ export interface ChoiceOption {
   targetSceneId?: string;
   /** Picked by clicking this part of the picture instead of a button. */
   area?: Area;
+  /** Picked by clicking this character's picture, wherever it is on stage. */
+  follow?: string;
+  /** Picked by keeping the pointer (the light) on it for this many seconds, instead of clicking. */
+  hold?: number;
+  /** Not shown to players: taken when the time limit runs out. */
+  timeout?: boolean;
 }
 
 export interface ChoiceCommand {
@@ -147,6 +185,15 @@ export interface ChoiceCommand {
   type: 'choice';
   prompt?: string;
   options: ChoiceOption[];
+  /** Seconds players have to choose; then the `timeout` option is taken (or the story continues below). */
+  timeLimit?: number;
+}
+
+/** A pause of a few seconds that players can't skip; the story then carries on by itself. */
+export interface WaitCommand {
+  id: string;
+  type: 'wait';
+  seconds: number;
 }
 
 export interface JumpCommand {
@@ -224,7 +271,8 @@ export type Command =
   | EndCommand
   | MusicCommand
   | SoundCommand
-  | AchievementCommand;
+  | AchievementCommand
+  | WaitCommand;
 
 export type CommandType = Command['type'];
 

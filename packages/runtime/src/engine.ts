@@ -4,8 +4,10 @@ import {
   initialVariables,
   walkCommands,
   type Background,
+  type ChoiceOption,
   type Command,
   type Area,
+  type Darkness,
   type IfCommand,
   type Placement,
   type Project,
@@ -38,6 +40,10 @@ export interface SpriteState {
   position: StagePosition;
   /** Custom spot and size, used instead of `position` when set. */
   place?: Placement;
+  /** Drawn above the darkness. */
+  glow?: boolean;
+  /** A glide to this spot; players animate it once per `id`. */
+  motion?: { from?: Placement; seconds: number; id: number };
 }
 
 export interface DialogueState {
@@ -50,6 +56,10 @@ export interface VisibleChoice {
   text: string;
   /** Picked by clicking this part of the picture. */
   area?: Area;
+  /** Picked by clicking this character's picture. */
+  follow?: string;
+  /** Picked by keeping the pointer on it this many seconds. */
+  hold?: number;
 }
 
 export interface EngineState {
@@ -63,6 +73,12 @@ export interface EngineState {
   /** Id of the choice command currently waiting for the player. */
   pendingChoiceId: string | null;
   backlog: DialogueState[];
+  /** Darkness over the stage, lit around the pointer. */
+  darkness: Darkness | null;
+  /** A pause the player must sit out; players call resume(id) after `seconds`. */
+  waiting: { seconds: number; id: number } | null;
+  /** The open choice's time limit; players call timeUp(id) when it runs out. */
+  choiceTimer: { seconds: number; id: number } | null;
   ended: boolean;
   error: EngineError | null;
   /** Background music that should be playing, or null for silence. */
@@ -112,6 +128,9 @@ function emptyState(project: Project): EngineState {
     choices: null,
     pendingChoiceId: null,
     backlog: [],
+    darkness: null,
+    waiting: null,
+    choiceTimer: null,
     ended: false,
     error: null,
     music: null,
@@ -132,6 +151,8 @@ export class Engine {
   private listeners = new Set<EngineListener>();
   private sfxCounter = 0;
   private achievementCounter = 0;
+  /** Ids for glides, pauses and time limits, never reused (so players act on each once). */
+  private cueCounter = 0;
 
   constructor(project: Project) {
     this.project = project;
@@ -189,9 +210,9 @@ export class Engine {
     }
   }
 
-  /** Move past the current line. Does nothing while a choice is open. */
+  /** Move past the current line. Does nothing while a choice is open or during a pause. */
   advance(): void {
-    if (this.state.ended || this.state.pendingChoiceId || this.state.error) return;
+    if (this.state.ended || this.state.pendingChoiceId || this.state.error || this.state.waiting) return;
     this.remember();
     this.state.dialogue = null;
     this.run();
@@ -202,13 +223,49 @@ export class Engine {
     if (!cmd || cmd.type !== 'choice') return;
     const option = cmd.options.find((o) => o.id === optionId);
     if (!option || !this.state.choices?.some((c) => c.id === optionId)) return;
+    this.take(option);
+  }
 
+  /** The pause `id` is over: carry on. */
+  resume(id: number): void {
+    if (this.state.waiting?.id !== id) return;
+    this.state.waiting = null;
+    this.run();
+  }
+
+  /** The time limit `id` ran out: take the choice's timeout option, or carry on below it. */
+  timeUp(id: number): void {
+    if (this.state.choiceTimer?.id !== id) return;
+    const cmd = this.findCommand(this.state.pendingChoiceId);
+    if (!cmd || cmd.type !== 'choice') return;
+    this.take(cmd.options.find((o) => o.timeout) ?? { id: '', text: '' });
+  }
+
+  /**
+   * Real time passing: variables that count down per second go down (never
+   * below 0). Not undone by rollback steps of their own.
+   */
+  tick(seconds: number): void {
+    const s = this.state;
+    if (s.ended || s.error || seconds <= 0 || s.stack.length === 0) return;
+    let changed = false;
+    for (const v of this.project.variables) {
+      const value = s.variables[v.id];
+      if (!v.perSecond || typeof value !== 'number' || value <= 0) continue;
+      s.variables = { ...s.variables, [v.id]: Math.max(0, value - v.perSecond * seconds) };
+      changed = true;
+    }
+    if (changed) this.emit();
+  }
+
+  private take(option: ChoiceOption) {
     this.remember();
     for (const effect of option.effects ?? []) {
       this.state.variables = applyEffect(effect, this.state.variables);
     }
     this.state.choices = null;
     this.state.pendingChoiceId = null;
+    this.state.choiceTimer = null;
     this.state.dialogue = null;
     if (option.targetSceneId) this.enterScene(option.targetSceneId);
     this.run();
@@ -242,6 +299,15 @@ export class Engine {
     state.music ??= null;
     state.sfx ??= null;
     state.achievement ??= null;
+    state.darkness ??= null;
+    state.waiting ??= null;
+    state.choiceTimer ??= null;
+    // Pauses and time limits start over with fresh ids, so a player that already
+    // handled the old ones still acts on them.
+    if (state.waiting) state.waiting = { ...state.waiting, id: ++this.cueCounter };
+    // A glide in a save has finished: characters stand where they ended up.
+    state.sprites = state.sprites.map(({ motion: _done, ...sprite }) => sprite);
+    if (state.choiceTimer) state.choiceTimer = { ...state.choiceTimer, id: ++this.cueCounter };
     this.sfxCounter = Math.max(this.sfxCounter, state.sfx?.id ?? 0);
     this.achievementCounter = Math.max(this.achievementCounter, state.achievement?.id ?? 0);
     state.variables = { ...initialVariables(this.project.variables), ...state.variables };
@@ -357,6 +423,7 @@ export class Engine {
       case 'bg':
         s.background = cmd.background;
         s.backgroundTransition = cmd.transition ?? 'none';
+        s.darkness = cmd.dark ? { ...cmd.dark } : null;
         return true;
       case 'show': {
         const sprite: SpriteState = {
@@ -364,6 +431,11 @@ export class Engine {
           expression: cmd.expression,
           position: cmd.position,
           ...(cmd.place && { place: { ...cmd.place } }),
+          ...(cmd.glow && { glow: true }),
+          ...(cmd.duration &&
+            !skipping && {
+              motion: { ...(cmd.from && { from: { ...cmd.from } }), seconds: cmd.duration, id: ++this.cueCounter },
+            }),
         };
         const i = s.sprites.findIndex((sp) => sp.characterId === cmd.characterId);
         if (i >= 0) s.sprites[i] = sprite;
@@ -440,14 +512,25 @@ export class Engine {
       }
       case 'choice': {
         const visible = cmd.options
-          .filter((o) => !o.condition || evaluateCondition(o.condition, s.variables))
-          .map((o) => ({ id: o.id, text: o.text, ...(o.area && { area: { ...o.area } }) }));
+          .filter((o) => !o.timeout && (!o.condition || evaluateCondition(o.condition, s.variables)))
+          .map((o) => ({
+            id: o.id,
+            text: o.text,
+            ...(o.area && { area: { ...o.area } }),
+            ...(o.follow && { follow: o.follow }),
+            ...(o.hold && { hold: o.hold }),
+          }));
         if (visible.length === 0) return false;
         s.choices = visible;
         s.pendingChoiceId = cmd.id;
+        s.choiceTimer = cmd.timeLimit ? { seconds: cmd.timeLimit, id: ++this.cueCounter } : null;
         s.dialogue = cmd.prompt ? { text: cmd.prompt } : null;
         return true;
       }
+      case 'wait':
+        s.waiting = { seconds: cmd.seconds, id: ++this.cueCounter };
+        s.dialogue = null;
+        return true;
       case 'jump':
         this.enterScene(cmd.targetSceneId);
         return false;

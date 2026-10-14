@@ -1,5 +1,5 @@
-import type { Background, Locale, Project, Theme } from '@zennovel/core';
-import { Engine, type EngineState, type SpriteState } from './engine';
+import type { Background, Locale, Placement, Project, Theme } from '@zennovel/core';
+import { Engine, type EngineState, type SpriteState, type VisibleChoice } from './engine';
 import { AudioController, type AudioVolumes } from './audio';
 import { PLAYER_CSS } from './styles';
 import { playerStrings } from './strings';
@@ -37,6 +37,13 @@ export interface EndAction {
 
 /** Horizontal centre of the preset stage positions (matches the CSS). */
 const POSITION_X = { left: 0.22, center: 0.5, right: 0.78 } as const;
+
+/** Put a sprite's box where a placement says (centre x, bottom y, height; fractions of the stage). */
+function placeSprite(wrap: HTMLElement, p: Placement) {
+  wrap.style.left = `${p.x * 100}%`;
+  wrap.style.bottom = `${(1 - p.y) * 100}%`;
+  wrap.style.height = `${p.height * 100}%`;
+}
 
 function loadImage(url: string): Promise<HTMLImageElement | null> {
   return new Promise((resolve) => {
@@ -88,8 +95,26 @@ export class Player {
   /** The question above a picture choice (the dialogue box would cover the picture). */
   private caption: HTMLElement;
   private overlay: HTMLElement;
+  /** Darkness over the picture, with a pool of light at the pointer. */
+  private darkLayer: HTMLElement;
+  /** Characters that give off light (lamps, headlights), drawn above the darkness. */
+  private glowLayer: HTMLElement;
+  /** Variables shown on screen, and the bar of a choice's time limit. */
+  private hud: HTMLElement;
+  private countdown: HTMLElement;
   /** Sprites on stage by character, kept between renders so they only fade when they change. */
-  private spriteEls = new Map<string, { wrap: HTMLElement; url: string | null | undefined }>();
+  private spriteEls = new Map<string, { wrap: HTMLElement; url: string | null | undefined; motionId?: number }>();
+  /** Where the pointer (the light) is, in stage pixels. */
+  private pointer: { x: number; y: number } | null = null;
+  /** Real-time clock: one animation-frame loop drives pauses, time limits, countdowns and held lights. */
+  private raf = 0;
+  private lastFrame = 0;
+  private tickPending = 0;
+  private waitClock: { id: number; left: number } | null = null;
+  private choiceClock: { id: number; left: number; total: number } | null = null;
+  /** Clickable parts of the picture now on stage, and how long the light has rested on each held one. */
+  private spots: { el: HTMLElement; bar?: HTMLElement; choice: VisibleChoice; held: number }[] = [];
+  private choicesKey = '';
   private resizeObserver: ResizeObserver;
   private unsubscribe: () => void;
   private typing: { timer: number; full: string } | null = null;
@@ -120,16 +145,23 @@ export class Player {
     this.stage = el('div', 'zn-stage', this.root);
     this.bgLayer = el('div', 'zn-bg', this.stage);
     this.spriteLayer = el('div', 'zn-sprites', this.stage);
+    this.darkLayer = el('div', 'zn-dark', this.stage);
+    this.glowLayer = el('div', 'zn-sprites zn-glow', this.stage);
     this.dialogueBox = el('div', 'zn-dialogue', this.stage);
     this.nameplate = el('div', 'zn-nameplate', this.dialogueBox);
     this.textEl = el('div', 'zn-text', this.dialogueBox);
     this.hotspotLayer = el('div', 'zn-hotspots', this.stage);
     this.caption = el('div', 'zn-caption', this.stage);
     this.choiceLayer = el('div', 'zn-choices', this.stage);
+    this.countdown = el('div', 'zn-countdown', this.stage);
+    this.hud = el('div', 'zn-vars', this.stage);
     this.overlay = el('div', 'zn-overlay', this.stage);
 
     this.applyTheme(project.theme);
     this.stage.addEventListener('click', this.onClick);
+    this.stage.addEventListener('pointermove', this.onPointer);
+    this.stage.addEventListener('pointerdown', this.onPointer);
+    this.raf = requestAnimationFrame(this.frame);
     this.root.addEventListener('keydown', this.onKey);
     this.root.addEventListener('wheel', this.onWheel, { passive: true });
 
@@ -172,6 +204,7 @@ export class Player {
     this.lastBgKey = '';
     this.lastDialogue = null;
     this.clearSprites();
+    this.resetClocks();
     this.engine.start(this.startSceneId, this.startCommandId);
   }
 
@@ -182,6 +215,7 @@ export class Player {
     // Don't replay the sound effect that was playing when the game was saved.
     this.lastSfxId = Math.max(this.lastSfxId, state.sfx?.id ?? 0);
     this.clearSprites();
+    this.resetClocks();
     this.engine.load(state);
   }
 
@@ -293,6 +327,7 @@ export class Player {
   }
 
   destroy(): void {
+    cancelAnimationFrame(this.raf);
     this.stopTyping();
     this.audio.destroy();
     this.unsubscribe();
@@ -302,6 +337,16 @@ export class Player {
 
   // -------------------------------------------------------------------------
   // Input
+
+  /** The light follows the pointer (or the finger) across the stage. */
+  private onPointer = (e: PointerEvent) => {
+    const box = this.stage.getBoundingClientRect();
+    if (!box.width) return;
+    const scale = box.width / this.project.meta.resolution.width;
+    this.pointer = { x: (e.clientX - box.left) / scale, y: (e.clientY - box.top) / scale };
+    this.darkLayer.style.setProperty('--zn-lx', `${this.pointer.x}px`);
+    this.darkLayer.style.setProperty('--zn-ly', `${this.pointer.y}px`);
+  };
 
   private onClick = (e: MouseEvent) => {
     if (this.paused || (e.target as HTMLElement).closest('.zn-choice, .zn-hotspot, .zn-overlay button')) return;
@@ -412,7 +457,7 @@ export class Player {
     this.renderSprites(s.sprites);
 
     // A choice made on the picture: its question goes above it, not in the dialogue box.
-    const onPicture = !!s.choices?.length && s.choices.every((c) => c.area);
+    const onPicture = !!s.choices?.length && s.choices.every((c) => c.area || c.follow);
 
     // Dialogue
     if (s.dialogue !== this.lastDialogue) {
@@ -435,30 +480,27 @@ export class Player {
     if (this.caption.textContent !== captionText) this.caption.textContent = captionText;
     this.caption.style.display = captionText ? '' : 'none';
 
-    // Choices: buttons in the middle, or parts of the picture to click.
-    this.choiceLayer.replaceChildren();
-    this.hotspotLayer.replaceChildren();
-    for (const choice of s.choices ?? []) {
-      if (choice.area) {
-        const { x, y, width, height } = choice.area;
-        const spot = el('button', 'zn-hotspot', this.hotspotLayer);
-        spot.type = 'button';
-        spot.setAttribute('aria-label', choice.text);
-        spot.style.left = `${x * 100}%`;
-        spot.style.top = `${y * 100}%`;
-        spot.style.width = `${width * 100}%`;
-        spot.style.height = `${height * 100}%`;
-        // The label goes under the area, or above it near the bottom of the picture.
-        const label = el('span', y + height > 0.82 ? 'zn-hotspot-label zn-above' : 'zn-hotspot-label', spot);
-        label.textContent = choice.text;
-        spot.addEventListener('click', () => this.engine.choose(choice.id));
-      } else {
-        const btn = el('button', 'zn-choice', this.choiceLayer);
-        btn.type = 'button';
-        btn.textContent = choice.text;
-        btn.addEventListener('click', () => this.engine.choose(choice.id));
-      }
+    // Darkness, lit around the pointer.
+    this.renderDarkness(s);
+
+    // Choices: buttons in the middle, or parts of the picture to click. Rebuilt
+    // only when they change, so a countdown ticking doesn't reset a held light.
+    const choicesKey = JSON.stringify([s.pendingChoiceId, s.choices]);
+    if (choicesKey !== this.choicesKey) {
+      this.choicesKey = choicesKey;
+      this.renderChoices(s.choices ?? []);
     }
+
+    // Real-time cues: a pause to sit out, a choice's time limit.
+    if (!s.waiting) this.waitClock = null;
+    else if (this.waitClock?.id !== s.waiting.id) this.waitClock = { id: s.waiting.id, left: s.waiting.seconds };
+    if (!s.choiceTimer) this.choiceClock = null;
+    else if (this.choiceClock?.id !== s.choiceTimer.id) {
+      this.choiceClock = { id: s.choiceTimer.id, left: s.choiceTimer.seconds, total: s.choiceTimer.seconds };
+    }
+    this.countdown.style.display = this.choiceClock ? '' : 'none';
+
+    this.renderVariables(s);
 
     // Music and sound
     const music = s.music && this.assetUrl(s.music.assetId);
@@ -491,6 +533,200 @@ export class Player {
     if (hadFocus && !this.root.contains(document.activeElement)) this.root.focus({ preventScroll: true });
   }
 
+  private renderChoices(choices: readonly VisibleChoice[]) {
+    this.choiceLayer.replaceChildren();
+    this.hotspotLayer.replaceChildren();
+    this.spots = [];
+    for (const choice of choices) {
+      if (choice.area || choice.follow) {
+        const spot = el('button', choice.hold ? 'zn-hotspot zn-hold' : 'zn-hotspot', this.hotspotLayer);
+        spot.type = 'button';
+        spot.setAttribute('aria-label', choice.text);
+        const area = choice.area ?? { x: 0, y: 0, width: 0, height: 0 };
+        spot.style.left = `${area.x * 100}%`;
+        spot.style.top = `${area.y * 100}%`;
+        spot.style.width = `${area.width * 100}%`;
+        spot.style.height = `${area.height * 100}%`;
+        if (choice.follow) spot.style.visibility = 'hidden'; // placed on its character by the frame loop
+        // The label goes under the area, or above it near the bottom of the picture.
+        const below = area.y + area.height <= 0.82 || !!choice.follow;
+        const label = el('span', below ? 'zn-hotspot-label' : 'zn-hotspot-label zn-above', spot);
+        label.textContent = choice.text;
+        const bar = choice.hold ? el('span', 'zn-hold-bar', spot) : undefined;
+        // A held option is picked by light, not by clicking.
+        if (!choice.hold) spot.addEventListener('click', () => this.engine.choose(choice.id));
+        this.spots.push({ el: spot, bar, choice, held: 0 });
+      } else {
+        const btn = el('button', 'zn-choice', this.choiceLayer);
+        btn.type = 'button';
+        btn.textContent = choice.text;
+        btn.addEventListener('click', () => this.engine.choose(choice.id));
+      }
+    }
+  }
+
+  private renderDarkness(s: Readonly<EngineState>) {
+    const dark = s.darkness;
+    this.stage.classList.toggle('zn-is-dark', !!dark);
+    this.darkLayer.classList.toggle('zn-on', !!dark);
+    this.darkLayer.classList.toggle('zn-flicker', !!dark?.flicker);
+    if (!dark) return;
+    const { height } = this.project.meta.resolution;
+    this.darkLayer.style.setProperty('--zn-dl', String(dark.level));
+    this.darkLayer.style.setProperty('--zn-lr', `${dark.radius * height}px`);
+    if (!this.pointer) {
+      // Until the pointer moves, the light rests in the middle.
+      const { width } = this.project.meta.resolution;
+      this.darkLayer.style.setProperty('--zn-lx', `${width / 2}px`);
+      this.darkLayer.style.setProperty('--zn-ly', `${height / 2}px`);
+    }
+  }
+
+  /** Variables shown on screen: bars, numbers, timers, in the top corners. */
+  private renderVariables(s: Readonly<EngineState>) {
+    const playing = s.stack.length > 0 && !s.ended && !s.error;
+    const shown = playing ? this.project.variables.filter((v) => v.display) : [];
+    const key = shown.map((v) => v.id).join(',');
+    if (this.hud.dataset.key !== key) {
+      this.hud.dataset.key = key;
+      this.hud.replaceChildren();
+      const corners = {
+        'top-left': el('div', 'zn-vars-corner zn-left', this.hud),
+        'top-right': el('div', 'zn-vars-corner zn-right', this.hud),
+      };
+      for (const v of shown) {
+        const item = el('div', `zn-var zn-var-${v.display!.style}`, corners[v.display!.corner]);
+        item.dataset.id = v.id;
+        el('span', 'zn-var-name', item).textContent = v.name;
+        if (v.display!.style === 'bar') el('span', 'zn-var-fill', el('span', 'zn-var-track', item));
+        else el('span', 'zn-var-value', item);
+      }
+    }
+    for (const item of Array.from(this.hud.querySelectorAll<HTMLElement>('.zn-var'))) {
+      const v = this.project.variables.find((x) => x.id === item.dataset.id);
+      if (!v?.display) continue;
+      const value = Number(s.variables[v.id] ?? 0);
+      if (v.display.style === 'bar') {
+        const max = v.display.max ?? (typeof v.initial === 'number' && v.initial > 0 ? v.initial : 100);
+        const share = Math.max(0, Math.min(1, value / max));
+        const fill = item.querySelector<HTMLElement>('.zn-var-fill')!;
+        fill.style.width = `${share * 100}%`;
+        // Empty bars and finished timers step aside: a value that starts at 0 appears when it's set.
+        item.style.display = value > 0 ? '' : 'none';
+        item.classList.toggle('zn-low', share <= 0.25);
+      } else if (v.display.style === 'timer') {
+        const left = Math.max(0, Math.ceil(value));
+        item.style.display = left > 0 ? '' : 'none';
+        item.querySelector('.zn-var-value')!.textContent =
+          `${String(Math.floor(left / 60)).padStart(2, '0')}:${String(left % 60).padStart(2, '0')}`;
+        item.classList.toggle('zn-low', left <= 10);
+      } else {
+        item.querySelector('.zn-var-value')!.textContent = String(Math.round(value * 10) / 10);
+      }
+    }
+  }
+
+  /**
+   * One loop for everything that runs on real time: variables counting down,
+   * pauses, time limits, clickable parts that follow a character, and lights
+   * held on a target. Stops counting while paused (menus) or in a hidden tab.
+   */
+  private frame = (now: number) => {
+    this.raf = requestAnimationFrame(this.frame);
+    const dt = this.lastFrame ? Math.min(0.25, (now - this.lastFrame) / 1000) : 0;
+    this.lastFrame = now;
+    if (this.paused || dt <= 0) return;
+
+    // Countdown variables: a few updates a second is plenty.
+    this.tickPending += dt;
+    if (this.tickPending >= 0.25) {
+      const t = this.tickPending;
+      this.tickPending = 0;
+      this.engine.tick(t);
+    }
+    if (this.waitClock) {
+      this.waitClock.left -= dt;
+      if (this.waitClock.left <= 0) {
+        const id = this.waitClock.id;
+        this.waitClock = null;
+        this.engine.resume(id);
+        return;
+      }
+    }
+    if (this.choiceClock) {
+      this.choiceClock.left -= dt;
+      this.countdown.style.setProperty(
+        '--zn-left',
+        String(Math.max(0, this.choiceClock.left / this.choiceClock.total)),
+      );
+      if (this.choiceClock.left <= 0) {
+        const id = this.choiceClock.id;
+        this.choiceClock = null;
+        this.engine.timeUp(id);
+        return;
+      }
+    }
+    this.followAndHold(dt);
+  };
+
+  private followAndHold(dt: number) {
+    if (this.spots.length === 0) return;
+    // Keyboard players: the light goes to the part of the picture in focus.
+    const focused = this.spots.find((sp) => sp.el === document.activeElement)?.el;
+    if (focused) {
+      this.pointer = {
+        x: focused.offsetLeft + focused.offsetWidth / 2,
+        y: focused.offsetTop + focused.offsetHeight / 2,
+      };
+      this.darkLayer.style.setProperty('--zn-lx', `${this.pointer.x}px`);
+      this.darkLayer.style.setProperty('--zn-ly', `${this.pointer.y}px`);
+    }
+    const box = this.stage.getBoundingClientRect();
+    const scale = box.width / this.project.meta.resolution.width || 1;
+    for (const spot of this.spots) {
+      if (spot.choice.follow) {
+        const img = this.spriteEls
+          .get(spot.choice.follow)
+          ?.wrap.querySelector('img:last-child, .zn-sprite-placeholder');
+        if (!img) {
+          spot.el.style.visibility = 'hidden';
+          continue;
+        }
+        const r = img.getBoundingClientRect();
+        spot.el.style.visibility = '';
+        spot.el.style.left = `${(r.left - box.left) / scale}px`;
+        spot.el.style.top = `${(r.top - box.top) / scale}px`;
+        spot.el.style.width = `${r.width / scale}px`;
+        spot.el.style.height = `${r.height / scale}px`;
+      }
+      if (!spot.choice.hold) continue;
+      const p = this.pointer;
+      const e = spot.el;
+      const lit =
+        document.activeElement === e ||
+        (!!p &&
+          p.x >= e.offsetLeft &&
+          p.x <= e.offsetLeft + e.offsetWidth &&
+          p.y >= e.offsetTop &&
+          p.y <= e.offsetTop + e.offsetHeight);
+      e.classList.toggle('zn-lit', lit);
+      if (!lit) continue;
+      spot.held += dt;
+      if (spot.bar) spot.bar.style.width = `${Math.min(1, spot.held / spot.choice.hold) * 100}%`;
+      if (spot.held >= spot.choice.hold) {
+        this.engine.choose(spot.choice.id);
+        return;
+      }
+    }
+  }
+
+  private resetClocks() {
+    this.waitClock = null;
+    this.choiceClock = null;
+    this.choicesKey = '';
+    this.spots = [];
+  }
+
   /**
    * Keep sprite elements between renders: a sprite fades in when it appears,
    * cross-fades when its picture changes, glides when it moves and fades out
@@ -504,22 +740,31 @@ export class Player {
       const assetId = character?.sprites[sprite.expression];
       const url = assetId ? this.assetUrl(assetId) : null;
 
+      const layer = sprite.glow ? this.glowLayer : this.spriteLayer;
       let entry = this.spriteEls.get(sprite.characterId);
       if (!entry || entry.wrap.classList.contains('zn-leaving')) {
-        entry = { wrap: el('div', 'zn-sprite', this.spriteLayer), url: undefined };
+        entry = { wrap: el('div', 'zn-sprite', layer), url: undefined };
         this.spriteEls.set(sprite.characterId, entry);
       }
       const { wrap } = entry;
+      if (wrap.parentElement !== layer) layer.appendChild(wrap);
       wrap.style.zIndex = String(order + 1);
-      if (sprite.place) {
-        wrap.className = 'zn-sprite zn-placed';
-        wrap.style.left = `${sprite.place.x * 100}%`;
-        wrap.style.bottom = `${(1 - sprite.place.y) * 100}%`;
-        wrap.style.height = `${sprite.place.height * 100}%`;
-      } else {
-        wrap.className = `zn-sprite zn-pos-${sprite.position}`;
-        wrap.style.left = wrap.style.bottom = wrap.style.height = '';
+      const target = sprite.place ?? { x: POSITION_X[sprite.position], y: 1, height: 0.88 };
+      const motion = sprite.motion;
+      if (motion && entry.motionId !== motion.id) {
+        // A glide: jump to its start (if it has one), then move at an even pace.
+        entry.motionId = motion.id;
+        if (motion.from) {
+          wrap.style.transition = 'none';
+          placeSprite(wrap, motion.from);
+          void wrap.offsetWidth; // commit the start before gliding away from it
+        }
+        const t = `${motion.seconds}s linear`;
+        wrap.style.transition = `left ${t}, bottom ${t}, height ${t}`;
+      } else if (!motion) {
+        wrap.style.transition = '';
       }
+      placeSprite(wrap, target);
 
       if (entry.url === url) return;
       const changing = entry.url !== undefined;
@@ -553,6 +798,7 @@ export class Player {
   private clearSprites() {
     this.spriteEls.clear();
     this.spriteLayer.replaceChildren();
+    this.glowLayer.replaceChildren();
   }
 
   private typeText(full: string) {

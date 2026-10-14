@@ -10,6 +10,7 @@ import {
   type Command,
   type CompareOp,
   type Condition,
+  type Darkness,
   type Effect,
   type EffectOp,
   type Locale,
@@ -19,6 +20,7 @@ import {
   type StagePosition,
   type Theme,
   type Variable,
+  type VariableDisplay,
   type VariableValue,
 } from './types';
 
@@ -128,11 +130,18 @@ export function normalizeProject(raw: unknown): NormalizeResult {
         ),
       ),
     })),
-    variables: list(data.variables).map((v): Variable => ({
-      id: variableId(v.id),
-      name: str(v.name, ''),
-      initial: isValue(v.initial) ? v.initial : 0,
-    })),
+    variables: list(data.variables).map((v): Variable => {
+      const initial = isValue(v.initial) ? v.initial : 0;
+      const perSecond = typeof initial === 'number' ? num(v.perSecond, 0) : 0;
+      const display = normalizeDisplay(v.display);
+      return {
+        id: variableId(v.id),
+        name: str(v.name, ''),
+        initial,
+        ...(perSecond > 0 && { perSecond: Math.min(perSecond, 1000) }),
+        ...(display && { display }),
+      };
+    }),
     theme: normalizeTheme(data.theme),
     scenes,
     startSceneId,
@@ -221,6 +230,34 @@ function normalizeEffect(raw: unknown): Effect | undefined {
   };
 }
 
+const DISPLAY_STYLES = ['bar', 'number', 'timer'] as const satisfies readonly VariableDisplay['style'][];
+const CORNERS = ['top-left', 'top-right'] as const satisfies readonly VariableDisplay['corner'][];
+
+function normalizeDisplay(raw: unknown): VariableDisplay | undefined {
+  if (!isObj(raw) || !DISPLAY_STYLES.includes(raw.style as VariableDisplay['style'])) return undefined;
+  const max = num(raw.max, NaN);
+  return {
+    style: raw.style as VariableDisplay['style'],
+    corner: oneOf(raw.corner, CORNERS, 'top-left'),
+    ...(Number.isFinite(max) && max > 0 && { max }),
+  };
+}
+
+function normalizeDarkness(raw: unknown): Darkness | undefined {
+  if (!isObj(raw)) return undefined;
+  return {
+    level: clamp01(num(raw.level, 0.85)),
+    radius: clamp(num(raw.radius, 0.22), 0, 2),
+    ...(raw.flicker === true && { flicker: true }),
+  };
+}
+
+/** Seconds for timers and glides: positive, at most an hour. */
+const seconds = (v: unknown): number | undefined => {
+  const n = num(v, NaN);
+  return Number.isFinite(n) && n > 0 ? Math.min(n, 3600) : undefined;
+};
+
 /** A custom spot on the stage; pictures may hang off the edges a little, never vanish entirely. */
 function normalizePlacement(raw: unknown): Placement | undefined {
   if (!isObj(raw)) return undefined;
@@ -267,7 +304,14 @@ function normalizeCommand(c: Obj, ids: Minters): Command | undefined {
         b.kind === 'image' && typeof b.assetId === 'string'
           ? { kind: 'image', assetId: b.assetId }
           : { kind: 'color', value: str(b.value, '#000000') };
-      return { id: id(), type: 'bg', background, ...(c.transition === 'fade' && { transition: 'fade' as const }) };
+      const dark = normalizeDarkness(c.dark);
+      return {
+        id: id(),
+        type: 'bg',
+        background,
+        ...(c.transition === 'fade' && { transition: 'fade' as const }),
+        ...(dark && { dark }),
+      };
     }
     case 'show':
       return {
@@ -277,6 +321,9 @@ function normalizeCommand(c: Obj, ids: Minters): Command | undefined {
         expression: str(c.expression, 'normal'),
         position: oneOf(c.position, POSITIONS, 'center'),
         ...(normalizePlacement(c.place) && { place: normalizePlacement(c.place) }),
+        ...(seconds(c.duration) && { duration: seconds(c.duration) }),
+        ...(normalizePlacement(c.from) && { from: normalizePlacement(c.from) }),
+        ...(c.glow === true && { glow: true }),
       };
     case 'hide':
       return { id: id(), type: 'hide', characterId: str(c.characterId, '') };
@@ -293,6 +340,9 @@ function normalizeCommand(c: Obj, ids: Minters): Command | undefined {
           ...(effects.length > 0 && { effects }),
           ...(typeof o.targetSceneId === 'string' && o.targetSceneId && { targetSceneId: o.targetSceneId }),
           ...(normalizeArea(o.area) && { area: normalizeArea(o.area) }),
+          ...(typeof o.follow === 'string' && o.follow && { follow: o.follow }),
+          ...(seconds(o.hold) && { hold: seconds(o.hold) }),
+          ...(o.timeout === true && { timeout: true }),
         };
       });
       return {
@@ -300,6 +350,7 @@ function normalizeCommand(c: Obj, ids: Minters): Command | undefined {
         type: 'choice',
         options,
         ...(typeof c.prompt === 'string' && c.prompt && { prompt: c.prompt }),
+        ...(seconds(c.timeLimit) && { timeLimit: seconds(c.timeLimit) }),
       };
     }
     case 'jump':
@@ -346,6 +397,8 @@ function normalizeCommand(c: Obj, ids: Minters): Command | undefined {
         achievementId: str(c.achievementId, ''),
         ...(typeof c.name === 'string' && c.name && { name: c.name }),
       };
+    case 'wait':
+      return { id: id(), type: 'wait', seconds: seconds(c.seconds) ?? 1 };
     default:
       return undefined;
   }

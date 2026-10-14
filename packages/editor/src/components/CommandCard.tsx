@@ -72,6 +72,8 @@ export function CommandCard({ project, scene, command, isFirst, isLast, onEdit }
   const update = (next: Command, key?: string) => onEdit((p) => actions.updateCommand(p, scene.id, next), key);
   /** The stage view for placing a character's picture is open. */
   const [placing, setPlacing] = useState(false);
+  /** …or the spot a move starts from. */
+  const [placingFrom, setPlacingFrom] = useState(false);
 
   let body: ReactNode = null;
   switch (command.type) {
@@ -157,6 +159,62 @@ export function CommandCard({ project, scene, command, isFirst, isLast, onEdit }
             />
             {t.card.fadeIn}
           </label>
+          <label className="inline">
+            <input
+              type="checkbox"
+              checked={!!command.dark}
+              onChange={(e) =>
+                update({ ...command, dark: e.target.checked ? { level: 0.88, radius: 0.24 } : undefined })
+              }
+            />
+            {t.card.dark}
+          </label>
+          {command.dark && (
+            <span className="row">
+              <label className="inline">
+                {t.card.darkLevel}
+                <input
+                  type="range"
+                  min={0.3}
+                  max={1}
+                  step={0.02}
+                  value={command.dark.level}
+                  onChange={(e) =>
+                    update(
+                      { ...command, dark: { ...command.dark!, level: Number(e.target.value) } },
+                      `dark:${command.id}`,
+                    )
+                  }
+                />
+              </label>
+              <label className="inline">
+                {t.card.lightSize}
+                <input
+                  type="range"
+                  min={0}
+                  max={0.6}
+                  step={0.01}
+                  value={command.dark.radius}
+                  onChange={(e) =>
+                    update(
+                      { ...command, dark: { ...command.dark!, radius: Number(e.target.value) } },
+                      `light:${command.id}`,
+                    )
+                  }
+                />
+              </label>
+              <label className="inline">
+                <input
+                  type="checkbox"
+                  checked={!!command.dark.flicker}
+                  onChange={(e) =>
+                    update({ ...command, dark: { ...command.dark!, flicker: e.target.checked || undefined } })
+                  }
+                />
+                {t.card.flicker}
+              </label>
+            </span>
+          )}
         </div>
       );
       break;
@@ -215,6 +273,68 @@ export function CommandCard({ project, scene, command, isFirst, isLast, onEdit }
             <button className="link" onClick={() => setPlacing(true)}>
               {t.card.adjust}
             </button>
+          )}
+          <label className="inline">
+            <input
+              type="checkbox"
+              checked={!!command.glow}
+              onChange={(e) => update({ ...command, glow: e.target.checked || undefined })}
+            />
+            {t.card.glow}
+          </label>
+          {command.duration ? (
+            <span className="row">
+              <span className="muted">{t.card.moveOver}</span>
+              <NumberInput
+                value={command.duration}
+                onChange={(duration) => duration > 0 && update({ ...command, duration }, `move:${command.id}`)}
+              />
+              <span className="muted">{t.card.seconds}</span>
+              <span className="muted">{t.card.moveFrom}</span>
+              <select
+                value={command.from ? 'spot' : 'here'}
+                onChange={(e) => {
+                  if (e.target.value === 'spot') setPlacingFrom(true);
+                  else update({ ...command, from: undefined });
+                }}
+              >
+                <option value="here">{t.card.moveFromHere}</option>
+                <option value="spot">{t.card.moveFromSpot}</option>
+              </select>
+              {command.from && (
+                <button className="link" onClick={() => setPlacingFrom(true)}>
+                  {t.card.adjust}
+                </button>
+              )}
+              <button
+                className="icon"
+                title={t.card.remove}
+                onClick={() => update({ ...command, duration: undefined, from: undefined })}
+              >
+                ✕
+              </button>
+            </span>
+          ) : (
+            <button className="link" onClick={() => update({ ...command, duration: 2 })}>
+              {t.card.addMove}
+            </button>
+          )}
+          {placingFrom && (
+            <StagePicker
+              mode="place"
+              title={t.picker.fromTitle}
+              project={project}
+              scene={scene}
+              commandId={command.id}
+              characterId={command.characterId}
+              expression={command.expression}
+              initial={command.from ?? command.place ?? { x: PRESET_X[command.position], y: 1, height: 0.88 }}
+              onDone={(from) => {
+                setPlacingFrom(false);
+                update({ ...command, from });
+              }}
+              onCancel={() => setPlacingFrom(false)}
+            />
           )}
           {placing && (
             <StagePicker
@@ -369,6 +489,19 @@ export function CommandCard({ project, scene, command, isFirst, isLast, onEdit }
             value={command.volume ?? 1}
             onChange={(volume) => update({ ...command, volume }, `volume:${command.id}`)}
           />
+        </div>
+      );
+      break;
+
+    case 'wait':
+      body = (
+        <div className="row">
+          <span className="muted">{t.card.waitFor}</span>
+          <NumberInput
+            value={command.seconds}
+            onChange={(seconds) => seconds > 0 && update({ ...command, seconds }, `wait:${command.id}`)}
+          />
+          <span className="muted">{t.card.waitHint}</span>
         </div>
       );
       break;
@@ -846,23 +979,54 @@ function ChoiceEditor({
         placeholder={t.card.choicePrompt}
         onChange={(e) => onChange({ ...command, prompt: e.target.value || undefined }, `prompt:${command.id}`)}
       />
+      {command.timeLimit !== undefined && (
+        <div className="row">
+          <span className="muted">{t.card.timeLimit}</span>
+          <NumberInput
+            value={command.timeLimit}
+            onChange={(timeLimit) => timeLimit > 0 && onChange({ ...command, timeLimit }, `limit:${command.id}`)}
+          />
+          <span className="muted">{t.card.seconds}</span>
+          <button
+            className="icon"
+            title={t.card.remove}
+            onClick={() =>
+              onChange({ ...command, timeLimit: undefined, options: command.options.filter((x) => !x.timeout) })
+            }
+          >
+            ✕
+          </button>
+        </div>
+      )}
       {command.options.map((o, i) => (
-        <div key={o.id} className="option">
-          <span className="option-index">{i + 1}</span>
-          <input className="wide" value={o.text} onChange={(e) => setOption(o.id, { text: e.target.value }, 'text')} />
+        <div key={o.id} className={o.timeout ? 'option timeout' : 'option'}>
+          <span className="option-index">{o.timeout ? '⏱' : i + 1}</span>
+          {o.timeout ? (
+            <span className="wide muted timeout-label">{t.card.whenTimeUp}</span>
+          ) : (
+            <input
+              className="wide"
+              value={o.text}
+              onChange={(e) => setOption(o.id, { text: e.target.value }, 'text')}
+            />
+          )}
           <SceneSelect
             scenes={project.scenes}
             value={o.targetSceneId}
             allowContinue
             onChange={(v) => setOption(o.id, { targetSceneId: v || undefined })}
           />
-          <button
-            className="icon danger"
-            title={t.card.removeOption}
-            onClick={() => onChange({ ...command, options: command.options.filter((x) => x.id !== o.id) })}
-          >
-            ✕
-          </button>
+          {o.timeout ? (
+            <span />
+          ) : (
+            <button
+              className="icon danger"
+              title={t.card.removeOption}
+              onClick={() => onChange({ ...command, options: command.options.filter((x) => x.id !== o.id) })}
+            >
+              ✕
+            </button>
+          )}
           <div className="option-extra">
             {(o.effects ?? []).map((eff, j) => (
               <div key={j} className="row">
@@ -904,13 +1068,44 @@ function ChoiceEditor({
                 </button>
               </div>
             )}
+            {o.follow !== undefined && (
+              <div className="row">
+                <span className="muted">{t.card.follows}</span>
+                <CharacterSelect
+                  project={project}
+                  value={o.follow}
+                  onChange={(follow) => setOption(o.id, { follow })}
+                />
+                <button
+                  className="icon"
+                  title={t.card.remove}
+                  onClick={() => setOption(o.id, { follow: undefined, hold: undefined })}
+                >
+                  ✕
+                </button>
+              </div>
+            )}
+            {o.hold !== undefined && (
+              <div className="row">
+                <span className="muted">{t.card.holdFor}</span>
+                <NumberInput value={o.hold} onChange={(hold) => hold > 0 && setOption(o.id, { hold }, 'hold')} />
+                <span className="muted">{t.card.seconds}</span>
+                <button className="icon" title={t.card.remove} onClick={() => setOption(o.id, { hold: undefined })}>
+                  ✕
+                </button>
+              </div>
+            )}
             {o.area && (
               <div className="row">
                 <span className="muted">{t.card.pickedOnPicture}</span>
                 <button className="link" onClick={() => setPicking(o.id)}>
                   {t.card.adjust}
                 </button>
-                <button className="icon" title={t.card.remove} onClick={() => setOption(o.id, { area: undefined })}>
+                <button
+                  className="icon"
+                  title={t.card.remove}
+                  onClick={() => setOption(o.id, { area: undefined, hold: o.follow ? o.hold : undefined })}
+                >
                   ✕
                 </button>
               </div>
@@ -931,7 +1126,7 @@ function ChoiceEditor({
               >
                 {t.card.changeVariable}
               </button>
-              {!o.condition && (
+              {!o.condition && !o.timeout && (
                 <button
                   className="link"
                   onClick={async () => {
@@ -947,9 +1142,29 @@ function ChoiceEditor({
                   {t.card.showCondition}
                 </button>
               )}
-              {!o.area && (
+              {!o.area && !o.follow && !o.timeout && (
                 <button className="link" onClick={() => setPicking(o.id)}>
                   {t.card.pickOnPicture}
+                </button>
+              )}
+              {!o.area && o.follow === undefined && !o.timeout && (
+                <button
+                  className="link"
+                  onClick={() =>
+                    setOption(o.id, {
+                      follow:
+                        project.characters.find((c) => Object.keys(c.sprites).length > 0)?.id ??
+                        project.characters[0]?.id ??
+                        '',
+                    })
+                  }
+                >
+                  {t.card.addFollow}
+                </button>
+              )}
+              {(o.area || o.follow !== undefined) && o.hold === undefined && (
+                <button className="link" onClick={() => setOption(o.id, { hold: 3 })}>
+                  {t.card.addHold}
                 </button>
               )}
             </div>
@@ -964,6 +1179,20 @@ function ChoiceEditor({
       >
         {t.card.addOption}
       </button>
+      {command.timeLimit === undefined && (
+        <button
+          className="link"
+          onClick={() =>
+            onChange({
+              ...command,
+              timeLimit: 5,
+              options: [...command.options, { id: createId('opt'), text: '', timeout: true }],
+            })
+          }
+        >
+          {t.card.addTimeLimit}
+        </button>
+      )}
       {pickingOption && (
         <StagePicker
           mode="area"
@@ -977,7 +1206,7 @@ function ChoiceEditor({
             .map((x) => ({ area: x.area!, label: x.text }))}
           onDone={(area) => {
             setPicking(null);
-            setOption(pickingOption.id, { area });
+            setOption(pickingOption.id, { area, follow: undefined });
           }}
           onCancel={() => setPicking(null)}
         />

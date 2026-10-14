@@ -256,4 +256,117 @@ describe('checkProject', () => {
     expect(engine.stageAt(p.startSceneId, 'pick').sprites.map((sp) => sp.expression)).toEqual(['gone']);
     expect(engine.getState().pendingChoiceId).toBe('pick');
   });
+
+  it('runs on real time: pauses, time limits, countdowns, darkness and glides', () => {
+    const p = createEmptyProject('night');
+    p.characters.push({ id: 'gran', name: 'Gran', color: '#000', sprites: { walk: 'img1' } });
+    p.variables.push(
+      { id: 'clock', name: 'Clock', initial: 10, perSecond: 1, display: { style: 'timer', corner: 'top-right' } },
+      { id: 'safe', name: 'Safe', initial: false },
+    );
+    p.scenes[0]!.commands = [
+      {
+        id: 'bg',
+        type: 'bg',
+        background: { kind: 'color', value: '#000000' },
+        dark: { level: 0.9, radius: 0.25, flicker: true },
+      },
+      {
+        id: 'walk',
+        type: 'show',
+        characterId: 'gran',
+        expression: 'walk',
+        position: 'center',
+        place: { x: 0.9, y: 0.8, height: 0.3 },
+        from: { x: 0.1, y: 0.8, height: 0.3 },
+        duration: 12,
+        glow: true,
+      },
+      { id: 'pause', type: 'wait', seconds: 2 },
+      {
+        id: 'light',
+        type: 'choice',
+        prompt: 'Keep the light on her!',
+        timeLimit: 6,
+        options: [
+          {
+            id: 'held',
+            text: 'Light her',
+            follow: 'gran',
+            hold: 3,
+            effects: [{ variableId: 'safe', op: 'set', value: true }],
+          },
+          { id: 'late', text: 'Too late', timeout: true, effects: [{ variableId: 'safe', op: 'set', value: false }] },
+        ],
+      },
+      { id: 'after', type: 'say', text: 'Morning.' },
+      { id: 'end', type: 'end' },
+    ];
+    expect(checkProject(p)).toEqual([]);
+
+    const engine = new Engine(p);
+    engine.start();
+    let s = engine.getState();
+    expect(s.darkness).toEqual({ level: 0.9, radius: 0.25, flicker: true });
+    const sprite = s.sprites[0]!;
+    expect([sprite.glow, sprite.motion?.seconds, sprite.motion?.from]).toEqual([
+      true,
+      12,
+      { x: 0.1, y: 0.8, height: 0.3 },
+    ]);
+
+    // A pause: clicking doesn't skip it; only its own resume does.
+    expect(s.waiting?.seconds).toBe(2);
+    const pause = s.waiting!.id;
+    engine.advance();
+    engine.resume(pause + 999);
+    expect(engine.getState().waiting?.id).toBe(pause);
+
+    // Countdown variables go down with real time and stop at 0.
+    engine.tick(2.5);
+    expect(engine.getState().variables.clock).toBe(7.5);
+
+    engine.resume(pause);
+    s = engine.getState();
+    expect(s.waiting).toBeNull();
+    // The timeout option is not a button; the held option follows its character.
+    expect(s.choices).toEqual([{ id: 'held', text: 'Light her', follow: 'gran', hold: 3 }]);
+    expect(s.choiceTimer?.seconds).toBe(6);
+
+    // Time runs out: the timeout option is taken, once.
+    const limit = s.choiceTimer!.id;
+    engine.timeUp(limit);
+    engine.timeUp(limit);
+    s = engine.getState();
+    expect([s.choiceTimer, s.variables.safe, s.dialogue?.text]).toEqual([null, false, 'Morning.']);
+
+    // Played again, the light is held long enough: the option is taken like a click.
+    engine.start();
+    engine.resume(engine.getState().waiting!.id);
+    engine.choose('held');
+    expect([engine.getState().choiceTimer, engine.getState().variables.safe]).toEqual([null, true]);
+
+    engine.tick(60);
+    expect(engine.getState().variables.clock).toBe(0);
+
+    // A save made mid-glide comes back where the picture ends up, without replaying the glide.
+    engine.start();
+    const loaded = new Engine(p);
+    loaded.load(engine.save());
+    expect(loaded.getState().sprites[0]!.motion).toBe(undefined);
+    expect(loaded.getState().waiting?.seconds).toBe(2);
+  });
+
+  it('carries on below a timed choice that has no timeout option, and flags a follow nobody can do', () => {
+    const p = createEmptyProject('t');
+    p.scenes[0]!.commands = [
+      { id: 'c', type: 'choice', timeLimit: 3, options: [{ id: 'a', text: 'A', follow: 'ghost', hold: 1 }] },
+      { id: 'line', type: 'say', text: 'Too slow.' },
+    ];
+    expect(checkProject(p).map((i) => i.code)).toContain('missingFollowCharacter');
+    const engine = new Engine(p);
+    engine.start();
+    engine.timeUp(engine.getState().choiceTimer!.id);
+    expect(engine.getState().dialogue?.text).toBe('Too slow.');
+  });
 });

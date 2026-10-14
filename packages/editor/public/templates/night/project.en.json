@@ -1,0 +1,1087 @@
+{
+  "formatVersion": 1,
+  "meta": {
+    "id": "proj_template_night_en",
+    "name": "Night Shift",
+    "locale": "en",
+    "author": "ZenNovel",
+    "description": "A prototype: you guard a dangerous street through the night. Your mouse is the torch — keep the light on people so drivers can see them.",
+    "resolution": {
+      "width": 1600,
+      "height": 900
+    },
+    "createdAt": "2026-10-14T00:00:00.000Z",
+    "updatedAt": "2026-10-14T00:00:00.000Z"
+  },
+  "assets": [
+    {
+      "id": "bg_day",
+      "kind": "image",
+      "name": "Background · The street (day)",
+      "src": "assets/street_day.webp"
+    },
+    {
+      "id": "bg_dusk",
+      "kind": "image",
+      "name": "Background · The street (dusk)",
+      "src": "assets/street_dusk.webp"
+    },
+    {
+      "id": "bg_night",
+      "kind": "image",
+      "name": "Background · The street (night)",
+      "src": "assets/street_night.webp"
+    },
+    {
+      "id": "bg_dawn",
+      "kind": "image",
+      "name": "Background · The street (dawn)",
+      "src": "assets/street_dawn.webp"
+    },
+    {
+      "id": "img_lamps",
+      "kind": "image",
+      "name": "Street lamps’ light",
+      "src": "assets/glow_lamps.webp"
+    },
+    {
+      "id": "img_lamps_short",
+      "kind": "image",
+      "name": "Street lamps’ light (shorting out)",
+      "src": "assets/glow_lamps_flicker.webp"
+    },
+    {
+      "id": "img_windows",
+      "kind": "image",
+      "name": "Lit windows",
+      "src": "assets/glow_windows.webp"
+    },
+    {
+      "id": "img_granny",
+      "kind": "image",
+      "name": "Old lady (standing)",
+      "src": "assets/granny.webp"
+    },
+    {
+      "id": "img_granny_walk",
+      "kind": "image",
+      "name": "Old lady (walking)",
+      "src": "assets/granny_walk.webp"
+    },
+    {
+      "id": "img_car",
+      "kind": "image",
+      "name": "Headlights",
+      "src": "assets/headlights.webp"
+    },
+    {
+      "id": "snd_day",
+      "kind": "audio",
+      "name": "Ambience · Day",
+      "src": "assets/day.mp3"
+    },
+    {
+      "id": "snd_night",
+      "kind": "audio",
+      "name": "Music · Night",
+      "src": "assets/night.mp3"
+    },
+    {
+      "id": "snd_dawn",
+      "kind": "audio",
+      "name": "Music · Dawn",
+      "src": "assets/dawn.mp3"
+    },
+    {
+      "id": "snd_buzz",
+      "kind": "audio",
+      "name": "Sound · Short circuit",
+      "src": "assets/buzz.mp3"
+    },
+    {
+      "id": "snd_car",
+      "kind": "audio",
+      "name": "Sound · A car coming",
+      "src": "assets/car.mp3"
+    },
+    {
+      "id": "snd_brake",
+      "kind": "audio",
+      "name": "Sound · Brakes",
+      "src": "assets/brake.mp3"
+    },
+    {
+      "id": "snd_crash",
+      "kind": "audio",
+      "name": "Sound · Crash",
+      "src": "assets/crash.mp3"
+    },
+    {
+      "id": "snd_click",
+      "kind": "audio",
+      "name": "Sound · Torch switch",
+      "src": "assets/click.mp3"
+    }
+  ],
+  "characters": [
+    {
+      "id": "qin",
+      "name": "Old Qin",
+      "color": "#c08a3e",
+      "sprites": {}
+    },
+    {
+      "id": "granny",
+      "name": "The old lady",
+      "color": "#a0566e",
+      "sprites": {
+        "standing": "img_granny",
+        "walking": "img_granny_walk"
+      }
+    },
+    {
+      "id": "car",
+      "name": "Car",
+      "color": "#e8d9a0",
+      "sprites": {
+        "headlights": "img_car"
+      }
+    },
+    {
+      "id": "lamps",
+      "name": "Street lamps",
+      "color": "#ffcf88",
+      "sprites": {
+        "on": "img_lamps",
+        "shorting": "img_lamps_short"
+      }
+    },
+    {
+      "id": "windows",
+      "name": "Windows",
+      "color": "#ffd27f",
+      "sprites": {
+        "lit": "img_windows"
+      }
+    }
+  ],
+  "variables": [
+    {
+      "id": "battery1",
+      "name": "Battery",
+      "initial": 0,
+      "perSecond": 2.5,
+      "display": {
+        "style": "bar",
+        "corner": "top-left",
+        "max": 100
+      }
+    },
+    {
+      "id": "battery2",
+      "name": "Battery",
+      "initial": 0,
+      "perSecond": 0.8,
+      "display": {
+        "style": "bar",
+        "corner": "top-left",
+        "max": 100
+      }
+    },
+    {
+      "id": "clock",
+      "name": "Until dawn",
+      "initial": 0,
+      "perSecond": 1,
+      "display": {
+        "style": "timer",
+        "corner": "top-right"
+      }
+    },
+    {
+      "id": "tool",
+      "name": "Tool",
+      "initial": 0
+    },
+    {
+      "id": "grannyDone",
+      "name": "The old lady’s crossing is over",
+      "initial": false
+    },
+    {
+      "id": "saved",
+      "name": "The old lady got across",
+      "initial": false
+    },
+    {
+      "id": "hit",
+      "name": "Somebody got hurt",
+      "initial": false
+    }
+  ],
+  "theme": {
+    "fontFamily": "\"Helvetica Neue\", Arial, sans-serif",
+    "textSpeed": 32,
+    "dialogue": {
+      "background": "rgba(10, 12, 22, 0.86)",
+      "textColor": "#e6e8f0",
+      "fontSize": 26,
+      "borderRadius": 6,
+      "padding": 28,
+      "height": 0.21,
+      "margin": 24
+    },
+    "nameplate": {
+      "background": "#c08a3e",
+      "textColor": "#16130e",
+      "fontSize": 22
+    },
+    "choice": {
+      "background": "rgba(10, 12, 22, 0.88)",
+      "hoverBackground": "rgba(192, 138, 62, 0.95)",
+      "textColor": "#e6e8f0",
+      "borderRadius": 6
+    }
+  },
+  "scenes": [
+    {
+      "id": "day",
+      "name": "Day",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "commands": [
+        {
+          "id": "c0001",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_day"
+          }
+        },
+        {
+          "id": "c0002",
+          "type": "music",
+          "action": "play",
+          "assetId": "snd_day",
+          "loop": true,
+          "volume": 0.5
+        },
+        {
+          "id": "c0003",
+          "type": "say",
+          "characterId": "qin",
+          "text": "You're the new one? I'm Qin. The night shift on this street is mine."
+        },
+        {
+          "id": "c0004",
+          "type": "say",
+          "characterId": "qin",
+          "text": "By day this street looks peaceful. After dark, half the lamps are out and the cars drive faster than they do in daylight."
+        },
+        {
+          "id": "c0005",
+          "type": "say",
+          "characterId": "qin",
+          "text": "You've got one job: once it's dark, everyone who comes through here gets across safely."
+        },
+        {
+          "id": "c0006",
+          "type": "say",
+          "characterId": "qin",
+          "text": "Tools are in the locker. Take one."
+        },
+        {
+          "id": "c0007",
+          "type": "choice",
+          "options": [
+            {
+              "id": "c0008",
+              "text": "The big torch: reaches far, very bright, eats batteries.",
+              "effects": [
+                {
+                  "variableId": "tool",
+                  "op": "set",
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "id": "c0009",
+              "text": "The old torch: a smaller circle of light, but it lasts the whole night.",
+              "effects": [
+                {
+                  "variableId": "tool",
+                  "op": "set",
+                  "value": 2
+                }
+              ]
+            }
+          ],
+          "prompt": "What do you take out on the street?"
+        },
+        {
+          "id": "c0010",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "tool",
+            "op": "==",
+            "value": 1
+          },
+          "then": [
+            {
+              "id": "c0011",
+              "type": "say",
+              "characterId": "qin",
+              "text": "The big one? Fine. Go easy on it. Nobody's bringing you batteries out there."
+            }
+          ],
+          "else": [
+            {
+              "id": "c0012",
+              "type": "say",
+              "characterId": "qin",
+              "text": "That one's been with me ten-odd years. Small light, but you can count on it."
+            }
+          ]
+        },
+        {
+          "id": "c0013",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_dusk"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "c0014",
+          "type": "say",
+          "characterId": "qin",
+          "text": "It's getting dark. Remember: drivers only see what your light is on."
+        },
+        {
+          "id": "c0015",
+          "type": "say",
+          "characterId": "qin",
+          "text": "Your hand (the mouse) is the torch. When you see someone, keep the light steady on them."
+        },
+        {
+          "id": "c0016",
+          "type": "music",
+          "action": "play",
+          "assetId": "snd_night",
+          "loop": true,
+          "volume": 0.6
+        },
+        {
+          "id": "c0017",
+          "type": "sound",
+          "assetId": "snd_click",
+          "volume": 0.9
+        },
+        {
+          "id": "c0018",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "tool",
+            "op": "==",
+            "value": 1
+          },
+          "then": [
+            {
+              "id": "c0019",
+              "type": "setVar",
+              "effect": {
+                "variableId": "battery1",
+                "op": "set",
+                "value": 100
+              }
+            }
+          ],
+          "else": [
+            {
+              "id": "c0020",
+              "type": "setVar",
+              "effect": {
+                "variableId": "battery2",
+                "op": "set",
+                "value": 100
+              }
+            }
+          ]
+        },
+        {
+          "id": "c0021",
+          "type": "setVar",
+          "effect": {
+            "variableId": "clock",
+            "op": "set",
+            "value": 22
+          }
+        },
+        {
+          "id": "c0022",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "tool",
+            "op": "==",
+            "value": 1
+          },
+          "then": [
+            {
+              "id": "c0023",
+              "type": "if",
+              "condition": {
+                "kind": "compare",
+                "variableId": "battery1",
+                "op": "<=",
+                "value": 0
+              },
+              "then": [
+                {
+                  "id": "c0024",
+                  "type": "bg",
+                  "background": {
+                    "kind": "image",
+                    "assetId": "bg_night"
+                  },
+                  "transition": "fade",
+                  "dark": {
+                    "level": 0.93,
+                    "radius": 0.06,
+                    "flicker": true
+                  }
+                }
+              ],
+              "else": [
+                {
+                  "id": "c0025",
+                  "type": "bg",
+                  "background": {
+                    "kind": "image",
+                    "assetId": "bg_night"
+                  },
+                  "transition": "fade",
+                  "dark": {
+                    "level": 0.93,
+                    "radius": 0.3
+                  }
+                }
+              ]
+            }
+          ],
+          "else": [
+            {
+              "id": "c0026",
+              "type": "if",
+              "condition": {
+                "kind": "compare",
+                "variableId": "battery2",
+                "op": "<=",
+                "value": 0
+              },
+              "then": [
+                {
+                  "id": "c0027",
+                  "type": "bg",
+                  "background": {
+                    "kind": "image",
+                    "assetId": "bg_night"
+                  },
+                  "transition": "fade",
+                  "dark": {
+                    "level": 0.93,
+                    "radius": 0.06,
+                    "flicker": true
+                  }
+                }
+              ],
+              "else": [
+                {
+                  "id": "c0028",
+                  "type": "bg",
+                  "background": {
+                    "kind": "image",
+                    "assetId": "bg_night"
+                  },
+                  "transition": "fade",
+                  "dark": {
+                    "level": 0.93,
+                    "radius": 0.19
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c0029",
+          "type": "show",
+          "characterId": "windows",
+          "expression": "lit",
+          "position": "center",
+          "place": {
+            "x": 0.5,
+            "y": 1,
+            "height": 1
+          },
+          "glow": true
+        },
+        {
+          "id": "c0030",
+          "type": "show",
+          "characterId": "lamps",
+          "expression": "on",
+          "position": "center",
+          "place": {
+            "x": 0.5,
+            "y": 1,
+            "height": 1
+          },
+          "glow": true
+        },
+        {
+          "id": "c0031",
+          "type": "jump",
+          "targetSceneId": "patrol"
+        }
+      ]
+    },
+    {
+      "id": "patrol",
+      "name": "On patrol",
+      "position": {
+        "x": 320,
+        "y": 0
+      },
+      "commands": [
+        {
+          "id": "c0032",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "clock",
+            "op": "<=",
+            "value": 0
+          },
+          "then": [
+            {
+              "id": "c0033",
+              "type": "jump",
+              "targetSceneId": "dawn"
+            }
+          ],
+          "else": []
+        },
+        {
+          "id": "c0034",
+          "type": "if",
+          "condition": {
+            "kind": "all",
+            "conditions": [
+              {
+                "kind": "compare",
+                "variableId": "clock",
+                "op": "<=",
+                "value": 18
+              },
+              {
+                "kind": "compare",
+                "variableId": "grannyDone",
+                "op": "==",
+                "value": false
+              }
+            ]
+          },
+          "then": [
+            {
+              "id": "c0035",
+              "type": "jump",
+              "targetSceneId": "granny"
+            }
+          ],
+          "else": []
+        },
+        {
+          "id": "c0036",
+          "type": "wait",
+          "seconds": 0.5
+        },
+        {
+          "id": "c0037",
+          "type": "jump",
+          "targetSceneId": "patrol"
+        }
+      ]
+    },
+    {
+      "id": "granny",
+      "name": "The lamp shorts out",
+      "position": {
+        "x": 640,
+        "y": 0
+      },
+      "commands": [
+        {
+          "id": "c0038",
+          "type": "setVar",
+          "effect": {
+            "variableId": "grannyDone",
+            "op": "set",
+            "value": true
+          }
+        },
+        {
+          "id": "c0039",
+          "type": "sound",
+          "assetId": "snd_buzz",
+          "volume": 0.8
+        },
+        {
+          "id": "c0040",
+          "type": "show",
+          "characterId": "lamps",
+          "expression": "shorting",
+          "position": "center",
+          "place": {
+            "x": 0.5,
+            "y": 1,
+            "height": 1
+          },
+          "glow": true
+        },
+        {
+          "id": "c0041",
+          "type": "wait",
+          "seconds": 1.5
+        },
+        {
+          "id": "c0042",
+          "type": "show",
+          "characterId": "granny",
+          "expression": "standing",
+          "position": "center",
+          "place": {
+            "x": 0.19,
+            "y": 0.79,
+            "height": 0.28
+          }
+        },
+        {
+          "id": "c0043",
+          "type": "choice",
+          "options": [
+            {
+              "id": "c0044",
+              "text": "Light her up",
+              "follow": "granny",
+              "hold": 0.8
+            }
+          ],
+          "prompt": "The lamp's gone. Someone seems to be standing under it.",
+          "timeLimit": 6.0
+        },
+        {
+          "id": "c0045",
+          "type": "show",
+          "characterId": "granny",
+          "expression": "walking",
+          "position": "center",
+          "place": {
+            "x": 0.95,
+            "y": 0.79,
+            "height": 0.28
+          },
+          "from": {
+            "x": 0.19,
+            "y": 0.79,
+            "height": 0.28
+          },
+          "duration": 16.0
+        },
+        {
+          "id": "c0046",
+          "type": "sound",
+          "assetId": "snd_car",
+          "volume": 0.9
+        },
+        {
+          "id": "c0047",
+          "type": "show",
+          "characterId": "car",
+          "expression": "headlights",
+          "position": "center",
+          "place": {
+            "x": 0.5,
+            "y": 0.67,
+            "height": 0.22
+          },
+          "from": {
+            "x": 0.8,
+            "y": 0.38,
+            "height": 0.025
+          },
+          "duration": 6.0,
+          "glow": true
+        },
+        {
+          "id": "c0048",
+          "type": "choice",
+          "options": [
+            {
+              "id": "c0049",
+              "text": "Keep the light on her",
+              "follow": "granny",
+              "hold": 3.5,
+              "targetSceneId": "safe"
+            },
+            {
+              "id": "c0050",
+              "text": "Too late",
+              "timeout": true,
+              "targetSceneId": "hit"
+            }
+          ],
+          "prompt": "A car! Keep the light on her so the driver sees her!",
+          "timeLimit": 6.0
+        }
+      ]
+    },
+    {
+      "id": "safe",
+      "name": "It stopped",
+      "position": {
+        "x": 960,
+        "y": -140
+      },
+      "commands": [
+        {
+          "id": "c0051",
+          "type": "sound",
+          "assetId": "snd_brake",
+          "volume": 0.9
+        },
+        {
+          "id": "c0052",
+          "type": "setVar",
+          "effect": {
+            "variableId": "saved",
+            "op": "set",
+            "value": true
+          }
+        },
+        {
+          "id": "c0053",
+          "type": "wait",
+          "seconds": 4.5
+        },
+        {
+          "id": "c0054",
+          "type": "show",
+          "characterId": "car",
+          "expression": "headlights",
+          "position": "center",
+          "place": {
+            "x": 0.22,
+            "y": 1.5,
+            "height": 1.0
+          },
+          "duration": 1.6,
+          "glow": true
+        },
+        {
+          "id": "c0055",
+          "type": "wait",
+          "seconds": 1.6
+        },
+        {
+          "id": "c0056",
+          "type": "hide",
+          "characterId": "car"
+        },
+        {
+          "id": "c0057",
+          "type": "show",
+          "characterId": "granny",
+          "expression": "walking",
+          "position": "center",
+          "place": {
+            "x": 1.15,
+            "y": 0.79,
+            "height": 0.28
+          },
+          "duration": 10.0
+        },
+        {
+          "id": "c0058",
+          "type": "jump",
+          "targetSceneId": "patrol"
+        }
+      ]
+    },
+    {
+      "id": "hit",
+      "name": "Too late",
+      "position": {
+        "x": 960,
+        "y": 140
+      },
+      "commands": [
+        {
+          "id": "c0059",
+          "type": "setVar",
+          "effect": {
+            "variableId": "hit",
+            "op": "set",
+            "value": true
+          }
+        },
+        {
+          "id": "c0060",
+          "type": "show",
+          "characterId": "car",
+          "expression": "headlights",
+          "position": "center",
+          "place": {
+            "x": 0.4,
+            "y": 1.25,
+            "height": 0.9
+          },
+          "duration": 0.7,
+          "glow": true
+        },
+        {
+          "id": "c0061",
+          "type": "sound",
+          "assetId": "snd_crash",
+          "volume": 1.0
+        },
+        {
+          "id": "c0062",
+          "type": "wait",
+          "seconds": 0.6
+        },
+        {
+          "id": "c0063",
+          "type": "hide",
+          "characterId": "granny"
+        },
+        {
+          "id": "c0064",
+          "type": "hide",
+          "characterId": "car"
+        },
+        {
+          "id": "c0065",
+          "type": "hide",
+          "characterId": "lamps"
+        },
+        {
+          "id": "c0066",
+          "type": "hide",
+          "characterId": "windows"
+        },
+        {
+          "id": "c0067",
+          "type": "bg",
+          "background": {
+            "kind": "color",
+            "value": "#000000"
+          }
+        },
+        {
+          "id": "c0068",
+          "type": "music",
+          "action": "stop"
+        },
+        {
+          "id": "c0069",
+          "type": "wait",
+          "seconds": 2.5
+        },
+        {
+          "id": "c0070",
+          "type": "jump",
+          "targetSceneId": "dawn"
+        }
+      ]
+    },
+    {
+      "id": "dawn",
+      "name": "Dawn",
+      "position": {
+        "x": 1280,
+        "y": 0
+      },
+      "commands": [
+        {
+          "id": "c0071",
+          "type": "hide",
+          "characterId": "granny"
+        },
+        {
+          "id": "c0072",
+          "type": "hide",
+          "characterId": "car"
+        },
+        {
+          "id": "c0073",
+          "type": "hide",
+          "characterId": "lamps"
+        },
+        {
+          "id": "c0074",
+          "type": "hide",
+          "characterId": "windows"
+        },
+        {
+          "id": "c0075",
+          "type": "setVar",
+          "effect": {
+            "variableId": "battery1",
+            "op": "set",
+            "value": 0
+          }
+        },
+        {
+          "id": "c0076",
+          "type": "setVar",
+          "effect": {
+            "variableId": "battery2",
+            "op": "set",
+            "value": 0
+          }
+        },
+        {
+          "id": "c0077",
+          "type": "setVar",
+          "effect": {
+            "variableId": "clock",
+            "op": "set",
+            "value": 0
+          }
+        },
+        {
+          "id": "c0078",
+          "type": "bg",
+          "background": {
+            "kind": "image",
+            "assetId": "bg_dawn"
+          },
+          "transition": "fade"
+        },
+        {
+          "id": "c0079",
+          "type": "music",
+          "action": "play",
+          "assetId": "snd_dawn",
+          "loop": true,
+          "volume": 0.5
+        },
+        {
+          "id": "c0080",
+          "type": "if",
+          "condition": {
+            "kind": "compare",
+            "variableId": "hit",
+            "op": "==",
+            "value": true
+          },
+          "then": [
+            {
+              "id": "c0081",
+              "type": "say",
+              "text": "Morning."
+            },
+            {
+              "id": "c0082",
+              "type": "say",
+              "text": "There's a long black skid mark across the zebra crossing."
+            },
+            {
+              "id": "c0083",
+              "type": "say",
+              "characterId": "qin",
+              "text": "She's alive. Broke her arm. She's in hospital, awake."
+            },
+            {
+              "id": "c0084",
+              "type": "say",
+              "characterId": "qin",
+              "text": "The driver says he never saw anyone in the road."
+            },
+            {
+              "id": "c0085",
+              "type": "say",
+              "characterId": "qin",
+              "text": "Where your light doesn't reach, as far as a driver's concerned, there's nobody there. Remember that."
+            },
+            {
+              "id": "c0086",
+              "type": "say",
+              "text": "[End of the prototype. Try again: keep the light on her until the car gets there.]"
+            }
+          ],
+          "else": [
+            {
+              "id": "c0087",
+              "type": "say",
+              "text": "Morning. The street lamps go out one by one."
+            },
+            {
+              "id": "c0088",
+              "type": "show",
+              "characterId": "granny",
+              "expression": "standing",
+              "position": "center",
+              "place": {
+                "x": 0.3,
+                "y": 0.75,
+                "height": 0.3
+              }
+            },
+            {
+              "id": "c0089",
+              "type": "say",
+              "characterId": "granny",
+              "text": "Young one, that was you last night, wasn't it? When that light came on me, I knew somebody was watching out for me."
+            },
+            {
+              "id": "c0090",
+              "type": "say",
+              "characterId": "granny",
+              "text": "Steamed buns, fresh out of the basket. Eat them while they're hot."
+            },
+            {
+              "id": "c0091",
+              "type": "say",
+              "characterId": "qin",
+              "text": "Not bad for a first night."
+            },
+            {
+              "id": "c0092",
+              "type": "say",
+              "characterId": "qin",
+              "text": "Mind you, this street has more in its nights than one old lady crossing the road."
+            },
+            {
+              "id": "c0093",
+              "type": "say",
+              "text": "[End of the prototype. The full Night Shift is a whole two-minute night: seven or eight sudden events, different tools, different mornings.]"
+            }
+          ]
+        },
+        {
+          "id": "c0094",
+          "type": "end"
+        }
+      ]
+    }
+  ],
+  "startSceneId": "day"
+}

@@ -587,6 +587,13 @@ h3 {
   flex-direction: column;
   gap: 6px;
 }
+.chip-wait {
+  background: #e8eaf6;
+  color: #3f4a8a;
+}
+.option.timeout .timeout-label {
+  padding: 6px 2px;
+}
 .chip-achievement {
   background: #fdf0c8;
   color: #8a5a00;
@@ -984,6 +991,13 @@ input.invalid {
   border-collapse: collapse;
   width: 100%;
   max-width: 760px;
+}
+.var-table .var-extra td {
+  padding-top: 0;
+  border-top: none;
+}
+.var-table .var-extra .row {
+  margin: 4px 0;
 }
 .var-table th {
   text-align: left;

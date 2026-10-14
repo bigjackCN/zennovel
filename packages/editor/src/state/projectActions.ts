@@ -121,6 +121,8 @@ export function newCommand(
     }
     case 'achievement':
       return { id, type, achievementId: '' };
+    case 'wait':
+      return { id, type, seconds: 2 };
   }
 }
 
@@ -291,7 +293,12 @@ export const actions = {
     };
     return touch({
       ...p,
-      variables: replaceById(p.variables, { ...variable, initial: coerceValue(variable.initial, type) }),
+      // Counting down and on-screen bars only make sense for numbers.
+      variables: replaceById(p.variables, {
+        ...variable,
+        initial: coerceValue(variable.initial, type),
+        ...(type !== 'number' && { perSecond: undefined, display: undefined }),
+      }),
       scenes: mapAllCommands(p, (c) => {
         switch (c.type) {
           case 'setVar':

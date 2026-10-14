@@ -23,7 +23,8 @@ export type IssueCode =
   | 'missingJumpTarget'
   | 'noEnding'
   | 'unreachable'
-  | 'badAchievementId';
+  | 'badAchievementId'
+  | 'missingFollowCharacter';
 
 export interface StoryIssue {
   level: IssueLevel;
@@ -66,8 +67,11 @@ function endsExplicitly(commands: Command[]): boolean {
   if (last.type === 'jump' || last.type === 'end') return true;
   if (last.type === 'choice') {
     // If every option is conditional, all of them can be hidden; the player
-    // then skips the choice and falls off the end of the scene.
-    return last.options.every((o) => o.targetSceneId) && last.options.some((o) => !o.condition);
+    // then skips the choice and falls off the end of the scene. So does a
+    // time limit with no option for when time runs out.
+    const shown = last.options.filter((o) => !o.timeout);
+    const timesOut = !!last.timeLimit && !last.options.some((o) => o.timeout);
+    return last.options.every((o) => o.targetSceneId) && shown.some((o) => !o.condition) && !timesOut;
   }
   if (last.type === 'if') return endsExplicitly(last.then) && endsExplicitly(last.else);
   return false;
@@ -160,6 +164,9 @@ export function checkProject(project: Project): StoryIssue[] {
             }
             checkCondition(opt.condition, cmd.id);
             checkEffects(opt.effects, cmd.id);
+            if (opt.follow && !characters.has(opt.follow)) {
+              add('error', 'missingFollowCharacter', cmd.id, { option: opt.text });
+            }
           }
           break;
         case 'jump':
