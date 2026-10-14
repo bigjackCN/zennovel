@@ -76,6 +76,7 @@
         display: flex;
         gap: 22px;
         font-size: 15px;
+        white-space: nowrap;
       }
       .top nav a {
         text-decoration: none;
@@ -263,11 +264,42 @@
         .game {
           grid-template-columns: 1fr;
         }
+        .top {
+          gap: 12px;
+        }
         .top nav {
           gap: 14px;
+          font-size: 14px;
         }
+        /* Phones: the whole picture on top, the text box under it, so nothing is cropped or covered. */
         .stage {
-          aspect-ratio: 4 / 3;
+          aspect-ratio: auto;
+          padding-top: 56.25%;
+          background: #16120f url('hero.webp') top / 100% auto no-repeat;
+        }
+        .box {
+          position: relative;
+          left: auto;
+          right: auto;
+          bottom: auto;
+          min-height: 0;
+          border-radius: 0;
+          background: #16120f;
+        }
+        /* Room for three lines, so the page below doesn't jump as the lines change. */
+        .line {
+          font-size: 17px;
+          min-height: 4.8em;
+        }
+        @media (max-width: 480px) {
+          /* Narrow phones: GitHub is still in the footer, so the language switch fits. */
+          .nav-github {
+            display: none;
+          }
+          .top,
+          .top nav {
+            gap: 10px;
+          }
         }
       }
       @media (prefers-reduced-motion: reduce) {
@@ -297,7 +329,7 @@
         <nav>
           <a href="#download" data-i18n="navDownload">下载</a>
           <a href="#games" data-i18n="navGames">作品</a>
-          <a href="https://github.com/bigjackCN/zennovel">GitHub</a>
+          <a class="nav-github" href="https://github.com/bigjackCN/zennovel">GitHub</a>
           <button class="lang" id="lang" type="button" lang="en">English</button>
         </nav>
       </header>
